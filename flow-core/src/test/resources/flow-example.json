@@ -1,0 +1,7 @@
+{
+  "name": "FLOW_QUERY_USER_ACCOUNT",
+  "flows": [
+    "FLOW_QUERY_USER",
+    "FLOW_QUERY_ACCOUNT"
+  ]
+}
