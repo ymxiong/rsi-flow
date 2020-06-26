@@ -1,9 +1,9 @@
 package cc.eamon.open.flow.example;
 
 import cc.eamon.open.flow.core.Flow;
-import cc.eamon.open.flow.core.entity.Account;
-import cc.eamon.open.flow.core.entity.User;
-import cc.eamon.open.flow.core.services.AccountService;
+import cc.eamon.open.flow.remote.entity.Account;
+import cc.eamon.open.flow.remote.entity.User;
+import cc.eamon.open.flow.remote.service.AccountService;
 
 /**
  * Author: eamon

@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.core;
 
-import cc.eamon.open.flow.core.entity.Account;
-import cc.eamon.open.flow.core.services.AccountService;
-import cc.eamon.open.flow.core.services.UserService;
+import cc.eamon.open.flow.remote.entity.Account;
+import cc.eamon.open.flow.remote.service.AccountService;
+import cc.eamon.open.flow.remote.service.UserService;
 import cc.eamon.open.flow.example.FlowEnum;
 import org.junit.Assert;
 import org.junit.Test;

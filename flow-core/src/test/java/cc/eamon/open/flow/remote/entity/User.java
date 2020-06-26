@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.entity;
+package cc.eamon.open.flow.remote.entity;
 
 /**
  * Author: eamon
