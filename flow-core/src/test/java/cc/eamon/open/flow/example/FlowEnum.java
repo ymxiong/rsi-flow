@@ -11,6 +11,8 @@ public class FlowEnum {
 
     public final static String FLOW_QUERY_USER = "FLOW_QUERY_USER";
 
-    public final static String FLOW_QUERY_ACCOUNT = "FLOW_QUERY_ACCOUNT";
+    public final static String FLOW_QUERY_ACCOUNT_1 = "FLOW_QUERY_ACCOUNT_1";
+
+    public final static String FLOW_QUERY_ACCOUNT_2 = "FLOW_QUERY_ACCOUNT_2";
 
 }

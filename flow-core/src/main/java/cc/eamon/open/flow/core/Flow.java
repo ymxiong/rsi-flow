@@ -16,6 +16,6 @@ public @interface Flow {
 
     String value() default "";
 
-    String returned() default "";
+    String retrieve() default "";
 
 }

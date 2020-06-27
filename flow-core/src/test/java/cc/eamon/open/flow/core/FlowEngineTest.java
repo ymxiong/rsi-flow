@@ -22,11 +22,16 @@ public class FlowEngineTest {
     public void testFlowEngine(){
         FlowEngine.init();
 
+        // 调度流程
         Account account = (Account) FlowEngine.instance()
+                // 注册流程所需参数
                 .register("userName", "小朱")
+                // 注册流程所需核心服务
                 .register("userService", userService)
                 .register("accountService", accountService)
+                // 执行流程
                 .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
+                // 取出执行结果
                 .retrieve("account");
 
 

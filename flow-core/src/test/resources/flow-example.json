@@ -1,7 +1,25 @@
 {
   "name": "FLOW_QUERY_USER_ACCOUNT",
   "flows": [
-    "FLOW_QUERY_USER",
-    "FLOW_QUERY_ACCOUNT"
+    {
+      "name": "FLOW_QUERY_USER"
+    },
+    {
+      "name": "FLOW_QUERY_ACCOUNT_1"
+    },
+    {
+      "name": "FLOW_QUERY_ACCOUNT_2"
+    }
+  ],
+  "routes": [
+    {
+      "start": "FLOW_QUERY_USER",
+      "ends": [
+        {
+          "end": "FLOW_QUERY_ACCOUNT_1",
+          "condition": "user.getId()==\"123456\""
+        }
+      ]
+    }
   ]
 }
