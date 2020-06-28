@@ -17,6 +17,12 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+        <!--google 表达式引擎 aviator-->
+        <dependency>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <version>4.2.9</version>
+        </dependency>
     </dependencies>
 
 
