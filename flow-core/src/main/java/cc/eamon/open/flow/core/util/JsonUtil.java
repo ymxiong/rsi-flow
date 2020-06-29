@@ -1,7 +1,6 @@
 package cc.eamon.open.flow.core.util;
 
 import org.apache.commons.io.FileUtils;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;

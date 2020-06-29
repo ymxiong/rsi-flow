@@ -1,0 +1,56 @@
+{
+  "route":[
+    {
+      "type":"start",
+      "name":"S",
+      "targets":[{"condition":"true","target":"G" }],
+      "default":""
+    },
+    {
+      "type":"exclusiveGateway",
+      "name":"G",
+      "targets":[
+        {"condition":"{条件1}","target":"a"},
+        {"condition":"{条件2}","target":"b"},
+        {"condition":"{条件3}","target":"c"}
+      ],
+      "default":""
+    },
+    {
+      "type":"event",
+      "name":"a",
+      "targets":[{"condition":"true","target":"d" }],
+      "default":""
+    },
+    {
+      "type":"event",
+      "name":"b",
+      "targets":[{"condition":"true","target":"e" }],
+      "default":""
+    },
+    {
+      "type":"event",
+      "name":"c",
+      "targets":[{"condition":"true","target":"f" }],
+      "default":""
+    },
+    {
+      "type":"end",
+      "name":"d",
+      "targets":[],
+      "default":""
+    },
+    {
+      "type":"end",
+      "name":"e",
+      "targets":[],
+      "default":""
+    },
+    {
+      "type":"end",
+      "name":"f",
+      "targets":[],
+      "default":""
+    }
+  ]
+}

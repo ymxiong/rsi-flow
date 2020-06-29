@@ -3,7 +3,6 @@ package cc.eamon.open.flow.core.route;
 
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import cc.eamon.open.flow.core.route.entity.Target;
-import cc.eamon.open.flow.core.util.JsonUtil;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
