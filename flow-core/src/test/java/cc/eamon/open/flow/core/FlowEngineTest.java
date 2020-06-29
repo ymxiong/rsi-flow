@@ -1,11 +1,19 @@
 package cc.eamon.open.flow.core;
 
+import cc.eamon.open.flow.core.context.FlowContext;
+import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.processor.FlowProcessor;
+import cc.eamon.open.flow.core.context.DisposeContext;
+import cc.eamon.open.flow.core.context.DisposeContextBuilder;
+import cc.eamon.open.flow.example.FlowQueryAccount;
+import cc.eamon.open.flow.example.FlowQueryUser;
 import cc.eamon.open.flow.remote.entity.Account;
 import cc.eamon.open.flow.remote.service.AccountService;
 import cc.eamon.open.flow.remote.service.UserService;
-import cc.eamon.open.flow.example.FlowEnum;
 import org.junit.Assert;
 import org.junit.Test;
+
+import java.io.IOException;
 
 /**
  * Author: eamon
@@ -22,6 +30,19 @@ public class FlowEngineTest {
     public void testFlowEngine(){
         FlowEngine.init();
 
+        //解析JSON文件封装进DisposeContext中
+        try {
+            DisposeContextBuilder.parseJson("src/test/resources/flow-example.json");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //根据DisposeContext中信息结合@Flow注解解析目标业务代码
+        FlowProcessor.annotationProcess(FlowQueryAccount.class);
+        FlowProcessor.annotationProcess(FlowQueryUser.class);
+
+        //将执行流程封装进FlowContext中供后续FlowEngine执行
+        FlowContextHolder.get().setCurNode(DisposeContext.getStartNode().getNextNode());
+
         // 调度流程
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数
@@ -30,11 +51,10 @@ public class FlowEngineTest {
                 .register("userService", userService)
                 .register("accountService", accountService)
                 // 执行流程
-                .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
+//                .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
+                .run(FlowContextHolder.get().getCurNode())
                 // 取出执行结果
                 .retrieve("account");
-
-
         FlowEngine.clear();
 
         Assert.assertEquals(account.getId(), "654321");
