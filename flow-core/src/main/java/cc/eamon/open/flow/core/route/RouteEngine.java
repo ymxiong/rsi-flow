@@ -78,7 +78,6 @@ public class RouteEngine {
 	}
 	
 	//根据节点类型和条件判断下一节点id
-	//TODO 网关的还没设计，只设计了线性的
 	private List<FlowDetail> getNextNode(ProcessNode node, List<ProcessNode> processNodes){
 		String type = node.getType();
 		List<FlowDetail> flowDetails = new ArrayList<>();
@@ -114,7 +113,8 @@ public class RouteEngine {
 						//条件正确
 						nextNode = getNodeById(target.getTarget(), processNodes);
 						flowDetails.add(new FlowDetail(target.getTarget(),nextNode.getName()));
-					}	
+						break;
+					}
 				}
 				break;
 			/*并行网关*/
@@ -127,6 +127,23 @@ public class RouteEngine {
 				break;
 			/*多路网关*/
 			case "inclusiveGateway":
+				Map<String, Object> _env = getAllVariables();//获取所有变量
+				List<Target> targets2 = node.getTargets();
+				boolean allFalse = true;//是否全部错误
+				for(Target target:targets2) {
+					String condition = target.getCondition();//获取条件
+					boolean result = (boolean) AviatorEvaluator.execute(condition, _env);
+					if(result) {
+						//条件正确
+						allFalse = false;
+						nextNode = getNodeById(target.getTarget(), processNodes);
+						flowDetails.add(new FlowDetail(target.getTarget(),nextNode.getName()));
+					}
+				}
+				if(allFalse) {
+					nextNode = getNodeById(node.getDefaultTarget(), processNodes);
+					flowDetails.add(new FlowDetail(node.getDefaultTarget(),nextNode.getName()));
+				}		
 				break;
 			default:
 				break;
