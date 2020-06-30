@@ -1,7 +1,6 @@
 package cc.eamon.open.flow.core.route;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.element.FlowDetail;
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import cc.eamon.open.flow.core.route.entity.Target;
 import org.json.JSONArray;
@@ -58,7 +57,7 @@ public class RouteEngine {
 	 * @return
 	 * @throws Exception
 	 */
-	public List<FlowDetail> getNextNode(String id) throws Exception {
+	public List<ProcessNode> getNextNode(String id) throws Exception {
 		List<ProcessNode> processNodes = FlowContextHolder.get().getProcessNodes();
 		// 寻找当前节点
 		ProcessNode curreNode = getNodeById(id, processNodes);
@@ -78,9 +77,9 @@ public class RouteEngine {
 	}
 	
 	//根据节点类型和条件判断下一节点id
-	private List<FlowDetail> getNextNode(ProcessNode node, List<ProcessNode> processNodes){
+	private List<ProcessNode> getNextNode(ProcessNode node, List<ProcessNode> processNodes){
 		String type = node.getType();
-		List<FlowDetail> flowDetails = new ArrayList<>();
+		List<ProcessNode> flowDetails = new ArrayList<>();
 		String nextNodeId;
 		ProcessNode nextNode;
 		switch (type) {
@@ -88,13 +87,13 @@ public class RouteEngine {
 			case "start":
 				nextNodeId = node.getTargets().get(0).getTarget();//获取下一节点的id
 				nextNode = getNodeById(nextNodeId, processNodes);
-				flowDetails.add(new FlowDetail(nextNodeId,nextNode.getName()));
+				flowDetails.add(nextNode);
 				break;
 			/*普通事件节点*/
 			case "event":
 				nextNodeId = node.getTargets().get(0).getTarget();//获取下一节点的id
 				nextNode = getNodeById(nextNodeId, processNodes);
-				flowDetails.add(new FlowDetail(nextNodeId,nextNode.getName()));
+				flowDetails.add(nextNode);
 				break;
 			/*空结束节点*/
 			case "end":
@@ -112,7 +111,7 @@ public class RouteEngine {
 					if(result) {
 						//条件正确
 						nextNode = getNodeById(target.getTarget(), processNodes);
-						flowDetails.add(new FlowDetail(target.getTarget(),nextNode.getName()));
+						flowDetails.add(nextNode);
 						break;
 					}
 				}
@@ -122,7 +121,7 @@ public class RouteEngine {
 				List<Target> _targets = node.getTargets();
 				for(Target target:_targets) {
 					nextNode = getNodeById(target.getTarget(), processNodes);
-					flowDetails.add(new FlowDetail(target.getTarget(),nextNode.getName()));
+					flowDetails.add(nextNode);
 				}
 				break;
 			/*多路网关*/
@@ -137,12 +136,12 @@ public class RouteEngine {
 						//条件正确
 						allFalse = false;
 						nextNode = getNodeById(target.getTarget(), processNodes);
-						flowDetails.add(new FlowDetail(target.getTarget(),nextNode.getName()));
+						flowDetails.add(nextNode);
 					}
 				}
 				if(allFalse) {
 					nextNode = getNodeById(node.getDefaultTarget(), processNodes);
-					flowDetails.add(new FlowDetail(node.getDefaultTarget(),nextNode.getName()));
+					flowDetails.add(nextNode);
 				}		
 				break;
 			default:

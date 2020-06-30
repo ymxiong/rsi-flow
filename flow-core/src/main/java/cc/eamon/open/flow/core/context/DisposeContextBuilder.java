@@ -1,16 +1,18 @@
 package cc.eamon.open.flow.core.context;
 
-import cc.eamon.open.flow.core.element.FlowDetail;
+import cc.eamon.open.flow.core.route.entity.ProcessNode;
+import cc.eamon.open.flow.core.route.entity.Target;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * @author: lucas
@@ -31,8 +33,7 @@ public class DisposeContextBuilder {
         object = (JSONObject) JSON.parse(text);
         String flowsName = (String) object.get("name");
         DisposeContext.setFlowName(flowsName);
-        FlowDetail start=new FlowDetail(flowsName);
-        DisposeContext.setStartNode(start);
+        FlowContextHolder.get().setFlowName(flowsName);
         JSONArray flows = (JSONArray) object.get("flows");
         Iterator<Object> it = flows.iterator();
         while (it.hasNext()) {
@@ -40,8 +41,35 @@ public class DisposeContextBuilder {
             JSONObject flow = (JSONObject) it.next();
             String flowName= (String) flow.get("name");
             DisposeContext.getNodeList().add(flowName);
-            FlowDetail nextNode=new FlowDetail(flowName);
-            DisposeContext.addFlow(nextNode);
         }
+
+
+        List<ProcessNode> routeList = new ArrayList<>();
+        // 获取route数组
+        JSONArray routeArray = object.getJSONArray("route");
+        for (int i = 0; i < routeArray.size(); i++) {
+            ProcessNode node = new ProcessNode();
+            // 获取节点类型 名字 默认目标
+            node.setName(routeArray.getJSONObject(i).getString("name"));
+            node.setType(routeArray.getJSONObject(i).getString("type"));
+            node.setNodeId(routeArray.getJSONObject(i).getString("id"));
+            node.setDefaultTarget(routeArray.getJSONObject(i).getString("default"));
+            // 获取条件和目标
+            JSONArray targets = routeArray.getJSONObject(i).getJSONArray("targets");
+            List<Target> targetList = new ArrayList<>();
+            for (int j = 0; j < targets.size(); j++) {
+                String condition = targets.getJSONObject(j).getString("condition");
+                String target = targets.getJSONObject(j).getString("target");
+                Target temp = new Target(condition, target);
+                targetList.add(temp);
+            }
+            node.setTargets(targetList);
+            if (node.getType().equals("start")){
+                FlowContextHolder.get().setStartNode(node);
+            }
+            routeList.add(node);
+        }
+        FlowContextHolder.get().setProcessNodes(routeList);
     }
+
 }

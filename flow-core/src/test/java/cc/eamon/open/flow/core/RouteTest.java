@@ -9,11 +9,9 @@ import org.junit.Test;
 import com.googlecode.aviator.AviatorEvaluator;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.element.FlowDetail;
 import cc.eamon.open.flow.core.route.RouteEngine;
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import cc.eamon.open.flow.core.util.JsonUtil;
-import cc.eamon.open.flow.remote.entity.User;
 import junit.framework.TestCase;
 
 
@@ -21,7 +19,7 @@ public class RouteTest {
 
     @Test
     public void testParse() throws IOException {
-//        //获取json字符串
+        //获取json字符串
 //        String json = JsonUtil.getJson("/test.json");
 //        //解析json字符串
 //        List<ProcessNode> nodes = RouteEngine.parseJson(json);
@@ -56,15 +54,15 @@ public class RouteTest {
       //测试路由
       String startNode = "sID";
       System.out.println("ID: "+startNode + " name: " + "S");
-      List<FlowDetail> next_1 = routeEngine.getNextNode(startNode);
-      startNode = next_1.get(0).getCurNodeId();
-      System.out.println("ID: "+startNode + " name: " + next_1.get(0).getCurNodeName());
+      List<ProcessNode> next_1 = routeEngine.getNextNode(startNode);
+      startNode = next_1.get(0).getNodeId();
+      System.out.println("ID: "+startNode + " name: " + next_1.get(0).getName());
       next_1 = routeEngine.getNextNode(startNode);
-      startNode = next_1.get(0).getCurNodeId();
-      System.out.println("ID: "+startNode + " name: " + next_1.get(0).getCurNodeName());
+      startNode = next_1.get(0).getNodeId();
+      System.out.println("ID: "+startNode + " name: " + next_1.get(0).getName());
       next_1 = routeEngine.getNextNode(startNode);
-      startNode = next_1.get(0).getCurNodeId();
-      System.out.println("ID: "+startNode + " name: " + next_1.get(0).getCurNodeName());
+      startNode = next_1.get(0).getNodeId();
+      System.out.println("ID: "+startNode + " name: " + next_1.get(0).getName());
     }
     
 }
