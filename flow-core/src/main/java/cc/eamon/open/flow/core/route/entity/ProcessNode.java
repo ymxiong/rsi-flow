@@ -3,6 +3,9 @@ package cc.eamon.open.flow.core.route.entity;
 import java.util.List;
 
 public class ProcessNode {
+	
+	//节点id
+	private String nodeId;
 
     //节点类型
     private String type;
@@ -47,5 +50,13 @@ public class ProcessNode {
     public void setDefaultTarget(String defaultTarget) {
         this.defaultTarget = defaultTarget;
     }
+
+	public String getNodeId() {
+		return nodeId;
+	}
+
+	public void setNodeId(String nodeId) {
+		this.nodeId = nodeId;
+	}
 }
 

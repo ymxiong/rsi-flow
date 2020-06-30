@@ -2,6 +2,7 @@ package cc.eamon.open.flow.core.context;
 
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.element.FlowDetail;
+import cc.eamon.open.flow.core.route.entity.ProcessNode;
 
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
@@ -36,7 +37,8 @@ public class FlowContext {
      * 当前执行业务节点名称
      */
     private FlowDetail curNode;
-
+    
+    private List<ProcessNode> processNodes;//存储路由节点
 
     public FlowEngine getFlowEngine() {
         return flowEngine;
@@ -79,4 +81,12 @@ public class FlowContext {
     public void setCurNode(FlowDetail curNode) {
         this.curNode = curNode;
     }
+
+	public List<ProcessNode> getProcessNodes() {
+		return processNodes;
+	}
+
+	public void setProcessNodes(List<ProcessNode> processNodes) {
+		this.processNodes = processNodes;
+	}
 }
