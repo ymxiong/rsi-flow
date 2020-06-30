@@ -7,8 +7,12 @@ import cc.eamon.open.flow.core.route.entity.Target;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.googlecode.aviator.AviatorEvaluator;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Author: eamon Email: eamon@eamon.cc Time: 2020-06-26 17:13:16
@@ -81,29 +85,47 @@ public class RouteEngine {
 		String nextNodeId;
 		ProcessNode nextNode;
 		switch (type) {
-			case "start"://开始节点
+			/*开始节点*/
+			case "start":
 				nextNodeId = node.getTargets().get(0).getTarget();//获取下一节点的id
 				nextNode = getNodeById(nextNodeId, processNodes);
 				flowDetails.add(new FlowDetail(nextNodeId,nextNode.getName()));
 				break;
-			case "event"://普通事件节点
+			/*普通事件节点*/
+			case "event":
 				nextNodeId = node.getTargets().get(0).getTarget();//获取下一节点的id
 				nextNode = getNodeById(nextNodeId, processNodes);
 				flowDetails.add(new FlowDetail(nextNodeId,nextNode.getName()));
-				break;	
-			case "end"://空结束节点
 				break;
-			case "terminate"://终止节点
+			/*空结束节点*/
+			case "end":
 				break;
-			case "exclusiveGateway"://唯一网关
-//				List<Target> targets = node.getTargets();
-//				for(Target target:targets) {
-//					String condition = target.getCondition();//获取条件
-//					
-//				}
+			/*终止节点*/
+			case "terminate":
 				break;
+			/*唯一网关*/
+			case "exclusiveGateway":
+				Map<String, Object> env = getAllVariables();//获取所有变量
+				List<Target> targets = node.getTargets();
+				for(Target target:targets) {
+					String condition = target.getCondition();//获取条件
+					boolean result = (boolean) AviatorEvaluator.execute(condition, env);
+					if(result) {
+						//条件正确
+						nextNode = getNodeById(target.getTarget(), processNodes);
+						flowDetails.add(new FlowDetail(target.getTarget(),nextNode.getName()));
+					}	
+				}
+				break;
+			/*并行网关*/
 			case "parallelGateway":
+				List<Target> _targets = node.getTargets();
+				for(Target target:_targets) {
+					nextNode = getNodeById(target.getTarget(), processNodes);
+					flowDetails.add(new FlowDetail(target.getTarget(),nextNode.getName()));
+				}
 				break;
+			/*多路网关*/
 			case "inclusiveGateway":
 				break;
 			default:
@@ -111,5 +133,11 @@ public class RouteEngine {
 		}
 		return flowDetails;
 		
+	}
+	
+	
+	//将当前上下文的所有变量都存入Map中
+	private Map<String, Object> getAllVariables(){
+		return FlowContextHolder.get().getVariableMap();
 	}
 }
