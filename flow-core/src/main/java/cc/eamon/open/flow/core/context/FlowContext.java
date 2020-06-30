@@ -1,12 +1,8 @@
 package cc.eamon.open.flow.core.context;
 
 import cc.eamon.open.flow.core.FlowEngine;
-import cc.eamon.open.flow.core.element.FlowDetail;
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
 
-import javax.lang.model.element.Element;
-import javax.lang.model.element.ExecutableElement;
-import javax.lang.model.element.VariableElement;
 import java.util.*;
 
 /**
@@ -24,7 +20,7 @@ public class FlowContext {
     /**
      * 当前线程流程名称
      */
-    private FlowEngine flowName;
+    private String flowName;
     /**
      * 当前线程参数列表
      */
@@ -33,10 +29,7 @@ public class FlowContext {
      * 当前线程参数类型
      */
     private Map<String,Class> variableTypeMap = new HashMap<>();
-    /**
-     * 当前执行业务节点名称
-     */
-    private FlowDetail curNode;
+
 
     private ProcessNode startNode;
     
@@ -68,23 +61,15 @@ public class FlowContext {
     }
 
 
-    public FlowEngine getFlowName() {
+    public String getFlowName() {
         return flowName;
     }
 
-    public void setFlowName(FlowEngine flowName) {
+    public void setFlowName(String flowName) {
         this.flowName = flowName;
     }
 
-    public FlowDetail getCurNode() {
-        return curNode;
-    }
-
-    public void setCurNode(FlowDetail curNode) {
-        this.curNode = curNode;
-    }
-
-	public List<ProcessNode> getProcessNodes() {
+    public List<ProcessNode> getProcessNodes() {
 		return processNodes;
 	}
 

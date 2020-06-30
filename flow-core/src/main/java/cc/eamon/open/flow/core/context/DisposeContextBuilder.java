@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.core.context;
 
-import cc.eamon.open.flow.core.element.FlowDetail;
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import cc.eamon.open.flow.core.route.entity.Target;
 import com.alibaba.fastjson.JSON;
@@ -34,6 +33,7 @@ public class DisposeContextBuilder {
         object = (JSONObject) JSON.parse(text);
         String flowsName = (String) object.get("name");
         DisposeContext.setFlowName(flowsName);
+        FlowContextHolder.get().setFlowName(flowsName);
         JSONArray flows = (JSONArray) object.get("flows");
         Iterator<Object> it = flows.iterator();
         while (it.hasNext()) {

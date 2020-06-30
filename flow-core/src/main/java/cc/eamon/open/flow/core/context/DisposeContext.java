@@ -1,9 +1,6 @@
 package cc.eamon.open.flow.core.context;
 
-import cc.eamon.open.flow.core.element.FlowDetail;
-import cc.eamon.open.flow.core.element.RouteDetail;
 
-import javax.lang.model.element.ExecutableElement;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;

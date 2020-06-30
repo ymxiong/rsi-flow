@@ -2,7 +2,6 @@ package cc.eamon.open.flow.core;
 
 import cc.eamon.open.flow.core.context.DisposeContext;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.element.FlowDetail;
 import cc.eamon.open.flow.core.route.RouteEngine;
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import org.springframework.core.DefaultParameterNameDiscoverer;
