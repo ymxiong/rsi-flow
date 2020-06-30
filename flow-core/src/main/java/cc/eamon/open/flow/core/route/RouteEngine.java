@@ -1,11 +1,7 @@
 package cc.eamon.open.flow.core.route;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.element.FlowDetail;
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
-import cc.eamon.open.flow.core.route.entity.Target;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,90 +12,65 @@ import java.util.List;
 public class RouteEngine {
 
 	/**
-	  * 根据json字符串初始化路由节点
-	 * 
-	 * @param json
-	 * @return
-	 */
-	public List<ProcessNode> parseJson(String json) {
-		JSONObject jsonObject = new JSONObject(json);
-		List<ProcessNode> routeList = new ArrayList<>();
-		// 获取route数组
-		JSONArray routeArray = jsonObject.getJSONArray("route");
-		for (int i = 0; i < routeArray.length(); i++) {
-			ProcessNode node = new ProcessNode();
-			// 获取节点类型 名字 默认目标
-			node.setName(routeArray.getJSONObject(i).getString("name"));
-			node.setType(routeArray.getJSONObject(i).getString("type"));
-			node.setType(routeArray.getJSONObject(i).getString("id"));
-			node.setDefaultTarget(routeArray.getJSONObject(i).getString("default"));
-			// 获取条件和目标
-			JSONArray targets = routeArray.getJSONObject(i).getJSONArray("targets");
-			List<Target> targetList = new ArrayList<>();
-			for (int j = 0; j < targets.length(); j++) {
-				String condition = targets.getJSONObject(j).getString("condition");
-				String target = targets.getJSONObject(j).getString("target");
-				Target temp = new Target(condition, target);
-				targetList.add(temp);
-			}
-			node.setTargets(targetList);
-			routeList.add(node);
-		}
-		return routeList;
-	}
-
-	/**
 	  * 获取下一节点（可能有多个）
 	 * @param id
 	 * @return
 	 * @throws Exception
 	 */
-	public List<FlowDetail> getNextNode(String id) throws Exception {
+	public static List<ProcessNode> getNextNode(String id) throws Exception {
 		List<ProcessNode> processNodes = FlowContextHolder.get().getProcessNodes();
 		// 寻找当前节点
 		ProcessNode curreNode = getNodeById(id, processNodes);
-		if(curreNode == null)
-			throw new Exception("当前路由里面没有"+id);
+		if(curreNode == null) {
+			throw new Exception("当前路由里面没有" + id);
+		}
 		// 寻找下一节点
 		return getNextNode(curreNode, processNodes);
 	}
 
 	// 根据id获取路由节点
-	private ProcessNode getNodeById(String id, List<ProcessNode> processNodes) {
+	private static ProcessNode getNodeById(String id, List<ProcessNode> processNodes) {
 		for (ProcessNode processNode : processNodes) {
-			if(processNode.getNodeId().equals(id))
+			if(processNode.getNodeId().equals(id)) {
 				return processNode;
+			}
 		}
 		return null;
 	}
 	
 	//根据节点类型和条件判断下一节点id
 	//TODO 网关的还没设计，只设计了线性的
-	private List<FlowDetail> getNextNode(ProcessNode node, List<ProcessNode> processNodes){
+	private static List<ProcessNode> getNextNode(ProcessNode node, List<ProcessNode> processNodes){
 		String type = node.getType();
-		List<FlowDetail> flowDetails = new ArrayList<>();
+		List<ProcessNode> nodes = new ArrayList<>();
 		String nextNodeId;
 		ProcessNode nextNode;
 		switch (type) {
-			case "start"://开始节点
-				nextNodeId = node.getTargets().get(0).getTarget();//获取下一节点的id
+			//开始节点
+			case "start":
+				//获取下一节点的id
+				nextNodeId = node.getTargets().get(0).getTarget();
 				nextNode = getNodeById(nextNodeId, processNodes);
-				flowDetails.add(new FlowDetail(nextNodeId,nextNode.getName()));
+				nodes.add(nextNode);
 				break;
-			case "event"://普通事件节点
-				nextNodeId = node.getTargets().get(0).getTarget();//获取下一节点的id
+			//普通事件节点
+			case "event":
+				//获取下一节点的id
+				nextNodeId = node.getTargets().get(0).getTarget();
 				nextNode = getNodeById(nextNodeId, processNodes);
-				flowDetails.add(new FlowDetail(nextNodeId,nextNode.getName()));
-				break;	
-			case "end"://空结束节点
+				nodes.add(nextNode);
 				break;
-			case "terminate"://终止节点
+			//空结束节点
+			case "end":
 				break;
-			case "exclusiveGateway"://唯一网关
+			//终止节点
+			case "terminate":
+				break;
+			//唯一网关
+			case "exclusiveGateway":
 //				List<Target> targets = node.getTargets();
 //				for(Target target:targets) {
 //					String condition = target.getCondition();//获取条件
-//					
 //				}
 				break;
 			case "parallelGateway":
@@ -109,7 +80,6 @@ public class RouteEngine {
 			default:
 				break;
 		}
-		return flowDetails;
-		
+		return nodes;
 	}
 }

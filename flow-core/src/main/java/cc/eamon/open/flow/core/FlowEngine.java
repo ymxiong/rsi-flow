@@ -3,11 +3,14 @@ package cc.eamon.open.flow.core;
 import cc.eamon.open.flow.core.context.DisposeContext;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.element.FlowDetail;
+import cc.eamon.open.flow.core.route.RouteEngine;
+import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 
 /**
@@ -40,25 +43,19 @@ public class FlowEngine {
 
     private FlowEngine() {}
 
-    /**
-     *
-     * @param flowDetail
-     * @return
-     */
-    public FlowEngine run(FlowDetail flowDetail){
-
+    public FlowEngine run(ProcessNode node) {
         //TODO:流程代码执行完成直接返回（不知道是不是应该在这部分做，可能是谢帅宇路由做）
-        if (flowDetail==null){
+        if (node==null){
             return this;
         }
 
-        //首先拿到该流程代码
-        Method method =DisposeContext.getNodeMap().get(flowDetail.getCurNodeName());
+        Method method =DisposeContext.getNodeMap().get(node.getName());
         //注入流程代码所需参数
         //拿到参数名称以及类型
         Class<?>[] parameterClasses=method.getParameterTypes();
         DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
         String[] parameterNames = discover.getParameterNames(method);
+
         //注入参数
         int parameterNum=parameterNames.length;
         Object[] args=new Object[parameterNum];
@@ -99,13 +96,25 @@ public class FlowEngine {
         FlowContextHolder.get().getVariableMap().put(returnName,returnValue);
 
         //TODO：接入谢帅宇的路由功能(应该是在代理工厂中接入)
-        run(flowDetail.getNextNode());
+        try {
+            run(RouteEngine.getNextNode(node.getNodeId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return this;
     }
-    public FlowEngine run(String flowName){
 
+    public FlowEngine run(List<ProcessNode> nodes){
+        //TODO:流程代码执行完成直接返回（不知道是不是应该在这部分做，可能是谢帅宇路由做）
+        if (nodes.size()==0){
+            return this;
+        }
+        //线性，现在默认执行第一个
+        run(nodes.get(0));
         return this;
     }
+
+
     /**
      * 注入参数
      * @param paramName

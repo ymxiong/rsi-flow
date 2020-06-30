@@ -15,7 +15,7 @@ public class RouteTest {
 
     @Test
     public void testParse() throws IOException {
-//        //获取json字符串
+        //获取json字符串
 //        String json = JsonUtil.getJson("/test.json");
 //        //解析json字符串
 //        List<ProcessNode> nodes = RouteEngine.parseJson(json);

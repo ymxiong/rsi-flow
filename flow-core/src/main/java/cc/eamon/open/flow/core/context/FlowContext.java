@@ -37,6 +37,8 @@ public class FlowContext {
      * 当前执行业务节点名称
      */
     private FlowDetail curNode;
+
+    private ProcessNode startNode;
     
     private List<ProcessNode> processNodes;//存储路由节点
 
@@ -89,4 +91,12 @@ public class FlowContext {
 	public void setProcessNodes(List<ProcessNode> processNodes) {
 		this.processNodes = processNodes;
 	}
+
+    public ProcessNode getStartNode() {
+        return startNode;
+    }
+
+    public void setStartNode(ProcessNode startNode) {
+        this.startNode = startNode;
+    }
 }
