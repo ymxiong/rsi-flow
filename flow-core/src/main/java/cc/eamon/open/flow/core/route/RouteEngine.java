@@ -35,7 +35,7 @@ public class RouteEngine {
 			// 获取节点类型 名字 默认目标
 			node.setName(routeArray.getJSONObject(i).getString("name"));
 			node.setType(routeArray.getJSONObject(i).getString("type"));
-			node.setType(routeArray.getJSONObject(i).getString("id"));
+			node.setNodeId(routeArray.getJSONObject(i).getString("id"));
 			node.setDefaultTarget(routeArray.getJSONObject(i).getString("default"));
 			// 获取条件和目标
 			JSONArray targets = routeArray.getJSONObject(i).getJSONArray("targets");

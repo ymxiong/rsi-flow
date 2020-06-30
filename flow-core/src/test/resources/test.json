@@ -2,52 +2,40 @@
   "route":[
     {
       "type":"start",
+      "id": "sID",
       "name":"S",
-      "targets":[{"condition":"true","target":"G" }],
+      "targets":[{"condition":"true","target":"GID" }],
       "default":""
     },
     {
       "type":"exclusiveGateway",
+      "id": "GID",
       "name":"G",
       "targets":[
-        {"condition":"{条件1}","target":"a"},
-        {"condition":"{条件2}","target":"b"},
-        {"condition":"{条件3}","target":"c"}
+		{"condition":"usr == 'xsy' && pwd == '123'","target":"aID"},
+        {"condition":"!(usr == 'xsy' && pwd == '123')","target":"bID"}
+
       ],
       "default":""
     },
     {
       "type":"event",
+      "id": "aID",
       "name":"a",
-      "targets":[{"condition":"true","target":"d" }],
+      "targets":[{"condition":"true","target":"fID" }],
       "default":""
     },
     {
       "type":"event",
+      "id": "bID",
       "name":"b",
-      "targets":[{"condition":"true","target":"e" }],
+      "targets":[{"condition":"true","target":"fID" }],
       "default":""
     },
-    {
-      "type":"event",
-      "name":"c",
-      "targets":[{"condition":"true","target":"f" }],
-      "default":""
-    },
+
     {
       "type":"end",
-      "name":"d",
-      "targets":[],
-      "default":""
-    },
-    {
-      "type":"end",
-      "name":"e",
-      "targets":[],
-      "default":""
-    },
-    {
-      "type":"end",
+      "id": "fID",
       "name":"f",
       "targets":[],
       "default":""
