@@ -6,8 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Author: eamon
- * Email: eamon@eamon.cc
+ * @author: eamon
+ * @email: eamon@eamon.cc
  * Time: 2020-06-26 15:19:24
  */
 @Target({ElementType.METHOD})

@@ -1,5 +1,8 @@
 package cc.eamon.open.flow.core.context;
 
+import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.element.FlowDetail;
+
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.VariableElement;
@@ -12,33 +15,68 @@ import java.util.*;
  */
 public class FlowContext {
 
-    // record mapper info
-    private Set<String> mappers = new LinkedHashSet<>();
+    /**
+     * 当前线程流程引擎
+     */
+    private FlowEngine flowEngine;
 
-    // record mapper types
-    private Map<String, Element> mapperElements = new HashMap<>();
+    /**
+     * 当前线程流程名称
+     */
+    private FlowEngine flowName;
+    /**
+     * 当前线程参数列表
+     */
+    private Map<String,Object> variableMap = new HashMap<>();
+    /**
+     * 当前线程参数类型
+     */
+    private Map<String,Class> variableTypeMap = new HashMap<>();
+    /**
+     * 当前执行业务节点名称
+     */
+    private FlowDetail curNode;
 
-    // record mapper-method relationship
-    private Map<String, ExecutableElement> methodMap = new LinkedHashMap<>();
 
-    // record mapper-field relationship
-    private Map<String, VariableElement> fieldMap = new LinkedHashMap<>();
-
-    public Set<String> getMappers() {
-        return mappers;
+    public FlowEngine getFlowEngine() {
+        return flowEngine;
     }
 
-    public Map<String, Element> getMapperElements() {
-        return mapperElements;
+    public void setFlowEngine(FlowEngine flowEngine) {
+        this.flowEngine = flowEngine;
     }
 
-    public Map<String, ExecutableElement> getMethodMap() {
-        return methodMap;
+    public Map<String, Object> getVariableMap() {
+        return variableMap;
     }
 
-    public Map<String, VariableElement> getFieldMap() {
-        return fieldMap;
+    public void setVariableMap(Map<String, Object> variableMap) {
+        this.variableMap = variableMap;
+    }
+
+    public Map<String, Class> getVariableTypeMap() {
+
+        return variableTypeMap;
+    }
+
+    public void setVariableTypeMap(Map<String, Class> variableTypeMap) {
+        this.variableTypeMap = variableTypeMap;
     }
 
 
+    public FlowEngine getFlowName() {
+        return flowName;
+    }
+
+    public void setFlowName(FlowEngine flowName) {
+        this.flowName = flowName;
+    }
+
+    public FlowDetail getCurNode() {
+        return curNode;
+    }
+
+    public void setCurNode(FlowDetail curNode) {
+        this.curNode = curNode;
+    }
 }
