@@ -41,14 +41,17 @@ public class ProxyFactory implements MethodInterceptor {
      */
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy proxy) throws Throwable {
-        //前置处理
-        System.out.println("前置处理...");
 
-        //执行目标对象的方法
+
+        //TODO:注入参数以及参数匹配
+
+        //TODO：调用目标方法
         Object returnValue = method.invoke(target, args);
 
-        //后置处理
-        System.out.println("后置处理...");
+
+        //TODO:根据当前结果获取到执行结果
+        //TODO:继续调用执行下一个流程
+        System.out.println("当前节点："+args[0]);
 
         return returnValue;
     }

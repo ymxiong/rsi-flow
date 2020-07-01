@@ -1,0 +1,44 @@
+{
+  "route":[
+    {
+      "type":"start",
+      "id": "sID",
+      "name":"S",
+      "targets":[{"condition":"true","target":"GID" }],
+      "default":""
+    },
+    {
+      "type":"exclusiveGateway",
+      "id": "GID",
+      "name":"G",
+      "targets":[
+		{"condition":"usr == 'xsy' && pwd == '123'","target":"aID"},
+        {"condition":"!(usr == 'xsy' && pwd == '123')","target":"bID"}
+
+      ],
+      "default":""
+    },
+    {
+      "type":"event",
+      "id": "aID",
+      "name":"a",
+      "targets":[{"condition":"true","target":"fID" }],
+      "default":""
+    },
+    {
+      "type":"event",
+      "id": "bID",
+      "name":"b",
+      "targets":[{"condition":"true","target":"fID" }],
+      "default":""
+    },
+
+    {
+      "type":"end",
+      "id": "fID",
+      "name":"f",
+      "targets":[],
+      "default":""
+    }
+  ]
+}

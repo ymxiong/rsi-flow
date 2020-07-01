@@ -5,6 +5,8 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.processor.FlowProcessor;
 import cc.eamon.open.flow.core.context.DisposeContext;
 import cc.eamon.open.flow.core.context.DisposeContextBuilder;
+import cc.eamon.open.flow.core.route.RouteEngine;
+import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import cc.eamon.open.flow.example.FlowQueryAccount;
 import cc.eamon.open.flow.example.FlowQueryUser;
 import cc.eamon.open.flow.remote.entity.Account;
@@ -40,8 +42,6 @@ public class FlowEngineTest {
         FlowProcessor.annotationProcess(FlowQueryAccount.class);
         FlowProcessor.annotationProcess(FlowQueryUser.class);
 
-        //将执行流程封装进FlowContext中供后续FlowEngine执行
-        FlowContextHolder.get().setCurNode(DisposeContext.getStartNode().getNextNode());
 
         // 调度流程
         Account account = (Account) FlowEngine.instance()
@@ -52,7 +52,7 @@ public class FlowEngineTest {
                 .register("accountService", accountService)
                 // 执行流程
 //                .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
-                .run(FlowContextHolder.get().getCurNode())
+                .run(FlowContextHolder.get().getStartNode())
                 // 取出执行结果
                 .retrieve("account");
         FlowEngine.clear();
