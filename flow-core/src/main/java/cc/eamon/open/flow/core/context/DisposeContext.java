@@ -1,11 +1,18 @@
 package cc.eamon.open.flow.core.context;
 
 
+import cc.eamon.easyfile.FileTools;
+import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.FlowItemConfig;
+import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
+import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.support.scan.FlowScannerEnums;
+import com.alibaba.fastjson.JSONObject;
+
+import java.io.File;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.net.URL;
+import java.util.*;
 
 /**
  * @author: lucas
@@ -13,6 +20,59 @@ import java.util.Map;
  * @email: lucas@eamon.cc
  */
 public class DisposeContext {
+
+    private Map<String, FlowHolder> flowHolders = new LinkedHashMap<>();
+
+    public DisposeContext() {
+        // 1. 扫描所有flow配置
+        // 2. 扫描所有flow代码
+        // 3. 装配flow
+
+        // imp1.扫描所有flow配置
+        List<FlowConfig> flowConfigs = new ArrayList<>();
+
+        URL resource = DisposeContext.class.getClassLoader().getResource("");
+        if (resource != null) {
+            for (File file : FileTools.readFiles(resource.getPath())) {
+                if (file.getName().startsWith("flow")) {
+                    String flowConfigJson = FileTools.loadFile(file);
+                    FlowConfig flowConfig = JSONObject.parseObject(flowConfigJson, FlowConfig.class);
+                    flowConfigs.add(flowConfig);
+                }
+            }
+        }
+
+        // imp2. 扫描所有flow代码
+        Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
+        for (FlowScannerEnums value : FlowScannerEnums.values()) {
+            Set<? extends FlowCode> flowCodes = value.getScanner().scan("cc.eamon.open.flow.example");
+            if (flowCodes == null) continue;
+            for (FlowCode flowCode : flowCodes) {
+                flowCodeMap.put(flowCode.getFlowName(), flowCode);
+            }
+        }
+
+
+        // imp3. 根据配置装配flow, 装配过程放入flow holder
+        // TODO：对于不匹配的校验
+        for (FlowConfig flowConfig : flowConfigs) {
+            List<FlowCode> flowCodes = new ArrayList<>();
+            for (FlowItemConfig flow : flowConfig.getFlows()) {
+                if (flowCodeMap.get(flow.getName()) != null) {
+                    flowCodes.add(flowCodeMap.get(flow.getName()));
+                }
+            }
+            FlowHolder flowHolder = new FlowHolder(flowConfig, flowCodes);
+            flowHolders.put(flowHolder.getFlowName(), flowHolder);
+        }
+    }
+
+    public Map<String, FlowHolder> getFlowHolders() {
+        return flowHolders;
+    }
+
+    // =======================Deprecated========================
+
 
     private static String flowName;
 

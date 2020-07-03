@@ -50,6 +50,13 @@
             <artifactId>json</artifactId>
             <version>20180813</version>
         </dependency>
+
+        <dependency>
+            <groupId>cc.eamon</groupId>
+            <artifactId>easyfile</artifactId>
+            <version>0.0.1</version>
+        </dependency>
+
     </dependencies>
 
 

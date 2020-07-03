@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.core.processor;
 
-import cc.eamon.open.flow.core.Flow;
+import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.context.DisposeContext;
 
 import java.lang.reflect.Method;

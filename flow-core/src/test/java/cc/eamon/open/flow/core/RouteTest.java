@@ -1,18 +1,17 @@
 package cc.eamon.open.flow.core;
 
+import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.route.RouteEngine;
+import cc.eamon.open.flow.core.route.structure.FlowNode;
+import cc.eamon.open.flow.core.util.JsonUtils;
+import com.googlecode.aviator.AviatorEvaluator;
+import junit.framework.TestCase;
+import org.junit.Test;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.Test;
-
-import com.googlecode.aviator.AviatorEvaluator;
-
-import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.route.RouteEngine;
-import cc.eamon.open.flow.core.route.entity.ProcessNode;
-import cc.eamon.open.flow.core.util.JsonUtil;
-import junit.framework.TestCase;
 
 
 public class RouteTest {
@@ -41,10 +40,10 @@ public class RouteTest {
     @Test
     public void testGetNextNode() throws Exception {
       //获取JSON字符串
-      String json = JsonUtil.getJson("/test.json");
+      String json = JsonUtils.getJson("/test.json");
       RouteEngine routeEngine = new RouteEngine();
       //解析JSON字符串，放入路由
-      List<ProcessNode> nodes = routeEngine.parseJson(json);
+      List<FlowNode> nodes = routeEngine.parseJson(json);
       FlowContextHolder.get().setProcessNodes(nodes);
       //放入变量
       Map<String, Object> map = new HashMap<>();
@@ -54,7 +53,7 @@ public class RouteTest {
       //测试路由
       String startNode = "sID";
       System.out.println("ID: "+startNode + " name: " + "S");
-      List<ProcessNode> next_1 = routeEngine.getNextNode(startNode);
+      List<FlowNode> next_1 = routeEngine.getNextNode(startNode);
       startNode = next_1.get(0).getNodeId();
       System.out.println("ID: "+startNode + " name: " + next_1.get(0).getName());
       next_1 = routeEngine.getNextNode(startNode);

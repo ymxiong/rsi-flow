@@ -4,9 +4,10 @@ import cc.eamon.open.flow.core.Proxy.ProxyFactory;
 import cc.eamon.open.flow.core.context.DisposeContext;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.route.RouteEngine;
-import cc.eamon.open.flow.core.route.entity.ProcessNode;
+import cc.eamon.open.flow.core.route.structure.FlowNode;
+import cc.eamon.open.flow.core.stereotype.Flow;
+import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
 import org.springframework.core.DefaultParameterNameDiscoverer;
-
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -20,57 +21,58 @@ import java.util.List;
  */
 public class FlowEngine {
 
-    public static void init(){
-        FlowContextHolder.init();
+    private DisposeContext disposeContext = new DisposeContext();
+
+    public static FlowEngine instance() {
+        // 保障同一线程仅有单一执行的流程引擎
+        if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
+            synchronized (FlowEngine.class) {
+                if (FlowContextHolder.get().getFlowEngine() == null) {
+                    FlowContextHolder.get().setFlowEngine(new FlowEngine());
+                }
+            }
+
+        }
+        return FlowContextHolder.get().getFlowEngine();
     }
 
-    public static void clear(){
-        FlowContextHolder.clear();
+    private FlowEngine() {
     }
 
-	public static FlowEngine instance() {
-		// 保障同一线程仅有单一执行的流程引擎
-		if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
-			synchronized (FlowEngine.class) {
-				if (FlowContextHolder.get().getFlowEngine() == null) {
-					FlowContextHolder.get().setFlowEngine(new FlowEngine());
-				}
-			}
+    public FlowEngine run(String flowName) {
+        FlowHolder flowHolder = disposeContext.getFlowHolders().get(flowName);
+        flowHolder.execute();
+        return this;
+    }
 
-		}
-		return FlowContextHolder.get().getFlowEngine();
-	}
-
-    private FlowEngine() {}
-
-    public FlowEngine run(ProcessNode node) {
+    public FlowEngine run(FlowNode node) {
         //TODO:流程代码执行完成直接返回（不知道是不是应该在这部分做，可能是谢帅宇路由做）
-        if (node==null){
+        if (node == null) {
             return this;
         }
 
-        Method method =DisposeContext.getNodeMap().get(node.getName());
+        Method method = DisposeContext.getNodeMap().get(node.getName());
         //注入流程代码所需参数
         //拿到参数名称以及类型
-        Class<?>[] parameterClasses=method.getParameterTypes();
+        Class<?>[] parameterClasses = method.getParameterTypes();
         DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
         String[] parameterNames = discover.getParameterNames(method);
 
         //注入参数
-        int parameterNum=parameterNames.length;
-        Object[] args=new Object[parameterNum];
+        int parameterNum = parameterNames.length;
+        Object[] args = new Object[parameterNum];
 
-        for (int i=0;i<parameterNum;i++){
-            if (!parameterClasses[i].equals(FlowContextHolder.get().getVariableTypeMap().get(parameterNames[i]))){
+        for (int i = 0; i < parameterNum; i++) {
+            if (!parameterClasses[i].equals(FlowContextHolder.get().getVariableTypeMap().get(parameterNames[i]))) {
                 //TODO: 参数匹配
                 System.out.println("参数不匹配");
             }
-            args[i]=FlowContextHolder.get().getVariableMap().get(parameterNames[i]);
+            args[i] = FlowContextHolder.get().getVariableMap().get(parameterNames[i]);
         }
 
         //TODO：执行流程代码(需要使用代理模式)
         Class clazz = method.getDeclaringClass();
-        Object target= null;
+        Object target = null;
         try {
             target = clazz.newInstance();
         } catch (InstantiationException e) {
@@ -88,32 +90,32 @@ public class FlowEngine {
         }
         //存储流程代码运行结果
         //获取返回参数名
-        String returnName=method.getAnnotation(Flow.class).retrieve();
+        String returnName = method.getAnnotation(Flow.class).retrieve();
         //获取返回参数类型
-        Class returnType=method.getReturnType();
+        Class returnType = method.getReturnType();
         //TODO:返回类型匹配校验
-        FlowContextHolder.get().getVariableTypeMap().put(returnName,returnType);
-        FlowContextHolder.get().getVariableMap().put(returnName,returnValue);
+        FlowContextHolder.get().getVariableTypeMap().put(returnName, returnType);
+        FlowContextHolder.get().getVariableMap().put(returnName, returnValue);
 
         //TODO：接入谢帅宇的路由功能(应该是在代理工厂中接入)
         try {
 //        	if((node.getType()).equals("end"))//结束
 //        		return this;
-        	RouteEngine routeEngine = new RouteEngine();
-        	RouteEngine proxy = (RouteEngine)new ProxyFactory(routeEngine).getProxyInstance();
-        	List<ProcessNode> nextNodes = proxy.getNextNode(node.getNodeId());
-        	if(nextNodes.size()==0)
-        		return this;
-        	run(nextNodes.get(0));//TODO 并行之后考虑多个出口
+            RouteEngine routeEngine = new RouteEngine();
+            RouteEngine proxy = (RouteEngine) new ProxyFactory(routeEngine).getProxyInstance();
+            List<FlowNode> nextNodes = proxy.getNextNode(node.getNodeId());
+            if (nextNodes.size() == 0)
+                return this;
+            run(nextNodes.get(0));//TODO 并行之后考虑多个出口
         } catch (Exception e) {
             e.printStackTrace();
         }
         return this;
     }
 
-    public FlowEngine run(List<ProcessNode> nodes){
+    public FlowEngine run(List<FlowNode> nodes) {
         //TODO:流程代码执行完成直接返回（不知道是不是应该在这部分做，可能是谢帅宇路由做）
-        if (nodes.size()==0){
+        if (nodes.size() == 0) {
             return this;
         }
         //线性，现在默认执行第一个
@@ -124,27 +126,33 @@ public class FlowEngine {
 
     /**
      * 注入参数
+     *
      * @param paramName
      * @param paramValue
      * @return
      */
-    public FlowEngine register(String paramName, Object paramValue){
+    public FlowEngine register(String paramName, Object paramValue) {
         //注入参数到上下文中
-        FlowContextHolder.get().getVariableMap().put(paramName,paramValue);
-        FlowContextHolder.get().getVariableTypeMap().put(paramName,paramValue.getClass());
+        FlowContextHolder.get().getVariableMap().put(paramName, paramValue);
+        FlowContextHolder.get().getVariableTypeMap().put(paramName, paramValue.getClass());
         return this;
     }
 
-    public FlowEngine release(Object... param){
+    public FlowEngine release(Object... param) {
         return this;
+    }
+
+    public void release() {
+        FlowContextHolder.clear();
     }
 
     /**
      * 取得参数
+     *
      * @param paramName
      * @return
      */
-    public Object retrieve(String paramName){
+    public Object retrieve(String paramName) {
         return FlowContextHolder.get().getVariableMap().get(paramName);
     }
 
