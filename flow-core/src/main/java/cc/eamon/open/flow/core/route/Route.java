@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.core.route;
 
+import java.util.List;
+
 /**
  * Author: eamon
  * Email: eamon@eamon.cc
@@ -8,5 +10,7 @@ package cc.eamon.open.flow.core.route;
 public interface Route {
 
     Target route(Source source);
+
+    Target route(List<Source> sources);
 
 }

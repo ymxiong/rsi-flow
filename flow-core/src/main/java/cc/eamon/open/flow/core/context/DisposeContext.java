@@ -10,7 +10,6 @@ import cc.eamon.open.flow.core.stereotype.support.scan.FlowScannerEnums;
 import com.alibaba.fastjson.JSONObject;
 
 import java.io.File;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.*;
 
@@ -45,6 +44,9 @@ public class DisposeContext {
         // imp2. 扫描所有flow代码
         Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
         for (FlowScannerEnums value : FlowScannerEnums.values()) {
+            // TODO: NEED OPTIMIZE @FlowScan
+            // EXAMPLE: @ComponentScan @MapperScan
+            // 往后排
             Set<? extends FlowCode> flowCodes = value.getScanner().scan("cc.eamon.open.flow.example");
             if (flowCodes == null) continue;
             for (FlowCode flowCode : flowCodes) {
@@ -70,49 +72,5 @@ public class DisposeContext {
     public Map<String, FlowHolder> getFlowHolders() {
         return flowHolders;
     }
-
-    // =======================Deprecated========================
-
-
-    private static String flowName;
-
-    /**
-     * 基础业务节点名称列表
-     */
-    private static List<String> nodeList = new LinkedList<>();
-
-    /**
-     * 基础业务节点名称方法Map
-     */
-    private static Map<String, Method> nodeMap = new HashMap<>();
-
-
-
-    public static String getFlowName() {
-        return flowName;
-    }
-
-    public static List<String> getNodeList() {
-        return nodeList;
-    }
-
-    public static Map<String, Method> getNodeMap() {
-        return nodeMap;
-    }
-
-
-    public static void setFlowName(String flowName) {
-        DisposeContext.flowName = flowName;
-    }
-
-    public static void setNodeList(List<String> nodeList) {
-        DisposeContext.nodeList = nodeList;
-    }
-
-    public static void setNodeMap(Map<String, Method> nodeMap) {
-        DisposeContext.nodeMap = nodeMap;
-    }
-
-
 
 }
