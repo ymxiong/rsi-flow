@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.context;
 
 import cc.eamon.open.flow.core.FlowEngine;
-import cc.eamon.open.flow.core.route.entity.ProcessNode;
+import cc.eamon.open.flow.core.route.structure.FlowNode;
 
 import java.util.*;
 
@@ -31,9 +31,9 @@ public class FlowContext {
     private Map<String,Class> variableTypeMap = new HashMap<>();
 
 
-    private ProcessNode startNode;
+    private FlowNode startNode;
     
-    private List<ProcessNode> processNodes;//存储路由节点
+    private List<FlowNode> processNodes;//存储路由节点
 
     public FlowEngine getFlowEngine() {
         return flowEngine;
@@ -69,19 +69,19 @@ public class FlowContext {
         this.flowName = flowName;
     }
 
-    public List<ProcessNode> getProcessNodes() {
+    public List<FlowNode> getProcessNodes() {
 		return processNodes;
 	}
 
-	public void setProcessNodes(List<ProcessNode> processNodes) {
+	public void setProcessNodes(List<FlowNode> processNodes) {
 		this.processNodes = processNodes;
 	}
 
-    public ProcessNode getStartNode() {
+    public FlowNode getStartNode() {
         return startNode;
     }
 
-    public void setStartNode(ProcessNode startNode) {
+    public void setStartNode(FlowNode startNode) {
         this.startNode = startNode;
     }
 }

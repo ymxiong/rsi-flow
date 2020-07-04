@@ -11,7 +11,7 @@
       "name": "FLOW_QUERY_ACCOUNT_2"
     }
   ],
-  "route":[
+  "routes":[
     {
       "id": 1,
       "type":"start",

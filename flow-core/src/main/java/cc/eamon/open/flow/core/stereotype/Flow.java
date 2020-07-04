@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core;
+package cc.eamon.open.flow.core.stereotype;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,8 +1,8 @@
-package cc.eamon.open.flow.core.route.entity;
+package cc.eamon.open.flow.core.route.structure;
 
 import java.util.List;
 
-public class ProcessNode {
+public class FlowNode {
 	
 	//节点id
 	private String nodeId;
@@ -14,7 +14,7 @@ public class ProcessNode {
     private String name;
 
     //目标节点
-    private List<Target> targets;
+    private List<FlowTarget> targets;
 
     //默认节点
     private String defaultTarget;
@@ -35,11 +35,11 @@ public class ProcessNode {
         this.name = name;
     }
 
-    public List<Target> getTargets() {
+    public List<FlowTarget> getTargets() {
         return targets;
     }
 
-    public void setTargets(List<Target> targets) {
+    public void setTargets(List<FlowTarget> targets) {
         this.targets = targets;
     }
 
