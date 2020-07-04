@@ -12,6 +12,7 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.route.RouteEngine;
 import cc.eamon.open.flow.core.route.entity.ProcessNode;
 import cc.eamon.open.flow.core.util.JsonUtil;
+import cc.eamon.open.flow.remote.entity.User;
 import junit.framework.TestCase;
 
 
@@ -28,12 +29,16 @@ public class RouteTest {
     
     //测试 Aviator 调用函数
     @Test
-    public void testAviator() {
-    	String string = "123456";
+    public void testAviator() throws IllegalAccessException, NoSuchMethodException {
+    	User user = new User();
     	Map<String, Object> map = new HashMap<>();
-    	map.put("string",string);
-    	String code = "string==\"123456\"";
+    	map.put("user",user);
+    	AviatorEvaluator.addInstanceFunctions("User", User.class);
+    	String code = "User.setId(user,\"123\")";
+    	AviatorEvaluator.execute(code,map);
+    	code = "User.getId(user)==\"123\"";
     	boolean result = (boolean) AviatorEvaluator.execute(code, map);
+    	System.out.println(user.getId());
     	TestCase.assertTrue(result);
     }
     
@@ -65,4 +70,5 @@ public class RouteTest {
       System.out.println("ID: "+startNode + " name: " + next_1.get(0).getName());
     }
     
+   
 }
