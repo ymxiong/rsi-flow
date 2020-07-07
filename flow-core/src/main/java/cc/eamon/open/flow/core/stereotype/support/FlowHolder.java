@@ -2,11 +2,12 @@ package cc.eamon.open.flow.core.stereotype.support;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 
 import java.lang.reflect.Method;
-import java.util.List;
+import java.util.Map;
 
 /**
  * Author: eamon
@@ -17,9 +18,11 @@ public class FlowHolder {
 
     private FlowConfig flowConfig;
 
-    private List<FlowCode> flowCodes;
+    //private List<FlowCode> flowCodes;
 
-    public FlowHolder(FlowConfig flowConfig, List<FlowCode> flowCodes) {
+    private Map<String, FlowCode> flowCodes;
+
+    public FlowHolder(FlowConfig flowConfig, Map<String, FlowCode> flowCodes) {
         this.flowConfig = flowConfig;
         this.flowCodes = flowCodes;
     }
@@ -28,38 +31,52 @@ public class FlowHolder {
         return flowConfig.getName();
     }
 
-    public List<FlowCode> getFlowCodes() {
+    public Map<String, FlowCode> getFlowCodes() {
         return flowCodes;
     }
 
     // TODO: NEED OPTIMIZE THREAD RUN
     public void execute(){
+        //TODO:需要修改，目前是固定执行所有FlowCode，需要加入流程顺序相关东西
         FlowContextHolder.init();
-        for (FlowCode flowCode : getFlowCodes()) {
-
-            Method method = flowCode.getMethod();
-            //注入流程代码所需参数
-            //拿到参数名称以及类型
-            Class<?>[] parameterClasses = method.getParameterTypes();
-            DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
-            String[] parameterNames = discover.getParameterNames(method);
-
-            //注入参数
-            assert parameterNames != null;
-            int parameterNum = parameterNames.length;
-            Object[] args = new Object[parameterNum];
-
-            for (int i = 0; i < parameterNum; i++) {
-                if (!parameterClasses[i].equals(FlowContextHolder.get().getVariableTypeMap().get(parameterNames[i]))) {
-                    //TODO: 参数匹配
-                    System.out.println("参数不匹配");
-                }
-                args[i] = FlowContextHolder.get().getVariableMap().get(parameterNames[i]);
+        for (RouteConfig routeConfig:flowConfig.getRoutes()){
+            if (routeConfig.getType().equals("start")) {
+                //这里后续可能改动
+                execute(routeConfig);
+                break;
             }
+        }
+    }
 
-            flowCode.execute(args);
+    //可能改成execute(RouteConfigHolder routeConfigHolder)
+    public void execute(RouteConfig routeConfig){
+        //TODO:需要一个判断是否是结束节点的操作，目前写的是判断是否为空，待修改
+        if (routeConfig==null) return;
+        FlowCode flowCode=flowCodes.get(routeConfig.getName());
+        Method method = flowCode.getMethod();
+        //注入流程代码所需参数
+        //拿到参数名称以及类型
+        Class<?>[] parameterClasses = method.getParameterTypes();
+        DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
+        String[] parameterNames = discover.getParameterNames(method);
+
+        //注入参数
+        assert parameterNames != null;
+        int parameterNum = parameterNames.length;
+        Object[] args = new Object[parameterNum];
+
+        for (int i = 0; i < parameterNum; i++) {
+            if (!parameterClasses[i].equals(FlowContextHolder.get().getVariableTypeMap().get(parameterNames[i]))) {
+                //TODO: 参数匹配
+                System.out.println("参数不匹配");
+            }
+            args[i] = FlowContextHolder.get().getVariableMap().get(parameterNames[i]);
+            //TODO：如果是END节点就需要将结果注入父ThreadLocal里面(如果有的话)可能使用后置代理来做
         }
 
+        flowCode.execute(args);
+        //递归执行下一个节点
+//        execute(Route.route(routeConfig));
     }
 
 }

@@ -86,7 +86,6 @@ public class SimpleFlowCode implements FlowCode {
         FlowContextHolder.get().getVariableTypeMap().put(returnName, returnType);
         FlowContextHolder.get().getVariableMap().put(returnName, returnValue);
 
-
     }
 
     @Override

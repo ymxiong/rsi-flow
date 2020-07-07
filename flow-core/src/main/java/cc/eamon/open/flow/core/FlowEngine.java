@@ -1,8 +1,7 @@
 package cc.eamon.open.flow.core;
 
-import cc.eamon.open.flow.core.context.DisposeContext;
+import cc.eamon.open.flow.core.context.Dispose;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.route.structure.FlowNode;
 import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
 
 
@@ -13,7 +12,11 @@ import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
  */
 public class FlowEngine {
 
-    private DisposeContext disposeContext = new DisposeContext();
+    private Dispose dispose = new Dispose();
+
+//    private FlowContext
+
+//    private boolean selfRealease=false;
 
     public static FlowEngine instance() {
         // 保障同一线程仅有单一执行的流程引擎
@@ -32,14 +35,13 @@ public class FlowEngine {
     }
 
     public FlowEngine run(String flowName) {
-        FlowHolder flowHolder = disposeContext.getFlowHolders().get(flowName);
+        FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
         flowHolder.execute();
         return this;
     }
 
-    @Deprecated
-    public FlowEngine run(FlowNode node) {
-
+//    @Deprecated
+//    public FlowEngine run(FlowNode node) {
 //        //TODO：接入谢帅宇的路由功能(应该是在代理工厂中接入)
 //        try {
 ////        	if((node.getType()).equals("end"))//结束
@@ -53,8 +55,8 @@ public class FlowEngine {
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
-        return this;
-    }
+//        return this;
+//    }
 
     /**
      * 注入参数

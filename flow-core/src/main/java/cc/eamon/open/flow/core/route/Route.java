@@ -9,8 +9,9 @@ import java.util.List;
  */
 public interface Route {
 
-    Target route(Source source);
+    List<Target> route(Source source);
 
-    Target route(List<Source> sources);
+    List<Target> route(List<Source> sources);
+
 
 }

@@ -12,7 +12,7 @@ public enum FlowScannerEnums {
     CLASSPATH_SCANNER("classpath scan", new ClassPathFlowScanner()),
 
     FILESYSTEM_SCANNER("file system scan", new FileSystemFlowScanner());
-    ;
+
 
     FlowScannerEnums(String name, FlowScanner scanner) {
         this.name = name;
