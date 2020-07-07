@@ -11,8 +11,6 @@ public class FlowConfig {
 
     private String name;
 
-    private List<FlowItemConfig> flows;
-
     private List<RouteConfig> routes;
 
     public String getName() {
@@ -21,14 +19,6 @@ public class FlowConfig {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public List<FlowItemConfig> getFlows() {
-        return flows;
-    }
-
-    public void setFlows(List<FlowItemConfig> flows) {
-        this.flows = flows;
     }
 
     public List<RouteConfig> getRoutes() {

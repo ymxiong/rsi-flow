@@ -1,13 +1,17 @@
-package cc.eamon.open.flow.core.route.structure;
+package cc.eamon.open.flow.core.stereotype.config;
 
-public class FlowTarget {
-
+/**
+ * @author: lucas
+ * @date: 2020/7/5
+ * @email: lucas@eamon.cc
+ */
+public class TargetConfig {
     //到目标节点的条件
     private String condition;
 
     private String target;
 
-    public FlowTarget(String condition, String target) {
+    public TargetConfig(String condition, String target) {
         this.condition = condition;
         this.target = target;
     }
