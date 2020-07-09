@@ -22,6 +22,7 @@ public class Dispose {
     private List<FlowConfig> flowConfigs = new ArrayList<>();
 
     private Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
+    
 
     public Dispose() {
         // 1. 扫描所有flow配置
@@ -29,8 +30,7 @@ public class Dispose {
         // 3. 装配flow
         String[] configFiles={Dispose.class.getClassLoader().getResource("").getPath()};
         loadConfig(configFiles);
-//        //可能是在这个地方初始化RouteEngine
-//        RouteEngine.setflowConfigs(flowConfigs);
+
         String[] basePackages={"cc.eamon.open.flow.example"};
         loadFlow(basePackages);
         assemblyFlow();
