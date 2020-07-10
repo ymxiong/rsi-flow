@@ -18,7 +18,6 @@ public class FlowHolder {
 
     private FlowConfig flowConfig;
 
-    //private List<FlowCode> flowCodes;
 
     private Map<String, FlowCode> flowCodes;
 
@@ -35,10 +34,11 @@ public class FlowHolder {
         return flowCodes;
     }
 
+
+
     // TODO: NEED OPTIMIZE THREAD RUN
     public void execute(){
-        //TODO:需要修改，目前是固定执行所有FlowCode，需要加入流程顺序相关东西
-        FlowContextHolder.init();
+//        FlowContextHolder.init();
         for (RouteConfig routeConfig:flowConfig.getRoutes()){
             if (routeConfig.getType().equals("start")) {
                 //这里后续可能改动
@@ -48,7 +48,7 @@ public class FlowHolder {
         }
     }
 
-    //可能改成execute(RouteConfigHolder routeConfigHolder)
+
     public void execute(RouteConfig routeConfig){
         //TODO:需要一个判断是否是结束节点的操作，目前写的是判断是否为空，待修改
         if (routeConfig==null) return;
@@ -71,12 +71,12 @@ public class FlowHolder {
                 System.out.println("参数不匹配");
             }
             args[i] = FlowContextHolder.get().getVariableMap().get(parameterNames[i]);
-            //TODO：如果是END节点就需要将结果注入父ThreadLocal里面(如果有的话)可能使用后置代理来做
         }
 
         flowCode.execute(args);
         //递归执行下一个节点
 //        execute(Route.route(routeConfig));
     }
+
 
 }

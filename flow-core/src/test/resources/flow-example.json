@@ -1,16 +1,5 @@
 {
   "name": "FLOW_QUERY_USER_ACCOUNT",
-  "flows": [
-    {
-      "name": "FLOW_QUERY_USER"
-    },
-    {
-      "name": "FLOW_QUERY_ACCOUNT_1"
-    },
-    {
-      "name": "FLOW_QUERY_ACCOUNT_2"
-    }
-  ],
   "routes":[
     {
       "id": 1,

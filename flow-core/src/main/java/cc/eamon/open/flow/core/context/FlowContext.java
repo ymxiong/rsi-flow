@@ -17,6 +17,7 @@ public class FlowContext {
      */
     private FlowEngine flowEngine;
 
+    private FlowContext parentContext;
     /**
      * 当前线程流程名称
      */
@@ -64,4 +65,11 @@ public class FlowContext {
         this.flowName = flowName;
     }
 
+    public FlowContext getParentContext() {
+        return parentContext;
+    }
+
+    public void setParentContext(FlowContext parentContext) {
+        this.parentContext = parentContext;
+    }
 }

@@ -1,8 +1,14 @@
 package cc.eamon.open.flow.core;
 
 import cc.eamon.open.flow.core.context.Dispose;
+import cc.eamon.open.flow.core.context.FlowContext;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.support.execute.FlowThread;
+import cc.eamon.open.flow.core.stereotype.support.execute.FlowThreadPool;
+
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 
 /**
@@ -13,10 +19,6 @@ import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
 public class FlowEngine {
 
     private Dispose dispose = new Dispose();
-
-//    private FlowContext
-
-//    private boolean selfRealease=false;
 
     public static FlowEngine instance() {
         // 保障同一线程仅有单一执行的流程引擎
@@ -35,28 +37,19 @@ public class FlowEngine {
     }
 
     public FlowEngine run(String flowName) {
-        FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
-        flowHolder.execute();
+        FlowThreadPool.init();
+        run(flowName,null);
         return this;
     }
 
-//    @Deprecated
-//    public FlowEngine run(FlowNode node) {
-//        //TODO：接入谢帅宇的路由功能(应该是在代理工厂中接入)
-//        try {
-////        	if((node.getType()).equals("end"))//结束
-////        		return this;
-//            RouteEngine routeEngine = new RouteEngine();
-//            RouteEngine proxy = (RouteEngine) new ProxyFactory(routeEngine).getProxyInstance();
-//            List<FlowNode> nextNodes = proxy.getNextNode(node.getNodeId());
-//            if (nextNodes.size() == 0)
-//                return this;
-//            run(nextNodes.get(0));//TODO 并行之后考虑多个出口
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return this;
-//    }
+    public FlowEngine run(String flowName, FlowContext parentFlowContext) {
+        FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
+        FlowThread flowThread=new FlowThread(flowHolder,parentFlowContext);
+        FutureTask<Object> futureTask = new FutureTask<Object>(flowThread);
+        Future future= FlowThreadPool.pool.submit(futureTask);
+        //flowHolder.execute();
+        return this;
+    }
 
     /**
      * 注入参数
@@ -73,12 +66,16 @@ public class FlowEngine {
     }
 
     public FlowEngine release(Object... param) {
+//        FlowContextHolder.get().getVariableMap().remove(param);
+//        FlowContextHolder.get().getVariableTypeMap().remove(param);
         return this;
     }
 
+    //
     public void release() {
         FlowContextHolder.clear();
     }
+
 
     /**
      * 取得参数
@@ -89,5 +86,6 @@ public class FlowEngine {
     public Object retrieve(String paramName) {
         return FlowContextHolder.get().getVariableMap().get(paramName);
     }
+
 
 }

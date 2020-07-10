@@ -13,7 +13,7 @@ public class FlowThreadPool {
     private static final int CORE_POOL_SIZE=10;
     private static final int MAXIMUM_POOL_SIZE=30;
     private static final BlockingQueue<Runnable> sPoolWorkQueue=new LinkedBlockingQueue<>(10);
-    private ThreadPoolExecutor pool=null;
+    public static ThreadPoolExecutor pool=null;
 
     /**
      * 线程池初始化方法
@@ -29,24 +29,19 @@ public class FlowThreadPool {
      * 						          任务会交给RejectedExecutionHandler来处理
      */
 
-    public void init() {
+    public static void init() {
 
         pool = new ThreadPoolExecutor(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,30,
                 TimeUnit.MINUTES,sPoolWorkQueue,new CustomThreadFactory(), new CustomRejectedExecutionHandler());
     }
 
-    public void destory() {
+    public static void destory() {
         if(pool !=null) {
             pool.shutdownNow();
         }
     }
 
-    public ExecutorService getCustomThreadPoolExecutor() {
-        return this.pool;
-    }
-
-
-    private class CustomRejectedExecutionHandler implements RejectedExecutionHandler {
+    private static class CustomRejectedExecutionHandler implements RejectedExecutionHandler {
         @Override
         public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
             //记录异常
@@ -55,7 +50,7 @@ public class FlowThreadPool {
     }
 
 
-    private class CustomThreadFactory implements ThreadFactory {
+    private static  class CustomThreadFactory implements ThreadFactory {
 
         private AtomicInteger count = new AtomicInteger(0);
 
@@ -63,7 +58,6 @@ public class FlowThreadPool {
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r);
             String threadName =  FlowThreadPool.class.getSimpleName()+count.addAndGet(1);
-
             System.out.println(threadName);
             t.setName(threadName);
             return t;
