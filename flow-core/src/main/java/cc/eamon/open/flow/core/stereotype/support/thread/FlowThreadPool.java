@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.stereotype.support.execute;
+package cc.eamon.open.flow.core.stereotype.support.thread;
 
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -13,7 +13,8 @@ public class FlowThreadPool {
     private static final int CORE_POOL_SIZE=10;
     private static final int MAXIMUM_POOL_SIZE=30;
     private static final BlockingQueue<Runnable> sPoolWorkQueue=new LinkedBlockingQueue<>(10);
-    public static ThreadPoolExecutor pool=null;
+    public static ThreadPoolExecutor pool= new ThreadPoolExecutor(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,30,
+            TimeUnit.MINUTES,sPoolWorkQueue,new CustomThreadFactory(), new CustomRejectedExecutionHandler());
 
     /**
      * 线程池初始化方法
@@ -29,11 +30,11 @@ public class FlowThreadPool {
      * 						          任务会交给RejectedExecutionHandler来处理
      */
 
-    public static void init() {
-
-        pool = new ThreadPoolExecutor(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,30,
-                TimeUnit.MINUTES,sPoolWorkQueue,new CustomThreadFactory(), new CustomRejectedExecutionHandler());
-    }
+//    public static void init() {
+//
+//        pool = new ThreadPoolExecutor(CORE_POOL_SIZE,MAXIMUM_POOL_SIZE,30,
+//                TimeUnit.MINUTES,sPoolWorkQueue,new CustomThreadFactory(), new CustomRejectedExecutionHandler());
+//    }
 
     public static void destory() {
         if(pool !=null) {

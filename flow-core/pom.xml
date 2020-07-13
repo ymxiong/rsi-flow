@@ -17,13 +17,26 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <!--google 表达式引擎 aviator-->
-<!--        <dependency>-->
-<!--            <groupId>com.googlecode.aviator</groupId>-->
-<!--            <artifactId>aviator</artifactId>-->
-<!--            <version>4.2.9</version>-->
-<!--        </dependency>-->
 
+<!--        google 表达式引擎 aviator-->
+        <dependency>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <version>4.2.9</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+            <version>2.11.5</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-jexl -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-jexl</artifactId>
+            <version>2.1.1</version>
+        </dependency>
 
         <dependency>
             <groupId>cglib</groupId>
@@ -41,21 +54,9 @@
             <version>1.2.60</version>
         </dependency>
         <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20180813</version>
-        </dependency>
-
-        <dependency>
             <groupId>cc.eamon</groupId>
             <artifactId>easyfile</artifactId>
-            <version>0.0.1</version>
+            <version>0.0.2</version>
         </dependency>
 
     </dependencies>

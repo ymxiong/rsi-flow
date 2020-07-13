@@ -4,7 +4,7 @@ package cc.eamon.open.flow.core.context;
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import cc.eamon.open.flow.core.stereotype.support.load.FlowLoaderEnums;
 import cc.eamon.open.flow.core.stereotype.support.scan.FlowScannerEnums;
 
@@ -23,16 +23,13 @@ public class Dispose {
 
     private Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
 
-
-
     public Dispose() {
         // 1. 扫描所有flow配置
         // 2. 扫描所有flow代码
         // 3. 装配flow
         String[] configFiles={Dispose.class.getClassLoader().getResource("").getPath()};
         loadConfig(configFiles);
-//        //可能是在这个地方初始化RouteEngine
-//        RouteEngine.setflowConfigs(flowConfigs);
+
         String[] basePackages={"cc.eamon.open.flow.example"};
         loadFlow(basePackages);
         assemblyFlow();

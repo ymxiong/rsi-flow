@@ -3,10 +3,11 @@ package cc.eamon.open.flow.core;
 import cc.eamon.open.flow.core.context.Dispose;
 import cc.eamon.open.flow.core.context.FlowContext;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
-import cc.eamon.open.flow.core.stereotype.support.execute.FlowThread;
-import cc.eamon.open.flow.core.stereotype.support.execute.FlowThreadPool;
+import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
+import cc.eamon.open.flow.core.stereotype.support.thread.FlowThreadPool;
 
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 
@@ -28,7 +29,6 @@ public class FlowEngine {
                     FlowContextHolder.get().setFlowEngine(new FlowEngine());
                 }
             }
-
         }
         return FlowContextHolder.get().getFlowEngine();
     }
@@ -36,24 +36,39 @@ public class FlowEngine {
     private FlowEngine() {
     }
 
+//    public FlowEngine run(String flowName) {
+//        FlowThreadPool.init();
+//        run(flowName,null);
+//        return this;
+//    }
+
     public FlowEngine run(String flowName) {
-        FlowThreadPool.init();
-        run(flowName,null);
+        FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
+        FlowThread flowThread=new FlowThread(flowHolder,FlowContextHolder.get());
+//        FutureTask<Object> futureTask = new FutureTask<Object>(flowThread);
+        FutureTask<FlowContext> futureTask = new FutureTask<FlowContext>(flowThread);
+        Future future= FlowThreadPool.pool.submit(futureTask);
+        FlowContext flowContext=null;
+        boolean flag=true;
+        while(flag){
+            if (future.isDone()){
+                try {
+                    flowContext=(FlowContext) future.get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                flag=false;
+            }
+        }
+//        flowHolder.execute();
         return this;
     }
 
-    public FlowEngine run(String flowName, FlowContext parentFlowContext) {
-        FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
-        FlowThread flowThread=new FlowThread(flowHolder,parentFlowContext);
-        FutureTask<Object> futureTask = new FutureTask<Object>(flowThread);
-        Future future= FlowThreadPool.pool.submit(futureTask);
-        //flowHolder.execute();
-        return this;
-    }
 
     /**
      * 注入参数
-     *
      * @param paramName
      * @param paramValue
      * @return
@@ -65,9 +80,14 @@ public class FlowEngine {
         return this;
     }
 
-    public FlowEngine release(Object... param) {
-//        FlowContextHolder.get().getVariableMap().remove(param);
-//        FlowContextHolder.get().getVariableTypeMap().remove(param);
+    /**
+     * 注销参数
+     * @param paramNames
+     * @return
+     */
+    public FlowEngine release(String... paramNames) {
+        FlowContextHolder.get().getVariableMap().remove(paramNames);
+        FlowContextHolder.get().getVariableTypeMap().remove(paramNames);
         return this;
     }
 
@@ -78,8 +98,7 @@ public class FlowEngine {
 
 
     /**
-     * 取得参数
-     *
+     * 获取参数
      * @param paramName
      * @return
      */

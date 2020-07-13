@@ -21,7 +21,6 @@ public class FlowEngineTest {
     @Test
     public void testFlowEngine(){
 
-
         // 调度流程
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数
