@@ -5,7 +5,7 @@ import cc.eamon.open.flow.core.route.Route;
 import cc.eamon.open.flow.core.route.RouteEngine;
 import cc.eamon.open.flow.core.route.Source;
 import cc.eamon.open.flow.core.route.Target;
-import cc.eamon.open.flow.core.route.pojo.RouteConfigPojo;
+import cc.eamon.open.flow.core.route.model.RouteConfigModel;
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
@@ -49,7 +49,7 @@ public class FlowHolder {
 		for (RouteConfig routeConfig : flowConfig.getRoutes()) {
 			if (routeConfig.getType().equals("start")) {
 				// 这里后续可能改动
-				Target startTarget = new RouteConfigPojo(routeConfig);// 待执行目标
+				Target startTarget = new RouteConfigModel(routeConfig);// 待执行目标
 				execute(startTarget);
 				break;
 			}
@@ -87,7 +87,7 @@ public class FlowHolder {
 		// TODO 不知道路由引擎应该在何处生成
 		RouteConfig routeConfig = new RouteConfig();
 		routeConfig.setId(target.getId());
-		Source source = new RouteConfigPojo(routeConfig);
+		Source source = new RouteConfigModel(routeConfig);
 		List<Target> targets = route.route(source);
 		execute(targets);
 

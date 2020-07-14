@@ -20,13 +20,10 @@ import java.util.Map;
  */
 public class JexlTest {
 
-    private JexlEngine jexl;
-
     private Map<String, Object> env;
 
     @Before
     public void before(){
-        jexl = new JexlEngine();
         env = new HashMap<>();
         env.put("id","123456");
         env.put("user",new User());
