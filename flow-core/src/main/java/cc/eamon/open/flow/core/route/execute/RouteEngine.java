@@ -1,12 +1,12 @@
 package cc.eamon.open.flow.core.route.execute;
 
 import cc.eamon.open.flow.core.route.Route;
+import cc.eamon.open.flow.core.route.strategy.RouteStrategy;
 import cc.eamon.open.flow.core.route.strategy.enums.StrategyType;
+import cc.eamon.open.flow.core.route.structure.RouteModel;
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.route.structure.element.Target;
-import cc.eamon.open.flow.core.route.strategy.RouteStrategy;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,40 +16,27 @@ import java.util.List;
  */
 public class RouteEngine implements Route {
 
-	private final List<RouteConfig> routeConfigs;
+	private RouteModel routeModel;
 
 
-	public RouteEngine(List<RouteConfig> routeConfigs) {
-		this.routeConfigs = routeConfigs;
+	public RouteEngine(RouteModel routeModel) {
+		this.routeModel = routeModel;
 	}
 
 	@Override
 	public List<Target> route(Source source) {
-		
 		List<Target> targets = new ArrayList<>();
-		
 		//找到对应ID的当前节点
-		RouteConfig currentConfig = null;
-		for(RouteConfig config : routeConfigs) {
-			if(config.getId().equals(source.getId())) {
-				currentConfig = config;
-				break;
-			}
-		}
-		
+		RouteElement routeElement = routeModel.getElementById(source.getId());
 		//寻找对应策略
-		RouteStrategy strategy = StrategyType.getStrategy(currentConfig.getType());
-		
+		RouteStrategy strategy = StrategyType.getStrategy(routeElement.getType());
+		if(strategy == null)
+			throw new RuntimeException("route strategy can't be null");
 		//获取下一节点的id和name，封装成Target
-		List<String> nextIds = strategy.findWay(currentConfig);
+		List<String> nextIds = strategy.findWay(routeElement);
 		if(nextIds != null) {
-			for(String id : nextIds) {
-				for(RouteConfig config : routeConfigs) {
-					if(config.getId().equals(id)) {
-						Target target = new RouteElement(config.getId());
-						targets.add(target);
-					}
-				}
+			for (String nextId : nextIds) {
+				targets.add(routeModel.getElementById(nextId));
 			}
 		}
 		return targets;

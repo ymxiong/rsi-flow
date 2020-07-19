@@ -1,5 +1,4 @@
 package cc.eamon.open.flow.core.route.structure;
-
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 
@@ -18,8 +17,7 @@ public class RouteModel {
     public RouteModel(List<RouteConfig> routeConfigs){
         elements = new ArrayList<>();
         for (RouteConfig routeConfig : routeConfigs) {
-            //name, id, type
-            elements.add(new RouteElement(routeConfig.getName(),routeConfig.getId(), routeConfig.getType()));
+            elements.add(new RouteElement(routeConfig));
         }
     }
 
@@ -35,4 +33,19 @@ public class RouteModel {
         }
         return null;
     }
+
+    /**
+     * 根据id获取路由element
+     *
+     * @author  xsy
+     * @param  id -- 节点的id
+     */
+    public RouteElement getElementById(String id){
+        for (RouteElement element : elements) {
+            if(element.getId().equals(id))
+                return element;
+        }
+        return null;
+    }
+
 }

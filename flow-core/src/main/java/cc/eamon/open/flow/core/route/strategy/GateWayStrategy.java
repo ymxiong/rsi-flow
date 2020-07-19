@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.route.strategy;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
 import cc.eamon.open.flow.core.util.JexlUtils;
 
@@ -12,10 +12,10 @@ import java.util.Map;
 public class GateWayStrategy implements RouteStrategy {
 
 	@Override
-	public List<String> findWay(RouteConfig currentConfig) {
+	public List<String> findWay(RouteElement routeElement) {
 		List<String> results = new ArrayList<>();
 		//目标
-		List<TargetConfig> targets = currentConfig.getTargets();
+		List<TargetConfig> targets = routeElement.getTargetConfigs();
 		//挑选符合条件的出口
 		for(TargetConfig targetConfig : targets) {
 			String condition = targetConfig.getCondition();//条件

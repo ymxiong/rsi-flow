@@ -24,10 +24,13 @@ public class FlowHolder implements FlowExecutable,Source,Target{
 
 	private Route route;
 
+	private RouteModel routeModel;
+
     public FlowHolder(FlowConfig flowConfig, Map<String, FlowCode> flowCodes) {
         this.flowConfig = flowConfig;
         this.flowCodes = flowCodes;
-		route = new RouteEngine(flowConfig.getRoutes());
+		routeModel = new RouteModel(flowConfig.getRoutes());
+		route = new RouteEngine(routeModel);
     }
 
     public String getFlowName() {
@@ -41,8 +44,6 @@ public class FlowHolder implements FlowExecutable,Source,Target{
 	// TODO: NEED OPTIMIZE THREAD RUN
 	@Override
 	public void execute() {
-		//初始化路由业务模型
-		RouteModel routeModel = new RouteModel(flowConfig.getRoutes());
 		//获取开始节点
 		Target start = routeModel.getStartNode();
 		FlowNode startNode = new FlowNode(flowCodes.get(start.getName()),

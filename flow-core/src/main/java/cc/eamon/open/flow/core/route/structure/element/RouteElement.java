@@ -1,5 +1,10 @@
 package cc.eamon.open.flow.core.route.structure.element;
 
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
+
+import java.util.List;
+
 /**
  * 用于封装RouteConfig底层数据结构
  *
@@ -7,35 +12,31 @@ package cc.eamon.open.flow.core.route.structure.element;
  */
 public class RouteElement implements Source, Target {
 
-    private String name;
-    private String id;
-    private String type;
+    private RouteConfig routeConfig;
 
-    public RouteElement(String id) {
-        this.id = id;
-    }
-
-    public RouteElement(String name, String id, String type) {
-        this.name = name;
-        this.id = id;
-        this.type = type;
+    public RouteElement(RouteConfig routeConfig) {
+        this.routeConfig = routeConfig;
     }
 
     @Override
     public String getId() {
-        return id;
+        return routeConfig.getId();
     }
 
     @Override
     public String getName() {
-        return name;
+        return routeConfig.getName();
     }
 
-    public String getType() {
-        return type;
+    public String getType(){
+        return routeConfig.getType();
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public List<TargetConfig> getTargetConfigs(){
+        return routeConfig.getTargets();
+    }
+
+    public String getDefaultTarget(){
+        return routeConfig.getDefaultTarget();
     }
 }
