@@ -85,7 +85,6 @@ public class SimpleFlowCode implements FlowCode {
         //TODO:返回类型匹配校验
         FlowContextHolder.get().getVariableTypeMap().put(returnName, returnType);
         FlowContextHolder.get().getVariableMap().put(returnName, returnValue);
-
     }
 
     @Override

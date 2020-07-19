@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GateWayStrategy implements Strategy {
+public class GateWayStrategy implements RouteStrategy {
 
 	@Override
 	public List<String> findWay(RouteConfig currentConfig) {

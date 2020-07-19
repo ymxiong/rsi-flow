@@ -1,8 +1,15 @@
 package cc.eamon.open.flow.core;
 
 import cc.eamon.open.flow.core.context.Dispose;
+import cc.eamon.open.flow.core.context.FlowContext;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.stereotype.support.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
+import cc.eamon.open.flow.core.stereotype.support.thread.FlowThreadPool;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 
 /**
@@ -14,10 +21,6 @@ public class FlowEngine {
 
     private Dispose dispose = new Dispose();
 
-//    private FlowContext
-
-//    private boolean selfRealease=false;
-
     public static FlowEngine instance() {
         // 保障同一线程仅有单一执行的流程引擎
         if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
@@ -26,7 +29,6 @@ public class FlowEngine {
                     FlowContextHolder.get().setFlowEngine(new FlowEngine());
                 }
             }
-
         }
         return FlowContextHolder.get().getFlowEngine();
     }
@@ -34,29 +36,36 @@ public class FlowEngine {
     private FlowEngine() {
     }
 
+//    public FlowEngine run(String flowName) {
+//        FlowThreadPool.init();
+//        run(flowName,null);
+//        return this;
+//    }
+
     public FlowEngine run(String flowName) {
         FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
-        flowHolder.execute();
+        FlowThread flowThread = new FlowThread(flowHolder, FlowContextHolder.get());
+//        FutureTask<Object> futureTask = new FutureTask<Object>(flowThread);
+        FutureTask<FlowContext> futureTask = new FutureTask<FlowContext>(flowThread);
+        Future future = FlowThreadPool.pool.submit(futureTask);
+        FlowContext flowContext = null;
+        boolean flag = true;
+        while (flag) {
+            if (future.isDone()) {
+                try {
+                    flowContext = (FlowContext) future.get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                flag = false;
+            }
+        }
+//        flowHolder.execute();
         return this;
     }
 
-//    @Deprecated
-//    public FlowEngine run(FlowNode node) {
-//        //TODO：接入谢帅宇的路由功能(应该是在代理工厂中接入)
-//        try {
-////        	if((node.getType()).equals("end"))//结束
-////        		return this;
-//            RouteEngine routeEngine = new RouteEngine();
-//            RouteEngine proxy = (RouteEngine) new ProxyFactory(routeEngine).getProxyInstance();
-//            List<FlowNode> nextNodes = proxy.getNextNode(node.getNodeId());
-//            if (nextNodes.size() == 0)
-//                return this;
-//            run(nextNodes.get(0));//TODO 并行之后考虑多个出口
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return this;
-//    }
 
     /**
      * 注入参数
@@ -72,16 +81,26 @@ public class FlowEngine {
         return this;
     }
 
-    public FlowEngine release(Object... param) {
+    /**
+     * 注销参数
+     *
+     * @param paramNames
+     * @return
+     */
+    public FlowEngine release(String... paramNames) {
+        FlowContextHolder.get().getVariableMap().remove(paramNames);
+        FlowContextHolder.get().getVariableTypeMap().remove(paramNames);
         return this;
     }
 
+    //
     public void release() {
         FlowContextHolder.clear();
     }
 
+
     /**
-     * 取得参数
+     * 获取参数
      *
      * @param paramName
      * @return
@@ -89,5 +108,6 @@ public class FlowEngine {
     public Object retrieve(String paramName) {
         return FlowContextHolder.get().getVariableMap().get(paramName);
     }
+
 
 }

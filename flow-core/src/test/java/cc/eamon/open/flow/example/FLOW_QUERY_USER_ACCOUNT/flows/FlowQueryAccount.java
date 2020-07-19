@@ -1,9 +1,9 @@
-package cc.eamon.open.flow.example;
+package cc.eamon.open.flow.example.FLOW_QUERY_USER_ACCOUNT.flows;
 
 import cc.eamon.open.flow.core.stereotype.Flow;
-import cc.eamon.open.flow.remote.entity.Account;
-import cc.eamon.open.flow.remote.entity.User;
-import cc.eamon.open.flow.remote.service.AccountService;
+import cc.eamon.open.flow.example.remote.entity.Account;
+import cc.eamon.open.flow.example.remote.entity.User;
+import cc.eamon.open.flow.example.remote.service.AccountService;
 
 /**
  * Author: eamon

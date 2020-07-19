@@ -1,9 +1,10 @@
-package cc.eamon.open.flow.core;
+package cc.eamon.open.flow.core.engine;
 
-import cc.eamon.open.flow.example.FlowEnum;
-import cc.eamon.open.flow.remote.entity.Account;
-import cc.eamon.open.flow.remote.service.AccountService;
-import cc.eamon.open.flow.remote.service.UserService;
+import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.example.FLOW_QUERY_USER_ACCOUNT.flows.FlowEnum;
+import cc.eamon.open.flow.example.remote.entity.Account;
+import cc.eamon.open.flow.example.remote.service.AccountService;
+import cc.eamon.open.flow.example.remote.service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -20,7 +21,6 @@ public class FlowEngineTest {
 
     @Test
     public void testFlowEngine(){
-
 
         // 调度流程
         Account account = (Account) FlowEngine.instance()

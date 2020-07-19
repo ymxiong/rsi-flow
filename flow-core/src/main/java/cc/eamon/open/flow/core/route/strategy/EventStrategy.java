@@ -1,12 +1,12 @@
 package cc.eamon.open.flow.core.route.strategy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
 
-public class EventStrategy implements Strategy {
+import java.util.ArrayList;
+import java.util.List;
+
+public class EventStrategy implements RouteStrategy {
 
 	@Override
 	public List<String> findWay(RouteConfig currentConfig) {
