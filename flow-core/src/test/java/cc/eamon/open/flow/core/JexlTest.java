@@ -13,10 +13,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 测试Jexl
  *
- * @author     : xsy
- * @description: 测试Jexl
- * @date       : 2020/7/10
+ * author     : xsy
  */
 public class JexlTest {
 
