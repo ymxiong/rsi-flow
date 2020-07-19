@@ -1,6 +1,6 @@
-package cc.eamon.open.flow.core;
+package cc.eamon.open.flow.core.route;
 
-import cc.eamon.open.flow.remote.entity.User;
+import cc.eamon.open.flow.example.remote.entity.User;
 import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;

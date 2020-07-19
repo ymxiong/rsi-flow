@@ -1,5 +1,5 @@
-package cc.eamon.open.flow.remote.service;
-import cc.eamon.open.flow.remote.entity.User;
+package cc.eamon.open.flow.example.remote.service;
+import cc.eamon.open.flow.example.remote.entity.User;
 
 /**
  * Author: eamon

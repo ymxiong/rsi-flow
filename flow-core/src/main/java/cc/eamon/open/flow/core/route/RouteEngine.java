@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.core.route;
 
 import cc.eamon.open.flow.core.route.enums.StrategyType;
-import cc.eamon.open.flow.core.route.pojo.RouteConfigPojo;
-import cc.eamon.open.flow.core.route.strategy.Strategy;
+import cc.eamon.open.flow.core.route.structure.RouteConfigPojo;
+import cc.eamon.open.flow.core.route.strategy.RouteStrategy;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class RouteEngine implements Route{
 		}
 		
 		//寻找对应策略
-		Strategy strategy = StrategyType.getStrategy(currentConfig.getType());
+		RouteStrategy strategy = StrategyType.getStrategy(currentConfig.getType());
 		
 		//获取下一节点的id和name，封装成Target
 		List<String> nextIds = strategy.findWay(currentConfig);

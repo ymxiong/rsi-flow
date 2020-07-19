@@ -11,9 +11,11 @@ import cc.eamon.open.flow.core.stereotype.support.scan.FlowScannerEnums;
 import java.util.*;
 
 /**
- * @author: lucas
- * @date: 2020/6/28
- * @email: lucas@eamon.cc
+ * 代码装配
+ * <p>
+ * author: lucas
+ * date: 2020/6/28
+ * email: lucas@eamon.cc
  */
 public class Dispose {
 
@@ -27,10 +29,10 @@ public class Dispose {
         // 1. 扫描所有flow配置
         // 2. 扫描所有flow代码
         // 3. 装配flow
-        String[] configFiles={Dispose.class.getClassLoader().getResource("").getPath()};
+        String[] configFiles = {Dispose.class.getClassLoader().getResource("").getPath()};
         loadConfig(configFiles);
 
-        String[] basePackages={"cc.eamon.open.flow.example"};
+        String[] basePackages = {"cc.eamon.open.flow.example"};
         loadFlow(basePackages);
         assemblyFlow();
     }
@@ -41,27 +43,28 @@ public class Dispose {
 
     /**
      * imp1.扫描所有flow配置
+     *
      * @param configFiles
      * @return
      */
-    public void loadConfig(String... configFiles){
-        for (FlowLoaderEnums value:FlowLoaderEnums.values()){
+    public void loadConfig(String... configFiles) {
+        for (FlowLoaderEnums value : FlowLoaderEnums.values()) {
             Set<FlowConfig> configs = value.getLoader().load(configFiles);
-            if (configs==null) continue;
-            for (FlowConfig config:configs){
+            if (configs == null) continue;
+            for (FlowConfig config : configs) {
                 flowConfigs.add(config);
             }
         }
     }
 
 
-
     /**
      * imp2. 扫描所有flow代码
+     *
      * @param basePackages
      * @return
      */
-    public void loadFlow(String... basePackages){
+    public void loadFlow(String... basePackages) {
         for (FlowScannerEnums value : FlowScannerEnums.values()) {
             // TODO: NEED OPTIMIZE @FlowScan
             // EXAMPLE: @ComponentScan @MapperScan
@@ -77,15 +80,15 @@ public class Dispose {
     /**
      * 根据配置装配flow, 装配过程放入flow holder
      */
-    public void assemblyFlow(){
+    public void assemblyFlow() {
         // TODO：对于不匹配的校验
         for (FlowConfig flowConfig : flowConfigs) {
             //List<FlowCode> flowCodes = new ArrayList<>();
-            Map<String, FlowCode> flowCodes=new HashMap<>();
+            Map<String, FlowCode> flowCodes = new HashMap<>();
             for (RouteConfig routeConfig : flowConfig.getRoutes()) {
                 if (flowCodeMap.get(routeConfig.getName()) != null) {
                     //flowCodes.add(flowCodeMap.get(routeConfig.getName()));
-                    flowCodes.put(routeConfig.getName(),flowCodeMap.get(routeConfig.getName()));
+                    flowCodes.put(routeConfig.getName(), flowCodeMap.get(routeConfig.getName()));
                 }
                 //TODO:子流程匹配装配
 
@@ -94,11 +97,6 @@ public class Dispose {
             flowHolders.put(flowHolder.getFlowName(), flowHolder);
         }
     }
-
-
-
-
-
 
 
 }

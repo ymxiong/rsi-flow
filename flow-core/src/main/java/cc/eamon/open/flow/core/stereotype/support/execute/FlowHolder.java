@@ -38,8 +38,6 @@ public class FlowHolder implements FlowExecutable,Source,Target{
         return flowCodes;
     }
 
-
-
 	// TODO: NEED OPTIMIZE THREAD RUN
 	@Override
 	public void execute() {
@@ -71,57 +69,6 @@ public class FlowHolder implements FlowExecutable,Source,Target{
 	public Route getRoute() {
 		return route;
 	}
-
-//	private void execute(Target target) {
-//		FlowCode flowCode = flowCodes.get(target.getName());
-//
-//		Method method = flowCode.getMethod();
-//		// 注入流程代码所需参数
-//		// 拿到参数名称以及类型
-//		Class<?>[] parameterClasses = method.getParameterTypes();
-//		DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
-//		String[] parameterNames = discover.getParameterNames(method);
-//
-//		// 注入参数
-//		assert parameterNames != null;
-//		int parameterNum = parameterNames.length;
-//		Object[] args = new Object[parameterNum];
-//
-//		for (int i = 0; i < parameterNum; i++) {
-//			if (!parameterClasses[i].equals(FlowContextHolder.get().getVariableTypeMap().get(parameterNames[i]))) {
-//				// TODO: 参数匹配
-//				System.out.println("参数不匹配");
-//			}
-//			args[i] = FlowContextHolder.get().getVariableMap().get(parameterNames[i]);
-//		}
-//
-//		flowCode.execute(args);
-//
-//		RouteConfig routeConfig = new RouteConfig();
-//		routeConfig.setId(target.getId());
-//		Source source = new RouteConfigPojo(routeConfig);
-//		List<Target> targets = route.route(source);
-//		execute(targets);
-//	}
-
-
-//	private void execute(List<Target> targets) {
-//		//没有目标了
-//		if(targets.isEmpty())
-//			return;
-//		if (targets.size()<=1){
-//			execute(targets.get(0));
-//		}else {
-//			//TODO:网关并行处理
-//			for (Target target : targets) {
-////				FlowThread flowThread=new FlowThread(target,FlowContextHolder.get());
-//				execute(target);
-//			}
-//		}
-//	}
-
-
-
 
 }
 
