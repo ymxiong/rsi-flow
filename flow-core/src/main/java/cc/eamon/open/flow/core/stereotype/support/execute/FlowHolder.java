@@ -16,7 +16,7 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2020-07-01 20:18:53
  */
-public class FlowHolder implements FlowExecutable,Source,Target{
+public class FlowHolder implements FlowExecutable{
 
     private FlowConfig flowConfig;
 
@@ -24,13 +24,11 @@ public class FlowHolder implements FlowExecutable,Source,Target{
 
 	private Route route;
 
-	private RouteModel routeModel;
 
     public FlowHolder(FlowConfig flowConfig, Map<String, FlowCode> flowCodes) {
         this.flowConfig = flowConfig;
         this.flowCodes = flowCodes;
-		routeModel = new RouteModel(flowConfig.getRoutes());
-		route = new RouteEngine(routeModel);
+		route = new RouteEngine(flowConfig.getRoutes());
     }
 
     public String getFlowName() {
@@ -45,7 +43,7 @@ public class FlowHolder implements FlowExecutable,Source,Target{
 	@Override
 	public void execute() {
 		//获取开始节点
-		Target start = routeModel.getStartNode();
+		Target start = route.getStartNode();
 		FlowNode startNode = new FlowNode(flowCodes.get(start.getName()),
 				start.getId(),this);
 		//执行
@@ -66,15 +64,6 @@ public class FlowHolder implements FlowExecutable,Source,Target{
 	}
 
 
-	@Override
-	public String getId() {
-		return null;
-	}
-
-	@Override
-	public String getName() {
-		return flowConfig.getName();
-	}
 
 	public Route getRoute() {
 		return route;
