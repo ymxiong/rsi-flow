@@ -12,19 +12,20 @@ public class FlowContextHolder {
      */
     private static ThreadLocal<FlowContext> local = ThreadLocal.withInitial(FlowContext::new);
 
-    public FlowContextHolder() {}
+    public FlowContextHolder() {
+    }
 
-    public static FlowContext get(){
+    public static FlowContext get() {
         return local.get();
     }
 
-    public static void init(){
-        if (local.get() == null){
+    public static void init() {
+        if (local.get() == null) {
             local.set(new FlowContext());
         }
     }
 
-    public static void clear(){
+    public static void clear() {
         local.remove();
     }
 

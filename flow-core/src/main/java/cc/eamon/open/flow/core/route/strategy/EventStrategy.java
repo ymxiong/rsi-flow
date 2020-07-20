@@ -6,7 +6,7 @@ import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EventStrategy implements Strategy {
+public class EventStrategy implements RouteStrategy {
 
 	@Override
 	public List<String> findWay(RouteConfig currentConfig) {

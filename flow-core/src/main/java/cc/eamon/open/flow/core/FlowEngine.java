@@ -44,22 +44,22 @@ public class FlowEngine {
 
     public FlowEngine run(String flowName) {
         FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
-        FlowThread flowThread=new FlowThread(flowHolder,FlowContextHolder.get());
+        FlowThread flowThread = new FlowThread(flowHolder, FlowContextHolder.get());
 //        FutureTask<Object> futureTask = new FutureTask<Object>(flowThread);
         FutureTask<FlowContext> futureTask = new FutureTask<FlowContext>(flowThread);
-        Future future= FlowThreadPool.pool.submit(futureTask);
-        FlowContext flowContext=null;
-        boolean flag=true;
-        while(flag){
-            if (future.isDone()){
+        Future future = FlowThreadPool.pool.submit(futureTask);
+        FlowContext flowContext = null;
+        boolean flag = true;
+        while (flag) {
+            if (future.isDone()) {
                 try {
-                    flowContext=(FlowContext) future.get();
+                    flowContext = (FlowContext) future.get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
-                flag=false;
+                flag = false;
             }
         }
 //        flowHolder.execute();
@@ -69,6 +69,7 @@ public class FlowEngine {
 
     /**
      * 注入参数
+     *
      * @param paramName
      * @param paramValue
      * @return
@@ -82,6 +83,7 @@ public class FlowEngine {
 
     /**
      * 注销参数
+     *
      * @param paramNames
      * @return
      */
@@ -99,6 +101,7 @@ public class FlowEngine {
 
     /**
      * 获取参数
+     *
      * @param paramName
      * @return
      */

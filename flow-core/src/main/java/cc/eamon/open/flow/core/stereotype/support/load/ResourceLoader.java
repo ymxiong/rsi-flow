@@ -10,9 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author: lucas
- * @date: 2020/7/5
- * @email: lucas@eamon.cc
+ * author: lucas
+ * date: 2020/7/5
+ * email: lucas@eamon.cc
  */
 public class ResourceLoader implements FlowLoader {
     @Override

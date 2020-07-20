@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.example;
+package cc.eamon.open.flow.example.FLOW_QUERY_USER_ACCOUNT.flows;
 
 /**
  * Author: eamon

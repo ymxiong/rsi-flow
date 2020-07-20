@@ -23,11 +23,11 @@ public class FlowContext {
     /**
      * 当前线程参数列表
      */
-    private Map<String,Object> variableMap = new HashMap<>();
+    private Map<String, Object> variableMap = new HashMap<>();
     /**
      * 当前线程参数类型
      */
-    private Map<String,Class> variableTypeMap = new HashMap<>();
+    private Map<String, Class> variableTypeMap = new HashMap<>();
 
     public FlowEngine getFlowEngine() {
         return flowEngine;
