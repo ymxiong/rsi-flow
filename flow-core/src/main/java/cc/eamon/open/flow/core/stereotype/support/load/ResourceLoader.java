@@ -17,9 +17,9 @@ import java.util.Set;
 public class ResourceLoader implements FlowLoader {
     @Override
     public Set<FlowConfig> load(String... configFiles) {
-        Set<FlowConfig> flowConfigs=new HashSet<>();
-        for (String configFile:configFiles) {
-            if (configFiles != null) {
+        Set<FlowConfig> flowConfigs = new HashSet<>();
+        if (configFiles != null) {
+            for (String configFile : configFiles) {
                 for (File file : FileTools.readFiles(configFile)) {
                     if (file.getName().startsWith("flow")) {
                         String flowConfigJson = FileTools.loadFile(file);

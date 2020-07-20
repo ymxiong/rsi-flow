@@ -18,7 +18,7 @@ public class FlowThread implements Callable<FlowContext> {
     private FlowContext parentContext;
 
 
-    public FlowThread(FlowExecutable flowExecutable,FlowContext parentContext) {
+    public FlowThread(FlowExecutable flowExecutable, FlowContext parentContext) {
         this.flowExecutable = flowExecutable;
         this.parentContext = parentContext;
     }
@@ -29,12 +29,12 @@ public class FlowThread implements Callable<FlowContext> {
         //因为线程池是复用线程，所以要先清空一次
         FlowContextHolder.clear();
         FlowContextHolder.init();
-        if (parentContext!=null) {
+        if (parentContext != null) {
             FlowContextHolder.get().getVariableMap().putAll(parentContext.getVariableMap());
             FlowContextHolder.get().getVariableTypeMap().putAll(parentContext.getVariableTypeMap());
         }
         flowExecutable.execute();
-        if(parentContext!=null) {
+        if (parentContext != null) {
             parentContext.getVariableMap().putAll(FlowContextHolder.get().getVariableMap());
             parentContext.getVariableTypeMap().putAll(FlowContextHolder.get().getVariableTypeMap());
         }

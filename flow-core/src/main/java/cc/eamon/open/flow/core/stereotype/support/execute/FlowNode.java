@@ -15,7 +15,7 @@ import java.util.List;
  * @date: 2020/7/12
  * @email: lucas@eamon.cc
  */
-public class FlowNode implements FlowExecutable,Source,Target{
+public class FlowNode implements FlowExecutable, Source, Target {
 
     private FlowCode flowCode;
 
@@ -60,27 +60,27 @@ public class FlowNode implements FlowExecutable,Source,Target{
     private void executeNext() {
         List<Target> targets = flowHolder.getRoute().route(this);
         //没有目标了
-        if(targets.isEmpty())
+        if (targets.isEmpty())
             return;
-        if (targets.size()<=1){
+        if (targets.size() <= 1) {
             executeNext(targets.get(0));
-        }else {
+        } else {
             executeNext(targets);
         }
     }
 
     //线性顺序执行
-    private void executeNext(Target target){
-        FlowNode nextNode=new FlowNode(flowHolder.getFlowCodes().get(target.getName()),
-                target.getId(),flowHolder);
+    private void executeNext(Target target) {
+        FlowNode nextNode = new FlowNode(flowHolder.getFlowCodes().get(target.getName()),
+                target.getId(), flowHolder);
         nextNode.execute();
     }
 
     //TODO:网关并行运行
-    private void executeNext(List<Target> targets){
+    private void executeNext(List<Target> targets) {
         for (Target target : targets) {
-            FlowNode nextNode=new FlowNode(flowHolder.getFlowCodes().get(target.getName()),
-                    target.getId(),flowHolder);
+            FlowNode nextNode = new FlowNode(flowHolder.getFlowCodes().get(target.getName()),
+                    target.getId(), flowHolder);
             nextNode.execute();
         }
     }
