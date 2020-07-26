@@ -95,4 +95,9 @@ public class FlowNode implements FlowExecutable,Source,Target{
     public String getName() {
         return flowCode.getFlowName();
     }
+
+    @Override
+    public String getType() {
+        return null;
+    }
 }

@@ -15,4 +15,8 @@ public interface Target {
 	 * get current route name
 	 */
 	String getName();
+	/*
+	 * get the target type
+	 */
+	String getType();
 }
