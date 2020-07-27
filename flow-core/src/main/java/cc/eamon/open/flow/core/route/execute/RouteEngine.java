@@ -37,7 +37,9 @@ public class RouteEngine implements Route {
 		List<String> nextIds = strategy.findWay(routeElement);
 		if(nextIds != null) {
 			for (String nextId : nextIds) {
-				targets.add(routeModel.getElementById(nextId));
+				RouteElement targetElement = routeModel.getElementById(nextId);
+				ProcessTarget(targetElement);
+				targets.add(targetElement);
 			}
 		}
 		return targets;
@@ -54,5 +56,13 @@ public class RouteEngine implements Route {
 		return routeModel.getStartNode();
 	}
 
-
+	private void ProcessTarget(RouteElement routeElement){
+		if(routeElement.getType().equals("parallelGateway") ||
+				routeElement.getType().equals("exclusiveGateway")){
+			if(routeElement.getTargetConfigs().size()==1){
+				//聚合网关，返回null
+				routeElement = null;
+			}
+		}
+	}
 }
