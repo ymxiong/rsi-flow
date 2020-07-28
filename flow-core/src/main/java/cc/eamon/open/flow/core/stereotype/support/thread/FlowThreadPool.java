@@ -4,9 +4,9 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * @author: lucas
- * @date: 2020/7/5
- * @email: lucas@eamon.cc
+ * Author: lucas
+ * Email: lucas@eamon.cc
+ * Date: 2020/7/5
  */
 public class FlowThreadPool {
 

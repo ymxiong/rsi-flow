@@ -13,20 +13,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 测试Jexl
  *
- * @author     : xsy
- * @description: 测试Jexl
- * @date       : 2020/7/10
+ * author     : xsy
  */
 public class JexlTest {
-
-    private JexlEngine jexl;
 
     private Map<String, Object> env;
 
     @Before
     public void before(){
-        jexl = new JexlEngine();
         env = new HashMap<>();
         env.put("id","123456");
         env.put("user",new User());

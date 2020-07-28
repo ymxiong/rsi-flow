@@ -37,21 +37,49 @@ public class FlowContext {
         this.flowEngine = flowEngine;
     }
 
-    public Map<String, Object> getVariableMap() {
+    protected Map<String, Object> getVariableMap() {
         return variableMap;
     }
 
-    public void setVariableMap(Map<String, Object> variableMap) {
-        this.variableMap = variableMap;
-    }
-
-    public Map<String, Class> getVariableTypeMap() {
+    protected Map<String, Class> getVariableTypeMap() {
 
         return variableTypeMap;
     }
 
-    public void setVariableTypeMap(Map<String, Class> variableTypeMap) {
-        this.variableTypeMap = variableTypeMap;
+    public Object retrieveVariable(String variableName) {
+        return variableMap.get(variableName);
+    }
+
+    public Class retrieveVariableType(String variableName) {
+        return variableTypeMap.get(variableName);
+    }
+
+    public void registerVariable(String variableName, Object variableValue, Class variableType) {
+        variableMap.put(variableName, variableValue);
+        variableTypeMap.put(variableName, variableType);
+    }
+
+    public void registerVariableList(Map<String, Object> variableMap, Map<String, Class> variableTypeMap) {
+        this.variableMap.putAll(variableMap);
+        this.variableTypeMap.putAll(variableTypeMap);
+    }
+
+    public void registerChildVariable(FlowContextExtractor childContext) {
+        //注入参数到上下文中
+        if (childContext != null)
+            FlowContextHolder.get().registerVariableList(childContext.getVariableMap(), childContext.getVariableTypeMap());
+
+    }
+
+    //TODO:测试
+    public void releaseVariable(String... variableNames) {
+        if (variableNames != null) {
+            for (String variableName : variableNames) {
+                variableMap.remove(variableName);
+                variableTypeMap.remove(variableName);
+            }
+        }
+
     }
 
 

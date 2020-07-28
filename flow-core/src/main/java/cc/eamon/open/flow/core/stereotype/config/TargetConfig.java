@@ -1,9 +1,9 @@
 package cc.eamon.open.flow.core.stereotype.config;
 
 /**
- * @author: lucas
- * @date: 2020/7/5
- * @email: lucas@eamon.cc
+ * Author: lucas
+ * Date: 2020/7/5
+ * Email: lucas@eamon.cc
  */
 public class TargetConfig {
     //到目标节点的条件

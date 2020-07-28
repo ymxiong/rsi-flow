@@ -1,15 +1,8 @@
 package cc.eamon.open.flow.core;
 
-import cc.eamon.open.flow.core.context.Dispose;
-import cc.eamon.open.flow.core.context.FlowContext;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
-import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
-import cc.eamon.open.flow.core.stereotype.support.thread.FlowThreadPool;
-
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
 
 
 /**
@@ -19,7 +12,7 @@ import java.util.concurrent.FutureTask;
  */
 public class FlowEngine {
 
-    private Dispose dispose = new Dispose();
+    private FlowDispose flowDispose = new FlowDispose();
 
     public static FlowEngine instance() {
         // 保障同一线程仅有单一执行的流程引擎
@@ -36,33 +29,31 @@ public class FlowEngine {
     private FlowEngine() {
     }
 
-//    public FlowEngine run(String flowName) {
-//        FlowThreadPool.init();
-//        run(flowName,null);
-//        return this;
-//    }
 
     public FlowEngine run(String flowName) {
-        FlowHolder flowHolder = dispose.getFlowHolders().get(flowName);
-        FlowThread flowThread = new FlowThread(flowHolder, FlowContextHolder.get());
-//        FutureTask<Object> futureTask = new FutureTask<Object>(flowThread);
-        FutureTask<FlowContext> futureTask = new FutureTask<FlowContext>(flowThread);
-        Future future = FlowThreadPool.pool.submit(futureTask);
-        FlowContext flowContext = null;
-        boolean flag = true;
-        while (flag) {
-            if (future.isDone()) {
-                try {
-                    flowContext = (FlowContext) future.get();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-                flag = false;
-            }
-        }
-//        flowHolder.execute();
+        FlowHolder flowHolder = flowDispose.getFlowHolders().get(flowName);
+        flowHolder.execute();
+//        //TODO:多线程好像不应该放在这里，此处入口
+//        FlowContextExtractor flowContextExtractor = new FlowContextExtractor();
+//        FlowThread flowThread = new FlowThread(flowHolder, flowContextExtractor);
+//        FutureTask<FlowContextExtractor> futureTask = new FutureTask<FlowContextExtractor>(flowThread);
+//        Future future = FlowThreadPool.pool.submit(futureTask);
+//        FlowContextExtractor childContext = null;
+//        boolean flag = true;
+//        while (flag) {
+//            if (future.isDone()) {
+//                try {
+//                    childContext = (FlowContextExtractor) future.get();
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//                flag = false;
+//            }
+//        }
+//        //注入需要的参数到当前线程
+//        registerChildVariable(childContext);
         return this;
     }
 
@@ -76,8 +67,7 @@ public class FlowEngine {
      */
     public FlowEngine register(String paramName, Object paramValue) {
         //注入参数到上下文中
-        FlowContextHolder.get().getVariableMap().put(paramName, paramValue);
-        FlowContextHolder.get().getVariableTypeMap().put(paramName, paramValue.getClass());
+        FlowContextHolder.get().registerVariable(paramName, paramValue, paramValue.getClass());
         return this;
     }
 
@@ -88,8 +78,7 @@ public class FlowEngine {
      * @return
      */
     public FlowEngine release(String... paramNames) {
-        FlowContextHolder.get().getVariableMap().remove(paramNames);
-        FlowContextHolder.get().getVariableTypeMap().remove(paramNames);
+        FlowContextHolder.get().releaseVariable(paramNames);
         return this;
     }
 
@@ -106,7 +95,7 @@ public class FlowEngine {
      * @return
      */
     public Object retrieve(String paramName) {
-        return FlowContextHolder.get().getVariableMap().get(paramName);
+        return FlowContextHolder.get().retrieveVariable(paramName);
     }
 
 

@@ -11,13 +11,13 @@ import cc.eamon.open.flow.core.stereotype.support.scan.FlowScannerEnums;
 import java.util.*;
 
 /**
- * 代码装配
+ * 配置、代码装配
  * <p>
- * author: lucas
- * date: 2020/6/28
- * email: lucas@eamon.cc
+ * Author: lucas
+ * Date: 2020/6/28
+ * Email: lucas@eamon.cc
  */
-public class Dispose {
+public class FlowDispose {
 
     private Map<String, FlowHolder> flowHolders = new LinkedHashMap<>();
 
@@ -25,11 +25,11 @@ public class Dispose {
 
     private Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
 
-    public Dispose() {
+    public FlowDispose() {
         // 1. 扫描所有flow配置
         // 2. 扫描所有flow代码
         // 3. 装配flow
-        String[] configFiles = {Dispose.class.getClassLoader().getResource("").getPath()};
+        String[] configFiles = {FlowDispose.class.getClassLoader().getResource("").getPath()};
         loadConfig(configFiles);
 
         String[] basePackages = {"cc.eamon.open.flow.example"};

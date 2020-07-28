@@ -76,15 +76,16 @@ public class SimpleFlowCode implements FlowCode {
             e.printStackTrace();
         }
 
-        //存储流程代码运行结果
+
         //获取返回参数名
         String returnName = flowAnnotation.retrieve();
         //获取返回参数类型
         Class returnType = flowMethod.getReturnType();
 
-        //TODO:返回类型匹配校验
-        FlowContextHolder.get().getVariableTypeMap().put(returnName, returnType);
-        FlowContextHolder.get().getVariableMap().put(returnName, returnValue);
+        //TODO:返回类型匹配校验???
+        //存储流程代码运行结果
+        FlowContextHolder.get().registerVariable(returnName, returnValue, returnType);
+
     }
 
     @Override

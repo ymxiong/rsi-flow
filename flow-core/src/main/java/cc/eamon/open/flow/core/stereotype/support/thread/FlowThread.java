@@ -1,44 +1,51 @@
 package cc.eamon.open.flow.core.stereotype.support.thread;
 
-import cc.eamon.open.flow.core.context.FlowContext;
+import cc.eamon.open.flow.core.context.FlowContextExtractor;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 
 import java.util.concurrent.Callable;
+import java.util.concurrent.CountDownLatch;
 
 /**
- * @author: lucas
- * @date: 2020/7/5
- * @email: lucas@eamon.cc
+ * Author: lucas
+ * Email: lucas@eamon.cc
+ * Date: 2020/7/5
  */
-public class FlowThread implements Callable<FlowContext> {
+public class FlowThread implements Callable<FlowContextExtractor> {
 
     private FlowExecutable flowExecutable;
 
-    private FlowContext parentContext;
+    private volatile CountDownLatch countDownLatch;
+
+    private FlowContextExtractor parentContextExtractor;
 
 
-    public FlowThread(FlowExecutable flowExecutable, FlowContext parentContext) {
+    public FlowThread(FlowExecutable flowExecutable, FlowContextExtractor parentContextExtractor,CountDownLatch countDownLatch) {
         this.flowExecutable = flowExecutable;
-        this.parentContext = parentContext;
+        this.parentContextExtractor = parentContextExtractor;
+        this.countDownLatch=countDownLatch;
     }
 
 
     @Override
-    public FlowContext call() throws Exception {
+    public FlowContextExtractor call() throws Exception {
         //因为线程池是复用线程，所以要先清空一次
         FlowContextHolder.clear();
         FlowContextHolder.init();
-        if (parentContext != null) {
-            FlowContextHolder.get().getVariableMap().putAll(parentContext.getVariableMap());
-            FlowContextHolder.get().getVariableTypeMap().putAll(parentContext.getVariableTypeMap());
+        if (parentContextExtractor != null) {
+            //TODO:优化从父线程拿参数
+            FlowContextHolder.get().registerVariableList(parentContextExtractor.getVariableMap(),parentContextExtractor.getVariableTypeMap());
         }
         flowExecutable.execute();
-        if (parentContext != null) {
-            parentContext.getVariableMap().putAll(FlowContextHolder.get().getVariableMap());
-            parentContext.getVariableTypeMap().putAll(FlowContextHolder.get().getVariableTypeMap());
+        FlowContextExtractor flowContextExtractor=null;
+        if (parentContextExtractor != null) {
+            //TODO:优化注入参数到父线程中
+            flowContextExtractor=new FlowContextExtractor();
         }
-        return FlowContextHolder.get();
+        //
+        countDownLatch.countDown();
+        return flowContextExtractor;
     }
 
 
