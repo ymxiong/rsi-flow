@@ -20,7 +20,6 @@ public class FlowThread implements Callable<FlowContextExtractor> {
 
     private FlowContextExtractor parentContextExtractor;
 
-
     public FlowThread(FlowExecutable flowExecutable, FlowContextExtractor parentContextExtractor,CountDownLatch countDownLatch) {
         this.flowExecutable = flowExecutable;
         this.parentContextExtractor = parentContextExtractor;
@@ -38,6 +37,7 @@ public class FlowThread implements Callable<FlowContextExtractor> {
             FlowContextHolder.get().registerVariableList(parentContextExtractor.getVariableMap(),parentContextExtractor.getVariableTypeMap());
         }
         flowExecutable.execute();
+        //TODO:执行完后需要把最后一个节点注入到一个List中供给后续路由
         FlowContextExtractor flowContextExtractor=null;
         if (parentContextExtractor != null) {
             //TODO:优化注入参数到父线程中

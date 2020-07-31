@@ -1,26 +1,38 @@
 {
   "name": "FLOW_QUERY_USER_ACCOUNT",
-  "routes":[
+  "type": "flow",
+  "id": "0",
+  "routes": [
     {
       "id": "1",
-      "type":"start",
-      "name":"FLOW_QUERY_USER",
-      "targets":[{"condition":"true","target":"2" }],
-      "default":""
+      "type": "start",
+      "name": "FLOW_QUERY_USER",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "2"
+        }
+      ],
+      "default": ""
     },
     {
       "id": "2",
-      "type":"event",
-      "name":"FLOW_QUERY_ACCOUNT_1",
-      "targets":[{"condition":"true","target":"3" }],
-      "default":""
+      "type": "event",
+      "name": "FLOW_QUERY_ACCOUNT_1",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "3"
+        }
+      ],
+      "default": ""
     },
     {
       "id": "3",
-      "type":"end",
-      "name":"FLOW_QUERY_ACCOUNT_2",
-      "targets":[],
-      "default":""
+      "type": "end",
+      "name": "FLOW_QUERY_ACCOUNT_2",
+      "targets": [],
+      "default": ""
     }
   ]
 }

@@ -1,9 +1,6 @@
-package cc.eamon.open.flow.core.route.strategy.enums;
+package cc.eamon.open.flow.core.route.execute.strategy.enums;
 
-import cc.eamon.open.flow.core.route.strategy.RouteStrategy;
-import cc.eamon.open.flow.core.route.strategy.EndEventStrategy;
-import cc.eamon.open.flow.core.route.strategy.EventStrategy;
-import cc.eamon.open.flow.core.route.strategy.GateWayStrategy;
+import cc.eamon.open.flow.core.route.execute.strategy.*;
 
 /**
  * 路由策略枚举
@@ -15,7 +12,8 @@ public enum StrategyType {
     START_EVENT("start", new EventStrategy()),
     EVENT("event", new EventStrategy()),//事件策略
     END_EVENT("end", new EndEventStrategy()),//结束策略
-    GATEWAY("gateway", new GateWayStrategy());//网关策略
+    GATEWAY("gateway", new GateWayStrategy()),//网关策略
+    FLOW("flow",new FlowStrategy());//流程策略
 
     private String type;
     private RouteStrategy strategy;

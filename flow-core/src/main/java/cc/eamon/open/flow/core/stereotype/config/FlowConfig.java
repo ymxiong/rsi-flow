@@ -11,6 +11,10 @@ public class FlowConfig {
 
     private String name;
 
+    private String type;
+
+    private String id;
+
     private List<RouteConfig> routes;
 
     public String getName() {
@@ -27,5 +31,21 @@ public class FlowConfig {
 
     public void setRoutes(List<RouteConfig> routes) {
         this.routes = routes;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

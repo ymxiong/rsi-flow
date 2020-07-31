@@ -16,5 +16,7 @@ public interface Route {
 
     List<Target> route(List<Source> sources);
 
+    Target getStartNode();
+
 
 }

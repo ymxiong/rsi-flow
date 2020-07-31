@@ -18,13 +18,6 @@
             <scope>test</scope>
         </dependency>
 
-<!--        google 表达式引擎 aviator-->
-        <dependency>
-            <groupId>com.googlecode.aviator</groupId>
-            <artifactId>aviator</artifactId>
-            <version>4.2.9</version>
-        </dependency>
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>

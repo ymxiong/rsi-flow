@@ -19,11 +19,11 @@ import java.util.*;
  */
 public class FlowDispose {
 
-    private Map<String, FlowHolder> flowHolders = new LinkedHashMap<>();
+    private static Map<String, FlowHolder> flowHolders = new LinkedHashMap<>();
 
-    private List<FlowConfig> flowConfigs = new ArrayList<>();
+    private static List<FlowConfig> flowConfigs = new ArrayList<>();
 
-    private Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
+    private static Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
 
     public FlowDispose() {
         // 1. 扫描所有flow配置
@@ -93,9 +93,15 @@ public class FlowDispose {
                 //TODO:子流程匹配装配
 
             }
-            FlowHolder flowHolder = new FlowHolder(flowConfig, flowCodes);
-            flowHolders.put(flowHolder.getFlowName(), flowHolder);
+            FlowHolder flowHolder=new FlowHolder(flowConfig.getType(),flowConfig.getName(),flowConfig.getId(),null,flowConfig, flowCodes);
+//            FlowHolder flowHolder = new FlowHolder(flowConfig, flowCodes);
+            flowHolders.put(flowHolder.getName(), flowHolder);
         }
+    }
+
+
+    public static FlowHolder getFlowHolderByName(String name){
+        return flowHolders.get(name);
     }
 
 

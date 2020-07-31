@@ -28,6 +28,7 @@ public class RouteElement implements Source, Target {
         return routeConfig.getName();
     }
 
+    @Override
     public String getType(){
         return routeConfig.getType();
     }

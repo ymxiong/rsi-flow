@@ -1,12 +1,13 @@
 package cc.eamon.open.flow.core.route.execute;
 
 import cc.eamon.open.flow.core.route.Route;
-import cc.eamon.open.flow.core.route.strategy.RouteStrategy;
-import cc.eamon.open.flow.core.route.strategy.enums.StrategyType;
+import cc.eamon.open.flow.core.route.execute.strategy.RouteStrategy;
+import cc.eamon.open.flow.core.route.execute.strategy.enums.StrategyType;
 import cc.eamon.open.flow.core.route.structure.RouteModel;
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.route.structure.element.Target;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +20,8 @@ public class RouteEngine implements Route {
 	private RouteModel routeModel;
 
 
-	public RouteEngine(RouteModel routeModel) {
-		this.routeModel = routeModel;
+	public RouteEngine(List<RouteConfig> routeConfigs) {
+		routeModel = new RouteModel(routeConfigs);
 	}
 
 	@Override
@@ -36,7 +37,9 @@ public class RouteEngine implements Route {
 		List<String> nextIds = strategy.findWay(routeElement);
 		if(nextIds != null) {
 			for (String nextId : nextIds) {
-				targets.add(routeModel.getElementById(nextId));
+				RouteElement targetElement = routeModel.getElementById(nextId);
+				ProcessTarget(targetElement);
+				targets.add(targetElement);
 			}
 		}
 		return targets;
@@ -48,7 +51,18 @@ public class RouteEngine implements Route {
 		return null;
 	}
 
-	
+	@Override
+	public Target getStartNode() {
+		return routeModel.getStartNode();
+	}
 
-
+	private void ProcessTarget(RouteElement routeElement){
+		if(routeElement.getType().equals("parallelGateway") ||
+				routeElement.getType().equals("exclusiveGateway")){
+			if(routeElement.getTargetConfigs().size()==1){
+				//聚合网关，返回null
+				routeElement = null;
+			}
+		}
+	}
 }

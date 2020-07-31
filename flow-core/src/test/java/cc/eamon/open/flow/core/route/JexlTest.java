@@ -9,7 +9,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +28,13 @@ public class JexlTest {
         env = new HashMap<>();
         env.put("id","123456");
         env.put("user",new User());
+        env.put("String",String.class);
+
+        List<OrderItem> orderItems = Arrays.asList(
+                new OrderItem("apple",10),
+                new OrderItem("banana",10.5),
+                new OrderItem("milk",8));
+        env.put("order", new Order(orderItems));
     }
 
     //动态加载方法
@@ -42,11 +51,69 @@ public class JexlTest {
         return e.evaluate(jc);
     }
 
+    //测试简单的表达式
+    @Test
+    public void TestSimpleExpression(){
+        String expression = "id.equals('123456') && user!=null";
+        boolean res = (boolean) invokeMethod(expression,env);
+        Assert.assertTrue(res);
+    }
 
+
+    //测试调用对象内的方法
     @Test
     public void TestFunctionMethod(){
         String expression="user.getId().equals(id)";
         boolean res = (boolean) invokeMethod(expression,env);
         Assert.assertTrue(res);
+    }
+
+    //测试调用静态方法（需要注入静态类）
+    @Test
+    public void TestStaticFunction(){
+        String expression = "String.valueOf(123)";
+        String res = (String) invokeMethod(expression,env);
+        Assert.assertEquals("123",res);
+    }
+
+    //测试嵌套调用【嵌套调用不成功】
+//    @Test
+//    public void testNestFunction(){
+//        String expression = "(order.getOrderItems().size())==3";
+//        boolean res = (boolean) invokeMethod(expression,env);
+//        Assert.assertTrue(res);
+//    }
+
+}
+
+//订单
+class Order{
+    List<OrderItem> orderItems;
+
+    public Order(List<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
+
+    public List<OrderItem> getOrderItems() {
+        return orderItems;
+    }
+}
+
+//订单项
+class OrderItem{
+    String itemName;
+    double price;
+
+    public OrderItem(String itemName, double price) {
+        this.itemName = itemName;
+        this.price = price;
+    }
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public double getPrice() {
+        return price;
     }
 }
