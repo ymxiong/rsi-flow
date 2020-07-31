@@ -20,4 +20,12 @@ public class UserService {
         user.setAge(newAge);
         return user;
     }
+
+    public String getUserById(String id) {
+        if (id.equals("123456")){
+            return "小朱";
+        }else {
+            return null;
+        }
+    }
 }

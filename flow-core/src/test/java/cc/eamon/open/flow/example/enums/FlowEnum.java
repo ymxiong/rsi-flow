@@ -37,4 +37,13 @@ public class FlowEnum {
 
     public final static String FLOW_UPDATE_USER_AGE = "FLOW_UPDATE_USER_AGE";
 
+
+    public final static String FLOW_QUERY_BALANCE_BY_ID = "FLOW_QUERY_BALANCE_BY_ID";
+
+    public final static String FLOW_QUERY_NAME_BY_ID = "FLOW_QUERY_NAME_BY_ID";
+
+    public final static String FLOW_POLLUTE_NAME = "FLOW_POLLUTE_NAME";
+
+    public final static String FLOW_POLLUTE_NAME_QUERY = "FLOW_POLLUTE_NAME_QUERY";
+
 }

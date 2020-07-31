@@ -1,0 +1,54 @@
+{
+  "name": "FLOW_QUERY_BALANCE_BY_ID",
+  "type": "flow",
+  "id": "FLOW_49",
+  "routes": [
+    {
+      "id": "ROUTE_1",
+      "type": "start",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_2"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_2",
+      "type": "event",
+      "name": "FLOW_QUERY_NAME_BY_ID",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "FLOW_41"
+        }
+      ]
+    },
+    {
+      "id": "FLOW_41",
+      "type": "flow",
+      "name": "FLOW_POLLUTE_NAME_QUERY",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_3"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_3",
+      "type": "event",
+      "name": "FLOW_QUERY_BALANCE",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_4"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_4",
+      "type": "end"
+    }
+  ]
+}
