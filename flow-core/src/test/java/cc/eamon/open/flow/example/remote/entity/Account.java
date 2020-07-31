@@ -11,6 +11,8 @@ public class Account {
 
     private String userId = "123456";
 
+    private String role = "manager";
+
     public String getId() {
         return id;
     }
@@ -25,5 +27,13 @@ public class Account {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

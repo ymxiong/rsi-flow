@@ -12,4 +12,7 @@ public class AccountService {
         return new Account();
     }
 
+    public int getBalance(){
+        return 12345;
+    }
 }

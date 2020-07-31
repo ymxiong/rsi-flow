@@ -1,38 +1,54 @@
 {
   "name": "FLOW_QUERY_USER_ACCOUNT",
   "type": "flow",
-  "id": "0",
+  "id": "FLOW_0",
   "routes": [
     {
-      "id": "1",
+      "id": "ROUTE_1",
       "type": "start",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_2"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_2",
+      "type": "event",
       "name": "FLOW_QUERY_USER",
       "targets": [
         {
           "condition": "true",
-          "target": "2"
+          "target": "ROUTE_3"
         }
-      ],
-      "default": ""
+      ]
     },
     {
-      "id": "2",
+      "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_QUERY_ACCOUNT_1",
       "targets": [
         {
           "condition": "true",
-          "target": "3"
+          "target": "ROUTE_4"
         }
-      ],
-      "default": ""
+      ]
     },
     {
-      "id": "3",
-      "type": "end",
+      "id": "ROUTE_4",
+      "type": "event",
       "name": "FLOW_QUERY_ACCOUNT_2",
-      "targets": [],
-      "default": ""
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_5"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_5",
+      "type": "end"
     }
   ]
 }

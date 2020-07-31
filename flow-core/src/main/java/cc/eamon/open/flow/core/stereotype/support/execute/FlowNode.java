@@ -27,6 +27,12 @@ public class FlowNode extends BasicExecutable {
     //TODO:执行该节点，然后路由执行后续节点
     @Override
     public void execute() {
+        if(type.equals("start")) {
+            executeNext((Source)this);
+            return;
+        }else if (type.equals("end")){
+            return;
+        }
         Method method = flowCode.getMethod();
         // 注入流程代码所需参数
         // 拿到参数名称以及类型

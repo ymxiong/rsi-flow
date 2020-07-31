@@ -11,6 +11,8 @@ public class User {
 
     private String name = "小朱";
 
+    private int age = 22;
+
     public String getId() {
         return id;
     }
@@ -25,5 +27,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 }

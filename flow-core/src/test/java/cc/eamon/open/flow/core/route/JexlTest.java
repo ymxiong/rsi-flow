@@ -77,12 +77,12 @@ public class JexlTest {
     }
 
     //测试嵌套调用【嵌套调用不成功】
-//    @Test
-//    public void testNestFunction(){
-//        String expression = "(order.getOrderItems().size())==3";
-//        boolean res = (boolean) invokeMethod(expression,env);
-//        Assert.assertTrue(res);
-//    }
+    @Test
+    public void testNestFunction(){
+        String expression = "(order.getOrderItems().size())==3";
+        boolean res = (boolean) invokeMethod(expression,env);
+        Assert.assertTrue(res);
+    }
 
 }
 

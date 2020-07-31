@@ -15,4 +15,19 @@ public class FlowEnum {
 
     public final static String FLOW_QUERY_ACCOUNT_2 = "FLOW_QUERY_ACCOUNT_2";
 
+
+
+    public final static String FLOW_QUERY_USER_BALANCE = "FLOW_QUERY_USER_BALANCE";
+
+    public final static String FLOW_QUERY_BALANCE = "FLOW_QUERY_BALANCE";
+
+
+
+
+    public final static String FLOW_UPDATE_USER_ACCOUNT = "FLOW_UPDATE_USER_ACCOUNT";
+
+    public final static String FLOW_UPDATE_JUDGE_ACCESS = "FLOW_UPDATE_JUDGE_ACCESS";
+
+    public final static String FLOW_UPDATE_USER_ACCOUNT_AGE = "FLOW_UPDATE_USER_ACCOUNT_NAME";
+
 }
