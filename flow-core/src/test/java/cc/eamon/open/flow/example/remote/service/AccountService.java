@@ -15,4 +15,8 @@ public class AccountService {
     public int getBalance(){
         return 12345;
     }
+
+    public String getRole(Account account){
+        return account.getRole();
+    }
 }

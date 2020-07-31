@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.example.FLOW_QUERY_USER_ACCOUNT.flows;
+package cc.eamon.open.flow.example.enums;
 
 /**
  * Author: eamon
@@ -23,11 +23,18 @@ public class FlowEnum {
 
 
 
+    public final static String FLOW_STANDARD_QUERY_USER_BALANCE = "FLOW_STANDARD_QUERY_USER_BALANCE";
 
-    public final static String FLOW_UPDATE_USER_ACCOUNT = "FLOW_UPDATE_USER_ACCOUNT";
+    public final static String FLOW_STANDARD_NAME_QUERY = "FLOW_STANDARD_NAME_QUERY";
 
-    public final static String FLOW_UPDATE_JUDGE_ACCESS = "FLOW_UPDATE_JUDGE_ACCESS";
+    public final static String FLOW_STANDARD_NAME = "FLOW_STANDARD_NAME";
 
-    public final static String FLOW_UPDATE_USER_ACCOUNT_AGE = "FLOW_UPDATE_USER_ACCOUNT_NAME";
+
+
+    public final static String FLOW_UPDATE_USER = "FLOW_UPDATE_USER";
+
+    public final static String FLOW_UPDATE_GET_ACCESS = "FLOW_UPDATE_GET_ACCESS";
+
+    public final static String FLOW_UPDATE_USER_AGE = "FLOW_UPDATE_USER_AGE";
 
 }

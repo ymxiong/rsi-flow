@@ -16,7 +16,8 @@ public class UserService {
         }
     }
 
-    public void updateAge(User user, int age){
-        user.setAge(age);
+    public User updateAge(User user, int newAge){
+        user.setAge(newAge);
+        return user;
     }
 }
