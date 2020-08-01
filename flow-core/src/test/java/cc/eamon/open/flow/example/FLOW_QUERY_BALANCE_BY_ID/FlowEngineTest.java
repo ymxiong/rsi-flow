@@ -4,8 +4,8 @@ import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
-import org.junit.Assert;
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 public class FlowEngineTest {
     private UserService userService = new UserService();

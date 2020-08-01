@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suite name="Suite" parallel="false">
+    <test name="Test">
+        <classes>
+            <class name="cc.eamon.open.flow.example.FLOW_QUERY_BALANCE_BY_ID.FlowEngineTest"/>
+            <class name="cc.eamon.open.flow.example.FLOW_QUERY_USER_ACCOUNT.FlowEngineTest"/>
+            <class name="cc.eamon.open.flow.example.FLOW_QUERY_USER_BALANCE.FlowEngineTest"/>
+            <class name="cc.eamon.open.flow.example.FLOW_STANDARD_QUERY_USER_BALANCE.FlowEngineTest"/>
+            <class name="cc.eamon.open.flow.example.FLOW_UPDATE_USER.FlowEngineTest"/>
+        </classes>
+    </test> <!-- Test -->
+</suite> <!-- Suite -->
