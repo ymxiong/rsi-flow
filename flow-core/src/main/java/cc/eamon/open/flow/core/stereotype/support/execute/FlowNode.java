@@ -3,6 +3,7 @@ package cc.eamon.open.flow.core.stereotype.support.execute;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
+import cc.eamon.open.flow.core.util.WrapperClassUtils;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 
 import java.lang.reflect.Method;
@@ -48,7 +49,15 @@ public class FlowNode extends BasicExecutable {
         for (int i = 0; i < parameterNum; i++) {
             if (!parameterClasses[i].equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
                 // TODO: 参数类型匹配
-                throw new RuntimeException(parameterNames[i] + " does not match.");
+                if (parameterClasses[i].isPrimitive()){
+                    WrapperClassUtils.getWrapperClass(parameterClasses[i]);
+                    if (!WrapperClassUtils.getWrapperClass(parameterClasses[i]).equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))){
+                        throw new RuntimeException(parameterNames[i] + " does not match.");
+                    }
+                }else {
+                    throw new RuntimeException(parameterNames[i] + " does not match.");
+                }
+
             }
             Object obj = FlowContextHolder.get().retrieveVariable(parameterNames[i]);
             if (obj == null) throw new RuntimeException(parameterNames[i] + " is missing.");
