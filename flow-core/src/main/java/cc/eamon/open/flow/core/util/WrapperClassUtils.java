@@ -9,7 +9,8 @@ import java.util.Map;
  * Date: 2020/8/1 15:45
  */
 public class WrapperClassUtils {
-    public static Map<Class,Class> frameMap=new HashMap<>();
+    public static Map<Class, Class> frameMap = new HashMap<>();
+
     static {
         frameMap.put(boolean.class, Boolean.class);
         frameMap.put(byte.class, Byte.class);
@@ -21,8 +22,8 @@ public class WrapperClassUtils {
         frameMap.put(double.class, Double.class);
     }
 
-    public static Class getWrapperClass(Class baseType){
-        Class clazz=frameMap.get(baseType);
+    public static Class getWrapperClass(Class baseType) {
+        Class clazz = frameMap.get(baseType);
         return clazz;
     }
 }

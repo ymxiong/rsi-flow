@@ -15,14 +15,14 @@ public class FlowEngineTest {
 
     //多层复杂性编排【姓名标准化+查询账户余额】
     @Test
-    public void testFlowEngine(){
+    public void testFlowEngine() {
         int balance = (int) FlowEngine.instance()
                 .register("userName", "    小   朱   ")
                 .register("userService", userService)
                 .register("accountService", accountService)
                 .run(FlowEnum.FLOW_STANDARD_QUERY_USER_BALANCE)
                 .retrieve("balance");
-        Assert.assertEquals(balance,12345);
+        Assert.assertEquals(balance, 12345);
     }
 
 }

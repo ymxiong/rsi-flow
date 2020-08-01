@@ -14,13 +14,13 @@ public class FlowEngineTest {
 
     //复杂嵌套编排4【根据ID查姓名+污染姓名+姓名标准化+查询账户余额】
     @Test
-    public void testFlowEngine(){
+    public void testFlowEngine() {
         int balance = (int) FlowEngine.instance()
                 .register("id", "123456")
                 .register("userService", userService)
                 .register("accountService", accountService)
                 .run(FlowEnum.FLOW_QUERY_BALANCE_BY_ID)
                 .retrieve("balance");
-        Assert.assertEquals(balance,12345);
+        Assert.assertEquals(balance, 12345);
     }
 }

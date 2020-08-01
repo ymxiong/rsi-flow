@@ -6,9 +6,9 @@ import java.util.List;
 
 public class EndEventStrategy implements RouteStrategy {
 
-	@Override
-	public List<String> findWay(RouteElement routeElement) {
-		return null;
-	}
+    @Override
+    public List<String> findWay(RouteElement routeElement) {
+        return null;
+    }
 
 }

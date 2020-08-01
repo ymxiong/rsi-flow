@@ -7,7 +7,6 @@ import java.util.Set;
 
 public interface FlowLoader {
     /**
-     *
      * @param configFiles
      * @return
      */

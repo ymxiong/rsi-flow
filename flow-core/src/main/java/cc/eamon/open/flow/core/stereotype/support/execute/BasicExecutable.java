@@ -98,8 +98,8 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         List<Target> targets = parentFlowHolder.getRoute().route(source);
         //没有目标了
         if (targets.isEmpty()) {
-            if (branchSource!=null){
-                synchronized (branchSource){
+            if (branchSource != null) {
+                synchronized (branchSource) {
                     branchSource.add(source);
                 }
             }
@@ -123,12 +123,12 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         CountDownLatch latch = new CountDownLatch(targets.size());
         FlowContextExtractor flowContextExtractor = new FlowContextExtractor();
         //保留了每个分支的执行节点
-        List<Source> sources= new LinkedList<>();
+        List<Source> sources = new LinkedList<>();
         List<Future> futures = new LinkedList<>();
         //TODO:针对每一条业务路线都开启一个多线程来执行
         for (Target target : targets) {
             FlowExecutable executable = getExecuteableByTarget(target);
-            ((BasicExecutable)executable).setBranchSource(sources);
+            ((BasicExecutable) executable).setBranchSource(sources);
             FlowThread flowThread = new FlowThread(executable, flowContextExtractor, latch);
             FutureTask<FlowContextExtractor> futureTask = new FutureTask<FlowContextExtractor>(flowThread);
             Future future = FlowThreadPool.pool.submit(futureTask);

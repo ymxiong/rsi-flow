@@ -8,7 +8,7 @@ public class FlowStandard {
 
     //去除姓名中的空格
     @Flow(value = FlowEnum.FLOW_STANDARD_NAME, retrieve = "userName")
-    public String queryBalance(String userName){
-        return userName.replace(" ","");
+    public String queryBalance(String userName) {
+        return userName.replace(" ", "");
     }
 }

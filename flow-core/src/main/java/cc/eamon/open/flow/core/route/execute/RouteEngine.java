@@ -17,52 +17,52 @@ import java.util.List;
  */
 public class RouteEngine implements Route {
 
-	private RouteModel routeModel;
+    private RouteModel routeModel;
 
 
-	public RouteEngine(List<RouteConfig> routeConfigs) {
-		routeModel = new RouteModel(routeConfigs);
-	}
+    public RouteEngine(List<RouteConfig> routeConfigs) {
+        routeModel = new RouteModel(routeConfigs);
+    }
 
-	@Override
-	public List<Target> route(Source source) {
-		List<Target> targets = new ArrayList<>();
-		//找到对应ID的当前节点
-		RouteElement routeElement = routeModel.getElementById(source.getId());
-		//寻找对应策略
-		RouteStrategy strategy = StrategyType.getStrategy(routeElement.getType());
-		if(strategy == null)
-			throw new RuntimeException("route strategy can't be null");
-		//获取下一节点的id和name，封装成Target
-		List<String> nextIds = strategy.findWay(routeElement);
-		if(nextIds != null) {
-			for (String nextId : nextIds) {
-				RouteElement targetElement = routeModel.getElementById(nextId);
-				ProcessTarget(targetElement);
-				targets.add(targetElement);
-			}
-		}
-		return targets;
-	}
+    @Override
+    public List<Target> route(Source source) {
+        List<Target> targets = new ArrayList<>();
+        //找到对应ID的当前节点
+        RouteElement routeElement = routeModel.getElementById(source.getId());
+        //寻找对应策略
+        RouteStrategy strategy = StrategyType.getStrategy(routeElement.getType());
+        if (strategy == null)
+            throw new RuntimeException("route strategy can't be null");
+        //获取下一节点的id和name，封装成Target
+        List<String> nextIds = strategy.findWay(routeElement);
+        if (nextIds != null) {
+            for (String nextId : nextIds) {
+                RouteElement targetElement = routeModel.getElementById(nextId);
+                ProcessTarget(targetElement);
+                targets.add(targetElement);
+            }
+        }
+        return targets;
+    }
 
-	@Override
-	public List<Target> route(List<Source> sources) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Target> route(List<Source> sources) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Target getStartNode() {
-		return routeModel.getStartNode();
-	}
+    @Override
+    public Target getStartNode() {
+        return routeModel.getStartNode();
+    }
 
-	private void ProcessTarget(RouteElement routeElement){
-		if(routeElement.getType().equals("parallelGateway") ||
-				routeElement.getType().equals("exclusiveGateway")){
-			if(routeElement.getTargetConfigs().size()==1){
-				//聚合网关，返回null
-				routeElement = null;
-			}
-		}
-	}
+    private void ProcessTarget(RouteElement routeElement) {
+        if (routeElement.getType().equals("parallelGateway") ||
+                routeElement.getType().equals("exclusiveGateway")) {
+            if (routeElement.getTargetConfigs().size() == 1) {
+                //聚合网关，返回null
+                routeElement = null;
+            }
+        }
+    }
 }

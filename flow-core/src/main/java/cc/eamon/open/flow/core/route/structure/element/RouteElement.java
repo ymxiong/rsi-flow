@@ -29,15 +29,15 @@ public class RouteElement implements Source, Target {
     }
 
     @Override
-    public String getType(){
+    public String getType() {
         return routeConfig.getType();
     }
 
-    public List<TargetConfig> getTargetConfigs(){
+    public List<TargetConfig> getTargetConfigs() {
         return routeConfig.getTargets();
     }
 
-    public String getDefaultTarget(){
+    public String getDefaultTarget() {
         return routeConfig.getDefaultTarget();
     }
 }

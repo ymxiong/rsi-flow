@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
  * Email: eamon@eamon.cc
  * Time: 2020-07-03 18:30:21
  */
-public interface FlowCode{
+public interface FlowCode {
 
     FlowCode getFlowCode();
 

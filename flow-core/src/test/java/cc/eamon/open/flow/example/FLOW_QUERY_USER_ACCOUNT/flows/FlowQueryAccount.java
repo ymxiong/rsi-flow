@@ -14,18 +14,17 @@ import cc.eamon.open.flow.example.remote.service.AccountService;
 public class FlowQueryAccount {
 
     @Flow(value = FlowEnum.FLOW_QUERY_ACCOUNT_1, retrieve = "account")
-    public Account queryAccount1(AccountService accountService, User user){
+    public Account queryAccount1(AccountService accountService, User user) {
 
         return accountService.getAccountByUserId(user.getId());
     }
 
 
     @Flow(value = FlowEnum.FLOW_QUERY_ACCOUNT_2, retrieve = "account")
-    public Account queryAccount2(AccountService accountService, User user){
+    public Account queryAccount2(AccountService accountService, User user) {
 
         return accountService.getAccountByUserId(user.getId());
     }
-
 
 
 }

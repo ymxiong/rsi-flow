@@ -20,7 +20,7 @@ public class FlowEngineTest {
     private AccountService accountService = new AccountService();
 
     @Test
-    public void testFlowEngine(){
+    public void testFlowEngine() {
 
         // 线性编排
         Account account = (Account) FlowEngine.instance()

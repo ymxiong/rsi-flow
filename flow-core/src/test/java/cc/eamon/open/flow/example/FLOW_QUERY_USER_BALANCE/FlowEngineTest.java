@@ -15,14 +15,14 @@ public class FlowEngineTest {
 
     //复杂线性编排测试【查询账户余额】
     @Test
-    public void testFlowEngine(){
+    public void testFlowEngine() {
         int balance = (int) FlowEngine.instance()
                 .register("userName", "小朱")
                 .register("userService", userService)
                 .register("accountService", accountService)
                 .run(FlowEnum.FLOW_QUERY_USER_BALANCE)
                 .retrieve("balance");
-        Assert.assertEquals(balance,12345);
+        Assert.assertEquals(balance, 12345);
     }
 
 }

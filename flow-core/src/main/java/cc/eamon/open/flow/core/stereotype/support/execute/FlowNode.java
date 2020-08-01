@@ -20,18 +20,18 @@ public class FlowNode extends BasicExecutable {
      */
     private FlowCode flowCode;
 
-    public FlowNode(String type, String name, String id, FlowHolder parentFlowHolder,FlowCode flowCode) {
+    public FlowNode(String type, String name, String id, FlowHolder parentFlowHolder, FlowCode flowCode) {
         super(type, name, id, parentFlowHolder);
-        this.flowCode=flowCode;
+        this.flowCode = flowCode;
     }
 
     //TODO:执行该节点，然后路由执行后续节点
     @Override
     public void execute() {
-        if(type.equals("start")) {
-            executeNext((Source)this);
+        if (type.equals("start")) {
+            executeNext((Source) this);
             return;
-        }else if (type.equals("end")){
+        } else if (type.equals("end")) {
             return;
         }
         Method method = flowCode.getMethod();
@@ -49,12 +49,12 @@ public class FlowNode extends BasicExecutable {
         for (int i = 0; i < parameterNum; i++) {
             if (!parameterClasses[i].equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
                 // TODO: 参数类型匹配
-                if (parameterClasses[i].isPrimitive()){
+                if (parameterClasses[i].isPrimitive()) {
                     WrapperClassUtils.getWrapperClass(parameterClasses[i]);
-                    if (!WrapperClassUtils.getWrapperClass(parameterClasses[i]).equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))){
+                    if (!WrapperClassUtils.getWrapperClass(parameterClasses[i]).equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
                         throw new RuntimeException(parameterNames[i] + " does not match.");
                     }
-                }else {
+                } else {
                     throw new RuntimeException(parameterNames[i] + " does not match.");
                 }
 
@@ -65,7 +65,7 @@ public class FlowNode extends BasicExecutable {
         }
 
         flowCode.execute(args);
-        executeNext((Source)this);
+        executeNext((Source) this);
     }
 
 }

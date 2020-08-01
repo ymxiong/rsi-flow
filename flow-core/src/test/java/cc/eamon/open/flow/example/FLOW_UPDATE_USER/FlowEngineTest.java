@@ -8,7 +8,7 @@ import cc.eamon.open.flow.example.remote.service.UserService;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-public class  FlowEngineTest {
+public class FlowEngineTest {
 
     private UserService userService = new UserService();
 
@@ -16,10 +16,10 @@ public class  FlowEngineTest {
 
     //嵌套编排测试【更改年龄】
     @Test
-    public void testFlowEngine(){
+    public void testFlowEngine() {
         User user = (User) FlowEngine.instance()
                 .register("userName", "小朱")
-                .register("newAge",21)
+                .register("newAge", 21)
                 .register("userService", userService)
                 .register("accountService", accountService)
                 .run(FlowEnum.FLOW_UPDATE_USER)

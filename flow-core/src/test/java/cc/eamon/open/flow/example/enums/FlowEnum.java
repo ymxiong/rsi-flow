@@ -16,11 +16,9 @@ public class FlowEnum {
     public final static String FLOW_QUERY_ACCOUNT_2 = "FLOW_QUERY_ACCOUNT_2";
 
 
-
     public final static String FLOW_QUERY_USER_BALANCE = "FLOW_QUERY_USER_BALANCE";
 
     public final static String FLOW_QUERY_BALANCE = "FLOW_QUERY_BALANCE";
-
 
 
     public final static String FLOW_STANDARD_QUERY_USER_BALANCE = "FLOW_STANDARD_QUERY_USER_BALANCE";
@@ -28,7 +26,6 @@ public class FlowEnum {
     public final static String FLOW_STANDARD_NAME_QUERY = "FLOW_STANDARD_NAME_QUERY";
 
     public final static String FLOW_STANDARD_NAME = "FLOW_STANDARD_NAME";
-
 
 
     public final static String FLOW_UPDATE_USER = "FLOW_UPDATE_USER";

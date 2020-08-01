@@ -4,7 +4,7 @@ import cc.eamon.open.flow.core.route.execute.strategy.*;
 
 /**
  * 路由策略枚举
- *
+ * <p>
  * author: xsy
  */
 public enum StrategyType {
@@ -13,7 +13,7 @@ public enum StrategyType {
     EVENT("event", new EventStrategy()),//事件策略
     END_EVENT("end", new EndEventStrategy()),//结束策略
     GATEWAY("gateway", new GateWayStrategy()),//网关策略
-    FLOW("flow",new FlowStrategy());//流程策略
+    FLOW("flow", new FlowStrategy());//流程策略
 
     private String type;
     private RouteStrategy strategy;

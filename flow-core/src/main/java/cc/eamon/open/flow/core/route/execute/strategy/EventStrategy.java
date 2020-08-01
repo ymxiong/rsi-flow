@@ -8,14 +8,14 @@ import java.util.List;
 
 public class EventStrategy implements RouteStrategy {
 
-	@Override
-	public List<String> findWay(RouteElement routeElement) {
-		List<String> results = new ArrayList<>();
-		//目标
-		List<TargetConfig> targets = routeElement.getTargetConfigs();
-		//取第一个目标
-		results.add(targets.get(0).getTarget());
-		return results;
-	}
+    @Override
+    public List<String> findWay(RouteElement routeElement) {
+        List<String> results = new ArrayList<>();
+        //目标
+        List<TargetConfig> targets = routeElement.getTargetConfigs();
+        //取第一个目标
+        results.add(targets.get(0).getTarget());
+        return results;
+    }
 
 }

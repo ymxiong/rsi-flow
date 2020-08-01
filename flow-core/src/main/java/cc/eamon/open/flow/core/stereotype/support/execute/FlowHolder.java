@@ -32,12 +32,13 @@ public class FlowHolder extends BasicExecutable {
      */
     private Route route;
 
-    public FlowHolder(String type, String name, String id, FlowHolder parentFlowHolder,FlowConfig flowConfig, Map<String, FlowCode> flowCodes) {
+    public FlowHolder(String type, String name, String id, FlowHolder parentFlowHolder, FlowConfig flowConfig, Map<String, FlowCode> flowCodes) {
         super(type, name, id, parentFlowHolder);
-        this.flowConfig=flowConfig;
-        this.flowCodes=flowCodes;
-        route=new RouteEngine(flowConfig.getRoutes());
+        this.flowConfig = flowConfig;
+        this.flowCodes = flowCodes;
+        route = new RouteEngine(flowConfig.getRoutes());
     }
+
     public Map<String, FlowCode> getFlowCodes() {
         return flowCodes;
     }
@@ -54,15 +55,13 @@ public class FlowHolder extends BasicExecutable {
     public void execute() {
         //获取开始节点
         Target start = route.getStartNode();
-        FlowNode startNode = new FlowNode(start.getType(),start.getName(),start.getId(),
-                this,flowCodes.get(start.getName()));
+        FlowNode startNode = new FlowNode(start.getType(), start.getName(), start.getId(),
+                this, flowCodes.get(start.getName()));
         //执行自身节点
         startNode.execute();
         //执行下一个节点
         executeNext(this);
     }
-
-
 
 
 }

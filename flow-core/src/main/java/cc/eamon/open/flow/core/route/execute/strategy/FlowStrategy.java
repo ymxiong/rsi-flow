@@ -6,7 +6,7 @@ import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FlowStrategy implements RouteStrategy{
+public class FlowStrategy implements RouteStrategy {
     @Override
     public List<String> findWay(RouteElement routeElement) {
         List<String> results = new ArrayList<>();

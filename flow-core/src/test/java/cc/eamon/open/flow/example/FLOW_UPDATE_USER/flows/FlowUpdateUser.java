@@ -9,15 +9,15 @@ import cc.eamon.open.flow.example.remote.service.UserService;
 public class FlowUpdateUser {
 
     @Flow(value = FlowEnum.FLOW_UPDATE_GET_ACCESS, retrieve = "role")
-    public String getRole(Account account){
+    public String getRole(Account account) {
         return account.getRole();
     }
 
 
     @Flow(value = FlowEnum.FLOW_UPDATE_USER_AGE, retrieve = "user")
-    public User updateUserAge(UserService userService, User user, Integer newAge, String role){
-        if(role.equals("manager"))
-            return userService.updateAge(user,newAge);
+    public User updateUserAge(UserService userService, User user, Integer newAge, String role) {
+        if (role.equals("manager"))
+            return userService.updateAge(user, newAge);
         return user;
     }
 }

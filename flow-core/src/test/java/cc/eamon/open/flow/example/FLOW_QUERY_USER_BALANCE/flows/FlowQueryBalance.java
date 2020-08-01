@@ -8,7 +8,7 @@ import cc.eamon.open.flow.example.remote.service.AccountService;
 public class FlowQueryBalance {
 
     @Flow(value = FlowEnum.FLOW_QUERY_BALANCE, retrieve = "balance")
-    public int queryBalance(AccountService accountService, Account account){
+    public int queryBalance(AccountService accountService, Account account) {
         return accountService.getBalance();
     }
 }

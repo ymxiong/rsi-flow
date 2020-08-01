@@ -1,4 +1,5 @@
 package cc.eamon.open.flow.core.route.structure;
+
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 
@@ -7,14 +8,15 @@ import java.util.List;
 
 /**
  * 路由业务模型
- * @author     : xsy
+ *
+ * @author : xsy
  */
 public class RouteModel {
 
     // 路由节点列表
     private List<RouteElement> elements;
 
-    public RouteModel(List<RouteConfig> routeConfigs){
+    public RouteModel(List<RouteConfig> routeConfigs) {
         elements = new ArrayList<>();
         for (RouteConfig routeConfig : routeConfigs) {
             elements.add(new RouteElement(routeConfig));
@@ -24,11 +26,11 @@ public class RouteModel {
     /**
      * 获取开始节点
      *
-     * @author  xsy
+     * @author xsy
      */
-    public RouteElement getStartNode(){
+    public RouteElement getStartNode() {
         for (RouteElement element : elements) {
-            if(element.getType().equals("start"))
+            if (element.getType().equals("start"))
                 return element;
         }
         return null;
@@ -37,12 +39,12 @@ public class RouteModel {
     /**
      * 根据id获取路由element
      *
-     * @author  xsy
-     * @param  id -- 节点的id
+     * @param id -- 节点的id
+     * @author xsy
      */
-    public RouteElement getElementById(String id){
+    public RouteElement getElementById(String id) {
         for (RouteElement element : elements) {
-            if(element.getId().equals(id))
+            if (element.getId().equals(id))
                 return element;
         }
         return null;

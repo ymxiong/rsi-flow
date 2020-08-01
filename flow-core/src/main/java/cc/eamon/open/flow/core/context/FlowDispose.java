@@ -93,14 +93,14 @@ public class FlowDispose {
                 //TODO:子流程匹配装配
 
             }
-            FlowHolder flowHolder=new FlowHolder(flowConfig.getType(),flowConfig.getName(),flowConfig.getId(),null,flowConfig, flowCodes);
+            FlowHolder flowHolder = new FlowHolder(flowConfig.getType(), flowConfig.getName(), flowConfig.getId(), null, flowConfig, flowCodes);
 //            FlowHolder flowHolder = new FlowHolder(flowConfig, flowCodes);
             flowHolders.put(flowHolder.getName(), flowHolder);
         }
     }
 
 
-    public static FlowHolder getFlowHolderByName(String name){
+    public static FlowHolder getFlowHolderByName(String name) {
         return flowHolders.get(name);
     }
 
