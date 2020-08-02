@@ -41,20 +41,22 @@ public class FlowNode extends BasicExecutable {
         Object[] args = new Object[parameterNum];
 
         for (int i = 0; i < parameterNum; i++) {
-            if (!parameterClasses[i].equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
-                // TODO: 参数类型匹配
-                if (parameterClasses[i].isPrimitive()) {
-                    WrapperClassUtils.getWrapperClass(parameterClasses[i]);
-                    if (!WrapperClassUtils.getWrapperClass(parameterClasses[i]).equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
+            if (FlowContextHolder.get().retrieveVariableType(parameterNames[i]).equals(null)){
+                throw new RuntimeException(parameterNames[i] + " is missing.");
+            }else {
+                if (!parameterClasses[i].equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
+                    // TODO: 参数类型匹配
+                    if (parameterClasses[i].isPrimitive()) {
+                        WrapperClassUtils.getWrapperClass(parameterClasses[i]);
+                        if (!WrapperClassUtils.getWrapperClass(parameterClasses[i]).equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
+                            throw new RuntimeException(parameterNames[i] + " does not match.");
+                        }
+                    } else {
                         throw new RuntimeException(parameterNames[i] + " does not match.");
                     }
-                } else {
-                    throw new RuntimeException(parameterNames[i] + " does not match.");
                 }
-
             }
-            Object obj = FlowContextHolder.get().retrieveVariable(parameterNames[i]);
-            if (obj == null) throw new RuntimeException(parameterNames[i] + " is missing.");
+
             args[i] = FlowContextHolder.get().retrieveVariable(parameterNames[i]);
         }
 
