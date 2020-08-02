@@ -7,7 +7,7 @@ import cc.eamon.open.flow.core.route.execute.strategy.*;
  * <p>
  * author: xsy
  */
-public enum StrategyType {
+public enum StrategyTypeEnum {
 
     START_EVENT("start", new EventStrategy()),
     EVENT("event", new EventStrategy()),//事件策略
@@ -19,16 +19,16 @@ public enum StrategyType {
     private RouteStrategy strategy;
 
 
-    StrategyType(String type, RouteStrategy strategy) {
+    StrategyTypeEnum(String type, RouteStrategy strategy) {
         this.type = type;
         this.strategy = strategy;
     }
 
     //获取对应枚举的策略
     public static RouteStrategy getStrategy(String type) {
-        for (StrategyType strategyType : StrategyType.values()) {
-            if (strategyType.type.equals(type)) {
-                return strategyType.strategy;
+        for (StrategyTypeEnum strategyTypeEnum : StrategyTypeEnum.values()) {
+            if (strategyTypeEnum.type.equals(type)) {
+                return strategyTypeEnum.strategy;
             }
         }
         return null;

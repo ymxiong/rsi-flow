@@ -1,7 +1,10 @@
 package cc.eamon.open.flow.core.route.execute.strategy;
 
 import cc.eamon.open.flow.core.context.FlowContextExtractor;
+import cc.eamon.open.flow.core.route.execute.strategy.enums.StrategyTypeEnum;
+import cc.eamon.open.flow.core.route.structure.RouteModel;
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
+import cc.eamon.open.flow.core.route.structure.element.Target;
 import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
 import cc.eamon.open.flow.core.util.JexlUtils;
 
@@ -28,6 +31,26 @@ public class GateWayStrategy implements RouteStrategy {
             }
         }
         return results;
+    }
+
+    @Override
+    public void processTarget(RouteElement target, List<Target> targets, RouteModel routeModel) {
+        if (target.getTargetConfigs().size() != 1) {
+            //发散网关
+            RouteStrategy strategy = StrategyTypeEnum.getStrategy(target.getType());
+            if (strategy == null)
+                throw new RuntimeException("route strategy can't be null");
+            List<String> nextIds = strategy.findWay(target);
+            if (nextIds != null) {
+                for (String nextId : nextIds) {
+                    RouteElement targetElement = routeModel.getElementById(nextId);
+                    RouteStrategy targetStrategy = StrategyTypeEnum.getStrategy(target.getType());
+                    if (targetStrategy == null)
+                        throw new RuntimeException("route strategy can't be null");
+                    targetStrategy.processTarget(targetElement, targets, routeModel);
+                }
+            }
+        }
     }
 
 

@@ -24,16 +24,20 @@ public class RouteModel {
     }
 
     /**
-     * 获取开始节点
+     * 获取第一个执行的节点【开始节点的下一个节点】
      *
      * @author xsy
      */
     public RouteElement getStartNode() {
+        RouteElement start = null;
         for (RouteElement element : elements) {
-            if (element.getType().equals("start"))
-                return element;
+            if (element.getType().equals("start")){
+                start = element;
+                break;
+            }
         }
-        return null;
+        String target = start.getTargetConfigs().get(0).getTarget();
+        return getElementById(target);
     }
 
     /**

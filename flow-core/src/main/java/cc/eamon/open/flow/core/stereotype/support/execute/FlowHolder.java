@@ -5,6 +5,7 @@ import cc.eamon.open.flow.core.route.execute.RouteEngine;
 import cc.eamon.open.flow.core.route.structure.element.Target;
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
+import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 
 import java.util.Map;
 
@@ -55,12 +56,12 @@ public class FlowHolder extends BasicExecutable {
     public void execute() {
         //获取开始节点
         Target start = route.getStartNode();
-        FlowNode startNode = new FlowNode(start.getType(), start.getName(), start.getId(),
-                this, flowCodes.get(start.getName()));
-        //执行自身节点
+        FlowExecutable startNode = getExecuteableByTarget(start);
+        ((BasicExecutable) startNode).setParentFlowHolder(this);
         startNode.execute();
         //执行下一个节点
         executeNext(this);
+
     }
 
 

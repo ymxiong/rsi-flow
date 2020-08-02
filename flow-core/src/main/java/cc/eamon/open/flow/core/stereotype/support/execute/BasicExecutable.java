@@ -53,6 +53,11 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         this.parentFlowHolder = parentFlowHolder;
     }
 
+    public void setParentFlowHolder(FlowHolder parentFlowHolder) {
+        this.parentFlowHolder = parentFlowHolder;
+    }
+
+
     @Override
     public String getId() {
         return id;

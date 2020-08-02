@@ -2,7 +2,7 @@ package cc.eamon.open.flow.core.route.execute;
 
 import cc.eamon.open.flow.core.route.Route;
 import cc.eamon.open.flow.core.route.execute.strategy.RouteStrategy;
-import cc.eamon.open.flow.core.route.execute.strategy.enums.StrategyType;
+import cc.eamon.open.flow.core.route.execute.strategy.enums.StrategyTypeEnum;
 import cc.eamon.open.flow.core.route.structure.RouteModel;
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.route.structure.element.Source;
@@ -30,7 +30,7 @@ public class RouteEngine implements Route {
         //找到对应ID的当前节点
         RouteElement routeElement = routeModel.getElementById(source.getId());
         //寻找对应策略
-        RouteStrategy strategy = StrategyType.getStrategy(routeElement.getType());
+        RouteStrategy strategy = StrategyTypeEnum.getStrategy(routeElement.getType());
         if (strategy == null)
             throw new RuntimeException("route strategy can't be null");
         //获取下一节点的id和name，封装成Target
@@ -38,8 +38,10 @@ public class RouteEngine implements Route {
         if (nextIds != null) {
             for (String nextId : nextIds) {
                 RouteElement targetElement = routeModel.getElementById(nextId);
-                ProcessTarget(targetElement);
-                targets.add(targetElement);
+                RouteStrategy targetStrategy = StrategyTypeEnum.getStrategy(routeElement.getType());
+                if (targetStrategy == null)
+                    throw new RuntimeException("route strategy can't be null");
+                targetStrategy.processTarget(targetElement, targets, routeModel);
             }
         }
         return targets;
@@ -56,13 +58,4 @@ public class RouteEngine implements Route {
         return routeModel.getStartNode();
     }
 
-    private void ProcessTarget(RouteElement routeElement) {
-        if (routeElement.getType().equals("parallelGateway") ||
-                routeElement.getType().equals("exclusiveGateway")) {
-            if (routeElement.getTargetConfigs().size() == 1) {
-                //聚合网关，返回null
-                routeElement = null;
-            }
-        }
-    }
 }

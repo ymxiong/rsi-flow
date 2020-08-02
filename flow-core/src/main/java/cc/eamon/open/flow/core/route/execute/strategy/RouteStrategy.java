@@ -1,6 +1,8 @@
 package cc.eamon.open.flow.core.route.execute.strategy;
 
+import cc.eamon.open.flow.core.route.structure.RouteModel;
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
+import cc.eamon.open.flow.core.route.structure.element.Target;
 
 import java.util.List;
 
@@ -14,4 +16,15 @@ public interface RouteStrategy {
      */
     List<String> findWay(RouteElement routeElement);
 
+
+    /**
+     * 处理目标节点
+     *
+     * @author  xsy
+     * @param  target -- 待处理目标
+     * @param  targets -- 目标节点列表
+     */
+    default void processTarget(RouteElement target, List<Target> targets, RouteModel routeModel){
+        targets.add(target);
+    }
 }
