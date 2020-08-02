@@ -38,7 +38,7 @@ public class RouteEngine implements Route {
         if (nextIds != null) {
             for (String nextId : nextIds) {
                 RouteElement targetElement = routeModel.getElementById(nextId);
-                RouteStrategy targetStrategy = StrategyTypeEnum.getStrategy(routeElement.getType());
+                RouteStrategy targetStrategy = StrategyTypeEnum.getStrategy(targetElement.getType());
                 if (targetStrategy == null)
                     throw new RuntimeException("route strategy can't be null");
                 targetStrategy.processTarget(targetElement, targets, routeModel);

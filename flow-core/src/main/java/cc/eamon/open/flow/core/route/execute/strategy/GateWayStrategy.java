@@ -44,7 +44,7 @@ public class GateWayStrategy implements RouteStrategy {
             if (nextIds != null) {
                 for (String nextId : nextIds) {
                     RouteElement targetElement = routeModel.getElementById(nextId);
-                    RouteStrategy targetStrategy = StrategyTypeEnum.getStrategy(target.getType());
+                    RouteStrategy targetStrategy = StrategyTypeEnum.getStrategy(targetElement.getType());
                     if (targetStrategy == null)
                         throw new RuntimeException("route strategy can't be null");
                     targetStrategy.processTarget(targetElement, targets, routeModel);
