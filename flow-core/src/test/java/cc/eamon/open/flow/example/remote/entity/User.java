@@ -13,6 +13,8 @@ public class User {
 
     private int age = 22;
 
+    private String gender = "男";
+
     public String getId() {
         return id;
     }
@@ -36,4 +38,8 @@ public class User {
     public void setAge(int age) {
         this.age = age;
     }
+
+    public String getGender() { return gender; }
+
+    public void setGender(String gender) { this.gender = gender; }
 }

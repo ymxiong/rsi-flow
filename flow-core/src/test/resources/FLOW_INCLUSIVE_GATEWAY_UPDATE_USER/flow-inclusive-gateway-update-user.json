@@ -1,0 +1,89 @@
+{
+  "name": "FLOW_INCLUSIVE_GATEWAY_UPDATE_USER",
+  "type": "flow",
+  "id": "FLOW_22",
+  "routes": [
+    {
+      "id": "ROUTE_1",
+      "type": "start",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "FLOW_0"
+        }
+      ]
+    },
+    {
+      "id": "FLOW_0",
+      "type": "flow",
+      "name": "FLOW_QUERY_USER_ACCOUNT",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_3"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_3",
+      "type": "event",
+      "name": "FLOW_UPDATE_GET_ACCESS",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_4"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_4",
+      "type": "inclusiveGateway",
+      "targets": [
+        {
+          "condition": "role.equals(\"manager\")",
+          "target": "ROUTE_5"
+        },
+        {
+          "condition": "true",
+          "target": "ROUTE_6"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_5",
+      "type": "event",
+      "name": "FLOW_UPDATE_USER_GENDER",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_7"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_6",
+      "type": "event",
+      "name": "FLOW_UPDATE_USER_AGE",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_7"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_7",
+      "type": "inclusiveGateway",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_8"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_8",
+      "type": "end"
+    }
+  ]
+}
