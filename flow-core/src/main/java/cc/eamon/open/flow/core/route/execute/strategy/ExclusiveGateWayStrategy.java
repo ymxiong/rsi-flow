@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GateWayStrategy implements RouteStrategy {
+public class ExclusiveGateWayStrategy implements RouteStrategy {
 
     @Override
     public List<String> findWay(RouteElement routeElement) {
