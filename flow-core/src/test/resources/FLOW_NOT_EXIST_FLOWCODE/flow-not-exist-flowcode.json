@@ -1,0 +1,54 @@
+{
+  "name": "FLOW_NOT_EXIST_FLOW_CODE",
+  "type": "flow",
+  "id": "FLOW_ERROR_CASE3",
+  "routes": [
+    {
+      "id": "ROUTE_1",
+      "type": "start",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_2"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_2",
+      "type": "event",
+      "name": "FLOW_QUERY_USER",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_3"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_3",
+      "type": "event",
+      "name": "FLOW_WITHOUT_CODE",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_4"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_4",
+      "type": "event",
+      "name": "FLOW_QUERY_ACCOUNT_2",
+      "targets": [
+        {
+          "condition": "true",
+          "target": "ROUTE_5"
+        }
+      ]
+    },
+    {
+      "id": "ROUTE_5",
+      "type": "end"
+    }
+  ]
+}

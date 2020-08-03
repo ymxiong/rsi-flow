@@ -51,4 +51,19 @@ public class FlowEnum {
 
     public final static String FLOW_INCLUSIVE_GATEWAY_UPDATE_USER = "FLOW_INCLUSIVE_GATEWAY_UPDATE_USER";
 
+
+    public final static String FLOW_NOT_EXIST_NEST_FLOW = "FLOW_NOT_EXIST_NEST_FLOW";
+
+    public final static String FLOW_NOT_EXIST_COMPLEX_FLOW = "FLOW_NOT_EXIST_COMPLEX_FLOW";
+
+    public final static String FLOW_POLLUTE_NAME_QUERY_ERROR_CASE2 = "FLOW_POLLUTE_NAME_QUERY_ERROR_CASE2";
+
+    public final static String FLOW_NOT_EXIST_FLOW_CODE = "FLOW_NOT_EXIST_FLOW_CODE";
+
+    public final static String FLOW_WITHOUT_CODE = "FLOW_WITHOUT_CODE";
+
+    public final static String FLOW_INSUFFICIENT_PARAMETERS = "FLOW_INSUFFICIENT_PARAMETERS";
+
+    public final static String FLOW_CALL_ITSELF = "FLOW_CALL_ITSELF";
+
 }
