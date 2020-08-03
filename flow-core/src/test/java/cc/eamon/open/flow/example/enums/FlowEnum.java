@@ -43,4 +43,12 @@ public class FlowEnum {
 
     public final static String FLOW_POLLUTE_NAME_QUERY = "FLOW_POLLUTE_NAME_QUERY";
 
+
+    public final static String FLOW_EXCLUSIVE_GATEWAY_UPDATE_USER = "FLOW_EXCLUSIVE_GATEWAY_UPDATE_USER";
+
+    public final static String FLOW_UPDATE_USER_GENDER = "FLOW_UPDATE_USER_GENDER";
+
+
+    public final static String FLOW_INCLUSIVE_GATEWAY_UPDATE_USER = "FLOW_INCLUSIVE_GATEWAY_UPDATE_USER";
+
 }

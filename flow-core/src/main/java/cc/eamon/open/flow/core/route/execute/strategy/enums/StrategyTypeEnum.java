@@ -12,7 +12,8 @@ public enum StrategyTypeEnum {
     START_EVENT("start", new EventStrategy()),
     EVENT("event", new EventStrategy()),//事件策略
     END_EVENT("end", new EndEventStrategy()),//结束策略
-    GATEWAY("gateway", new GateWayStrategy()),//网关策略
+    INCLUSIVE_GATEWAY("inclusiveGateway", new InclusiveGateWayStrategy()),//多路网关策略
+    EXCLUSIVE_GATEWAY("exclusiveGateway", new ExclusiveGateWayStrategy()),//唯一网关策略
     FLOW("flow", new FlowStrategy());//流程策略
 
     private String type;

@@ -12,8 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class GateWayStrategy implements RouteStrategy {
-
+public class InclusiveGateWayStrategy implements RouteStrategy {
     @Override
     public List<String> findWay(RouteElement routeElement) {
         List<String> results = new ArrayList<>();
@@ -52,7 +51,6 @@ public class GateWayStrategy implements RouteStrategy {
             }
         }
     }
-
 
     /**
      * 获取当前环境

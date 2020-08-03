@@ -21,6 +21,11 @@ public class UserService {
         return user;
     }
 
+    public User updateGender(User user, String newGender){
+        user.setGender(newGender);
+        return user;
+    }
+
     public String getUserById(String id) {
         if (id.equals("123456")){
             return "小朱";

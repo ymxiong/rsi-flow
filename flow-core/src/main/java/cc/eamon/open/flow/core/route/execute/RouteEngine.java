@@ -49,8 +49,11 @@ public class RouteEngine implements Route {
 
     @Override
     public List<Target> route(List<Source> sources) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Target> targets = new ArrayList<>();
+        for (Source source : sources) {
+            targets.addAll(route(source));
+        }
+        return targets;
     }
 
     @Override
