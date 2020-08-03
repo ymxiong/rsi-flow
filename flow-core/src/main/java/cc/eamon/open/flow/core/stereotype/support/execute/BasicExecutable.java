@@ -158,7 +158,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
             }
         }
         //TODO:所有子线程执行完毕，网关闭合综合条件执行后续节点
-        executeNext(branchSource);
+        executeNext(sources);
     }
 
 
