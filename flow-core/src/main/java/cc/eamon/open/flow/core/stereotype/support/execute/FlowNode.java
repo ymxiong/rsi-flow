@@ -41,9 +41,9 @@ public class FlowNode extends BasicExecutable {
         Object[] args = new Object[parameterNum];
 
         for (int i = 0; i < parameterNum; i++) {
-            if (FlowContextHolder.get().retrieveVariableType(parameterNames[i]).equals(null)){
+            if (FlowContextHolder.get().retrieveVariableType(parameterNames[i]) == null) {
                 throw new RuntimeException(parameterNames[i] + " is missing.");
-            }else {
+            } else {
                 if (!parameterClasses[i].equals(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
                     // TODO: 参数类型匹配
                     if (parameterClasses[i].isPrimitive()) {

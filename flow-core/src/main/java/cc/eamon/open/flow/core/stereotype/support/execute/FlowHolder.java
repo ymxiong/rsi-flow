@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.core.stereotype.support.execute;
 
-import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.route.Route;
 import cc.eamon.open.flow.core.route.execute.RouteEngine;
 import cc.eamon.open.flow.core.route.structure.element.Target;
@@ -57,22 +56,10 @@ public class FlowHolder extends BasicExecutable {
     public void execute() {
         //获取开始节点
         Target start = route.getStartNode();
-        FlowExecutable startNode =getStartNode(start);
+        FlowExecutable startNode = getExecuteableByTarget(start,this);
         startNode.execute();
         //执行下一个节点
         executeNext(this);
-    }
-
-    public FlowExecutable getStartNode(Target target){
-        FlowExecutable executable;
-        if (target.getType().equals("flow")) {
-            executable = FlowDispose.getFlowHolderByName(target.getName());
-            ((FlowHolder) executable).setParentFlowHolder(this);
-        } else {
-            executable = new FlowNode(target.getType(), target.getName(), target.getId(),
-                    this, this.getFlowCodes().get(target.getName()));
-        }
-        return executable;
     }
 
 

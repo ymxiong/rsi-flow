@@ -16,7 +16,7 @@
     {
       "id": "ROUTE_2",
       "type": "event",
-      "name": "FLOW_QUERY_USER",
+      "name": "FLOW_QUERY_USER_1",
       "targets": [
         {
           "condition": "true",

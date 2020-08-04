@@ -19,7 +19,7 @@ public class FlowEngineTest {
 
     private AccountService accountService = new AccountService();
 
-    @Test
+    @Test(groups = "test")
     public void testFlowEngine() {
 
         // 线性编排

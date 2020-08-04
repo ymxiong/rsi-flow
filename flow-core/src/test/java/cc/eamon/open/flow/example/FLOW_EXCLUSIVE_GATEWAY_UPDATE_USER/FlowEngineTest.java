@@ -14,7 +14,7 @@ public class FlowEngineTest {
     private AccountService accountService = new AccountService();
 
     //唯一网关测试【有权限就更改性别，没有权限不能更改】
-    @Test
+    @Test(groups = "test")
     public void testFlowEngine() {
         User user = (User) FlowEngine.instance()
                 .register("userName", "小朱")

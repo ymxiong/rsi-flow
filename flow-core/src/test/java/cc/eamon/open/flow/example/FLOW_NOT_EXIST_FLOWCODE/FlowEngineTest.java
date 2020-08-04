@@ -5,7 +5,6 @@ import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.entity.Account;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
-import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class FlowEngineTest {
@@ -14,7 +13,7 @@ public class FlowEngineTest {
 
     private AccountService accountService = new AccountService();
 
-    @Test
+    @Test(expectedExceptions = RuntimeException.class, groups = "error-test")
     public void testFlowEngine() {
 
         // flowcode不存在 [线性编排]
@@ -28,9 +27,5 @@ public class FlowEngineTest {
                 .run(FlowEnum.FLOW_NOT_EXIST_FLOW_CODE)
                 // 取出执行结果
                 .retrieve("account");
-
-        Assert.assertEquals(account.getId(), "654321");
-
-
     }
 }

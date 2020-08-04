@@ -5,6 +5,7 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.route.structure.element.Target;
+import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThreadPool;
@@ -119,7 +120,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
 
     @Override
     public void executeNextNode(Target target) {
-        FlowExecutable executable = getExecuteableByTarget(target);
+        FlowExecutable executable = getExecuteableByTarget(target,parentFlowHolder);
         executable.execute();
     }
 
@@ -132,7 +133,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         List<Future> futures = new LinkedList<>();
         //TODO:针对每一条业务路线都开启一个多线程来执行
         for (Target target : targets) {
-            FlowExecutable executable = getExecuteableByTarget(target);
+            FlowExecutable executable = getExecuteableByTarget(target,parentFlowHolder);
             ((BasicExecutable) executable).setBranchSource(sources);
             FlowThread flowThread = new FlowThread(executable, flowContextExtractor, latch);
             FutureTask<FlowContextExtractor> futureTask = new FutureTask<FlowContextExtractor>(flowThread);
@@ -162,14 +163,30 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     }
 
 
-    public FlowExecutable getExecuteableByTarget(Target target) {
+    /**
+     * 获取下一个执行节点
+     * @param target
+     * @return
+     */
+    public FlowExecutable getExecuteableByTarget(Target target,FlowHolder flowHolder) {
         FlowExecutable executable;
         if (target.getType().equals("flow")) {
             executable = FlowDispose.getFlowHolderByName(target.getName());
-            ((FlowHolder) executable).setParentFlowHolder(parentFlowHolder);
+            if (executable.equals(flowHolder)) {
+                //TODO:当前只是检查一层嵌套调用自身，不支持检查多层检查
+                throw new RuntimeException("you can not invoke self flow named " + target.getName() + "in "+target.getName());
+            }
+            if (executable == null) {
+                throw new RuntimeException("flow named " + target.getName() + " not exist.");
+            }
+            ((FlowHolder) executable).setParentFlowHolder(flowHolder);
         } else {
+            FlowCode flowCode = flowHolder.getFlowCodes().get(target.getName());
+            if (flowCode == null) {
+                throw new RuntimeException("flowCode named " + target.getName() + " not exist.");
+            }
             executable = new FlowNode(target.getType(), target.getName(), target.getId(),
-                    parentFlowHolder, parentFlowHolder.getFlowCodes().get(target.getName()));
+                    flowHolder, flowCode);
         }
         return executable;
     }

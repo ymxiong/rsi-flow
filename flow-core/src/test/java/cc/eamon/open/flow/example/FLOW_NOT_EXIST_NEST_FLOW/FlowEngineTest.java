@@ -14,7 +14,7 @@ public class FlowEngineTest {
     private AccountService accountService = new AccountService();
 
     //嵌套调用FlowHolder不存在【更改年龄】
-    @Test
+    @Test(expectedExceptions = RuntimeException.class, groups = "error-test")
     public void testFlowEngine() {
         User user = (User) FlowEngine.instance()
                 .register("userName", "小朱")

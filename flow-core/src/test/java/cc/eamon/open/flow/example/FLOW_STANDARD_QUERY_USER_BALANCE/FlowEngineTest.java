@@ -14,7 +14,7 @@ public class FlowEngineTest {
     private AccountService accountService = new AccountService();
 
     //多层复杂性编排【姓名标准化+查询账户余额】
-    @Test
+    @Test(groups = "test")
     public void testFlowEngine() {
         int balance = (int) FlowEngine.instance()
                 .register("userName", "    小   朱   ")

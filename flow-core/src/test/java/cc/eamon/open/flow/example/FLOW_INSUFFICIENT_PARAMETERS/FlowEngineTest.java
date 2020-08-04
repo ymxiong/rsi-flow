@@ -14,7 +14,7 @@ public class FlowEngineTest {
 
     private AccountService accountService = new AccountService();
 
-    @Test
+    @Test(expectedExceptions = RuntimeException.class, groups = "insufficient-error-test")
     public void testFlowEngine() {
 
         // 参数不足（线性编排）

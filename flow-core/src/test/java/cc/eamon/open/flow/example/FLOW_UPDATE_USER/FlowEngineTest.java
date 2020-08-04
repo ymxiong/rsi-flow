@@ -15,7 +15,7 @@ public class FlowEngineTest {
     private AccountService accountService = new AccountService();
 
     //嵌套编排测试【更改年龄】
-    @Test
+    @Test(groups = "test")
     public void testFlowEngine() {
         User user = (User) FlowEngine.instance()
                 .register("userName", "小朱")

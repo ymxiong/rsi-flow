@@ -14,7 +14,7 @@ public class FlowEngineTest {
     private AccountService accountService = new AccountService();
 
     //多路网关测试【同时更改性别和年龄】
-    @Test
+    @Test(groups = "test")
     public void testFlowEngine() {
         User user = (User) FlowEngine.instance()
                 .register("userName", "小朱")
