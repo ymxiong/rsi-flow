@@ -22,6 +22,8 @@ public class FlowEnum {
 
     public final static String FLOW_QUERY_BALANCE = "FLOW_QUERY_BALANCE";
 
+    public final static String FLOW_QUERY_BALANCE_NODE = "FLOW_QUERY_BALANCE_NODE";
+
 
     public final static String FLOW_STANDARD_QUERY_USER_BALANCE = "FLOW_STANDARD_QUERY_USER_BALANCE";
 

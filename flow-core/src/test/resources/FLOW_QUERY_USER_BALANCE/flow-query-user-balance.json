@@ -15,8 +15,8 @@
     },
     {
       "id": "FLOW_0",
-      "type": "flow",
-      "name": "FLOW_QUERY_USER_ACCOUNT",
+      "type": "event",
+      "name": "FLOW_QUERY_BALANCE_NODE",
       "targets": [
         {
           "condition": "true",
