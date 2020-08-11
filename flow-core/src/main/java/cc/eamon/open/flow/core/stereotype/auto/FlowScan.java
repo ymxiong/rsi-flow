@@ -1,9 +1,8 @@
-package cc.eamon.open.flow.core.stereotype;
+package cc.eamon.open.flow.core.stereotype.auto;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.springframework.context.annotation.Import;
+
+import java.lang.annotation.*;
 
 /**
  * Author: eamon
@@ -12,6 +11,9 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+@Documented
+//这个类交给Spring管理
+@Import(FlowScannerRegistrar.class)
 public @interface FlowScan {
 
     String[] value() default {};
@@ -19,4 +21,5 @@ public @interface FlowScan {
     String[] basePackages() default {};
 
     Class<?>[] basePackageClasses() default {};
+
 }

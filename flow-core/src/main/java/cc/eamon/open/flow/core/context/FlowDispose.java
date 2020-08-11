@@ -25,15 +25,23 @@ public class FlowDispose {
 
     private static Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
 
+    private static String[] configBasePackages;
+
+    private static String[] flowBasePackages;
+
     public FlowDispose() {
         // 1. 扫描所有flow配置
         // 2. 扫描所有flow代码
         // 3. 装配flow
-        String[] configFiles = {FlowDispose.class.getClassLoader().getResource("").getPath()};
-        loadConfig(configFiles);
+//        String[] configFiles = {FlowDispose.class.getClassLoader().getResource("").getPath()};
+//        loadConfig(configFiles);
+//
+//        String[] basePackages = {"cc.eamon.open.flow.example"};
+//        loadFlow(basePackages);
 
-        String[] basePackages = {"cc.eamon.open.flow.example"};
-        loadFlow(basePackages);
+
+        loadConfig(configBasePackages);
+        loadFlow(flowBasePackages);
         assemblyFlow();
     }
 
@@ -47,7 +55,7 @@ public class FlowDispose {
      * @param configFiles
      * @return
      */
-    public void loadConfig(String... configFiles) {
+    public static void loadConfig(String... configFiles) {
         for (FlowLoaderEnums value : FlowLoaderEnums.values()) {
             Set<FlowConfig> configs = value.getLoader().load(configFiles);
             if (configs == null) continue;
@@ -64,7 +72,7 @@ public class FlowDispose {
      * @param basePackages
      * @return
      */
-    public void loadFlow(String... basePackages) {
+    public static void loadFlow(String... basePackages) {
         for (FlowScannerEnums value : FlowScannerEnums.values()) {
             // TODO: NEED OPTIMIZE @FlowScan
             // EXAMPLE: @ComponentScan @MapperScan
@@ -83,18 +91,13 @@ public class FlowDispose {
     public void assemblyFlow() {
         // TODO：对于不匹配的校验
         for (FlowConfig flowConfig : flowConfigs) {
-            //List<FlowCode> flowCodes = new ArrayList<>();
             Map<String, FlowCode> flowCodes = new HashMap<>();
             for (RouteConfig routeConfig : flowConfig.getRoutes()) {
                 if (flowCodeMap.get(routeConfig.getName()) != null) {
-                    //flowCodes.add(flowCodeMap.get(routeConfig.getName()));
                     flowCodes.put(routeConfig.getName(), flowCodeMap.get(routeConfig.getName()));
                 }
-                //TODO:子流程匹配装配
-
             }
             FlowHolder flowHolder = new FlowHolder(flowConfig.getType(), flowConfig.getName(), flowConfig.getId(), null, flowConfig, flowCodes);
-//            FlowHolder flowHolder = new FlowHolder(flowConfig, flowCodes);
             flowHolders.put(flowHolder.getName(), flowHolder);
         }
     }
@@ -104,5 +107,11 @@ public class FlowDispose {
         return flowHolders.get(name);
     }
 
+    public static void setConfigBasePackages(String[] configBasePackages) {
+        FlowDispose.configBasePackages = configBasePackages;
+    }
 
+    public static void setFlowBasePackages(String[] flowBasePackages) {
+        FlowDispose.flowBasePackages = flowBasePackages;
+    }
 }
