@@ -6,6 +6,8 @@ import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
 import cc.eamon.open.flow.core.stereotype.support.defination.SimpleFlowCode;
 import cc.eamon.open.flow.core.stereotype.support.defination.SimpleFlowCodeProxy;
 import cc.eamon.open.flow.core.util.ClassUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
@@ -21,6 +23,7 @@ import java.util.Set;
  */
 public class ClassPathFlowScanner implements FlowScanner {
 
+    private static Logger logger_ = LogManager.getLogger(ClassPathFlowScanner.class);
 
     @Override
     public Set<? extends FlowCode> scan(String... basePackages) {
@@ -28,6 +31,9 @@ public class ClassPathFlowScanner implements FlowScanner {
     }
 
     private Set<SimpleFlowCodeProxy> doScan(String... basePackages) {
+        if (basePackages==null){
+            logger_.info("At least one base package must be specified");
+        }
         Assert.notEmpty(basePackages, "At least one base package must be specified");
         Set<SimpleFlowCodeProxy> flowDefinitions = new LinkedHashSet<>();
 

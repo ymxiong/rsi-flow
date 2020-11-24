@@ -9,6 +9,8 @@ import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThreadPool;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +25,8 @@ import java.util.concurrent.FutureTask;
  * Date: 2020/7/30 10:16
  */
 public class BasicExecutable implements FlowExecutable, Source, Target {
+
+    private static Logger logger_ = LogManager.getLogger(BasicExecutable.class);
     /**
      * 流程节点的类型
      */
@@ -174,15 +178,18 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
             executable = FlowDispose.getFlowHolderByName(target.getName());
             if (executable.equals(flowHolder)) {
                 //TODO:当前只是检查一层嵌套调用自身，不支持检查多层检查
+                logger_.info("you can not invoke self flow named " + target.getName() + "in "+target.getName());
                 throw new RuntimeException("you can not invoke self flow named " + target.getName() + "in "+target.getName());
             }
             if (executable == null) {
+                logger_.info("flow named " + target.getName() + " not exist.");
                 throw new RuntimeException("flow named " + target.getName() + " not exist.");
             }
             ((FlowHolder) executable).setParentFlowHolder(flowHolder);
         } else {
             FlowCode flowCode = flowHolder.getFlowCodes().get(target.getName());
             if (flowCode == null) {
+                logger_.info("flowCode named " + target.getName() + " not exist.");
                 throw new RuntimeException("flowCode named " + target.getName() + " not exist.");
             }
             executable = new FlowNode(target.getType(), target.getName(), target.getId(),
