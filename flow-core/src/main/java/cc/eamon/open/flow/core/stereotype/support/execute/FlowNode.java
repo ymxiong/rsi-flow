@@ -4,6 +4,7 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.util.WrapperClassUtils;
+import com.alibaba.fastjson.JSON;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.core.DefaultParameterNameDiscoverer;
@@ -44,32 +45,42 @@ public class FlowNode extends BasicExecutable {
         Object[] args = new Object[parameterNum];
 
         for (int i = 0; i < parameterNum; i++) {
-            if (FlowContextHolder.get().retrieveVariableType(parameterNames[i]) == null) {
+
+            Class contextParType = FlowContextHolder.get().retrieveVariableType(parameterNames[i]);
+            Class<?> requiredParType = parameterClasses[i];
+            // 参数在上下文中不存在
+            if (contextParType == null) {
                 logger_.info("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not exist in flowContext.");
                 throw new RuntimeException("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not exist in flowContext.");
             } else {
-                if (!parameterClasses[i].isAssignableFrom(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
-//                if (!FlowContextHolder.get().retrieveVariableType(parameterNames[i]).isInstance(parameterClasses[i])) {
-                    // TODO: 参数类型匹配
-                    if (parameterClasses[i].isPrimitive()) {
-                        WrapperClassUtils.getWrapperClass(parameterClasses[i]);
-                        if (!WrapperClassUtils.getWrapperClass(parameterClasses[i]).isAssignableFrom(FlowContextHolder.get().retrieveVariableType(parameterNames[i]))) {
-//                        if (!FlowContextHolder.get().retrieveVariableType(parameterNames[i]).isInstance(WrapperClassUtils.getWrapperClass(parameterClasses[i]))) {
-                            logger_.info("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+WrapperClassUtils.getWrapperClass(parameterClasses[i])+
-                                    ". The parameter type is "+FlowContextHolder.get().retrieveVariableType(parameterNames[i]));
-                            throw new RuntimeException("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+WrapperClassUtils.getWrapperClass(parameterClasses[i])+
-                                    ". The parameter type is "+FlowContextHolder.get().retrieveVariableType(parameterNames[i]));
+                // 参数类型匹配，包含父子类类型检查
+                if (!requiredParType.isAssignableFrom(contextParType)) {
+                    // 检查基础类型与包装类冲突的问题
+                    if (requiredParType.isPrimitive()) {
+                        WrapperClassUtils.getWrapperClass(requiredParType);
+                        if (!WrapperClassUtils.getWrapperClass(requiredParType).isAssignableFrom(contextParType)) {
+                            logger_.info("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+WrapperClassUtils.getWrapperClass(requiredParType)+
+                                    ". The parameter type is "+ contextParType);
+                            throw new RuntimeException("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+WrapperClassUtils.getWrapperClass(requiredParType)+
+                                    ". The parameter type is "+ contextParType);
                         }
                     } else {
-                        logger_.info("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+parameterClasses[i]+
-                                ". The parameter type is "+FlowContextHolder.get().retrieveVariableType(parameterNames[i]));
-                        throw new RuntimeException("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+parameterClasses[i]+
-                                ". The parameter type is "+FlowContextHolder.get().retrieveVariableType(parameterNames[i]));
+                        try {
+                            // 解决Map类包装成实体类的问题
+                            args[i] = JSON.parseObject(JSON.toJSONString(FlowContextHolder.get().retrieveVariable(parameterNames[i])), requiredParType);
+                        }catch (Exception e){
+                        logger_.info("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+ requiredParType +
+                                ". The parameter type is "+ contextParType);
+                        throw new RuntimeException("Error occurs when invoke "+method.getName()+"().The nested problem is "+parameterNames[i] + " does not match. Require type is "+ requiredParType +
+                                ". The parameter type is "+ contextParType);
+                    }
                     }
                 }
             }
 
-            args[i] = FlowContextHolder.get().retrieveVariable(parameterNames[i]);
+            if (args[i] == null) {
+                args[i]=FlowContextHolder.get().retrieveVariable(parameterNames[i]);
+            }
         }
 
         flowCode.execute(args);
