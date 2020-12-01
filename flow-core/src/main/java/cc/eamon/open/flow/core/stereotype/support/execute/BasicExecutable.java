@@ -83,12 +83,12 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
 
     }
 
     @Override
-    public void executeNext(List<Source> sources) {
+    public void executeNext(List<Source> sources) throws Exception{
         List<Target> targets = parentFlowHolder.getRoute().route(sources);
         //没有目标了
         if (targets.isEmpty()) {
@@ -102,7 +102,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     }
 
     @Override
-    public void executeNext(Source source) {
+    public void executeNext(Source source) throws Exception{
         //整体流程调用结束
         if (parentFlowHolder == null) return;
         List<Target> targets = parentFlowHolder.getRoute().route(source);
@@ -123,13 +123,13 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     }
 
     @Override
-    public void executeNextNode(Target target) {
+    public void executeNextNode(Target target) throws Exception{
         FlowExecutable executable = getExecuteableByTarget(target,parentFlowHolder);
         executable.execute();
     }
 
     @Override
-    public void executeNextNodes(List<Target> targets) {
+    public void executeNextNodes(List<Target> targets) throws Exception{
         CountDownLatch latch = new CountDownLatch(targets.size());
         FlowContextExtractor flowContextExtractor = new FlowContextExtractor();
         //保留了每个分支的执行节点
@@ -172,7 +172,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
      * @param target
      * @return
      */
-    public FlowExecutable getExecuteableByTarget(Target target,FlowHolder flowHolder) {
+    public FlowExecutable getExecuteableByTarget(Target target,FlowHolder flowHolder) throws Exception{
         FlowExecutable executable;
         if (target.getType().equals("flow")) {
             executable = FlowDispose.getFlowHolderByName(target.getName());

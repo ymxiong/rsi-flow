@@ -13,7 +13,7 @@ public interface FlowCode {
 
     String getFlowName();
 
-    void execute(Object... args);
+    void execute(Object... args) throws Exception;
 
     // TODO: NEED OPTIMIZE
     Method getMethod();

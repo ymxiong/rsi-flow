@@ -3,6 +3,8 @@ package cc.eamon.open.flow.core;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -12,27 +14,35 @@ import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
  */
 public class FlowEngine {
 
+    private static Logger logger_ = LogManager.getLogger(FlowEngine.class);
+
     private FlowDispose flowDispose = new FlowDispose();
 
-    public static FlowEngine instance() {
+    public static FlowEngine instance()  {
         // 保障同一线程仅有单一执行的流程引擎
         if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
             synchronized (FlowEngine.class) {
                 if (FlowContextHolder.get().getFlowEngine() == null) {
-                    FlowContextHolder.get().setFlowEngine(new FlowEngine());
+
+                        FlowContextHolder.get().setFlowEngine(new FlowEngine());
                 }
             }
         }
         return FlowContextHolder.get().getFlowEngine();
     }
 
-    private FlowEngine() {
+    private FlowEngine(){
     }
 
 
-    public FlowEngine run(String flowName) {
+    public FlowEngine run(String flowName) throws Exception{
         FlowHolder flowHolder = flowDispose.getFlowHolders().get(flowName);
-        flowHolder.execute();
+        try {
+            flowHolder.execute();
+        }catch (Exception e){
+            logger_.info("Error occurs when execute "+flowName);
+            throw e;
+        }
 //        //TODO:多线程好像不应该放在这里，此处入口
 //        FlowContextExtractor flowContextExtractor = new FlowContextExtractor();
 //        FlowThread flowThread = new FlowThread(flowHolder, flowContextExtractor);

@@ -31,17 +31,10 @@ public class FlowDispose {
 
     public FlowDispose() {
         // 1. 扫描所有flow配置
-        // 2. 扫描所有flow代码
-        // 3. 装配flow
-//        String[] configFiles = {FlowDispose.class.getClassLoader().getResource("").getPath()};
-//        loadConfig(configFiles);
-//
-//        String[] basePackages = {"cc.eamon.open.flow.example"};
-//        loadFlow(basePackages);
-
-
         loadConfig(configBasePackages);
+        // 2. 扫描所有flow代码
         loadFlow(flowBasePackages);
+        // 3. 装配flow
         assemblyFlow();
     }
 

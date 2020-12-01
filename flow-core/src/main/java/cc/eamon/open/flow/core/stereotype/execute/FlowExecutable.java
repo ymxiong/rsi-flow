@@ -6,13 +6,13 @@ import cc.eamon.open.flow.core.route.structure.element.Target;
 import java.util.List;
 
 public interface FlowExecutable {
-    void execute();
+    void execute() throws Exception;
 
-    void executeNext(List<Source> sources);
+    void executeNext(List<Source> sources) throws Exception;
 
-    void executeNext(Source source);
+    void executeNext(Source source) throws Exception;
 
-    void executeNextNode(Target target);
+    void executeNextNode(Target target) throws Exception;
 
-    void executeNextNodes(List<Target> targets);
+    void executeNextNodes(List<Target> targets) throws Exception;
 }

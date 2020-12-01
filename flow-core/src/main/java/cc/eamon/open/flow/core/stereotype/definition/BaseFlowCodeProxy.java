@@ -21,10 +21,14 @@ public abstract class BaseFlowCodeProxy implements FlowCode {
     }
 
     @Override
-    public void execute(Object... args) {
+    public void execute(Object... args) throws Exception {
         // TODO: OPTIMIZE PARAM AND CONTEXT REGISTER
         beforeExecute(args);
-        flowCode.execute(args);
+        try {
+            flowCode.execute(args);
+        }catch (Exception e){
+            throw e;
+        }
         afterExecute(args);
     }
 

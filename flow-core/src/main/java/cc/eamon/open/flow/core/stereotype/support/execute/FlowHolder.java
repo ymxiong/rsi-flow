@@ -6,6 +6,8 @@ import cc.eamon.open.flow.core.route.structure.element.Target;
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
@@ -16,6 +18,8 @@ import java.util.Map;
  */
 
 public class FlowHolder extends BasicExecutable {
+
+    private static Logger logger_ = LogManager.getLogger(FlowHolder.class);
 
     /**
      * 流程的配置
@@ -48,18 +52,23 @@ public class FlowHolder extends BasicExecutable {
         return route;
     }
 
+    @Override
     public void setParentFlowHolder(FlowHolder parentFlowHolder) {
         super.parentFlowHolder = parentFlowHolder;
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception{
         //获取开始节点
-        Target start = route.getStartNode();
-        FlowExecutable startNode = getExecuteableByTarget(start,this);
-        startNode.execute();
-        //执行下一个节点
-        executeNext(this);
+        try {
+            Target start = route.getStartNode();
+            FlowExecutable startNode = getExecuteableByTarget(start,this);
+            startNode.execute();
+            //执行下一个节点
+            executeNext(this);
+        }catch (Exception e){
+            throw e;
+        }
     }
 
 
