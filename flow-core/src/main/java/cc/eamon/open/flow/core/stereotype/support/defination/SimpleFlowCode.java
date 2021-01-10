@@ -3,8 +3,8 @@ package cc.eamon.open.flow.core.stereotype.support.defination;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,7 +16,7 @@ import java.lang.reflect.Method;
  */
 public class SimpleFlowCode implements FlowCode {
 
-    private static Logger logger_ = LogManager.getLogger(SimpleFlowCode.class);
+    private static Logger logger_ = LoggerFactory.getLogger(SimpleFlowCode.class);
 
     private Class<?> flowClass;
 

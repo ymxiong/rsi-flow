@@ -6,8 +6,8 @@ import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
 import cc.eamon.open.flow.core.stereotype.support.defination.SimpleFlowCode;
 import cc.eamon.open.flow.core.stereotype.support.defination.SimpleFlowCodeProxy;
 import cc.eamon.open.flow.core.util.ClassUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.util.Assert;
 
 import java.lang.reflect.Method;
@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class ClassPathFlowScanner implements FlowScanner {
 
-    private static Logger logger_ = LogManager.getLogger(ClassPathFlowScanner.class);
+    private static Logger logger_ = LoggerFactory.getLogger(ClassPathFlowScanner.class);
 
     @Override
     public Set<? extends FlowCode> scan(String... basePackages) {

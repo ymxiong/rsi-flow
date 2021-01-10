@@ -3,8 +3,8 @@ package cc.eamon.open.flow.core;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /**
@@ -14,7 +14,7 @@ import org.apache.logging.log4j.Logger;
  */
 public class FlowEngine {
 
-    private static Logger logger_ = LogManager.getLogger(FlowEngine.class);
+    private static Logger logger_ = LoggerFactory.getLogger(FlowEngine.class);
 
     private FlowDispose flowDispose = new FlowDispose();
 

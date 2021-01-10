@@ -8,8 +8,8 @@ import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.route.structure.element.Target;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class RouteEngine implements Route {
 
-    private static Logger logger_ = LogManager.getLogger(RouteEngine.class);
+    private static Logger logger = LoggerFactory.getLogger(RouteEngine.class);
 
     private RouteModel routeModel;
 
@@ -35,8 +35,8 @@ public class RouteEngine implements Route {
         RouteElement routeElement = routeModel.getElementById(source.getId());
         //寻找对应策略
         RouteStrategy strategy = StrategyTypeEnum.getStrategy(routeElement.getType());
-        if (strategy == null){
-            logger_.info("route strategy can't be null");
+        if (strategy == null) {
+            logger.info("route strategy can't be null");
             throw new RuntimeException("route strategy can't be null");
         }
         //获取下一节点的id和name，封装成Target
@@ -45,8 +45,8 @@ public class RouteEngine implements Route {
             for (String nextId : nextIds) {
                 RouteElement targetElement = routeModel.getElementById(nextId);
                 RouteStrategy targetStrategy = StrategyTypeEnum.getStrategy(targetElement.getType());
-                if (targetStrategy == null){
-                    logger_.info("route strategy can't be null");
+                if (targetStrategy == null) {
+                    logger.info("route strategy can't be null");
                     throw new RuntimeException("route strategy can't be null");
                 }
                 targetStrategy.processTarget(targetElement, targets, routeModel);

@@ -9,8 +9,8 @@ import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThreadPool;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +26,7 @@ import java.util.concurrent.FutureTask;
  */
 public class BasicExecutable implements FlowExecutable, Source, Target {
 
-    private static Logger logger_ = LogManager.getLogger(BasicExecutable.class);
+    private static Logger logger_ = LoggerFactory.getLogger(BasicExecutable.class);
     /**
      * 流程节点的类型
      */

@@ -5,8 +5,8 @@ import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.util.WrapperClassUtils;
 import com.alibaba.fastjson.JSON;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 
 import java.lang.reflect.Method;
@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
  */
 public class FlowNode extends BasicExecutable {
 
-    private static Logger logger_ = LogManager.getLogger(FlowNode.class);
+    private static Logger logger_ = LoggerFactory.getLogger(FlowNode.class);
     /**
      * 流程节点对应的代码
      */
