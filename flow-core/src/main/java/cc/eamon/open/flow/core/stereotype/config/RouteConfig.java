@@ -1,7 +1,5 @@
 package cc.eamon.open.flow.core.stereotype.config;
 
-import cc.eamon.open.flow.core.check.FlowItemResult;
-
 import java.util.List;
 
 /**

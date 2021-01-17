@@ -1,9 +1,8 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
-import cc.eamon.open.flow.core.check.FlowItemResult;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.stereotype.Flow;
-import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.FlowItemResult;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import org.slf4j.LoggerFactory;
