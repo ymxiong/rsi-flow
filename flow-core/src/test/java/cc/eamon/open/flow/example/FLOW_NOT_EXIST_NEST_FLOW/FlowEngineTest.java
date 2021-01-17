@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.example.FLOW_NOT_EXIST_NEST_FLOW;
 
 import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.entity.User;
 import cc.eamon.open.flow.example.remote.service.AccountService;
@@ -15,7 +16,8 @@ public class FlowEngineTest {
 
     //嵌套调用FlowHolder不存在【更改年龄】
     @Test(expectedExceptions = RuntimeException.class, groups = "error-test")
-    public void testFlowEngine() {
+    public void testFlowEngine() throws Exception {
+        FlowDispose.test();
         User user = (User) FlowEngine.instance()
                 .register("userName", "小朱")
                 .register("newAge", 21)

@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.example.FLOW_NOT_EXIST_FLOWCODE;
 
 import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.entity.Account;
 import cc.eamon.open.flow.example.remote.service.AccountService;
@@ -14,8 +15,8 @@ public class FlowEngineTest {
     private AccountService accountService = new AccountService();
 
     @Test(expectedExceptions = RuntimeException.class, groups = "error-test")
-    public void testFlowEngine() {
-
+    public void testFlowEngine() throws Exception {
+        FlowDispose.test();
         // flowcode不存在 [线性编排]
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数

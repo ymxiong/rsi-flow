@@ -5,6 +5,7 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.route.structure.element.Target;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
@@ -188,12 +189,14 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
             ((FlowHolder) executable).setParentFlowHolder(flowHolder);
         } else {
             FlowCode flowCode = flowHolder.getFlowCodes().get(target.getName());
+            //TODO:从哪里找RouteConfig
+            RouteConfig routeConfig=flowHolder.getRouteConfig(target.getName());
             if (flowCode == null) {
                 logger_.info("flowCode named " + target.getName() + " not exist.");
                 throw new RuntimeException("flowCode named " + target.getName() + " not exist.");
             }
             executable = new FlowNode(target.getType(), target.getName(), target.getId(),
-                    flowHolder, flowCode);
+                    flowHolder, flowCode,routeConfig);
         }
         return executable;
     }

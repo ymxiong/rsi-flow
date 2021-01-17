@@ -4,11 +4,13 @@ import cc.eamon.open.flow.core.route.Route;
 import cc.eamon.open.flow.core.route.execute.RouteEngine;
 import cc.eamon.open.flow.core.route.structure.element.Target;
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,6 +30,11 @@ public class FlowHolder extends BasicExecutable {
 
 
     /**
+     *
+     */
+    private Map<String, RouteConfig> routeMap;
+
+    /**
      * 流程的所有代码
      */
     private Map<String, FlowCode> flowCodes;
@@ -42,6 +49,10 @@ public class FlowHolder extends BasicExecutable {
         this.flowConfig = flowConfig;
         this.flowCodes = flowCodes;
         route = new RouteEngine(flowConfig.getRoutes());
+        routeMap=new HashMap<>();
+        for (RouteConfig route : flowConfig.getRoutes()) {
+            routeMap.put(route.getName(),route);
+        }
     }
 
     public Map<String, FlowCode> getFlowCodes() {
@@ -69,6 +80,10 @@ public class FlowHolder extends BasicExecutable {
         }catch (Exception e){
             throw e;
         }
+    }
+
+    public RouteConfig getRouteConfig(String flowName){
+        return routeMap.get(flowName);
     }
 
 

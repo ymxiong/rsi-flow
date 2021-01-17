@@ -1,5 +1,8 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
+import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+
 import java.lang.reflect.Method;
 
 /**
@@ -21,11 +24,11 @@ public abstract class BaseFlowCodeProxy implements FlowCode {
     }
 
     @Override
-    public void execute(Object... args) throws Exception {
+    public void execute(RouteConfig routeConfig, Object... args) throws Exception {
         // TODO: OPTIMIZE PARAM AND CONTEXT REGISTER
         beforeExecute(args);
         try {
-            flowCode.execute(args);
+            flowCode.execute(routeConfig,args);
         }catch (Exception e){
             throw e;
         }

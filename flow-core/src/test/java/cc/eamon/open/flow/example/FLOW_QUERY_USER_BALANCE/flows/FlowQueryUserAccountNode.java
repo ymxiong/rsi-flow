@@ -8,7 +8,7 @@ import cc.eamon.open.flow.example.remote.entity.Account;
 public class FlowQueryUserAccountNode {
 
     @Flow(value = FlowEnum.FLOW_QUERY_BALANCE_NODE, retrieve = "account")
-    public Account queryUserAccount() {
+    public Account queryUserAccount() throws Exception {
         Account account = (Account) FlowEngine.instance()
                 // 执行流程
                 .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)

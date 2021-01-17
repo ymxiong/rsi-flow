@@ -19,23 +19,56 @@ import java.util.*;
  */
 public class FlowDispose {
 
+    /**
+     *  流程Map
+     *  键为流程名称
+     *  值为该流程的Holder,其中包含了流程的配置信息以及流程所需要的流程代码配置
+     */
     private static Map<String, FlowHolder> flowHolders = new LinkedHashMap<>();
 
+    /**
+     *  流程配置键值
+     *
+     */
     private static List<FlowConfig> flowConfigs = new ArrayList<>();
 
+    /**
+     *  流程代码键值Map
+     *  键为流程代码的名称
+     *  值为对应的流程代码
+     */
     private static Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
 
+
+    /**
+     *  流程配置所在路径
+     */
     private static String[] configBasePackages;
 
+
+    /**
+     *  流程代码所在路径
+     */
     private static String[] flowBasePackages;
 
+    private static boolean isTest=false;
+
     public FlowDispose() {
+        if (isTest){
+            //测试阶段设置配置扫描路径与代码扫描路径
+            configBasePackages= new String[]{""};
+            flowBasePackages=new String[]{"cc.eamon.open.flow.example"};
+        }
         // 1. 扫描所有flow配置
         loadConfig(configBasePackages);
         // 2. 扫描所有flow代码
         loadFlow(flowBasePackages);
         // 3. 装配flow
         assemblyFlow();
+    }
+
+    public static void test(){
+        isTest=true;
     }
 
     public Map<String, FlowHolder> getFlowHolders() {
@@ -50,6 +83,7 @@ public class FlowDispose {
      */
     public static void loadConfig(String... configFiles) {
         for (FlowLoaderEnums value : FlowLoaderEnums.values()) {
+            // @Config自动扫描
             Set<FlowConfig> configs = value.getLoader().load(configFiles);
             if (configs == null) continue;
             for (FlowConfig config : configs) {
@@ -67,9 +101,7 @@ public class FlowDispose {
      */
     public static void loadFlow(String... basePackages) {
         for (FlowScannerEnums value : FlowScannerEnums.values()) {
-            // TODO: NEED OPTIMIZE @FlowScan
-            // EXAMPLE: @ComponentScan @MapperScan
-            // 往后排
+            // @FlowScan自动扫描
             Set<? extends FlowCode> flowCodes = value.getScanner().scan(basePackages);
             if (flowCodes == null) continue;
             for (FlowCode flowCode : flowCodes) {

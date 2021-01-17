@@ -1,7 +1,10 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
+import cc.eamon.open.flow.core.check.FlowItemResult;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.stereotype.Flow;
+import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
@@ -66,7 +69,7 @@ public class SimpleFlowCode implements FlowCode {
 
     // TODO: NEED OPTIMIZE CLASS INSTANCE
     @Override
-    public void execute(Object... args) throws Exception {
+    public void execute(RouteConfig routeConfig, Object... args) throws Exception {
         Object target = null;
         try {
             target = flowClass.newInstance();
@@ -90,7 +93,10 @@ public class SimpleFlowCode implements FlowCode {
 
         //TODO:返回类型匹配校验???
         //存储流程代码运行结果
-        FlowContextHolder.get().registerVariable(returnName, returnValue, returnType);
+        //TODO:参数放到对应域
+        FlowItemResult result= routeConfig.getResult();
+        String returnScope=result.getScope();
+        FlowContextHolder.get().registerVariable(returnScope,returnName, returnValue, returnType);
 
     }
 

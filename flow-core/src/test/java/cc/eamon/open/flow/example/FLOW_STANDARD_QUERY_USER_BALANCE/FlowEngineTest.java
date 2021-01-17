@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.example.FLOW_STANDARD_QUERY_USER_BALANCE;
 
 import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
@@ -15,7 +16,8 @@ public class FlowEngineTest {
 
     //多层复杂性编排【姓名标准化+查询账户余额】
     @Test(groups = "test")
-    public void testFlowEngine() {
+    public void testFlowEngine() throws Exception {
+        FlowDispose.test();
         int balance = (int) FlowEngine.instance()
                 .register("userName", "    小   朱   ")
                 .register("userService", userService)

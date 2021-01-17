@@ -1,7 +1,11 @@
 package cc.eamon.open.flow.core.stereotype.support.execute;
 
+import cc.eamon.open.flow.core.check.FlowItemResult;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.route.structure.element.Source;
+import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.FlowItemParam;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.util.WrapperClassUtils;
 import com.alibaba.fastjson.JSON;
@@ -10,6 +14,9 @@ import org.slf4j.Logger;
 import org.springframework.core.DefaultParameterNameDiscoverer;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: lucas
@@ -24,11 +31,39 @@ public class FlowNode extends BasicExecutable {
      */
     private FlowCode flowCode;
 
-    public FlowNode(String type, String name, String id, FlowHolder parentFlowHolder, FlowCode flowCode) {
+    /**
+     * 当前该流程节点所对应的配置
+     */
+    private RouteConfig routeConfig;
+
+    /**
+     * 当前该流程节点需要的入参以及他们所在Scope
+     */
+    private Map<String,FlowItemParam> paramsMap;
+
+    /**
+     * 当前该流程节点结果以及所在Scope
+     */
+    private Map<String,FlowItemResult> resultMap;
+
+
+    public FlowNode(String type, String name, String id, FlowHolder parentFlowHolder, FlowCode flowCode,RouteConfig routeConfig) {
         super(type, name, id, parentFlowHolder);
         this.flowCode = flowCode;
+        this.routeConfig=routeConfig;
+        paramsMap=new HashMap<>();
+        resultMap=new HashMap<>();
+        //封装params
+        List<FlowItemParam> params = routeConfig.getParams();
+        params.forEach(param -> {
+            paramsMap.put(param.getName(),param);
+        });
+        //封装result
+        FlowItemResult result = routeConfig.getResult();
+        resultMap.put(result.getName(),result);
     }
 
+    //TODO:多Scope支持
     //TODO:执行该节点，然后路由执行后续节点
     @Override
     public void execute() throws Exception{
@@ -47,7 +82,9 @@ public class FlowNode extends BasicExecutable {
 
             for (int i = 0; i < parameterNum; i++) {
 
-                Class contextParType = FlowContextHolder.get().retrieveVariableType(parameterNames[i]);
+                //TODO:多Scope支持
+                FlowItemParam param=paramsMap.get(parameterNames[i]);
+                Class contextParType = FlowContextHolder.get().retrieveVariableType(param.getScope(),parameterNames[i]);
                 Class<?> requiredParType = parameterClasses[i];
                 // 参数在上下文中不存在
                 if (contextParType == null) {
@@ -80,11 +117,11 @@ public class FlowNode extends BasicExecutable {
                 }
 
                 if (args[i] == null) {
-                    args[i] = FlowContextHolder.get().retrieveVariable(parameterNames[i]);
+                    args[i] = FlowContextHolder.get().retrieveVariable(param.getScope(),parameterNames[i]);
                 }
             }
 
-            flowCode.execute(args);
+            flowCode.execute(routeConfig,args);
             executeNext((Source) this);
         }catch (Exception e){
             throw e;

@@ -19,12 +19,12 @@ public class InclusiveGateWayStrategy implements RouteStrategy {
         //目标
         List<TargetConfig> targets = routeElement.getTargetConfigs();
 
-        Map<String, Object> env = getEnv();
+//        Map<String, Object> env = getEnv();
         //挑选符合条件的出口
         for (TargetConfig targetConfig : targets) {
             String condition = targetConfig.getCondition();//条件
             String target = targetConfig.getTarget();//出口id
-
+            Map<String, Object> env = getEnv(targetConfig.getScope());
             if (judgeCondition(condition, env)) {
                 results.add(target);
             }
@@ -57,8 +57,8 @@ public class InclusiveGateWayStrategy implements RouteStrategy {
      *
      * @author xsy
      */
-    private Map<String, Object> getEnv() {
-        return new FlowContextExtractor().getVariableMap();
+    private Map<String, Object> getEnv(String scope) {
+        return new FlowContextExtractor().getVariableMap().get(scope);
     }
 
     /**

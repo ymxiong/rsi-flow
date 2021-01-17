@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.config;
 
+import cc.eamon.open.flow.core.check.FlowItemResult;
+
 import java.util.List;
 
 /**
@@ -22,6 +24,10 @@ public class RouteConfig {
 
     //默认节点
     private String defaultTarget;
+
+    private List<FlowItemParam> params;
+
+    private FlowItemResult result;
 
 
     public String getId() {
@@ -62,5 +68,21 @@ public class RouteConfig {
 
     public void setDefaultTarget(String defaultTarget) {
         this.defaultTarget = defaultTarget;
+    }
+
+    public List<FlowItemParam> getParams() {
+        return params;
+    }
+
+    public void setParams(List<FlowItemParam> params) {
+        this.params = params;
+    }
+
+    public FlowItemResult getResult() {
+        return result;
+    }
+
+    public void setResult(FlowItemResult result) {
+        this.result = result;
     }
 }

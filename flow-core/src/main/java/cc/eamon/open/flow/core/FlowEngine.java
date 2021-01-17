@@ -77,7 +77,12 @@ public class FlowEngine {
      */
     public FlowEngine register(String paramName, Object paramValue) {
         //注入参数到上下文中
-        FlowContextHolder.get().registerVariable(paramName, paramValue, paramValue.getClass());
+        return register("defaultScope",paramName,paramValue);
+    }
+
+    public FlowEngine register(String scope,String paramName, Object paramValue) {
+        //注入参数到上下文中
+        FlowContextHolder.get().registerVariable(scope,paramName, paramValue, paramValue.getClass());
         return this;
     }
 
@@ -104,8 +109,13 @@ public class FlowEngine {
      * @param paramName
      * @return
      */
+
     public Object retrieve(String paramName) {
-        return FlowContextHolder.get().retrieveVariable(paramName);
+        return this.retrieve("defaultScope",paramName);
+    }
+
+    public Object retrieve(String scope,String paramName) {
+        return FlowContextHolder.get().retrieveVariable(scope,paramName);
     }
 
 

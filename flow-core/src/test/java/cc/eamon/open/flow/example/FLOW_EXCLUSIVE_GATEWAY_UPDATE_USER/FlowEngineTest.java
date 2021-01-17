@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.example.FLOW_EXCLUSIVE_GATEWAY_UPDATE_USER;
 
 import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.entity.User;
 import cc.eamon.open.flow.example.remote.service.AccountService;
@@ -15,7 +16,8 @@ public class FlowEngineTest {
 
     //唯一网关测试【有权限就更改性别，没有权限不能更改】
     @Test(groups = "test")
-    public void testFlowEngine() {
+    public void testFlowEngine() throws Exception {
+        FlowDispose.test();
         User user = (User) FlowEngine.instance()
                 .register("userName", "小朱")
                 .register("newGender", "女")

@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.example.FLOW_QUERY_BALANCE_BY_ID;
 
 import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
@@ -14,7 +15,8 @@ public class FlowEngineTest {
 
     //复杂嵌套编排4【根据ID查姓名+污染姓名+姓名标准化+查询账户余额】
     @Test(groups = "test")
-    public void testFlowEngine() {
+    public void testFlowEngine() throws Exception {
+        FlowDispose.test();
         int balance = (int) FlowEngine.instance()
                 .register("id", "123456")
                 .register("userService", userService)

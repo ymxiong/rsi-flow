@@ -1,6 +1,9 @@
 package cc.eamon.open.flow.example.FLOW_QUERY_USER_BALANCE;
 
 import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.context.FlowDispose;
+import cc.eamon.open.flow.core.stereotype.auto.ConfigScan;
+import cc.eamon.open.flow.core.stereotype.auto.FlowScan;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
@@ -15,7 +18,8 @@ public class FlowEngineTest {
 
     //复杂线性编排测试【查询账户余额】
     @Test(groups = "test")
-    public void testFlowEngine() {
+    public void testFlowEngine() throws Exception {
+        FlowDispose.test();
         int balance = (int) FlowEngine.instance()
                 .register("userName", "小朱")
                 .register("userService", userService)
