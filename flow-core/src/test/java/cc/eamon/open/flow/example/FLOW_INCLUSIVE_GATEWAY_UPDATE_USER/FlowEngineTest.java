@@ -2,9 +2,6 @@ package cc.eamon.open.flow.example.FLOW_INCLUSIVE_GATEWAY_UPDATE_USER;
 
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowDispose;
-import cc.eamon.open.flow.core.stereotype.Flow;
-import cc.eamon.open.flow.core.stereotype.auto.ConfigScan;
-import cc.eamon.open.flow.core.stereotype.auto.FlowScan;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.entity.User;
 import cc.eamon.open.flow.example.remote.service.AccountService;
@@ -23,14 +20,14 @@ public class FlowEngineTest {
     public void testFlowEngine() throws Exception {
         FlowDispose.test();
         User user = (User) FlowEngine.instance()
-                .register("userName", "小朱")
-                .register("newGender", "女")
-                .register("newAge", 25)
-                .register("userService", userService)
-                .register("accountService", accountService)
+                .register("testScope","userName", "小朱")
+                .register("testScope","newGender", "女")
+                .register("testScope","newAge", 25)
+                .register("testScope","userService", userService)
+                .register("testScope","accountService", accountService)
                 .run(FlowEnum.FLOW_INCLUSIVE_GATEWAY_UPDATE_USER)
                 // 取出执行结果
-                .retrieve("user");
+                .retrieve("testScope","user");
 
         Assert.assertEquals(user.getGender(), "女");
         Assert.assertEquals(user.getAge(), 25);

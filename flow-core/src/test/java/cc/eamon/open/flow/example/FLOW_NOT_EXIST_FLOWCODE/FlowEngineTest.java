@@ -20,13 +20,13 @@ public class FlowEngineTest {
         // flowcode不存在 [线性编排]
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数
-                .register("userName", "小朱")
+                .register("testScope","userName", "小朱")
                 // 注册流程所需核心服务
-                .register("userService", userService)
-                .register("accountService", accountService)
+                .register("testScope","userService", userService)
+                .register("testScope","accountService", accountService)
                 // 执行流程
                 .run(FlowEnum.FLOW_NOT_EXIST_FLOW_CODE)
                 // 取出执行结果
-                .retrieve("account");
+                .retrieve("testScope","account");
     }
 }

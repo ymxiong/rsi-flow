@@ -13,7 +13,8 @@ public class TargetConfig {
 
     private String target;
 
-    public TargetConfig(String condition, String target) {
+    public TargetConfig(String scope, String condition, String target) {
+        this.scope = scope;
         this.condition = condition;
         this.target = target;
     }

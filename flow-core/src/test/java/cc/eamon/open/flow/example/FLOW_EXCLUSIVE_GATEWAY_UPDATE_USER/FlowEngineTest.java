@@ -19,13 +19,13 @@ public class FlowEngineTest {
     public void testFlowEngine() throws Exception {
         FlowDispose.test();
         User user = (User) FlowEngine.instance()
-                .register("userName", "小朱")
-                .register("newGender", "女")
-                .register("userService", userService)
-                .register("accountService", accountService)
+                .register("testScope","userName", "小朱")
+                .register("testScope","newGender", "女")
+                .register("testScope","userService", userService)
+                .register("testScope","accountService", accountService)
                 .run(FlowEnum.FLOW_EXCLUSIVE_GATEWAY_UPDATE_USER)
                 // 取出执行结果
-                .retrieve("user");
+                .retrieve("testScope","user");
 
         Assert.assertEquals(user.getGender(), "女");
     }

@@ -17,6 +17,27 @@
       "id": "ROUTE_2",
       "type": "event",
       "name": "FLOW_QUERY_USER",
+      "params": [
+        {
+          "name": "userService",
+          "type": "UserService",
+          "notNull": "true",
+          "defaultValue": "",
+          "scope": "testScope"
+        },
+        {
+          "name": "userName",
+          "type": "String",
+          "notNull": "true",
+          "defaultValue": "",
+          "scope": "testScope"
+        }
+      ],
+      "result": {
+        "name": "user",
+        "type": "User",
+        "scope": "testScope"
+      },
       "targets": [
         {
           "condition": "true",
@@ -39,6 +60,27 @@
       "id": "ROUTE_4",
       "type": "event",
       "name": "FLOW_QUERY_ACCOUNT_2",
+      "params": [
+        {
+          "name": "accountService",
+          "type": "AccountService",
+          "notNull": "true",
+          "defaultValue": "",
+          "scope": "testScope"
+        },
+        {
+          "name": "user",
+          "type": "User",
+          "notNull": "true",
+          "defaultValue": "",
+          "scope": "testScope"
+        }
+      ],
+      "result": {
+        "name": "account",
+        "type": "Account",
+        "scope": "testScope"
+      },
       "targets": [
         {
           "condition": "true",

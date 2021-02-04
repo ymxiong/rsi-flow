@@ -20,13 +20,13 @@ public class FlowEngineTest {
     public void testFlowEngine() throws Exception {
         FlowDispose.test();
         User user = (User) FlowEngine.instance()
-                .register("userName", "小朱")
-                .register("newAge", 21)
-                .register("userService", userService)
-                .register("accountService", accountService)
+                .register("testScope","userName", "小朱")
+                .register("testScope","newAge", 21)
+                .register("testScope","userService", userService)
+                .register("testScope","accountService", accountService)
                 .run(FlowEnum.FLOW_CALL_ITSELF)
                 // 取出执行结果
-                .retrieve("user");
+                .retrieve("testScope","user");
 
         Assert.assertEquals(user.getAge(), 21);
     }
