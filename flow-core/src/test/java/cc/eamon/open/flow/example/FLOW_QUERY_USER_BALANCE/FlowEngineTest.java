@@ -2,8 +2,6 @@ package cc.eamon.open.flow.example.FLOW_QUERY_USER_BALANCE;
 
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowDispose;
-import cc.eamon.open.flow.core.stereotype.auto.ConfigScan;
-import cc.eamon.open.flow.core.stereotype.auto.FlowScan;
 import cc.eamon.open.flow.example.enums.FlowEnum;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
@@ -21,11 +19,11 @@ public class FlowEngineTest {
     public void testFlowEngine() throws Exception {
         FlowDispose.test();
         int balance = (int) FlowEngine.instance()
-                .register("userName", "小朱")
-                .register("userService", userService)
-                .register("accountService", accountService)
+                .register("testScope","userName", "小朱")
+                .register("testScope","userService", userService)
+                .register("testScope","accountService", accountService)
                 .run(FlowEnum.FLOW_QUERY_USER_BALANCE)
-                .retrieve("balance");
+                .retrieve("testScope","balance");
         Assert.assertEquals(balance, 12345);
     }
 

@@ -17,22 +17,49 @@
       "id": "FLOW_0",
       "type": "event",
       "name": "FLOW_QUERY_BALANCE_NODE",
+      "result": {
+        "name": "account",
+        "type": "Account",
+        "scope": "testScope"
+      },
       "targets": [
         {
           "condition": "true",
           "target": "ROUTE_3"
         }
-      ]
+      ],
     },
     {
       "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_QUERY_BALANCE",
+      "params": [
+        {
+          "name": "accountService",
+          "type": "AccountService",
+          "notNull": "true",
+          "defaultValue": "",
+          "scope": "testScope"
+        },
+        {
+          "name": "account",
+          "type": "Account",
+          "notNull": "true",
+          "defaultValue": "",
+          "scope": "testScope"
+        }
+      ],
+      "result": {
+        "name": "balance",
+        "type": "int",
+        "scope": "testScope"
+      },
       "targets": [
         {
           "condition": "true",
           "target": "ROUTE_4"
         }
+
       ]
     },
     {

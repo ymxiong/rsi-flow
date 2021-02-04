@@ -23,12 +23,12 @@ public class FlowEngineTest {
                 // 注册流程所需参数
                 //.register("userName", "小朱")
                 // 注册流程所需核心服务
-                .register("userService", userService)
-                .register("accountService", accountService)
+                .register("testScope","userService", userService)
+                .register("testScope","accountService", accountService)
                 // 执行流程
                 .run(FlowEnum.FLOW_INSUFFICIENT_PARAMETERS)
                 // 取出执行结果
-                .retrieve("account");
+                .retrieve("testScope","account");
 
         Assert.assertEquals(account.getId(), "654321");
     }

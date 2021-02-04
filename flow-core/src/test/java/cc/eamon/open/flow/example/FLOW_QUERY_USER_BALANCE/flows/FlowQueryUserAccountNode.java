@@ -13,7 +13,7 @@ public class FlowQueryUserAccountNode {
                 // 执行流程
                 .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
                 // 取出执行结果
-                .retrieve("account");
+                .retrieve("testScope","account");
 
         return account;
     }

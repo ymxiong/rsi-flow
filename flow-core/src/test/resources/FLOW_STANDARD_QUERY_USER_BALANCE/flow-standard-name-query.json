@@ -17,6 +17,20 @@
       "id": "ROUTE_2",
       "type": "event",
       "name": "FLOW_STANDARD_NAME",
+      "params": [
+        {
+          "name": "userName",
+          "type": "String",
+          "notNull": "true",
+          "defaultValue": "",
+          "scope": "testScope"
+        }
+      ],
+      "result": {
+        "name": "userName",
+        "type": "String",
+        "scope": "testScope"
+      },
       "targets": [
         {
           "condition": "true",

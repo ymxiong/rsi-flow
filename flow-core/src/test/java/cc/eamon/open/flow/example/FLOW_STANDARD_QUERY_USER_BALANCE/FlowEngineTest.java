@@ -19,11 +19,11 @@ public class FlowEngineTest {
     public void testFlowEngine() throws Exception {
         FlowDispose.test();
         int balance = (int) FlowEngine.instance()
-                .register("userName", "    小   朱   ")
-                .register("userService", userService)
-                .register("accountService", accountService)
+                .register("testScope","userName", "    小   朱   ")
+                .register("testScope","userService", userService)
+                .register("testScope","accountService", accountService)
                 .run(FlowEnum.FLOW_STANDARD_QUERY_USER_BALANCE)
-                .retrieve("balance");
+                .retrieve("testScope","balance");
         Assert.assertEquals(balance, 12345);
     }
 

@@ -54,12 +54,17 @@ public class FlowNode extends BasicExecutable {
         resultMap=new HashMap<>();
         //封装params
         List<FlowItemParam> params = routeConfig.getParams();
-        params.forEach(param -> {
-            paramsMap.put(param.getName(),param);
-        });
+        if (params!=null){
+            params.forEach(param -> {
+                paramsMap.put(param.getName(),param);
+            });
+        }
         //封装result
         FlowItemResult result = routeConfig.getResult();
-        resultMap.put(result.getName(),result);
+        if (result!=null){
+            resultMap.put(result.getName(),result);
+        }
+
     }
 
     //TODO:多Scope支持

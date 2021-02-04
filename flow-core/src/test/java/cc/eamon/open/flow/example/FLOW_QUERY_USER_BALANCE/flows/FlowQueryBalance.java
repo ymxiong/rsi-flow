@@ -9,6 +9,7 @@ public class FlowQueryBalance {
 
     @Flow(value = FlowEnum.FLOW_QUERY_BALANCE, retrieve = "balance")
     public int queryBalance(AccountService accountService, Account account) {
+
         return accountService.getBalance();
     }
 }
