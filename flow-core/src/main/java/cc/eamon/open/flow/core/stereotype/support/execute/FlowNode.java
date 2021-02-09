@@ -92,8 +92,8 @@ public class FlowNode extends BasicExecutable {
                 Class<?> requiredParType = parameterClasses[i];
                 // 参数在上下文中不存在
                 if (contextParType == null) {
-                    logger_.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in flowContext.");
-                    throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in flowContext.");
+                    logger_.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of "+ param.getScope()+" in flowContext.");
+                    throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of "+ param.getScope()+" in flowContext.");
                 } else {
                     // 参数类型匹配，包含父子类类型检查
                     if (!requiredParType.isAssignableFrom(contextParType)) {
@@ -109,7 +109,7 @@ public class FlowNode extends BasicExecutable {
                         } else {
                             try {
                                 // 解决Map类包装成实体类的问题
-                                args[i] = JSON.parseObject(JSON.toJSONString(FlowContextHolder.get().retrieveVariable(parameterNames[i])), requiredParType);
+                                args[i] = JSON.parseObject(JSON.toJSONString(FlowContextHolder.get().retrieveVariable(param.getScope(),parameterNames[i])), requiredParType);
                             } catch (Exception e) {
                                 logger_.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + requiredParType +
                                         ". The parameter type is " + contextParType);
