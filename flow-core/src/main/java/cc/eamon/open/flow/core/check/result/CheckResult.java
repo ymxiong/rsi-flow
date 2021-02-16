@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.core.check.result;
 
+import cc.eamon.open.flow.core.check.structure.BasicItem;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -19,6 +21,7 @@ public class CheckResult {
     //检查结果
     private boolean isPass=false;
 
+    private List<BasicItem> paths=new LinkedList<>();
 
     public CheckResult() {
         this.exceptionList = new LinkedList<>();
@@ -33,9 +36,15 @@ public class CheckResult {
 
     public void addError(CheckError checkError){
         this.errorList.add(checkError);
-
     }
 
+    public List<BasicItem> getPaths() {
+        return paths;
+    }
 
-  
+    public void addPath(BasicItem startItem){
+        paths.add(startItem);
+    }
 }
+
+

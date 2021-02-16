@@ -1,13 +1,15 @@
 package cc.eamon.open.flow.core.check;
 
+import cc.eamon.open.flow.core.check.context.ConfigContext;
+import cc.eamon.open.flow.core.check.context.ContextHolder;
 import cc.eamon.open.flow.core.check.result.CheckResult;
-import cc.eamon.open.flow.core.check.structure.FlowItem;
+import cc.eamon.open.flow.core.check.strategy.ParseStrategy;
+import cc.eamon.open.flow.core.check.strategy.ParseStrategyTypeEnum;
+import cc.eamon.open.flow.core.check.structure.BasicItem;
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
 import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * Author: Lucas(jvjv)
@@ -17,18 +19,11 @@ import java.util.Stack;
  */
 public class CheckEntrance {
 
-    private Stack<RouteConfig> routeConfigs;
+    private ConfigContext configContext;
 
-    private List<FlowItem> flowPaths;
-    //TODO:首先需要读取到所需要的一系列配置文件
-    //TODO:然后针对一个主的进行分析
-    //TODO:分析过程
-    //TODO:运用栈遍历得到所有执行路径
-    //TODO:针对每一条路径执行校验，查看是否符合要求
+
 
     public CheckEntrance() {
-        this.routeConfigs = new Stack<>();
-        this.flowPaths= new ArrayList<>();
     }
 
     /**
@@ -38,41 +33,82 @@ public class CheckEntrance {
      * @return
      */
     private CheckResult check(String path,String flowName){
-        //TODO:Step1.读取所有配置文件进行前期准备
-
-        //TODO:Step2.对目标流程进行校验
-
+        //Step1.读取所有配置文件进行前期准备
+        configContext=new ConfigContext(path);
+        //Step2.对目标流程进行校验
         CheckResult checkResult=new CheckResult();
-
+        getPaths(configContext.getMainFlow(),checkResult);
+        List<BasicItem> basicItems = checkResult.getPaths();
+        //TODO:能否多线程优化
+        for (BasicItem flowPath : basicItems) {
+            checkOnePath(flowPath,checkResult);
+        }
         return checkResult;
     }
 
+//    /**
+//     * Step1. 预准备工作，读取所有的配置文件装进FLowConfig
+//     * @param path
+//     */
+//    private void prepared(String path,String flowName){
+//        loadConfig(path);
+//        mainFlow=flowConfigs.get(flowName);
+//        for (RouteConfig route : mainFlow.getRoutes()) {
+//            routeConfigMap.put(route.getId(),route);
+//        }
+//    }
+//
+//    /**
+//     * Step1. 预准备工作，读取所有的配置文件装进FLowConfig
+//     * @param path
+//     */
+//    private void loadConfig(String path){
+//        for (FlowLoaderEnums value : FlowLoaderEnums.values()) {
+//            // @Config自动扫描
+//            Set<FlowConfig> configs = value.getLoader().load(path);
+//            if (configs == null) continue;
+//            for (FlowConfig config : configs) {
+//                flowConfigs.put(config.getName(),config);
+//            }
+//        }
+//    }
+
     /**
      * Step2.1 深度优先遍历得到所有路径
+     * 嵌套的Flow肯定是符合规则的
      * @param config
      * @param checkResult
      * @return
      */
     private CheckResult getPaths(FlowConfig config,CheckResult checkResult){
+        RouteConfig start = getStartNodeRouteConfig(config);
+        ParseStrategy strategy= ParseStrategyTypeEnum.getStrategy(start.getType());
 
-        //TODO:深度优先遍历得到所有路径
+        strategy.parse(configContext,checkResult,null,start);
         return checkResult;
+    }
+
+
+    public RouteConfig getStartNodeRouteConfig(FlowConfig flowConfig) {
+        RouteConfig startConfig=null;
+        for (RouteConfig route : flowConfig.getRoutes()) {
+            if (route.getType().equals("start"));
+            startConfig=route;
+        }
+        return startConfig;
     }
 
     /**
      * Step2.2 具体检查某条路径
+     *
      * @param checkResult
      * @return
      */
-    private CheckResult checkOnePath(FlowItem flowItem,CheckResult checkResult){
-        //TODO:检查某条路径
-        //TODO:如果不符合要求的话，那么就要提示出错位置以及出错信息
-        //TODO:每检查完一条路径之后需要清空上下文为下一次检查做准备
+    private CheckResult checkOnePath(BasicItem basicItem,CheckResult checkResult){
+        //检查某条路径
+        basicItem.check(checkResult);
+        //每检查完一条路径之后需要清空上下文为下一次检查做准备
+        ContextHolder.clear();
         return checkResult;
     }
-
-
-
-
-
 }

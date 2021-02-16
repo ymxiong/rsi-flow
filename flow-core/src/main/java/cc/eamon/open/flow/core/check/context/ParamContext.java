@@ -1,7 +1,8 @@
 package cc.eamon.open.flow.core.check.context;
 
-import cc.eamon.open.flow.core.check.result.CheckError;
+import cc.eamon.open.flow.core.check.result.CheckException;
 import cc.eamon.open.flow.core.check.result.CheckResult;
+import cc.eamon.open.flow.core.check.structure.BasicItem;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class ParamContext {
      * @param paramType 注册参数类型
      * @param checkResult 检查结果
      */
-    protected void registerParam(String scopeName, String paramName, String paramType, CheckResult checkResult){
+    public void registerParam(BasicItem basicItem, String scopeName, String paramName, String paramType, CheckResult checkResult){
         Map<String,String> scopeParamsMap=paramsMap.get(scopeName);
         //如果获取到的Map为空说明当前Scope尚未注册参数
         if (scopeParamsMap==null){
@@ -58,18 +59,30 @@ public class ParamContext {
      * @return 若该参数在上下文存在则返回上下文中参数的类型，
      *         如果该参数在上下文不存在，则添加报错信息提示缺乏某参数
      */
-    protected String retrieveParam(String scopeName,String paramName,CheckResult checkResult){
-        Map<String,String> scopeParamsMap=paramsMap.get(scopeName);
-        if (scopeParamsMap==null){
+    public String retrieveParam(BasicItem basicItem, String scopeName, String paramName, String paramType, CheckResult checkResult) {
+        Map<String, String> scopeParamsMap = paramsMap.get(scopeName);
+        if (scopeParamsMap == null) {
             //TODO:该域尚未注册异常
-
+            CheckException scopeNotExistException = new CheckException(basicItem,"scope named " + scopeName + " have not been registered" +
+                    ",you cannot retrieve param named" + paramName + " from " + scopeName);
+            checkResult.addException(scopeNotExistException);
         }
-        String registedParamType=scopeParamsMap.get(paramName);
-        if (registedParamType==null){
-            //TODO:发现尚未注册参数
-
+        String registedParamType = scopeParamsMap.get(paramName);
+        if (registedParamType != paramType) {
+            if (paramType == null) {
+                //TODO:发现尚未注册参数
+                CheckException paramNotExistException = new CheckException(basicItem,"param named " + scopeName + " have not been registered" +
+                        ",you cannot retrieve param named" + paramName + " from " + scopeName);
+                checkResult.addException(paramNotExistException);
+            } else {
+                //TODO:发现取出取出参数与需要的参数不匹配
+                CheckException paramNotMatchException = new CheckException(basicItem,"param in " + scopeName + " named " + paramName + " is " + registedParamType +
+                        ", required type is " + paramType);
+                checkResult.addException(paramNotMatchException);
+            }
         }
-        return registedParamType;
+
+            return registedParamType;
+        }
     }
 
-}

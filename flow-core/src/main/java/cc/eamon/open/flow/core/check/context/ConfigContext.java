@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.core.check.context;
 
 import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
+import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.support.load.FlowLoaderEnums;
 
 import java.util.*;
@@ -21,12 +22,61 @@ public class ConfigContext {
 
     private static boolean isTest=false;
 
-
     /**
      *  流程配置键值
      *
      */
-    private static List<FlowConfig> flowConfigs = new ArrayList<>();
+    private Map<String,FlowConfig> flowConfigs = new HashMap<>();
+    //TODO:首先需要读取到所需要的一系列配置文件
+    //TODO:然后针对一个主的进行分析
+    //TODO:分析过程
+    //TODO:运用栈遍历得到所有执行路径
+    //TODO:针对每一条路径执行校验，查看是否符合要求
+
+    private FlowConfig mainFlow;
+
+    private Map<String, RouteConfig> routeConfigMap=new HashMap<>();
+
+
+    public static String getConfigBasePackages() {
+        return configBasePackages;
+    }
+
+    public static void setConfigBasePackages(String configBasePackages) {
+        ConfigContext.configBasePackages = configBasePackages;
+    }
+
+    public static boolean isIsTest() {
+        return isTest;
+    }
+
+    public static void setIsTest(boolean isTest) {
+        ConfigContext.isTest = isTest;
+    }
+
+    public Map<String, FlowConfig> getFlowConfigs() {
+        return flowConfigs;
+    }
+
+    public void setFlowConfigs(Map<String, FlowConfig> flowConfigs) {
+        this.flowConfigs = flowConfigs;
+    }
+
+    public FlowConfig getMainFlow() {
+        return mainFlow;
+    }
+
+    public void setMainFlow(FlowConfig mainFlow) {
+        this.mainFlow = mainFlow;
+    }
+
+    public Map<String, RouteConfig> getRouteConfigMap() {
+        return routeConfigMap;
+    }
+
+    public void setRouteConfigMap(Map<String, RouteConfig> routeConfigMap) {
+        this.routeConfigMap = routeConfigMap;
+    }
 
     public ConfigContext(String basePath) {
         if (isTest){
@@ -39,19 +89,39 @@ public class ConfigContext {
         loadConfig(configBasePackages);
     }
 
+
+    public RouteConfig getRouteById(String nodeId){
+        return routeConfigMap.get(nodeId);
+    }
+
+
     /**
-     * 扫描所有flow配置
-     *
-     * @param configFiles
-     * @return
+     * Step1. 预准备工作，读取所有的配置文件装进FLowConfig
+     * @param path
      */
-    public static void loadConfig(String... configFiles) {
+    private void prepared(String path,String flowName){
+        loadConfig(path);
+        mainFlow=flowConfigs.get(flowName);
+        for (RouteConfig route : mainFlow.getRoutes()) {
+            routeConfigMap.put(route.getId(),route);
+        }
+    }
+
+    /**
+     * Step1. 预准备工作，读取所有的配置文件装进FLowConfig
+     * @param path
+     */
+    private void loadConfig(String path){
         for (FlowLoaderEnums value : FlowLoaderEnums.values()) {
-            Set<FlowConfig> configs = value.getLoader().load(configFiles);
+            // @Config自动扫描
+            Set<FlowConfig> configs = value.getLoader().load(path);
             if (configs == null) continue;
             for (FlowConfig config : configs) {
-                flowConfigs.add(config);
+                flowConfigs.put(config.getName(),config);
             }
         }
     }
+
+
+
 }

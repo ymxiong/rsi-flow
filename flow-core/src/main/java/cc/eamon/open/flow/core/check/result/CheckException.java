@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.core.check.result;
 
+import cc.eamon.open.flow.core.check.structure.BasicItem;
+
 /**
  * Author: Lucas(jvjv)
  * Email: lucas@eamon.cc
@@ -8,21 +10,21 @@ package cc.eamon.open.flow.core.check.result;
  */
 public class CheckException {
     //错误位置
-    private String exceptionItem;
+    private BasicItem exceptionItem;
 
     //错误原因
     private String exceptionResource;
 
-    public CheckException(String exceptionItem, String exceptionResource) {
+    public CheckException(BasicItem exceptionItem, String exceptionResource) {
         this.exceptionItem = exceptionItem;
         this.exceptionResource = exceptionResource;
     }
 
-    public String getExceptionItem() {
+    public BasicItem getExceptionItem() {
         return exceptionItem;
     }
 
-    public void setExceptionItem(String exceptionItem) {
+    public void setExceptionItem(BasicItem exceptionItem) {
         this.exceptionItem = exceptionItem;
     }
 
