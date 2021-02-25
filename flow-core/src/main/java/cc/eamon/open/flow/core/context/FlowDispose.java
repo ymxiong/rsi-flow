@@ -20,44 +20,43 @@ import java.util.*;
 public class FlowDispose {
 
     /**
-     *  流程Map
-     *  键为流程名称
-     *  值为该流程的Holder,其中包含了流程的配置信息以及流程所需要的流程代码配置
+     * 流程Map
+     * 键为流程名称
+     * 值为该流程的Holder,其中包含了流程的配置信息以及流程所需要的流程代码配置
      */
     private static Map<String, FlowHolder> flowHolders = new LinkedHashMap<>();
 
     /**
-     *  流程配置键值
-     *
+     * 流程配置键值
      */
     private static List<FlowConfig> flowConfigs = new ArrayList<>();
 
     /**
-     *  流程代码键值Map
-     *  键为流程代码的名称
-     *  值为对应的流程代码
+     * 流程代码键值Map
+     * 键为流程代码的名称
+     * 值为对应的流程代码
      */
     private static Map<String, FlowCode> flowCodeMap = new LinkedHashMap<>();
 
 
     /**
-     *  流程配置所在路径
+     * 流程配置所在路径
      */
     private static String[] configBasePackages;
 
 
     /**
-     *  流程代码所在路径
+     * 流程代码所在路径
      */
     private static String[] flowBasePackages;
 
-    private static boolean isTest=false;
+    private static boolean isTest = false;
 
     public FlowDispose() {
-        if (isTest){
+        if (isTest) {
             //测试阶段设置配置扫描路径与代码扫描路径
-            configBasePackages= new String[]{""};
-            flowBasePackages=new String[]{"cc.eamon.open.flow.example"};
+            configBasePackages = new String[]{""};
+            flowBasePackages = new String[]{"cc.eamon.open.flow.example"};
         }
         // 1. 扫描所有flow配置
         loadConfig(configBasePackages);
@@ -67,8 +66,8 @@ public class FlowDispose {
         assemblyFlow();
     }
 
-    public static void test(){
-        isTest=true;
+    public static void test() {
+        isTest = true;
     }
 
     public Map<String, FlowHolder> getFlowHolders() {

@@ -28,8 +28,8 @@ public abstract class BaseFlowCodeProxy implements FlowCode {
         // TODO: OPTIMIZE PARAM AND CONTEXT REGISTER
         beforeExecute(args);
         try {
-            flowCode.execute(routeConfig,args);
-        }catch (Exception e){
+            flowCode.execute(routeConfig, args);
+        } catch (Exception e) {
             throw e;
         }
         afterExecute(args);

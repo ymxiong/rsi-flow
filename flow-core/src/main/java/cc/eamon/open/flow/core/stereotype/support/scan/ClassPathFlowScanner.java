@@ -31,7 +31,7 @@ public class ClassPathFlowScanner implements FlowScanner {
     }
 
     private Set<SimpleFlowCodeProxy> doScan(String... basePackages) {
-        if (basePackages==null){
+        if (basePackages == null) {
             logger_.info("At least one base package must be specified");
         }
         Assert.notEmpty(basePackages, "At least one base package must be specified");

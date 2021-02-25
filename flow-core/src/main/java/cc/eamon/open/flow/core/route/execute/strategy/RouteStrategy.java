@@ -20,11 +20,11 @@ public interface RouteStrategy {
     /**
      * 处理目标节点
      *
-     * @author  xsy
-     * @param  target -- 待处理目标
-     * @param  targets -- 目标节点列表
+     * @param target  -- 待处理目标
+     * @param targets -- 目标节点列表
+     * @author xsy
      */
-    default void processTarget(RouteElement target, List<Target> targets, RouteModel routeModel){
+    default void processTarget(RouteElement target, List<Target> targets, RouteModel routeModel) {
         targets.add(target);
     }
 }

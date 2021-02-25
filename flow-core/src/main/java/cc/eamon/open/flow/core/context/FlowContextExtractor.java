@@ -13,11 +13,11 @@ public class FlowContextExtractor {
     /**
      * 线程参数列表
      */
-    private Map<String,Map<String, Object>> variableMap = new HashMap<>();
+    private Map<String, Map<String, Object>> variableMap = new HashMap<>();
     /**
      * 线程参数类型
      */
-    private Map<String,Map<String, Class>> variableTypeMap = new HashMap<>();
+    private Map<String, Map<String, Class>> variableTypeMap = new HashMap<>();
 
     public FlowContextExtractor() {
         FlowContext flowContext = FlowContextHolder.get();

@@ -15,29 +15,29 @@ public class InclusiveGateWayStrategy extends BaseParseStrategy {
         List<TargetConfig> targets = routeConfig.getTargets();
         //发散节点处理
         //聚合节点处理
-        if (targets.size()>1){
+        if (targets.size() > 1) {
             //TODO:发散节点处理
             //TODO：每条路都是一条单独的路
             for (TargetConfig target : targets) {
-                RouteConfig nextNode= configContext.getRouteById(target.getTarget()) ;
+                RouteConfig nextNode = configContext.getRouteById(target.getTarget());
                 ParseStrategy parseStrategy = ParseStrategyTypeEnum.getStrategy(nextNode.getType());
-                BasicItem branchItem= null;
+                BasicItem branchItem = null;
                 try {
                     branchItem = preItem.clone();
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
-                parseStrategy.parse(configContext,checkResult,branchItem,nextNode);
+                parseStrategy.parse(configContext, checkResult, branchItem, nextNode);
             }
-        }else if (targets.size()==1){
+        } else if (targets.size() == 1) {
             //TODO:聚合节点处理
             //TODO:合并共同参数
             //TODO:处理下一个节点
             TargetConfig target = routeConfig.getTargets().get(0);
-            RouteConfig nextNode= configContext.getRouteById(target.getTarget()) ;
+            RouteConfig nextNode = configContext.getRouteById(target.getTarget());
             ParseStrategy parseStrategy = ParseStrategyTypeEnum.getStrategy(nextNode.getType());
-            parseStrategy.parse(configContext,checkResult,preItem,nextNode);
-        }else{
+            parseStrategy.parse(configContext, checkResult, preItem, nextNode);
+        } else {
             //出错
 
 

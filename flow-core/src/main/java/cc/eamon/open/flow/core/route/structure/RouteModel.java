@@ -31,7 +31,7 @@ public class RouteModel {
     public RouteElement getStartNode() {
         RouteElement start = null;
         for (RouteElement element : elements) {
-            if (element.getType().equals("start")){
+            if (element.getType().equals("start")) {
                 start = element;
                 break;
             }

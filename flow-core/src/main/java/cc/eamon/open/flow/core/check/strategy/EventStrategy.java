@@ -16,18 +16,18 @@ public class EventStrategy extends BaseParseStrategy {
     @Override
     public void parse(ConfigContext configContext, CheckResult checkResult, BasicItem preItem, RouteConfig routeConfig) {
         //普通节点，就注册信息即可
-        NodeItem nodeItem=new NodeItem(routeConfig);
+        NodeItem nodeItem = new NodeItem(routeConfig);
         nodeItem.setPreNode(preItem);
         preItem.setNextNode(nodeItem);
         //递归处理后续节点
         List<TargetConfig> targets = routeConfig.getTargets();
-        if (targets.size()!=1){
-            CheckException exception=new CheckException(nodeItem,"flow node's next node must be one node.");
+        if (targets.size() != 1) {
+            CheckException exception = new CheckException(nodeItem, "flow node's next node must be one node.");
         }
         TargetConfig target = routeConfig.getTargets().get(0);
-        RouteConfig nextNode= configContext.getRouteById(target.getTarget()) ;
+        RouteConfig nextNode = configContext.getRouteById(target.getTarget());
         ParseStrategy parseStrategy = ParseStrategyTypeEnum.getStrategy(nextNode.getType());
-        parseStrategy.parse(configContext,checkResult,nodeItem,nextNode);
+        parseStrategy.parse(configContext, checkResult, nodeItem, nextNode);
 
     }
 }

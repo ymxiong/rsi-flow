@@ -21,7 +21,7 @@ public class ResourceLoader implements FlowLoader {
         if (configFiles != null) {
             String path = this.getClass().getClassLoader().getResource("").getPath();
             for (String configFile : configFiles) {
-                for (File file : FileTools.readFiles(path+configFile)) {
+                for (File file : FileTools.readFiles(path + configFile)) {
 //                for (File file : FileTools.readFiles(configFile)) {
                     if (file.getName().startsWith("flow")) {
                         String flowConfigJson = FileTools.loadFile(file);

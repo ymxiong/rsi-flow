@@ -89,7 +89,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     }
 
     @Override
-    public void executeNext(List<Source> sources) throws Exception{
+    public void executeNext(List<Source> sources) throws Exception {
         List<Target> targets = parentFlowHolder.getRoute().route(sources);
         //没有目标了
         if (targets.isEmpty()) {
@@ -103,7 +103,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     }
 
     @Override
-    public void executeNext(Source source) throws Exception{
+    public void executeNext(Source source) throws Exception {
         //整体流程调用结束
         if (parentFlowHolder == null) return;
         List<Target> targets = parentFlowHolder.getRoute().route(source);
@@ -124,13 +124,13 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     }
 
     @Override
-    public void executeNextNode(Target target) throws Exception{
-        FlowExecutable executable = getExecuteableByTarget(target,parentFlowHolder);
+    public void executeNextNode(Target target) throws Exception {
+        FlowExecutable executable = getExecuteableByTarget(target, parentFlowHolder);
         executable.execute();
     }
 
     @Override
-    public void executeNextNodes(List<Target> targets) throws Exception{
+    public void executeNextNodes(List<Target> targets) throws Exception {
         CountDownLatch latch = new CountDownLatch(targets.size());
         FlowContextExtractor flowContextExtractor = new FlowContextExtractor();
         //保留了每个分支的执行节点
@@ -138,7 +138,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         List<Future> futures = new LinkedList<>();
         //TODO:针对每一条业务路线都开启一个多线程来执行
         for (Target target : targets) {
-            FlowExecutable executable = getExecuteableByTarget(target,parentFlowHolder);
+            FlowExecutable executable = getExecuteableByTarget(target, parentFlowHolder);
             ((BasicExecutable) executable).setBranchSource(sources);
             FlowThread flowThread = new FlowThread(executable, flowContextExtractor, latch);
             FutureTask<FlowContextExtractor> futureTask = new FutureTask<FlowContextExtractor>(flowThread);
@@ -170,17 +170,18 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
 
     /**
      * 获取下一个执行节点
+     *
      * @param target
      * @return
      */
-    public FlowExecutable getExecuteableByTarget(Target target,FlowHolder flowHolder) throws Exception{
+    public FlowExecutable getExecuteableByTarget(Target target, FlowHolder flowHolder) throws Exception {
         FlowExecutable executable;
         if (target.getType().equals("flow")) {
             executable = FlowDispose.getFlowHolderByName(target.getName());
             if (executable.equals(flowHolder)) {
                 //TODO:当前只是检查一层嵌套调用自身，不支持检查多层检查
-                logger_.info("you can not invoke self flow named " + target.getName() + "in "+target.getName());
-                throw new RuntimeException("you can not invoke self flow named " + target.getName() + "in "+target.getName());
+                logger_.info("you can not invoke self flow named " + target.getName() + "in " + target.getName());
+                throw new RuntimeException("you can not invoke self flow named " + target.getName() + "in " + target.getName());
             }
             if (executable == null) {
                 logger_.info("flow named " + target.getName() + " not exist.");
@@ -190,13 +191,13 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         } else {
             FlowCode flowCode = flowHolder.getFlowCodes().get(target.getName());
             //TODO:从哪里找RouteConfig
-            RouteConfig routeConfig=flowHolder.getRouteConfig(target.getName());
+            RouteConfig routeConfig = flowHolder.getRouteConfig(target.getName());
             if (flowCode == null) {
                 logger_.info("flowCode named " + target.getName() + " not exist.");
                 throw new RuntimeException("flowCode named " + target.getName() + " not exist.");
             }
             executable = new FlowNode(target.getType(), target.getName(), target.getId(),
-                    flowHolder, flowCode,routeConfig);
+                    flowHolder, flowCode, routeConfig);
         }
         return executable;
     }

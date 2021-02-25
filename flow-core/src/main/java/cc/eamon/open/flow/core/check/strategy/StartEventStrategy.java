@@ -11,11 +11,11 @@ public class StartEventStrategy extends BaseParseStrategy {
 
     @Override
     public void parse(ConfigContext configContext, CheckResult checkResult, BasicItem preItem, RouteConfig routeConfig) {
-        StartItem startItem=new StartItem(routeConfig);
+        StartItem startItem = new StartItem(routeConfig);
         TargetConfig target = routeConfig.getTargets().get(0);
-        RouteConfig nextNode= configContext.getRouteById(target.getTarget()) ;
+        RouteConfig nextNode = configContext.getRouteById(target.getTarget());
         ParseStrategy parseStrategy = ParseStrategyTypeEnum.getStrategy(nextNode.getType());
-        parseStrategy.parse(configContext,checkResult,startItem,nextNode);
+        parseStrategy.parse(configContext, checkResult, startItem, nextNode);
     }
 
 }

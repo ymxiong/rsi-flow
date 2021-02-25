@@ -26,7 +26,7 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
 
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader=resourceLoader;
+        this.resourceLoader = resourceLoader;
     }
 
     @Override
@@ -36,6 +36,7 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
 
     /**
      * 注册Bean
+     *
      * @param importingClassMetadata
      * @param registry
      */

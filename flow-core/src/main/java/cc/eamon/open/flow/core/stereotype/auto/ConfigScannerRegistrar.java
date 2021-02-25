@@ -26,7 +26,7 @@ public class ConfigScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
 
     @Override
     public void setResourceLoader(ResourceLoader resourceLoader) {
-        this.resourceLoader=resourceLoader;
+        this.resourceLoader = resourceLoader;
     }
 
     @Override

@@ -18,29 +18,29 @@ public class FlowEngine {
 
     private FlowDispose flowDispose = new FlowDispose();
 
-    public static FlowEngine instance()  {
+    public static FlowEngine instance() {
         // 保障同一线程仅有单一执行的流程引擎
         if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
             synchronized (FlowEngine.class) {
                 if (FlowContextHolder.get().getFlowEngine() == null) {
 
-                        FlowContextHolder.get().setFlowEngine(new FlowEngine());
+                    FlowContextHolder.get().setFlowEngine(new FlowEngine());
                 }
             }
         }
         return FlowContextHolder.get().getFlowEngine();
     }
 
-    private FlowEngine(){
+    private FlowEngine() {
     }
 
 
-    public FlowEngine run(String flowName) throws Exception{
+    public FlowEngine run(String flowName) throws Exception {
         FlowHolder flowHolder = flowDispose.getFlowHolders().get(flowName);
         try {
             flowHolder.execute();
-        }catch (Exception e){
-            logger_.info("Error occurs when execute "+flowName);
+        } catch (Exception e) {
+            logger_.info("Error occurs when execute " + flowName);
             throw e;
         }
 //        //TODO:多线程好像不应该放在这里，此处入口
@@ -77,12 +77,12 @@ public class FlowEngine {
      */
     public FlowEngine register(String paramName, Object paramValue) {
         //注入参数到上下文中
-        return register("defaultScope",paramName,paramValue);
+        return register("defaultScope", paramName, paramValue);
     }
 
-    public FlowEngine register(String scope,String paramName, Object paramValue) {
+    public FlowEngine register(String scope, String paramName, Object paramValue) {
         //注入参数到上下文中
-        FlowContextHolder.get().registerVariable(scope,paramName, paramValue, paramValue.getClass());
+        FlowContextHolder.get().registerVariable(scope, paramName, paramValue, paramValue.getClass());
         return this;
     }
 
@@ -111,11 +111,11 @@ public class FlowEngine {
      */
 
     public Object retrieve(String paramName) {
-        return this.retrieve("defaultScope",paramName);
+        return this.retrieve("defaultScope", paramName);
     }
 
-    public Object retrieve(String scope,String paramName) {
-        return FlowContextHolder.get().retrieveVariable(scope,paramName);
+    public Object retrieve(String scope, String paramName) {
+        return FlowContextHolder.get().retrieveVariable(scope, paramName);
     }
 
 

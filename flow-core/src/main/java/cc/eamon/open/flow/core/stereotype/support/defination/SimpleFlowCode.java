@@ -73,14 +73,14 @@ public class SimpleFlowCode implements FlowCode {
         try {
             target = flowClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            logger_.info("Class named "+flowClass.getName()+" init a instance failed");
+            logger_.info("Class named " + flowClass.getName() + " init a instance failed");
             throw e;
         }
         Object returnValue = null;
         try {
             returnValue = flowMethod.invoke(target, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            logger_.info("Method in "+flowClass.getName()+" named "+flowMethod.getName()+" invoke failed");
+            logger_.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
             throw e;
         }
 
@@ -93,9 +93,9 @@ public class SimpleFlowCode implements FlowCode {
         //TODO:返回类型匹配校验???
         //存储流程代码运行结果
         //TODO:参数放到对应域
-        FlowItemResult result= routeConfig.getResult();
-        String returnScope=result.getScope();
-        FlowContextHolder.get().registerVariable(returnScope,returnName, returnValue, returnType);
+        FlowItemResult result = routeConfig.getResult();
+        String returnScope = result.getScope();
+        FlowContextHolder.get().registerVariable(returnScope, returnName, returnValue, returnType);
 
     }
 

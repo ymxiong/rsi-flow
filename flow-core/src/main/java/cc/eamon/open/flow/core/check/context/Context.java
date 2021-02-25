@@ -12,12 +12,12 @@ public class Context {
     /**
      * 基础配置Map
      */
-    private Map<String, FlowConfig> flowConfigMap=new HashMap<>();
+    private Map<String, FlowConfig> flowConfigMap = new HashMap<>();
 
     /**
      * 当前的RouteConfigMap
      */
-    private Map<String, RouteConfig> routeConfigMap=new HashMap<>();
+    private Map<String, RouteConfig> routeConfigMap = new HashMap<>();
 
     /**
      * 校验期间的paramContext

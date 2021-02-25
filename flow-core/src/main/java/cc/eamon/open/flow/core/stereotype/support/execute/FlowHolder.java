@@ -49,9 +49,9 @@ public class FlowHolder extends BasicExecutable {
         this.flowConfig = flowConfig;
         this.flowCodes = flowCodes;
         route = new RouteEngine(flowConfig.getRoutes());
-        routeMap=new HashMap<>();
+        routeMap = new HashMap<>();
         for (RouteConfig route : flowConfig.getRoutes()) {
-            routeMap.put(route.getName(),route);
+            routeMap.put(route.getName(), route);
         }
     }
 
@@ -69,20 +69,20 @@ public class FlowHolder extends BasicExecutable {
     }
 
     @Override
-    public void execute() throws Exception{
+    public void execute() throws Exception {
         //获取开始节点
         try {
             Target start = route.getStartNode();
-            FlowExecutable startNode = getExecuteableByTarget(start,this);
+            FlowExecutable startNode = getExecuteableByTarget(start, this);
             startNode.execute();
             //执行下一个节点
             executeNext(this);
-        }catch (Exception e){
+        } catch (Exception e) {
             throw e;
         }
     }
 
-    public RouteConfig getRouteConfig(String flowName){
+    public RouteConfig getRouteConfig(String flowName) {
         return routeMap.get(flowName);
     }
 
