@@ -24,7 +24,7 @@ import java.util.Map;
  */
 public class FlowNode extends BasicExecutable {
 
-    private static Logger logger_ = LoggerFactory.getLogger(FlowNode.class);
+    private static Logger logger = LoggerFactory.getLogger(FlowNode.class);
     /**
      * 流程节点对应的代码
      */
@@ -92,7 +92,7 @@ public class FlowNode extends BasicExecutable {
                 Class<?> requiredParType = parameterClasses[i];
                 // 参数在上下文中不存在
                 if (contextParType == null) {
-                    logger_.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of " + param.getScope() + " in flowContext.");
+                    logger.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of " + param.getScope() + " in flowContext.");
                     throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of " + param.getScope() + " in flowContext.");
                 } else {
                     // 参数类型匹配，包含父子类类型检查
@@ -101,7 +101,7 @@ public class FlowNode extends BasicExecutable {
                         if (requiredParType.isPrimitive()) {
                             WrapperClassUtils.getWrapperClass(requiredParType);
                             if (!WrapperClassUtils.getWrapperClass(requiredParType).isAssignableFrom(contextParType)) {
-                                logger_.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
+                                logger.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
                                         ". The parameter type is " + contextParType);
                                 throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
                                         ". The parameter type is " + contextParType);
@@ -111,7 +111,7 @@ public class FlowNode extends BasicExecutable {
                                 // 解决Map类包装成实体类的问题
                                 args[i] = JSON.parseObject(JSON.toJSONString(FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i])), requiredParType);
                             } catch (Exception e) {
-                                logger_.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + requiredParType +
+                                logger.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + requiredParType +
                                         ". The parameter type is " + contextParType);
                                 throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + requiredParType +
                                         ". The parameter type is " + contextParType);

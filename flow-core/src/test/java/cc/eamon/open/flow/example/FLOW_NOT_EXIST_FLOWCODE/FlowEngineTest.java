@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.example.FLOW_NOT_EXIST_FLOWCODE;
 
+import cc.eamon.open.flow.core.FlowConstant;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
@@ -20,13 +21,13 @@ public class FlowEngineTest {
         // flowcode不存在 [线性编排]
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数
-                .register("testScope","userName", "小朱")
+                .register(FlowConstant.SCOPE_TEST,"userName", "小朱")
                 // 注册流程所需核心服务
-                .register("testScope","userService", userService)
-                .register("testScope","accountService", accountService)
+                .register(FlowConstant.SCOPE_TEST,"userService", userService)
+                .register(FlowConstant.SCOPE_TEST,"accountService", accountService)
                 // 执行流程
                 .run(FlowEnum.FLOW_NOT_EXIST_FLOW_CODE)
                 // 取出执行结果
-                .retrieve("testScope","account");
+                .retrieve(FlowConstant.SCOPE_TEST,"account");
     }
 }

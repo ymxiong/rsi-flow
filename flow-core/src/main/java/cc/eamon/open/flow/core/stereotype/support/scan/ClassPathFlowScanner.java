@@ -23,7 +23,7 @@ import java.util.Set;
  */
 public class ClassPathFlowScanner implements FlowScanner {
 
-    private static Logger logger_ = LoggerFactory.getLogger(ClassPathFlowScanner.class);
+    private static Logger logger = LoggerFactory.getLogger(ClassPathFlowScanner.class);
 
     @Override
     public Set<? extends FlowCode> scan(String... basePackages) {
@@ -32,7 +32,7 @@ public class ClassPathFlowScanner implements FlowScanner {
 
     private Set<SimpleFlowCodeProxy> doScan(String... basePackages) {
         if (basePackages == null) {
-            logger_.info("At least one base package must be specified");
+            logger.info("At least one base package must be specified");
         }
         Assert.notEmpty(basePackages, "At least one base package must be specified");
         Set<SimpleFlowCodeProxy> flowDefinitions = new LinkedHashSet<>();

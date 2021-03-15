@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.example.FLOW_INSUFFICIENT_PARAMETERS;
 
+import cc.eamon.open.flow.core.FlowConstant;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
@@ -23,12 +24,12 @@ public class FlowEngineTest {
                 // 注册流程所需参数
                 //.register("userName", "小朱")
                 // 注册流程所需核心服务
-                .register("testScope","userService", userService)
-                .register("testScope","accountService", accountService)
+                .register(FlowConstant.SCOPE_TEST,"userService", userService)
+                .register(FlowConstant.SCOPE_TEST,"accountService", accountService)
                 // 执行流程
                 .run(FlowEnum.FLOW_INSUFFICIENT_PARAMETERS)
                 // 取出执行结果
-                .retrieve("testScope","account");
+                .retrieve(FlowConstant.SCOPE_TEST,"account");
 
         Assert.assertEquals(account.getId(), "654321");
     }

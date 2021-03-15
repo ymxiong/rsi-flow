@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.example.FLOW_NOT_EXIST_NEST_FLOW;
 
+import cc.eamon.open.flow.core.FlowConstant;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
@@ -19,13 +20,13 @@ public class FlowEngineTest {
     public void testFlowEngine() throws Exception {
         FlowDispose.test();
         User user = (User) FlowEngine.instance()
-                .register("testScope","userName", "小朱")
-                .register("testScope","newAge", 21)
-                .register("testScope","userService", userService)
-                .register("testScope","accountService", accountService)
+                .register(FlowConstant.SCOPE_TEST,"userName", "小朱")
+                .register(FlowConstant.SCOPE_TEST,"newAge", 21)
+                .register(FlowConstant.SCOPE_TEST,"userService", userService)
+                .register(FlowConstant.SCOPE_TEST,"accountService", accountService)
                 .run(FlowEnum.FLOW_NOT_EXIST_NEST_FLOW)
                 // 取出执行结果
-                .retrieve("testScope","user");
+                .retrieve(FlowConstant.SCOPE_TEST,"user");
 
         Assert.assertEquals(user.getAge(), 21);
     }

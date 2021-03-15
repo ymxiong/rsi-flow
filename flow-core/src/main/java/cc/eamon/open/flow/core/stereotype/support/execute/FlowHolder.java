@@ -21,7 +21,7 @@ import java.util.Map;
 
 public class FlowHolder extends BasicExecutable {
 
-    private static Logger logger_ = LoggerFactory.getLogger(FlowHolder.class);
+    private static Logger logger = LoggerFactory.getLogger(FlowHolder.class);
 
     /**
      * 流程的配置

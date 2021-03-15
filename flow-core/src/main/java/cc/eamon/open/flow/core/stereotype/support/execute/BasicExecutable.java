@@ -27,7 +27,7 @@ import java.util.concurrent.FutureTask;
  */
 public class BasicExecutable implements FlowExecutable, Source, Target {
 
-    private static Logger logger_ = LoggerFactory.getLogger(BasicExecutable.class);
+    private static Logger logger = LoggerFactory.getLogger(BasicExecutable.class);
     /**
      * 流程节点的类型
      */
@@ -180,11 +180,11 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
             executable = FlowDispose.getFlowHolderByName(target.getName());
             if (executable.equals(flowHolder)) {
                 //TODO:当前只是检查一层嵌套调用自身，不支持检查多层检查
-                logger_.info("you can not invoke self flow named " + target.getName() + "in " + target.getName());
+                logger.info("you can not invoke self flow named " + target.getName() + "in " + target.getName());
                 throw new RuntimeException("you can not invoke self flow named " + target.getName() + "in " + target.getName());
             }
             if (executable == null) {
-                logger_.info("flow named " + target.getName() + " not exist.");
+                logger.info("flow named " + target.getName() + " not exist.");
                 throw new RuntimeException("flow named " + target.getName() + " not exist.");
             }
             ((FlowHolder) executable).setParentFlowHolder(flowHolder);
@@ -193,7 +193,7 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
             //TODO:从哪里找RouteConfig
             RouteConfig routeConfig = flowHolder.getRouteConfig(target.getName());
             if (flowCode == null) {
-                logger_.info("flowCode named " + target.getName() + " not exist.");
+                logger.info("flowCode named " + target.getName() + " not exist.");
                 throw new RuntimeException("flowCode named " + target.getName() + " not exist.");
             }
             executable = new FlowNode(target.getType(), target.getName(), target.getId(),

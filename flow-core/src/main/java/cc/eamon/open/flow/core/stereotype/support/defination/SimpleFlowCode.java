@@ -18,7 +18,7 @@ import java.lang.reflect.Method;
  */
 public class SimpleFlowCode implements FlowCode {
 
-    private static Logger logger_ = LoggerFactory.getLogger(SimpleFlowCode.class);
+    private static Logger logger = LoggerFactory.getLogger(SimpleFlowCode.class);
 
     private Class<?> flowClass;
 
@@ -73,14 +73,14 @@ public class SimpleFlowCode implements FlowCode {
         try {
             target = flowClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            logger_.info("Class named " + flowClass.getName() + " init a instance failed");
+            logger.info("Class named " + flowClass.getName() + " init a instance failed");
             throw e;
         }
         Object returnValue = null;
         try {
             returnValue = flowMethod.invoke(target, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            logger_.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
+            logger.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
             throw e;
         }
 

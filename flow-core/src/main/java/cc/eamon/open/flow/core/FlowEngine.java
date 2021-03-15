@@ -2,6 +2,7 @@ package cc.eamon.open.flow.core;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
+import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,7 @@ import org.slf4j.LoggerFactory;
  */
 public class FlowEngine {
 
-    private static Logger logger_ = LoggerFactory.getLogger(FlowEngine.class);
+    private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
 
     private FlowDispose flowDispose = new FlowDispose();
 
@@ -35,35 +36,15 @@ public class FlowEngine {
     }
 
 
-    public FlowEngine run(String flowName) throws Exception {
+    public FlowEngine run(String flowName) {
         FlowHolder flowHolder = flowDispose.getFlowHolders().get(flowName);
         try {
             flowHolder.execute();
         } catch (Exception e) {
-            logger_.info("Error occurs when execute " + flowName);
-            throw e;
+            String logInfo = "Error occurs when execute " + flowName;
+            logger.info(logInfo);
+            throw new FlowException(logInfo);
         }
-//        //TODO:多线程好像不应该放在这里，此处入口
-//        FlowContextExtractor flowContextExtractor = new FlowContextExtractor();
-//        FlowThread flowThread = new FlowThread(flowHolder, flowContextExtractor);
-//        FutureTask<FlowContextExtractor> futureTask = new FutureTask<FlowContextExtractor>(flowThread);
-//        Future future = FlowThreadPool.pool.submit(futureTask);
-//        FlowContextExtractor childContext = null;
-//        boolean flag = true;
-//        while (flag) {
-//            if (future.isDone()) {
-//                try {
-//                    childContext = (FlowContextExtractor) future.get();
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//                flag = false;
-//            }
-//        }
-//        //注入需要的参数到当前线程
-//        registerChildVariable(childContext);
         return this;
     }
 
@@ -71,15 +52,22 @@ public class FlowEngine {
     /**
      * 注入参数
      *
-     * @param paramName
-     * @param paramValue
-     * @return
+     * @param paramName 注册参数名
+     * @param paramValue 注册参数对象
+     * @return 流程引擎实例
      */
     public FlowEngine register(String paramName, Object paramValue) {
         //注入参数到上下文中
-        return register("defaultScope", paramName, paramValue);
+        return register(FlowConstant.SCOPE_DEFAULT, paramName, paramValue);
     }
 
+    /**
+     * 注入参数
+     *
+     * @param paramName 注册参数名
+     * @param paramValue 注册参数对象
+     * @return 流程引擎实例
+     */
     public FlowEngine register(String scope, String paramName, Object paramValue) {
         //注入参数到上下文中
         FlowContextHolder.get().registerVariable(scope, paramName, paramValue, paramValue.getClass());
@@ -89,31 +77,39 @@ public class FlowEngine {
     /**
      * 注销参数
      *
-     * @param paramNames
-     * @return
+     * @param paramNames 参数名集合
+     * @return 流程引擎实例
      */
     public FlowEngine release(String... paramNames) {
         FlowContextHolder.get().releaseVariable(paramNames);
         return this;
     }
 
-    //
+
+    /**
+     * 释放流程引擎
+     */
     public void release() {
         FlowContextHolder.clear();
     }
 
 
     /**
-     * 获取参数
+     * 从默认域获取对象
      *
-     * @param paramName
-     * @return
+     * @param paramName 参数名
+     * @return 对象
      */
-
     public Object retrieve(String paramName) {
-        return this.retrieve("defaultScope", paramName);
+        return this.retrieve(FlowConstant.SCOPE_DEFAULT, paramName);
     }
 
+    /**
+     * 从指定域获取对象
+     *
+     * @param paramName 参数名
+     * @return 对象
+     */
     public Object retrieve(String scope, String paramName) {
         return FlowContextHolder.get().retrieveVariable(scope, paramName);
     }
