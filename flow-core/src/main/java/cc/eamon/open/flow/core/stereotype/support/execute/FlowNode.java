@@ -6,6 +6,7 @@ import cc.eamon.open.flow.config.FlowItemParam;
 import cc.eamon.open.flow.config.FlowItemResult;
 import cc.eamon.open.flow.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
+import cc.eamon.open.flow.core.stereotype.execute.BasicExecutable;
 import cc.eamon.open.flow.core.util.WrapperClassUtils;
 import com.alibaba.fastjson.JSON;
 import org.slf4j.LoggerFactory;

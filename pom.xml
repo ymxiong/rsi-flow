@@ -11,12 +11,14 @@
     <modules>
         <module>flow-core</module>
         <module>flow-config</module>
+        <module>flow-remote</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j-version>1.7.12</slf4j-version>
         <flow-config-version>0.1.1</flow-config-version>
+        <flow-remote-version>0.1.1</flow-remote-version>
     </properties>
 
     <distributionManagement>
@@ -47,6 +49,12 @@
                 <groupId>cc.eamon.open</groupId>
                 <artifactId>flow-config</artifactId>
                 <version>${flow-config-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cc.eamon.open</groupId>
+                <artifactId>flow-remote</artifactId>
+                <version>${flow-remote-version}</version>
             </dependency>
 
             <dependency>
