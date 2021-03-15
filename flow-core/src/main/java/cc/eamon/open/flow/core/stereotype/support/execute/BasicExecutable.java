@@ -5,7 +5,7 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.route.structure.element.Target;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+import cc.eamon.open.flow.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;

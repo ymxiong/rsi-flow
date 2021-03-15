@@ -5,7 +5,7 @@ import cc.eamon.open.flow.core.route.execute.strategy.enums.StrategyTypeEnum;
 import cc.eamon.open.flow.core.route.structure.RouteModel;
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
 import cc.eamon.open.flow.core.route.structure.element.Target;
-import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
+import cc.eamon.open.flow.config.TargetConfig;
 import cc.eamon.open.flow.core.util.JexlUtils;
 
 import java.util.ArrayList;

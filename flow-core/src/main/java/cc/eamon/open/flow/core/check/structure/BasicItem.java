@@ -3,9 +3,9 @@ package cc.eamon.open.flow.core.check.structure;
 import cc.eamon.open.flow.core.check.context.ContextHolder;
 import cc.eamon.open.flow.core.check.context.ParamContext;
 import cc.eamon.open.flow.core.check.result.CheckResult;
-import cc.eamon.open.flow.core.stereotype.config.FlowItemParam;
-import cc.eamon.open.flow.core.stereotype.config.FlowItemResult;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+import cc.eamon.open.flow.config.FlowItemParam;
+import cc.eamon.open.flow.config.FlowItemResult;
+import cc.eamon.open.flow.config.RouteConfig;
 
 import java.util.List;
 

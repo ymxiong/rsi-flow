@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.core.check.structure;
 
 import cc.eamon.open.flow.core.check.result.CheckResult;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
-import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
+import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.TargetConfig;
 
 public class BranchItem extends BasicItem {
     //当前节点

@@ -5,8 +5,8 @@ import cc.eamon.open.flow.core.check.result.CheckException;
 import cc.eamon.open.flow.core.check.result.CheckResult;
 import cc.eamon.open.flow.core.check.structure.BasicItem;
 import cc.eamon.open.flow.core.check.structure.NodeItem;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
-import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
+import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.TargetConfig;
 
 import java.util.List;
 

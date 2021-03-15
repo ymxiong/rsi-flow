@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.core.check.context;
 
 import cc.eamon.open.flow.core.check.structure.BasicItem;
-import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+import cc.eamon.open.flow.config.FlowConfig;
+import cc.eamon.open.flow.config.RouteConfig;
 
 import java.util.HashMap;
 import java.util.List;

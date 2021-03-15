@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.core.context;
 
 
-import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+import cc.eamon.open.flow.config.FlowConfig;
+import cc.eamon.open.flow.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import cc.eamon.open.flow.core.stereotype.support.load.FlowLoaderEnums;
@@ -50,10 +50,10 @@ public class FlowDispose {
      */
     private static String[] flowBasePackages;
 
-    private static boolean isTest = false;
+    private static boolean flowEnv = Boolean.parseBoolean(System.getProperty("flowEnv", "false"));
 
     public FlowDispose() {
-        if (isTest) {
+        if (flowEnv) {
             //测试阶段设置配置扫描路径与代码扫描路径
             configBasePackages = new String[]{""};
             flowBasePackages = new String[]{"cc.eamon.open.flow.example"};
@@ -67,7 +67,7 @@ public class FlowDispose {
     }
 
     public static void test() {
-        isTest = true;
+        flowEnv = true;
     }
 
     public Map<String, FlowHolder> getFlowHolders() {

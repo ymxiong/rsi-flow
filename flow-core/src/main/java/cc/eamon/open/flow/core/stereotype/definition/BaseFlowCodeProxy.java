@@ -1,7 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
-import cc.eamon.open.flow.core.stereotype.config.FlowConfig;
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
+import cc.eamon.open.flow.config.RouteConfig;
 
 import java.lang.reflect.Method;
 

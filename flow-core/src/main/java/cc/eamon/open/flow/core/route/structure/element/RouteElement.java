@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.route.structure.element;
 
-import cc.eamon.open.flow.core.stereotype.config.RouteConfig;
-import cc.eamon.open.flow.core.stereotype.config.TargetConfig;
+import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.TargetConfig;
 
 import java.util.List;
 

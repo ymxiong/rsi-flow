@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.stereotype.config;
+package cc.eamon.open.flow.config;
 
 import java.util.List;
 
