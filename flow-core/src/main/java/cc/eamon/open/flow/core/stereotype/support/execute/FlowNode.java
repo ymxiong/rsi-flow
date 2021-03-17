@@ -1,6 +1,8 @@
 package cc.eamon.open.flow.core.stereotype.support.execute;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.error.ParamNotExistException;
+import cc.eamon.open.flow.core.error.ParamNotMatchException;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.config.FlowItemParam;
 import cc.eamon.open.flow.config.FlowItemResult;
@@ -93,8 +95,9 @@ public class FlowNode extends BasicExecutable {
                 Class<?> requiredParType = parameterClasses[i];
                 // 参数在上下文中不存在
                 if (contextParType == null) {
-                    logger.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of " + param.getScope() + " in flowContext.");
-                    throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of " + param.getScope() + " in flowContext.");
+                    String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of " + param.getScope() + " in flowContext.";
+                    logger.info(errorInfo);
+                    throw new ParamNotExistException(errorInfo);
                 } else {
                     // 参数类型匹配，包含父子类类型检查
                     if (!requiredParType.isAssignableFrom(contextParType)) {
@@ -102,20 +105,20 @@ public class FlowNode extends BasicExecutable {
                         if (requiredParType.isPrimitive()) {
                             WrapperClassUtils.getWrapperClass(requiredParType);
                             if (!WrapperClassUtils.getWrapperClass(requiredParType).isAssignableFrom(contextParType)) {
-                                logger.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
-                                        ". The parameter type is " + contextParType);
-                                throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
-                                        ". The parameter type is " + contextParType);
+                                String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
+                                        ". The parameter type is " + contextParType;
+                                logger.info(errorInfo);
+                                throw new ParamNotMatchException(errorInfo);
                             }
                         } else {
                             try {
                                 // 解决Map类包装成实体类的问题
                                 args[i] = JSON.parseObject(JSON.toJSONString(FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i])), requiredParType);
                             } catch (Exception e) {
-                                logger.info("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + requiredParType +
-                                        ". The parameter type is " + contextParType);
-                                throw new RuntimeException("Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + requiredParType +
-                                        ". The parameter type is " + contextParType);
+                                String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
+                                        ". The parameter type is " + contextParType;
+                                logger.info(errorInfo);
+                                throw new ParamNotMatchException(errorInfo);
                             }
                         }
                     }

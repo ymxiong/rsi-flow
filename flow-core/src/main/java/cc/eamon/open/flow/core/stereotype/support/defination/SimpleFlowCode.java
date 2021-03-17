@@ -1,6 +1,8 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.error.FlowNotFoundException;
+import cc.eamon.open.flow.core.spring.ComponentScaner;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.config.FlowItemResult;
 import cc.eamon.open.flow.config.RouteConfig;
@@ -73,9 +75,18 @@ public class SimpleFlowCode implements FlowCode {
         try {
             target = flowClass.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            logger.info("Class named " + flowClass.getName() + " init a instance failed");
-            throw e;
+            String info = "FlowComponent named " + flowClass.getName() + " not found. ";
+            logger.info(info);
+            throw new FlowNotFoundException(info);
         }
+
+//        target = ComponentScaner.flowComponentMap.get(flowClass.getName());
+//        if (target == null){
+//            String info = "FlowComponent named " + flowClass.getName() + " not found. ";
+//            logger.info(info);
+//            throw new FlowNotFoundException(info);
+//        }
+
         Object returnValue = null;
         try {
             returnValue = flowMethod.invoke(target, args);

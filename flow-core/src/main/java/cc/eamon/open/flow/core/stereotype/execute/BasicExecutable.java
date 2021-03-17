@@ -3,6 +3,9 @@ package cc.eamon.open.flow.core.stereotype.execute;
 import cc.eamon.open.flow.core.context.FlowContextExtractor;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
+import cc.eamon.open.flow.core.error.FlowCallitSelfException;
+import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
+import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.route.structure.element.Source;
 import cc.eamon.open.flow.core.route.structure.element.Target;
 import cc.eamon.open.flow.config.RouteConfig;
@@ -179,14 +182,16 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         FlowExecutable executable;
         if (target.getType().equals("flow")) {
             executable = FlowDispose.getFlowHolderByName(target.getName());
-            if (executable.equals(flowHolder)) {
-                //TODO:当前只是检查一层嵌套调用自身，不支持检查多层检查
-                logger.info("you can not invoke self flow named " + target.getName() + "in " + target.getName());
-                throw new RuntimeException("you can not invoke self flow named " + target.getName() + "in " + target.getName());
-            }
             if (executable == null) {
-                logger.info("flow named " + target.getName() + " not exist.");
-                throw new RuntimeException("flow named " + target.getName() + " not exist.");
+                String errorInfo = "flow named " + target.getName() + " not exist.";
+                logger.info(errorInfo);
+                throw new FlowNotFoundException(errorInfo);
+            }
+            if (executable.equals(flowHolder)) {
+                String errorInfo = "you can not invoke self flow named " + target.getName() + "in " + target.getName();
+                //TODO:当前只是检查一层嵌套调用自身，不支持检查多层检查
+                logger.info(errorInfo);
+                throw new FlowCallitSelfException(errorInfo);
             }
             ((FlowHolder) executable).setParentFlowHolder(flowHolder);
         } else {
@@ -194,8 +199,9 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
             //TODO:从哪里找RouteConfig
             RouteConfig routeConfig = flowHolder.getRouteConfig(target.getName());
             if (flowCode == null) {
-                logger.info("flowCode named " + target.getName() + " not exist.");
-                throw new RuntimeException("flowCode named " + target.getName() + " not exist.");
+                String errorInfo = "flowCode named " + target.getName() + " not exist.";
+                logger.info(errorInfo);
+                throw new FlowCodeNotFoundException(errorInfo);
             }
             executable = new FlowNode(target.getType(), target.getName(), target.getId(),
                     flowHolder, flowCode, routeConfig);

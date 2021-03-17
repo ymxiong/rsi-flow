@@ -1,11 +1,14 @@
 package cc.eamon.open.flow.core.stereotype.support.scan;
 
+import cc.eamon.open.flow.core.error.PackageNotFoundException;
+import cc.eamon.open.flow.core.error.ParamNotMatchException;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
 import cc.eamon.open.flow.core.stereotype.support.defination.SimpleFlowCode;
 import cc.eamon.open.flow.core.stereotype.support.defination.SimpleFlowCodeProxy;
 import cc.eamon.open.flow.core.util.ClassUtils;
+import cc.eamon.open.flow.core.util.WrapperClassUtils;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.util.Assert;
@@ -31,10 +34,15 @@ public class ClassPathFlowScanner implements FlowScanner {
     }
 
     private Set<SimpleFlowCodeProxy> doScan(String... basePackages) {
+//        if (basePackages == null) {
+//            logger.info("At least one base package must be specified");
+//        }
+//        Assert.notEmpty(basePackages, "At least one base package must be specified");
         if (basePackages == null) {
-            logger.info("At least one base package must be specified");
+            String errorInfo = "At least one base package must be specified";
+            logger.info(errorInfo);
+            throw new PackageNotFoundException(errorInfo);
         }
-        Assert.notEmpty(basePackages, "At least one base package must be specified");
         Set<SimpleFlowCodeProxy> flowDefinitions = new LinkedHashSet<>();
 
         for (String basePackage : basePackages) {

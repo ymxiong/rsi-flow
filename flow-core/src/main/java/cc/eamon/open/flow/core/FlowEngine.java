@@ -36,14 +36,14 @@ public class FlowEngine {
     }
 
 
-    public FlowEngine run(String flowName) {
+    public FlowEngine run(String flowName) throws Exception{
         FlowHolder flowHolder = flowDispose.getFlowHolders().get(flowName);
         try {
             flowHolder.execute();
         } catch (Exception e) {
             String logInfo = "Error occurs when execute " + flowName;
             logger.info(logInfo);
-            throw new FlowException(logInfo);
+            throw e;
         }
         return this;
     }
