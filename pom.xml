@@ -12,6 +12,7 @@
         <module>flow-core</module>
         <module>flow-config</module>
         <module>flow-remote</module>
+        <module>flow-spring-boot-starter</module>
     </modules>
 
     <properties>
@@ -19,6 +20,7 @@
         <slf4j-version>1.7.12</slf4j-version>
         <flow-config-version>0.1.2</flow-config-version>
         <flow-remote-version>0.1.2</flow-remote-version>
+        <flow-spring-boot-starter-version>0.1.2</flow-spring-boot-starter-version>
     </properties>
 
     <distributionManagement>
@@ -54,6 +56,11 @@
             <dependency>
                 <groupId>cc.eamon.open</groupId>
                 <artifactId>flow-remote</artifactId>
+                <version>${flow-remote-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>flow-spring-boot-starter</artifactId>
                 <version>${flow-remote-version}</version>
             </dependency>
 
