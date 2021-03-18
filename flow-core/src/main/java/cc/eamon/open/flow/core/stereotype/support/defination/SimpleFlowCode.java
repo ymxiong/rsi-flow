@@ -72,20 +72,20 @@ public class SimpleFlowCode implements FlowCode {
     @Override
     public void execute(RouteConfig routeConfig, Object... args) throws Exception {
         Object target = null;
-        try {
-            target = flowClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            String info = "FlowComponent named " + flowClass.getName() + " not found. ";
-            logger.info(info);
-            throw new FlowNotFoundException(info);
-        }
-
-//        target = ComponentScaner.flowComponentMap.get(flowClass.getName());
-//        if (target == null){
+//        try {
+//            target = flowClass.newInstance();
+//        } catch (InstantiationException | IllegalAccessException e) {
 //            String info = "FlowComponent named " + flowClass.getName() + " not found. ";
 //            logger.info(info);
 //            throw new FlowNotFoundException(info);
 //        }
+
+        target = ComponentScaner.flowComponentMap.get(flowClass.getName());
+        if (target == null){
+            String info = "FlowComponent named " + flowClass.getName() + " not found. ";
+            logger.info(info);
+            throw new FlowNotFoundException(info);
+        }
 
         Object returnValue = null;
         try {

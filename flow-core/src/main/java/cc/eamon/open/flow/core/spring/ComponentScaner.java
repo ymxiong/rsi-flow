@@ -20,7 +20,7 @@ public class ComponentScaner implements BeanPostProcessor, PriorityOrdered {
 
     private static final Logger logger = LoggerFactory.getLogger(ComponentScaner.class);
 
-    public static Map<String, FlowComponent> flowComponentMap = new HashMap<String, FlowComponent>();
+    public static Map<String, Object> flowComponentMap = new HashMap<String, Object>();
 
     @Override
     public int getOrder() {
@@ -32,8 +32,7 @@ public class ComponentScaner implements BeanPostProcessor, PriorityOrdered {
         Class clazz = bean.getClass();
         if (clazz.isAnnotationPresent(FlowComponent.class)){
             logger.info("FlowComponent [{}] has been found",beanName);
-            FlowComponent flowComponent = (FlowComponent)bean;
-            flowComponentMap.put(beanName,flowComponent);
+            flowComponentMap.put(clazz.getName(),bean);
         }
         return bean;
     }
