@@ -15,12 +15,12 @@ public class LogoUtil {
     public static void print() {
         StringBuilder str = new StringBuilder("\n");
         str.append("================================================================================================\n");
-        str.append("		_____ _     _____        __\n");
+        str.append("		 _____ _     _____        __\n");
         str.append("		|  ___| |   / _ \\ \\      / /\n");
         str.append("		| |_  | |  | | | \\ \\ /\\ / / \n");
         str.append("		|  _| | |__| |_| |\\ V  V /  \n");
         str.append("		|_|   |_____\\___/  \\_/\\_/   \n\n");
-        str.append("		守护全世界最好的Flow!\n");
+        str.append("		(^ v ^) Coding hard, play harder.\n");
         str.append("================================================================================================\n");
         logger.info(str.toString());
     }

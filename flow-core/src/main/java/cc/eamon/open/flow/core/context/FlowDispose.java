@@ -50,7 +50,7 @@ public class FlowDispose {
      */
     private static String[] flowBasePackages;
 
-    private static boolean flowEnv = Boolean.parseBoolean(System.getProperty("flowEnv", "false"));
+    public static boolean flowEnv = Boolean.parseBoolean(System.getProperty("flowEnv", "false"));
 
     public FlowDispose() {
         if (flowEnv) {

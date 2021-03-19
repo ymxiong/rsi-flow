@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
 import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.spring.ComponentScaner;
 import cc.eamon.open.flow.core.stereotype.Flow;
@@ -72,19 +73,22 @@ public class SimpleFlowCode implements FlowCode {
     @Override
     public void execute(RouteConfig routeConfig, Object... args) throws Exception {
         Object target = null;
-//        try {
-//            target = flowClass.newInstance();
-//        } catch (InstantiationException | IllegalAccessException e) {
-//            String info = "FlowComponent named " + flowClass.getName() + " not found. ";
-//            logger.info(info);
-//            throw new FlowNotFoundException(info);
-//        }
 
-        target = ComponentScaner.flowComponentMap.get(flowClass.getName());
-        if (target == null){
-            String info = "FlowComponent named " + flowClass.getName() + " not found. ";
-            logger.info(info);
-            throw new FlowNotFoundException(info);
+        if (FlowDispose.flowEnv) {
+            try {
+                target = flowClass.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                String info = "FlowComponent named " + flowClass.getName() + " not found. ";
+                logger.info(info);
+                throw new FlowNotFoundException(info);
+            }
+        }else {
+            target = ComponentScaner.flowComponentMap.get(flowClass.getName());
+            if (target == null) {
+                String info = "FlowComponent named " + flowClass.getName() + " not found. ";
+                logger.info(info);
+                throw new FlowNotFoundException(info);
+            }
         }
 
         Object returnValue = null;
