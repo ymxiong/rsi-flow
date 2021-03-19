@@ -20,7 +20,7 @@ public class LogoUtil {
         str.append("		| |_  | |  | | | \\ \\ /\\ / / \n");
         str.append("		|  _| | |__| |_| |\\ V  V /  \n");
         str.append("		|_|   |_____\\___/  \\_/\\_/   \n\n");
-        str.append("		(^ v ^) Coding hard, play harder.\n");
+        str.append("		(^ v ^) Code hard, play harder.\n");
         str.append("================================================================================================\n");
         logger.info(str.toString());
     }
