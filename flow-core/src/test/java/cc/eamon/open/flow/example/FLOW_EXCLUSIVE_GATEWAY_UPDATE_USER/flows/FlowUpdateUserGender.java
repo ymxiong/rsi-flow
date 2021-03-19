@@ -7,7 +7,7 @@ import cc.eamon.open.flow.example.remote.service.UserService;
 
 public class FlowUpdateUserGender {
 
-    @Flow(value = FlowEnum.FLOW_UPDATE_USER_GENDER, retrieve = "user")
+    @Flow(value = FlowEnum.FLOW_UPDATE_USER_GENDER)
     public User updateUserGender(UserService userService, User user, String newGender) {
         return userService.updateGender(user, newGender);
     }

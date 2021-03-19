@@ -7,7 +7,7 @@ import cc.eamon.open.flow.example.enums.FlowEnum;
 public class FlowStandard {
 
     //去除姓名中的空格
-    @Flow(value = FlowEnum.FLOW_STANDARD_NAME, retrieve = "userName")
+    @Flow(value = FlowEnum.FLOW_STANDARD_NAME)
     public String queryBalance(String userName) {
         return userName.replace(" ", "");
     }

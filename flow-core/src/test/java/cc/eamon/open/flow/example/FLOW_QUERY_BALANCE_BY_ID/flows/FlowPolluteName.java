@@ -5,7 +5,7 @@ import cc.eamon.open.flow.example.enums.FlowEnum;
 
 public class FlowPolluteName {
 
-    @Flow(value = FlowEnum.FLOW_POLLUTE_NAME, retrieve = "userName")
+    @Flow(value = FlowEnum.FLOW_POLLUTE_NAME)
     public String polluteName(String userName) {
         return "      " + userName + " ";
     }

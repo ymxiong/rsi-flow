@@ -12,7 +12,7 @@ import cc.eamon.open.flow.example.remote.service.UserService;
  */
 public class FlowQueryUser {
 
-    @Flow(value = FlowEnum.FLOW_QUERY_USER_1, retrieve = "user")
+    @Flow(value = FlowEnum.FLOW_QUERY_USER_1)
     public User queryUser1(UserService userService, String missingName) {
 
         return userService.getUserByName(missingName);

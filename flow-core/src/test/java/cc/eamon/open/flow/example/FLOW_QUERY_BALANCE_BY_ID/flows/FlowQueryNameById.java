@@ -6,7 +6,7 @@ import cc.eamon.open.flow.example.remote.service.UserService;
 
 public class FlowQueryNameById {
 
-    @Flow(value = FlowEnum.FLOW_QUERY_NAME_BY_ID, retrieve = "userName")
+    @Flow(value = FlowEnum.FLOW_QUERY_NAME_BY_ID)
     public String getNameById(UserService userService, String id) {
         return userService.getUserById(id);
     }

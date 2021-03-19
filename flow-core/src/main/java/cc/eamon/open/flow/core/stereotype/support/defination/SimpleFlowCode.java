@@ -96,8 +96,6 @@ public class SimpleFlowCode implements FlowCode {
         }
 
 
-        //获取返回参数名
-        String returnName = flowAnnotation.retrieve();
         //获取返回参数类型
         Class returnType = flowMethod.getReturnType();
 
@@ -105,6 +103,9 @@ public class SimpleFlowCode implements FlowCode {
         //存储流程代码运行结果
         //TODO:参数放到对应域
         FlowItemResult result = routeConfig.getResult();
+        //获取返回参数名
+        String returnName = result.getName();
+        //获取返回参数域
         String returnScope = result.getScope();
         FlowContextHolder.get().registerVariable(returnScope, returnName, returnValue, returnType);
 
