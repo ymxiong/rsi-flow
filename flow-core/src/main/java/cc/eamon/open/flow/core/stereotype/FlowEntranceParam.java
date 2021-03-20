@@ -5,9 +5,7 @@ import java.util.Map;
 public class FlowEntranceParam {
     String flowId;
 
-    String resultName;
-
-    String resultScope;
+    Map<String,String> results;
 
     Map<String, Object> params;
 
@@ -19,27 +17,19 @@ public class FlowEntranceParam {
         this.flowId = flowId;
     }
 
-    public String getResultName() {
-        return resultName;
-    }
-
-    public void setResultName(String resultName) {
-        this.resultName = resultName;
-    }
-
-    public String getResultScope() {
-        return resultScope;
-    }
-
-    public void setResultScope(String resultScope) {
-        this.resultScope = resultScope;
-    }
-
     public Map<String, Object> getParams() {
         return params;
     }
 
     public void setParams(Map<String, Object> params) {
         this.params = params;
+    }
+
+    public Map<String, String> getResults() {
+        return results;
+    }
+
+    public void setResults(Map<String, String> results) {
+        this.results = results;
     }
 }
