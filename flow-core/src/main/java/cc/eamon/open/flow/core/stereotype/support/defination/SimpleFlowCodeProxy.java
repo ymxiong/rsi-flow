@@ -1,6 +1,10 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
+import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.monitor.FlowStatistics;
+import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.BaseFlowCodeProxy;
+import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +22,7 @@ public class SimpleFlowCodeProxy extends BaseFlowCodeProxy {
     private long startTime;
 
     private long endTime;
+
 
     public SimpleFlowCodeProxy(SimpleFlowCode flowCode) {
         super(flowCode);
@@ -40,9 +45,10 @@ public class SimpleFlowCodeProxy extends BaseFlowCodeProxy {
     @Override
     public void afterExecute(Object... args) {
         endTime = System.currentTimeMillis();
-        long totalTime = endTime- startTime ;
-        logger.info("method named " + getMethod().getName()+ " in "+flowCode.getFlowClass().getName()+" executed " + totalTime + " ms.");
-
-
+        long totalTime = endTime - startTime;
+        //logger.info("method named " + getMethod().getName()+ " in "+flowCode.getFlowClass().getName()+" executed " + totalTime + " ms.");
+        FlowStatistics statistics = new FlowStatistics(getFlowName(), flowCode.getFlowClass().getSimpleName(), flowCode.getMethod().getName());
+        statistics.setTimeSpent(totalTime);
+        FlowContextHolder.get().getMonitorBus().addFlowStatistics(statistics);
     }
 }
