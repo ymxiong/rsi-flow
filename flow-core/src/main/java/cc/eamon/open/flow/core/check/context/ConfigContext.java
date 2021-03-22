@@ -118,7 +118,7 @@ public class ConfigContext {
             Set<FlowConfig> configs = value.getLoader().load(path);
             if (configs == null) continue;
             for (FlowConfig config : configs) {
-                flowConfigs.put(config.getName(), config);
+                flowConfigs.put(config.getId(), config);
             }
         }
     }

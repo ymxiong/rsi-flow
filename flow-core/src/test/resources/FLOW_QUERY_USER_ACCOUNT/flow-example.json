@@ -1,7 +1,7 @@
 {
   "name": "FLOW_QUERY_USER_ACCOUNT",
   "type": "flow",
-  "id": "FLOW_0",
+  "id": "FLOW_QUERY_USER_ACCOUNT",
   "routes": [
     {
       "id": "ROUTE_1",
@@ -17,6 +17,7 @@
       "id": "ROUTE_2",
       "type": "event",
       "name": "FLOW_QUERY_USER",
+      "reference": "FLOW_QUERY_USER",
       "params": [
         {
           "name": "userService",
@@ -49,6 +50,7 @@
       "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_QUERY_ACCOUNT_1",
+      "reference": "FLOW_QUERY_ACCOUNT_1",
       "params": [
         {
           "name": "accountService",
@@ -81,6 +83,7 @@
       "id": "ROUTE_4",
       "type": "event",
       "name": "FLOW_QUERY_ACCOUNT_2",
+      "reference": "FLOW_QUERY_ACCOUNT_2",
       "params": [
         {
           "name": "accountService",

@@ -1,7 +1,7 @@
 {
   "name": "FLOW_QUERY_USER_BALANCE",
   "type": "flow",
-  "id": "FLOW_1",
+  "id": "FLOW_QUERY_USER_BALANCE",
   "routes": [
     {
       "id": "ROUTE_1",
@@ -17,6 +17,7 @@
       "id": "FLOW_0",
       "type": "event",
       "name": "FLOW_QUERY_BALANCE_NODE",
+      "reference": "FLOW_QUERY_BALANCE_NODE",
       "result": {
         "name": "account",
         "type": "Account",
@@ -33,6 +34,7 @@
       "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_QUERY_BALANCE",
+      "reference": "FLOW_QUERY_BALANCE",
       "params": [
         {
           "name": "accountService",

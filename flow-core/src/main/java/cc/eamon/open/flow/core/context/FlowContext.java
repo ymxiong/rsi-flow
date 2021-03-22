@@ -2,6 +2,7 @@ package cc.eamon.open.flow.core.context;
 
 import cc.eamon.open.flow.core.FlowConstant;
 import cc.eamon.open.flow.core.FlowEngine;
+import cc.eamon.open.flow.core.monitor.MonitorBus;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,12 @@ public class FlowContext {
      * 当前线程流程名称
      */
     private String flowName;
+
+    /**
+     * 当前线程流程名称
+     */
+    private MonitorBus monitorBus = new MonitorBus();
+
 
     /**
      * 当前线程参数列表(多Scope)
@@ -145,4 +152,7 @@ public class FlowContext {
         this.flowName = flowName;
     }
 
+    public MonitorBus getMonitorBus() {
+        return monitorBus;
+    }
 }

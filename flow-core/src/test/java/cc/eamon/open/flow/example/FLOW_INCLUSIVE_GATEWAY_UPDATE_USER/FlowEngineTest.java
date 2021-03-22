@@ -32,5 +32,6 @@ public class FlowEngineTest {
 
         Assert.assertEquals(user.getGender(), "女");
         Assert.assertEquals(user.getAge(), 25);
+        FlowEngine.instance().release();
     }
 }

@@ -30,5 +30,6 @@ public class FlowEngineTest {
                 .run(FlowEnum.FLOW_NOT_EXIST_FLOW_CODE)
                 // 取出执行结果
                 .retrieve(FlowConstant.SCOPE_TEST,"account");
+        FlowEngine.instance().release();
     }
 }

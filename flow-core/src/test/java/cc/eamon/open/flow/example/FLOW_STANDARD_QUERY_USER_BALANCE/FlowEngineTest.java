@@ -26,6 +26,7 @@ public class FlowEngineTest {
                 .run(FlowEnum.FLOW_STANDARD_QUERY_USER_BALANCE)
                 .retrieve(FlowConstant.SCOPE_TEST,"balance");
         Assert.assertEquals(balance, 12345);
+        FlowEngine.instance().release();
     }
 
 }

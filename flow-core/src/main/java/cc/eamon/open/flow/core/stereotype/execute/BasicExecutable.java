@@ -83,6 +83,11 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         return type;
     }
 
+    @Override
+    public String getReference() {
+        return null;
+    }
+
     public void setBranchSource(List<Source> branchSource) {
         this.branchSource = branchSource;
     }
@@ -110,6 +115,10 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     public void executeNext(Source source) throws Exception {
         //整体流程调用结束
         if (parentFlowHolder == null) return;
+        if (source.getClass().equals(FlowHolder.class)){
+            String originId = parentFlowHolder.getRouteConfigByReference(source.getId()).getId();
+            ((FlowHolder)source).resumeId(originId);
+        }
         List<Target> targets = parentFlowHolder.getRoute().route(source);
         //没有目标了
         if (targets.isEmpty()) {
@@ -181,25 +190,27 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
     public FlowExecutable getExecuteableByTarget(Target target, FlowHolder flowHolder) throws Exception {
         FlowExecutable executable;
         if (target.getType().equals("flow")) {
-            executable = FlowDispose.getFlowHolderByName(target.getName());
+            //嵌套调用Flow的
+            executable = FlowDispose.getFlowHolderByName(target.getReference());
             if (executable == null) {
-                String errorInfo = "flow named " + target.getName() + " not exist.";
+                String errorInfo = "flow named " + target.getReference() + " not exist.";
                 logger.info(errorInfo);
                 throw new FlowNotFoundException(errorInfo);
             }
             if (executable.equals(flowHolder)) {
-                String errorInfo = "you can not invoke self flow named " + target.getName() + "in " + target.getName();
+                String errorInfo = "you can not invoke self flow named " + target.getReference() + "in " + target.getReference();
                 //TODO:当前只是检查一层嵌套调用自身，不支持检查多层检查
                 logger.info(errorInfo);
                 throw new FlowCallitSelfException(errorInfo);
             }
             ((FlowHolder) executable).setParentFlowHolder(flowHolder);
         } else {
-            FlowCode flowCode = flowHolder.getFlowCodes().get(target.getName());
+            //调用普通的流程节点
+            RouteConfig routeConfig = flowHolder.getRouteConfigById(target.getId());
+            FlowCode flowCode = flowHolder.getFlowCodes().get(routeConfig.getReference());
             //TODO:从哪里找RouteConfig
-            RouteConfig routeConfig = flowHolder.getRouteConfig(target.getName());
             if (flowCode == null) {
-                String errorInfo = "flowCode named " + target.getName() + " not exist.";
+                String errorInfo = "flowCode named " + target.getReference() + " not exist.";
                 logger.info(errorInfo);
                 throw new FlowCodeNotFoundException(errorInfo);
             }

@@ -1,7 +1,7 @@
 {
   "name": "FLOW_NOT_EXIST_NEST_FLOW",
   "type": "flow",
-  "id": "FLOW_ERROR_CASE1",
+  "id": "FLOW_NOT_EXIST_NEST_FLOW",
   "routes": [
     {
       "id": "ROUTE_1",
@@ -17,6 +17,7 @@
       "id": "FLOW_0",
       "type": "flow",
       "name": "NOT_EXIST_FLOW",
+      "reference": "NOT_EXIST_FLOW",
       "targets": [
         {
           "condition": "true",
@@ -28,6 +29,7 @@
       "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_UPDATE_GET_ACCESS",
+      "reference": "FLOW_UPDATE_GET_ACCESS",
       "params": [
         {
           "name": "account",
@@ -53,6 +55,7 @@
       "id": "ROUTE_4",
       "type": "event",
       "name": "FLOW_UPDATE_USER_AGE",
+      "reference": "FLOW_UPDATE_USER_AGE",
       "params": [
         {
           "name": "userService",

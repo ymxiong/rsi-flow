@@ -34,6 +34,10 @@ public class FlowHolder extends BasicExecutable {
      *
      */
     private Map<String, RouteConfig> routeMap;
+    /**
+     *
+     */
+    private Map<String, RouteConfig> routeReferenceMap;
 
     /**
      * 流程的所有代码
@@ -51,8 +55,12 @@ public class FlowHolder extends BasicExecutable {
         this.flowCodes = flowCodes;
         route = new RouteEngine(flowConfig.getRoutes());
         routeMap = new HashMap<>();
+        routeReferenceMap = new HashMap<>();
         for (RouteConfig route : flowConfig.getRoutes()) {
-            routeMap.put(route.getName(), route);
+            routeMap.put(route.getId(), route);
+            if (route.getType().equals("flow")){
+                routeReferenceMap.put(route.getReference(),route);
+            }
         }
     }
 
@@ -71,11 +79,13 @@ public class FlowHolder extends BasicExecutable {
 
     @Override
     public void execute() throws Exception {
-        //获取开始节点
         try {
+            //获取开始节点开始执行
             Target start = route.getStartNode();
             FlowExecutable startNode = getExecuteableByTarget(start, this);
             startNode.execute();
+            //执行下一个节点
+//            executeNext(this);
             //执行下一个节点
             executeNext(this);
         } catch (Exception e) {
@@ -83,8 +93,20 @@ public class FlowHolder extends BasicExecutable {
         }
     }
 
-    public RouteConfig getRouteConfig(String flowName) {
-        return routeMap.get(flowName);
+    public RouteConfig getRouteConfigById(String flowId) {
+        return routeMap.get(flowId);
+    }
+
+    public RouteConfig getRouteConfigByReference(String reference) {
+        return routeReferenceMap.get(reference);
+    }
+
+    /**
+     * 用于嵌套调用的时候恢复id为父Flow中的RouteId
+     * @param originId
+     */
+    public void resumeId(String originId) {
+        this.id=originId;
     }
 
 

@@ -27,5 +27,6 @@ public class FlowEngineTest {
                 .run(FlowEnum.FLOW_NOT_EXIST_COMPLEX_FLOW)
                 .retrieve(FlowConstant.SCOPE_TEST,"balance");
         Assert.assertEquals(balance, 12345);
+        FlowEngine.instance().release();
     }
 }

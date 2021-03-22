@@ -33,6 +33,11 @@ public class RouteElement implements Source, Target {
         return routeConfig.getType();
     }
 
+    @Override
+    public String getReference() {
+        return routeConfig.getReference();
+    }
+
     public List<TargetConfig> getTargetConfigs() {
         return routeConfig.getTargets();
     }

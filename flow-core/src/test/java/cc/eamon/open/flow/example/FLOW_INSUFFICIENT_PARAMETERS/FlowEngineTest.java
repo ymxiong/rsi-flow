@@ -32,5 +32,6 @@ public class FlowEngineTest {
                 .retrieve(FlowConstant.SCOPE_TEST,"account");
 
         Assert.assertEquals(account.getId(), "654321");
+        FlowEngine.instance().release();
     }
 }

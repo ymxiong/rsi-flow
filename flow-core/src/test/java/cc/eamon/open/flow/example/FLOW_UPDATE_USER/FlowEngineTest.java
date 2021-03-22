@@ -30,5 +30,6 @@ public class FlowEngineTest {
                 .retrieve(FlowConstant.SCOPE_TEST,"user");
 
         Assert.assertEquals(user.getAge(), 21);
+        FlowEngine.instance().release();
     }
 }

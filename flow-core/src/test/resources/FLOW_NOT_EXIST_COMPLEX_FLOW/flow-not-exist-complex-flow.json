@@ -1,7 +1,7 @@
 {
   "name": "FLOW_NOT_EXIST_COMPLEX_FLOW",
   "type": "flow",
-  "id": "FLOW_ERROR_CASE2",
+  "id": "FLOW_NOT_EXIST_COMPLEX_FLOW",
   "routes": [
     {
       "id": "ROUTE_1",
@@ -17,6 +17,7 @@
       "id": "ROUTE_2",
       "type": "event",
       "name": "FLOW_QUERY_NAME_BY_ID",
+      "reference": "FLOW_QUERY_NAME_BY_ID",
       "params": [
         {
           "name": "userService",
@@ -49,6 +50,7 @@
       "id": "FLOW_41",
       "type": "flow",
       "name": "FLOW_POLLUTE_NAME_QUERY_ERROR_CASE2",
+      "reference": "FLOW_POLLUTE_NAME_QUERY_ERROR_CASE2",
       "params": [
         {
           "name": "accountService",
@@ -81,6 +83,7 @@
       "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_QUERY_BALANCE",
+      "reference": "FLOW_QUERY_BALANCE",
       "params": [
         {
           "name": "accountService",

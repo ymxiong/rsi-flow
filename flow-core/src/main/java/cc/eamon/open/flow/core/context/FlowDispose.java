@@ -21,7 +21,7 @@ public class FlowDispose {
 
     /**
      * 流程Map
-     * 键为流程名称
+     * 键为流程id
      * 值为该流程的Holder,其中包含了流程的配置信息以及流程所需要的流程代码配置
      */
     private static Map<String, FlowHolder> flowHolders = new LinkedHashMap<>();
@@ -117,12 +117,13 @@ public class FlowDispose {
         for (FlowConfig flowConfig : flowConfigs) {
             Map<String, FlowCode> flowCodes = new HashMap<>();
             for (RouteConfig routeConfig : flowConfig.getRoutes()) {
-                if (flowCodeMap.get(routeConfig.getName()) != null) {
-                    flowCodes.put(routeConfig.getName(), flowCodeMap.get(routeConfig.getName()));
+                //匹配调用的FlowCode
+                if (flowCodeMap.get(routeConfig.getReference()) != null) {
+                    flowCodes.put(routeConfig.getReference(), flowCodeMap.get(routeConfig.getReference()));
                 }
             }
             FlowHolder flowHolder = new FlowHolder(flowConfig.getType(), flowConfig.getName(), flowConfig.getId(), null, flowConfig, flowCodes);
-            flowHolders.put(flowHolder.getName(), flowHolder);
+            flowHolders.put(flowHolder.getId(), flowHolder);
         }
     }
 

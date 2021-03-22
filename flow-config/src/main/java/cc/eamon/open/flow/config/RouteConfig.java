@@ -8,14 +8,17 @@ import java.util.List;
  * Time: 2020-07-02 18:57:55
  */
 public class RouteConfig {
-    //节点id
+    //节点id，用于路由
     private String id;
 
     //节点类型
     private String type;
 
-    //节点名
+    //节点名，用于显示给用户查看
     private String name;
+
+    //具体调用的FlowNode或Flow的Id
+    private String reference;
 
     //目标节点
     private List<TargetConfig> targets;
@@ -82,5 +85,13 @@ public class RouteConfig {
 
     public void setResult(FlowItemResult result) {
         this.result = result;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

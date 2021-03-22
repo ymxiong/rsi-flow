@@ -20,4 +20,9 @@ public interface Target {
      * get the target type
      */
     String getType();
+
+    /*
+     * get the reference
+     */
+    String getReference();
 }

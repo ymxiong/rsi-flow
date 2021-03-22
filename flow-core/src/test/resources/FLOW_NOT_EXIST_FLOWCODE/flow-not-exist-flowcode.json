@@ -1,7 +1,7 @@
 {
   "name": "FLOW_NOT_EXIST_FLOW_CODE",
   "type": "flow",
-  "id": "FLOW_ERROR_CASE3",
+  "id": "FLOW_NOT_EXIST_FLOW_CODE",
   "routes": [
     {
       "id": "ROUTE_1",
@@ -17,6 +17,7 @@
       "id": "ROUTE_2",
       "type": "event",
       "name": "FLOW_QUERY_USER",
+      "reference": "FLOW_QUERY_USER",
       "params": [
         {
           "name": "userService",
@@ -49,6 +50,7 @@
       "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_WITHOUT_CODE",
+      "reference": "FLOW_WITHOUT_CODE",
       "targets": [
         {
           "condition": "true",
@@ -60,6 +62,7 @@
       "id": "ROUTE_4",
       "type": "event",
       "name": "FLOW_QUERY_ACCOUNT_2",
+      "reference": "FLOW_QUERY_ACCOUNT_2",
       "params": [
         {
           "name": "accountService",

@@ -1,7 +1,7 @@
 {
   "name": "FLOW_POLLUTE_NAME_QUERY_ERROR_CASE2",
   "type": "flow",
-  "id": "FLOW_ERROR_CASE21",
+  "id": "FLOW_POLLUTE_NAME_QUERY_ERROR_CASE2",
   "routes": [
     {
       "id": "ROUTE_1",
@@ -17,6 +17,7 @@
       "id": "ROUTE_3",
       "type": "event",
       "name": "FLOW_POLLUTE_NAME",
+      "reference": "FLOW_POLLUTE_NAME",
       "params": [
         {
           "name": "userName",
@@ -42,6 +43,7 @@
       "id": "FLOW_12",
       "type": "flow",
       "name": "NOT_EXIST_FLOW",
+      "reference": "NOT_EXIST_FLOW",
       "targets": [
         {
           "condition": "true",
