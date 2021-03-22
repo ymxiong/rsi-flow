@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.core.spring;
 
 import cc.eamon.open.flow.core.stereotype.support.defination.SimpleFlowCode;
+import cc.eamon.open.flow.core.util.LogoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -17,6 +18,10 @@ import java.util.Map;
  * Time: 2021/3/17 11:12
  */
 public class ComponentScaner implements BeanPostProcessor, PriorityOrdered {
+
+    static {
+        LogoUtil.print();
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(ComponentScaner.class);
 

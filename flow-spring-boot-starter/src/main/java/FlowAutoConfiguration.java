@@ -14,10 +14,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class FlowAutoConfiguration {
 
-    static {
-        LogoUtil.print();
-    }
-
     @Bean
     public ComponentScaner componentScaner(){
         return new ComponentScaner();
