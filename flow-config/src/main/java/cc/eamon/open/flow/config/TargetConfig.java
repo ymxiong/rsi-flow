@@ -13,6 +13,9 @@ public class TargetConfig {
 
     private String target;
 
+    public TargetConfig() {
+    }
+
     public TargetConfig(String scope, String condition, String target) {
         this.scope = scope;
         this.condition = condition;
