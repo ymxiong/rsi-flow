@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.stereotype;
+package cc.eamon.open.flow.remote;
 
 import java.util.Map;
 
