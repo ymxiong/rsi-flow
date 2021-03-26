@@ -7,8 +7,8 @@ import java.util.Set;
 
 public interface FlowLoader {
     /**
-     * @param configFiles
-     * @return
+     * @param configFiles 流程配置文件
+     * @return 流程配置组
      */
     Set<FlowConfig> load(String... configFiles);
 }

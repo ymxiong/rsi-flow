@@ -58,8 +58,8 @@ public class FlowHolder extends BasicExecutable {
         routeReferenceMap = new HashMap<>();
         for (RouteConfig route : flowConfig.getRoutes()) {
             routeMap.put(route.getId(), route);
-            if (route.getType().equals("flow")){
-                routeReferenceMap.put(route.getReference(),route);
+            if (route.getType().equals("flow")) {
+                routeReferenceMap.put(route.getReference(), route);
             }
         }
     }
@@ -103,10 +103,11 @@ public class FlowHolder extends BasicExecutable {
 
     /**
      * 用于嵌套调用的时候恢复id为父Flow中的RouteId
-     * @param originId
+     *
+     * @param originId 原id
      */
     public void resumeId(String originId) {
-        this.id=originId;
+        this.id = originId;
     }
 
 

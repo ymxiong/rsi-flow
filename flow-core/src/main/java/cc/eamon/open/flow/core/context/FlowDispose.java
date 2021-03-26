@@ -77,17 +77,14 @@ public class FlowDispose {
     /**
      * imp1.扫描所有flow配置
      *
-     * @param configFiles
-     * @return
+     * @param configFiles 读取流程引擎配置文件
      */
-    public static void loadConfig(String... configFiles) {
+    private static void loadConfig(String... configFiles) {
         for (FlowLoaderEnums value : FlowLoaderEnums.values()) {
             // @Config自动扫描
             Set<FlowConfig> configs = value.getLoader().load(configFiles);
             if (configs == null) continue;
-            for (FlowConfig config : configs) {
-                flowConfigs.add(config);
-            }
+            flowConfigs.addAll(configs);
         }
     }
 
@@ -95,10 +92,10 @@ public class FlowDispose {
     /**
      * imp2. 扫描所有flow代码
      *
-     * @param basePackages
-     * @return
+     * @param basePackages 扫描流程代码
      */
-    public static void loadFlow(String... basePackages) {
+    private static void loadFlow(String... basePackages) {
+        // 枚举扫描器
         for (FlowScannerEnums value : FlowScannerEnums.values()) {
             // @FlowScan自动扫描
             Set<? extends FlowCode> flowCodes = value.getScanner().scan(basePackages);
@@ -112,7 +109,7 @@ public class FlowDispose {
     /**
      * 根据配置装配flow, 装配过程放入flow holder
      */
-    public void assemblyFlow() {
+    private void assemblyFlow() {
         // TODO：对于不匹配的校验
         for (FlowConfig flowConfig : flowConfigs) {
             Map<String, FlowCode> flowCodes = new HashMap<>();

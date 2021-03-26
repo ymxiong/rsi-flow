@@ -40,7 +40,7 @@ public class ConfigScannerRegistrar implements ImportBeanDefinitionRegistrar, Re
         AnnotationAttributes annoAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(ConfigScan.class.getName()));
 
 
-        List<String> basePackages = new ArrayList<String>();
+        List<String> basePackages = new ArrayList<>();
         for (String pkg : annoAttrs.getStringArray("value")) {
             if (StringUtils.hasText(pkg)) {
                 basePackages.add(pkg);
