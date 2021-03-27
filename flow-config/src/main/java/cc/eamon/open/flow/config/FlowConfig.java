@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class FlowConfig {
 
+    private String id;
+
     private String name;
 
     private String type;
-
-    private String id;
 
     private List<RouteConfig> routes;
 
