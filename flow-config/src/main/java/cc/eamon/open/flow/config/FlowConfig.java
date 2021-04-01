@@ -9,13 +9,43 @@ import java.util.List;
  */
 public class FlowConfig {
 
+    /**
+     * 流程id
+     */
     private String id;
 
+    /**
+     * 流程名
+     */
     private String name;
 
+    /**
+     * 流程类型
+     */
     private String type;
 
+    /**
+     * 流程节点路由表
+     */
     private List<RouteConfig> routes;
+
+    public FlowConfig(String id, String type) {
+        this.id = id;
+        this.type = type;
+    }
+
+    public FlowConfig(String id, String name, String type) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+    }
+
+    public FlowConfig(String id, String name, String type, List<RouteConfig> routes) {
+        this.id = id;
+        this.name = name;
+        this.type = type;
+        this.routes = routes;
+    }
 
     public String getName() {
         return name;

@@ -1,20 +1,35 @@
 package cc.eamon.open.flow.config;
 
-public class FlowItemParam {
+/**
+ * Author: lucas
+ * Date: 2021/1/17
+ * Email: lucas@eamon.cc
+ */
+public class FlowNodeParam {
 
-    //该参数所在的域
+    /**
+     * 该参数所在的域
+     */
     private String scope;
 
-    //该参数的类型
+    /**
+     * 该参数的类型
+     */
     private String type;
 
-    //该参数的名称
+    /**
+     * 该参数的名称
+     */
     private String name;
 
-    //该参数是否非空
+    /**
+     * 该参数是否非空
+     */
     private boolean notNull;
 
-    //该参数的缺省值
+    /**
+     * 该参数的缺省值
+     */
     private String defaultValue;
 
     public String getScope() {

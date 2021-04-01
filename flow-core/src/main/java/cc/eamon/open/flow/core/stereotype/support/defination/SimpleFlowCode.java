@@ -5,7 +5,7 @@ import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.spring.ComponentScaner;
 import cc.eamon.open.flow.core.stereotype.Flow;
-import cc.eamon.open.flow.config.FlowItemResult;
+import cc.eamon.open.flow.config.FlowNodeResult;
 import cc.eamon.open.flow.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import org.slf4j.LoggerFactory;
@@ -106,7 +106,7 @@ public class SimpleFlowCode implements FlowCode {
         //TODO:返回类型匹配校验???
         //存储流程代码运行结果
         //TODO:参数放到对应域
-        FlowItemResult result = routeConfig.getResult();
+        FlowNodeResult result = routeConfig.getResult();
         //获取返回参数名
         String returnName = result.getName();
         //获取返回参数域

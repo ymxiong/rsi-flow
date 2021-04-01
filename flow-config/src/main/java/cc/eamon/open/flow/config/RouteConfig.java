@@ -8,28 +8,51 @@ import java.util.List;
  * Time: 2020-07-02 18:57:55
  */
 public class RouteConfig {
-    //节点id，用于路由
+
+    /**
+     * 节点id，用于路由
+     */
     private String id;
 
-    //节点类型
+    /**
+     * 节点类型
+     */
     private String type;
 
-    //节点名，用于显示给用户查看
+    /**
+     * 节点名，用于显示给用户查看
+     */
     private String name;
 
-    //具体调用的FlowNode或Flow的Id
+    /**
+     * 具体调用的FlowNode或Flow的Id
+     */
     private String reference;
 
-    //目标节点
+    /**
+     * 目标节点
+     */
     private List<TargetConfig> targets;
 
-    //默认节点
+    /**
+     * 默认节点
+     */
     private String defaultTarget;
 
-    private List<FlowItemParam> params;
+    /**
+     * 流程节点参数
+     */
+    private List<FlowNodeParam> params;
 
-    private FlowItemResult result;
+    /**
+     * 流程节点返回值
+     */
+    private FlowNodeResult result;
 
+    public RouteConfig(String id, String type) {
+        this.id = id;
+        this.type = type;
+    }
 
     public String getId() {
         return id;
@@ -71,19 +94,19 @@ public class RouteConfig {
         this.defaultTarget = defaultTarget;
     }
 
-    public List<FlowItemParam> getParams() {
+    public List<FlowNodeParam> getParams() {
         return params;
     }
 
-    public void setParams(List<FlowItemParam> params) {
+    public void setParams(List<FlowNodeParam> params) {
         this.params = params;
     }
 
-    public FlowItemResult getResult() {
+    public FlowNodeResult getResult() {
         return result;
     }
 
-    public void setResult(FlowItemResult result) {
+    public void setResult(FlowNodeResult result) {
         this.result = result;
     }
 

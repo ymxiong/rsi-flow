@@ -6,19 +6,36 @@ package cc.eamon.open.flow.config;
  * Email: lucas@eamon.cc
  */
 public class TargetConfig {
-    private String scope;
 
-    //到目标节点的条件
+    /**
+     * 目标节点
+     */
+    private String target;
+
+    /**
+     * 到目标节点的条件
+     */
     private String condition;
 
-    private String target;
+    /**
+     * 目标条件所处域
+     */
+    private String scope;
 
     public TargetConfig() {
     }
 
-    public TargetConfig(String scope, String condition, String target) {
-        this.scope = scope;
+    public TargetConfig(String target, String condition, String scope) {
+        this.target = target;
         this.condition = condition;
+        this.scope = scope;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
         this.target = target;
     }
 
@@ -30,28 +47,11 @@ public class TargetConfig {
         this.condition = condition;
     }
 
-    public String getTarget() {
-        return target;
-    }
-
-    public void setTarget(String target) {
-        this.target = target;
-    }
-
     public String getScope() {
         return scope;
     }
 
     public void setScope(String scope) {
         this.scope = scope;
-    }
-
-    @Override
-    public String toString() {
-        return "Target{" +
-                "scope='" + scope + '\'' +
-                ",condition='" + condition + '\'' +
-                ", target='" + target + '\'' +
-                '}';
     }
 }

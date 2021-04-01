@@ -1,14 +1,25 @@
 package cc.eamon.open.flow.config;
 
-public class FlowItemResult {
+/**
+ * Author: lucas
+ * Date: 2021/1/17
+ * Email: lucas@eamon.cc
+ */
+public class FlowNodeResult {
 
-    //结果存放到的域
+    /**
+     * 结果存放到的域
+     */
     private String scope;
 
-    //该结果的类型
+    /**
+     * 该结果的类型
+     */
     private String type;
 
-    //该结果的名称
+    /**
+     * 该结果的名称
+     */
     private String name;
 
     public String getScope() {
