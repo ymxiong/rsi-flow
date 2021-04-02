@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.remote;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,12 +20,12 @@ public class FlowRequest implements Serializable {
     /**
      * 请求参数
      */
-    private Map<String, Object> params;
+    private Map<String, Object> params = new HashMap<>();
 
     /**
      * 返回结果集合
      */
-    private Map<String, String> results;
+    private Map<String, String> results = new HashMap<>();
 
     public String getFlowId() {
         return flowId;
