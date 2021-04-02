@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.example.FLOW_QUERY_USER_ACCOUNT;
 
-import cc.eamon.open.flow.core.FlowConstant;
+import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.example.enums.FlowEnum;
@@ -27,14 +27,14 @@ public class FlowEngineTest {
         // 线性编排
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数
-                .register(FlowConstant.SCOPE_TEST, "userName", "小朱")
+                .register(FlowConstants.SCOPE_TEST, "userName", "小朱")
                 // 注册流程所需核心服务
-                .register(FlowConstant.SCOPE_TEST, "userService", userService)
-                .register(FlowConstant.SCOPE_TEST, "accountService", accountService)
+                .register(FlowConstants.SCOPE_TEST, "userService", userService)
+                .register(FlowConstants.SCOPE_TEST, "accountService", accountService)
                 // 执行流程
                 .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
                 // 取出执行结果
-                .retrieve(FlowConstant.SCOPE_TEST, "account");
+                .retrieve(FlowConstants.SCOPE_TEST, "account");
 
         Assert.assertEquals(account.getId(), "654321");
         FlowEngine.instance().release();

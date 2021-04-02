@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.core;
 
+import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
-import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class FlowEngine {
      */
     public FlowEngine register(String paramName, Object paramValue) {
         //注入参数到上下文中
-        return register(FlowConstant.SCOPE_DEFAULT, paramName, paramValue);
+        return register(FlowConstants.SCOPE_DEFAULT, paramName, paramValue);
     }
 
     /**
@@ -102,7 +102,7 @@ public class FlowEngine {
      * @return 对象
      */
     public Object retrieve(String paramName) {
-        return this.retrieve(FlowConstant.SCOPE_DEFAULT, paramName);
+        return this.retrieve(FlowConstants.SCOPE_DEFAULT, paramName);
     }
 
     /**

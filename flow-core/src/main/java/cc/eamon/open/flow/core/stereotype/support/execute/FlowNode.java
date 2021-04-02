@@ -4,8 +4,8 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.error.ParamNotExistException;
 import cc.eamon.open.flow.core.error.ParamNotMatchException;
 import cc.eamon.open.flow.core.route.structure.element.Source;
-import cc.eamon.open.flow.config.FlowNodeParam;
-import cc.eamon.open.flow.config.FlowNodeResult;
+import cc.eamon.open.flow.config.node.FlowNodeParamConfig;
+import cc.eamon.open.flow.config.node.FlowNodeResultConfig;
 import cc.eamon.open.flow.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.BasicExecutable;
@@ -41,12 +41,12 @@ public class FlowNode extends BasicExecutable {
     /**
      * 当前该流程节点需要的入参以及他们所在Scope
      */
-    private Map<String, FlowNodeParam> paramsMap;
+    private Map<String, FlowNodeParamConfig> paramsMap;
 
     /**
      * 当前该流程节点结果以及所在Scope
      */
-    private Map<String, FlowNodeResult> resultMap;
+    private Map<String, FlowNodeResultConfig> resultMap;
 
 
     public FlowNode(String type, String name, String id, FlowHolder parentFlowHolder, FlowCode flowCode, RouteConfig routeConfig) {
@@ -56,14 +56,14 @@ public class FlowNode extends BasicExecutable {
         paramsMap = new HashMap<>();
         resultMap = new HashMap<>();
         //封装params
-        List<FlowNodeParam> params = routeConfig.getParams();
+        List<FlowNodeParamConfig> params = routeConfig.getParams();
         if (params != null) {
             params.forEach(param -> {
                 paramsMap.put(param.getName(), param);
             });
         }
         //封装result
-        FlowNodeResult result = routeConfig.getResult();
+        FlowNodeResultConfig result = routeConfig.getResult();
         if (result != null) {
             resultMap.put(result.getName(), result);
         }
@@ -90,7 +90,7 @@ public class FlowNode extends BasicExecutable {
             for (int i = 0; i < parameterNum; i++) {
 
                 //TODO:多Scope支持
-                FlowNodeParam param = paramsMap.get(parameterNames[i]);
+                FlowNodeParamConfig param = paramsMap.get(parameterNames[i]);
                 Class contextParType = FlowContextHolder.get().retrieveVariableType(param.getScope(), parameterNames[i]);
                 Class<?> requiredParType = parameterClasses[i];
                 // 参数在上下文中不存在

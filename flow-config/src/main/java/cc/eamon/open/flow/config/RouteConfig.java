@@ -1,5 +1,9 @@
 package cc.eamon.open.flow.config;
 
+import cc.eamon.open.flow.config.enums.FlowTypeEnums;
+import cc.eamon.open.flow.config.node.FlowNodeParamConfig;
+import cc.eamon.open.flow.config.node.FlowNodeResultConfig;
+
 import java.util.List;
 
 /**
@@ -42,16 +46,22 @@ public class RouteConfig {
     /**
      * 流程节点参数
      */
-    private List<FlowNodeParam> params;
+    private List<FlowNodeParamConfig> params;
 
     /**
      * 流程节点返回值
      */
-    private FlowNodeResult result;
+    private FlowNodeResultConfig result;
 
-    public RouteConfig(String id, String type) {
+    public RouteConfig(String id, FlowTypeEnums type) {
         this.id = id;
-        this.type = type;
+        this.type = type.getName();
+    }
+
+    public RouteConfig(String id, FlowTypeEnums type, List<TargetConfig> targets) {
+        this.id = id;
+        this.type = type.getName();
+        this.targets = targets;
     }
 
     public String getId() {
@@ -66,8 +76,8 @@ public class RouteConfig {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setType(FlowTypeEnums type) {
+        this.type = type.getName();
     }
 
     public String getName() {
@@ -94,19 +104,19 @@ public class RouteConfig {
         this.defaultTarget = defaultTarget;
     }
 
-    public List<FlowNodeParam> getParams() {
+    public List<FlowNodeParamConfig> getParams() {
         return params;
     }
 
-    public void setParams(List<FlowNodeParam> params) {
+    public void setParams(List<FlowNodeParamConfig> params) {
         this.params = params;
     }
 
-    public FlowNodeResult getResult() {
+    public FlowNodeResultConfig getResult() {
         return result;
     }
 
-    public void setResult(FlowNodeResult result) {
+    public void setResult(FlowNodeResultConfig result) {
         this.result = result;
     }
 

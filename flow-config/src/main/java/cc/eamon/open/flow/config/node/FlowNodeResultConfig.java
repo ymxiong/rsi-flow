@@ -1,16 +1,17 @@
-package cc.eamon.open.flow.config;
+package cc.eamon.open.flow.config.node;
 
 /**
  * Author: lucas
  * Date: 2021/1/17
  * Email: lucas@eamon.cc
  */
-public class FlowNodeResult {
+public class FlowNodeResultConfig {
 
     /**
-     * 结果存放到的域
+     * 该结果的名称
      */
-    private String scope;
+    private String name;
+
 
     /**
      * 该结果的类型
@@ -18,9 +19,15 @@ public class FlowNodeResult {
     private String type;
 
     /**
-     * 该结果的名称
+     * 结果存放到的域
      */
-    private String name;
+    private String scope;
+
+    public FlowNodeResultConfig(String name, String type, String scope) {
+        this.name = name;
+        this.type = type;
+        this.scope = scope;
+    }
 
     public String getScope() {
         return scope;

@@ -1,21 +1,11 @@
-package cc.eamon.open.flow.config;
+package cc.eamon.open.flow.config.node;
 
 /**
  * Author: lucas
  * Date: 2021/1/17
  * Email: lucas@eamon.cc
  */
-public class FlowNodeParam {
-
-    /**
-     * 该参数所在的域
-     */
-    private String scope;
-
-    /**
-     * 该参数的类型
-     */
-    private String type;
+public class FlowNodeParamConfig {
 
     /**
      * 该参数的名称
@@ -23,21 +13,37 @@ public class FlowNodeParam {
     private String name;
 
     /**
+     * 该参数的类型
+     */
+    private String type;
+
+    /**
+     * 该参数所在的域
+     */
+    private String scope;
+
+    /**
      * 该参数是否非空
      */
-    private boolean notNull;
+    private boolean notNull = true;
 
     /**
      * 该参数的缺省值
      */
-    private String defaultValue;
+    private String defaultValue = "";
 
-    public String getScope() {
-        return scope;
+    public FlowNodeParamConfig(String name, String type, String scope) {
+        this.name = name;
+        this.type = type;
+        this.scope = scope;
     }
 
-    public void setScope(String scope) {
-        this.scope = scope;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getType() {
@@ -48,12 +54,12 @@ public class FlowNodeParam {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getScope() {
+        return scope;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setScope(String scope) {
+        this.scope = scope;
     }
 
     public boolean isNotNull() {

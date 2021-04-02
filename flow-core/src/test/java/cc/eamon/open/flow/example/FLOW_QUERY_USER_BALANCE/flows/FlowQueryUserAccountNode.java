@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.example.FLOW_QUERY_USER_BALANCE.flows;
 
-import cc.eamon.open.flow.core.FlowConstant;
+import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.example.enums.FlowEnum;
@@ -14,7 +14,7 @@ public class FlowQueryUserAccountNode {
                 // 执行流程
                 .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
                 // 取出执行结果
-                .retrieve(FlowConstant.SCOPE_TEST,"account");
+                .retrieve(FlowConstants.SCOPE_TEST,"account");
 
         return account;
     }

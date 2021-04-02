@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.example.FLOW_NOT_EXIST_COMPLEX_FLOW;
 
-import cc.eamon.open.flow.core.FlowConstant;
+import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowDispose;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
@@ -21,11 +21,11 @@ public class FlowEngineTest {
     public void testFlowEngine() throws Exception {
         FlowDispose.test();
         int balance = (int) FlowEngine.instance()
-                .register(FlowConstant.SCOPE_TEST,"id", "123456")
-                .register(FlowConstant.SCOPE_TEST,"userService", userService)
-                .register(FlowConstant.SCOPE_TEST,"accountService", accountService)
+                .register(FlowConstants.SCOPE_TEST,"id", "123456")
+                .register(FlowConstants.SCOPE_TEST,"userService", userService)
+                .register(FlowConstants.SCOPE_TEST,"accountService", accountService)
                 .run(FlowEnum.FLOW_NOT_EXIST_COMPLEX_FLOW)
-                .retrieve(FlowConstant.SCOPE_TEST,"balance");
+                .retrieve(FlowConstants.SCOPE_TEST,"balance");
         Assert.assertEquals(balance, 12345);
         FlowEngine.instance().release();
     }

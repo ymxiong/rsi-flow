@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.core.context;
 
-import cc.eamon.open.flow.core.FlowConstant;
+import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.monitor.MonitorBus;
 
@@ -57,7 +57,7 @@ public class FlowContext {
 
 
     public Object retrieveVariable(String variableName) {
-        return retrieveVariable(FlowConstant.SCOPE_DEFAULT, variableName);
+        return retrieveVariable(FlowConstants.SCOPE_DEFAULT, variableName);
     }
 
     public Object retrieveVariable(String scope, String variableName) {
@@ -70,7 +70,7 @@ public class FlowContext {
     }
 
     public Class retrieveVariableType(String variableName) {
-        return retrieveVariableType(FlowConstant.SCOPE_DEFAULT, variableName);
+        return retrieveVariableType(FlowConstants.SCOPE_DEFAULT, variableName);
     }
 
     public Class retrieveVariableType(String scope, String variableName) {

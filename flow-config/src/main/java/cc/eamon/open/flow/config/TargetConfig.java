@@ -25,6 +25,11 @@ public class TargetConfig {
     public TargetConfig() {
     }
 
+    public TargetConfig(String target, String condition) {
+        this.target = target;
+        this.condition = condition;
+    }
+
     public TargetConfig(String target, String condition, String scope) {
         this.target = target;
         this.condition = condition;
