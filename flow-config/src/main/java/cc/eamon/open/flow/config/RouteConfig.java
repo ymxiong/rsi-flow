@@ -53,15 +53,15 @@ public class RouteConfig {
      */
     private FlowNodeResultConfig result;
 
-    public RouteConfig(String id, FlowTypeEnums type) {
+    public RouteConfig(String id, String type, String name, String reference, List<TargetConfig> targets, String defaultTarget, List<FlowNodeParamConfig> params, FlowNodeResultConfig result) {
         this.id = id;
-        this.type = type.getName();
-    }
-
-    public RouteConfig(String id, FlowTypeEnums type, List<TargetConfig> targets) {
-        this.id = id;
-        this.type = type.getName();
+        this.type = type;
+        this.name = name;
+        this.reference = reference;
         this.targets = targets;
+        this.defaultTarget = defaultTarget;
+        this.params = params;
+        this.result = result;
     }
 
     public String getId() {
