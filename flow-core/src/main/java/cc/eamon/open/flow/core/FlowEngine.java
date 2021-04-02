@@ -71,7 +71,8 @@ public class FlowEngine {
      */
     public FlowEngine register(String scope, String paramName, Object paramValue) {
         //注入参数到上下文中
-        FlowContextHolder.get().registerVariable(scope, paramName, paramValue, paramValue.getClass());
+        Class paramClazz = paramValue == null ? null : paramValue.getClass();
+        FlowContextHolder.get().registerVariable(scope, paramName, paramValue, paramClazz);
         return this;
     }
 
