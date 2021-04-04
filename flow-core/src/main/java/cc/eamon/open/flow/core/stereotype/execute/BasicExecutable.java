@@ -104,11 +104,16 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
         if (targets.isEmpty()) {
             return;
         }
-        if (targets.size() <= 1) {
-            executeNextNode(targets.get(0));
-        } else {
-            executeNextNodes(targets);
+        try {
+            if (targets.size() <= 1) {
+                executeNextNode(targets.get(0));
+            } else {
+                executeNextNodes(targets);
+            }
+        }catch (Exception e){
+            throw e;
         }
+
     }
 
     @Override
@@ -138,8 +143,13 @@ public class BasicExecutable implements FlowExecutable, Source, Target {
 
     @Override
     public void executeNextNode(Target target) throws Exception {
-        FlowExecutable executable = getExecuteableByTarget(target, parentFlowHolder);
-        executable.execute();
+        FlowExecutable executable = null;
+        try {
+            executable = getExecuteableByTarget(target, parentFlowHolder);
+            executable.execute();
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Override

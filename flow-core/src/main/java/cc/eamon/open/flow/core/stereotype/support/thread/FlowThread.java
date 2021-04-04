@@ -36,7 +36,11 @@ public class FlowThread implements Callable<FlowContextExtractor> {
             //TODO:优化从父线程拿参数
             FlowContextHolder.get().registerVariableList(parentContextExtractor.getVariableMap(), parentContextExtractor.getVariableTypeMap());
         }
-        flowExecutable.execute();
+        try {
+            flowExecutable.execute();
+        } catch (Exception e) {
+            throw e;
+        }
         //TODO:执行完后需要把最后一个节点注入到一个List中供给后续路由
         FlowContextExtractor flowContextExtractor = null;
         if (parentContextExtractor != null) {

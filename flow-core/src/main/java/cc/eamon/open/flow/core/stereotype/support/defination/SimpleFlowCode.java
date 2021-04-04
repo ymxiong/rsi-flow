@@ -82,7 +82,7 @@ public class SimpleFlowCode implements FlowCode {
                 logger.info(info);
                 throw new FlowNotFoundException(info);
             }
-        }else {
+        } else {
             target = ComponentScaner.flowComponentMap.get(flowClass.getName());
             if (target == null) {
                 String info = "FlowComponent named " + flowClass.getName() + " not found. ";
@@ -94,7 +94,7 @@ public class SimpleFlowCode implements FlowCode {
         Object returnValue = null;
         try {
             returnValue = flowMethod.invoke(target, args);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (Exception e) {
             logger.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
             throw e;
         }
