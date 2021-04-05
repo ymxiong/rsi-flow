@@ -27,32 +27,14 @@ public class ResourceLoader implements FlowLoader {
         Set<FlowConfig> flowConfigs = new HashSet<>();
         if (configFiles != null) {
             String path = this.getClass().getClassLoader().getResource("").getPath();
-            try {
-                for (String configFile : configFiles) {
-                    URL url = this.getClass().getClassLoader().getResource(configFile);
-                    String jarPath = url.toString().substring(0, url.toString().indexOf("!/") + 2);
-                    URL jarURL = new URL(jarPath);
-                    JarURLConnection jarCon = (JarURLConnection) jarURL.openConnection();
-                    JarFile jarFile = jarCon.getJarFile();
-                    Enumeration<JarEntry> jarEntrys = jarFile.entries();
-
-                    while (jarEntrys.hasMoreElements()) {
-                        JarEntry entry = jarEntrys.nextElement();
-                        String name = entry.getName();
-                        String[] split = name.split("/");
-                        String fileName=split[split.length-1];
-                        if (fileName.startsWith("flow") && !entry.isDirectory()) {
-                            Resource resource = new ClassPathResource(name);
-                            String flowConfigJson = FileTools.inputStream2Str(resource.getInputStream());
-                            FlowConfig flowConfig = JSONObject.parseObject(flowConfigJson, FlowConfig.class);
-                            flowConfigs.add(flowConfig);
-                        }
+            for (String configFile : configFiles) {
+                for (File file : FileTools.readFiles(path + configFile)) {
+                    if (file.getName().startsWith("flow")) {
+                        String flowConfigJson = FileTools.loadFile(file);
+                        FlowConfig flowConfig = JSONObject.parseObject(flowConfigJson, FlowConfig.class);
+                        flowConfigs.add(flowConfig);
                     }
                 }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
             }
         }
         return flowConfigs;

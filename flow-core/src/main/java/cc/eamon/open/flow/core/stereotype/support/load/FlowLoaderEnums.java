@@ -17,7 +17,12 @@ public enum FlowLoaderEnums {
     /**
      *
      */
-    FILESYSTEM_SCANNER("file system loader", new FileSystemLoader());
+    FILESYSTEM_SCANNER("file system loader", new FileSystemLoader()),
+
+    /**
+     *
+     */
+    JAR_SCANNER("jar loader", new JarLoader());
 
     FlowLoaderEnums(String name, FlowLoader loader) {
         this.name = name;
