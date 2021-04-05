@@ -96,6 +96,13 @@
             <artifactId>slf4j-api</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>cc.eamon.open</groupId>
+            <artifactId>auth</artifactId>
+            <version>0.1.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>
