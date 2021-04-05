@@ -95,10 +95,11 @@ public class SimpleFlowCode implements FlowCode {
         Object returnValue = null;
         try {
             returnValue = flowMethod.invoke(target, args);
-        } catch (StatusException e) {
-            logger.info(e.getMessage());
-            throw e;
         } catch (Exception e) {
+            Throwable mainException = e.getCause();
+            if (mainException instanceof StatusException) {
+                throw new StatusException(((StatusException) mainException).getCode(),mainException.getMessage(),((StatusException) mainException).getDetail());
+            }
             logger.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
             logger.info(e.getMessage());
             throw e;
