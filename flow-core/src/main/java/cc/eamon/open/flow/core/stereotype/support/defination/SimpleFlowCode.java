@@ -8,7 +8,6 @@ import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.config.node.FlowNodeResultConfig;
 import cc.eamon.open.flow.config.RouteConfig;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import cc.eamon.open.status.StatusException;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -96,12 +95,14 @@ public class SimpleFlowCode implements FlowCode {
         try {
             returnValue = flowMethod.invoke(target, args);
         } catch (Exception e) {
-            Throwable mainException = e.getCause();
-            if (mainException instanceof StatusException) {
-                throw new StatusException(((StatusException) mainException).getCode(),mainException.getMessage(),((StatusException) mainException).getDetail());
-            }
             logger.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
-            logger.info(e.getMessage());
+            Throwable nestedException = e.getCause();
+//            if (nestedException instanceof StatusException) {
+//                throw new StatusException(((StatusException) nestedException).getCode(),nestedException.getMessage(),((StatusException) nestedException).getDetail());
+//            }
+            if (nestedException instanceof Exception){
+                throw (Exception) nestedException;
+            }
             throw e;
         }
 
