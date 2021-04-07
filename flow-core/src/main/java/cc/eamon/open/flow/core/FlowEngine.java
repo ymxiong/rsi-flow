@@ -3,6 +3,7 @@ package cc.eamon.open.flow.core;
 import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.FlowDispose;
+import cc.eamon.open.flow.core.spring.SpringUtil;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +18,7 @@ public class FlowEngine {
 
     private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
 
-    private FlowDispose flowDispose = new FlowDispose();
+    private FlowDispose flowDispose = SpringUtil.getBean(FlowDispose.class);
 
     public static FlowEngine instance() {
         // 保障同一线程仅有单一执行的流程引擎

@@ -97,9 +97,6 @@ public class SimpleFlowCode implements FlowCode {
         } catch (Exception e) {
             logger.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
             Throwable nestedException = e.getCause();
-//            if (nestedException instanceof StatusException) {
-//                throw new StatusException(((StatusException) nestedException).getCode(),nestedException.getMessage(),((StatusException) nestedException).getDetail());
-//            }
             if (nestedException instanceof Exception){
                 throw (Exception) nestedException;
             }

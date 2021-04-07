@@ -3,10 +3,14 @@ package cc.eamon.open.flow.core.context;
 
 import cc.eamon.open.flow.config.FlowConfig;
 import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import cc.eamon.open.flow.core.stereotype.support.load.FlowLoaderEnums;
 import cc.eamon.open.flow.core.stereotype.support.scan.FlowScannerEnums;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -17,7 +21,10 @@ import java.util.*;
  * Date: 2020/6/28
  * Email: lucas@eamon.cc
  */
+@Component
 public class FlowDispose {
+
+    private static Logger logger = LoggerFactory.getLogger(FlowDispose.class);
 
     /**
      * 流程Map
@@ -64,6 +71,7 @@ public class FlowDispose {
         loadFlow(flowBasePackages);
         // 3. 装配flow
         assemblyFlow();
+        logger.info("流程配置信息装配完成");
     }
 
     public static void test() {
