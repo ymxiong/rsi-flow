@@ -1,0 +1,31 @@
+{
+  "id": "FLOW_SIMPLE",
+  "type": "flow",
+  "name": "简单流程标准",
+  "params": [
+    { "name": "account", "type": "Account", "notNull": "true", "defaultValue": "", "scope": "defaultScope" }
+  ],
+  "results": [
+    { "name": "role", "type": "String", "scope": "defaultScope" }
+  ],
+  "start": "ROUTE_3",
+  "nodes": [
+    {
+      "id": "ROUTE_3",
+      "type": "event",
+      "name": "FLOW_UPDATE_GET_ACCESS",
+      "reference": "FLOW_UPDATE_GET_ACCESS",
+      "params": [
+        { "name": "account", "type": "Account", "notNull": "true", "defaultValue": "", "scope": "defaultScope" },
+        { "name": "user", "type": "User", "notNull": "true", "defaultValue": "", "scope": "defaultScope" }
+      ],
+      "result": { "name": "role", "type": "String", "scope": "defaultScope" },
+      "routes": [
+        {
+          "condition": "true",
+          "target": "end"
+        }
+      ]
+    }
+  ]
+}
