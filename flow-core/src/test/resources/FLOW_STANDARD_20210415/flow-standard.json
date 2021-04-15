@@ -3,28 +3,26 @@
   "type": "flow",
   "name": "简单流程标准",
   "params": [
-    { "name": "account", "type": "Account", "notNull": "true", "defaultValue": "", "scope": "defaultScope" }
+    { "name": "account", "scope": "defaultScope" },
+    { "name": "user", "scope": "defaultScope" }
   ],
   "results": [
-    { "name": "role", "type": "String", "scope": "defaultScope" }
+    { "name": "role", "scope": "defaultScope" }
   ],
   "start": "ROUTE_3",
   "nodes": [
     {
       "id": "ROUTE_3",
       "type": "event",
-      "name": "FLOW_UPDATE_GET_ACCESS",
-      "reference": "FLOW_UPDATE_GET_ACCESS",
+      "name": "更新Account",
+      "reference": "FLOW_CODE_SIMPLE",
       "params": [
-        { "name": "account", "type": "Account", "notNull": "true", "defaultValue": "", "scope": "defaultScope" },
-        { "name": "user", "type": "User", "notNull": "true", "defaultValue": "", "scope": "defaultScope" }
+        { "name": "account", "type": "Account",  "scope": "defaultScope" },
+        { "name": "user", "type": "User",  "scope": "defaultScope" }
       ],
       "result": { "name": "role", "type": "String", "scope": "defaultScope" },
       "routes": [
-        {
-          "condition": "true",
-          "target": "end"
-        }
+        { "condition": "true", "target": "end" }
       ]
     }
   ]
