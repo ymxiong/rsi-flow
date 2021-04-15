@@ -133,8 +133,14 @@ public class FlowDispose {
     }
 
 
-    public static FlowHolder getFlowHolderByName(String name) {
-        return flowHolders.get(name);
+    public static FlowHolder getFlowHolderByName(String name) throws CloneNotSupportedException {
+        FlowHolder flowHolder = null;
+        try {
+            flowHolder = flowHolders.get(name).clone();
+        } catch (CloneNotSupportedException e) {
+            throw e;
+        }
+        return flowHolder;
     }
 
     public static void setConfigBasePackages(String[] configBasePackages) {

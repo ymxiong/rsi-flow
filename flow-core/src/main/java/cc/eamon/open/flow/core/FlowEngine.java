@@ -38,7 +38,7 @@ public class FlowEngine {
 
 
     public FlowEngine run(String flowId) throws Exception {
-        FlowHolder flowHolder = flowDispose.getFlowHolders().get(flowId);
+        FlowHolder flowHolder = flowDispose.getFlowHolderByName(flowId);
         if (flowHolder!=null){
             FlowContextHolder.get().getMonitorBus().setMonitorInfo(flowHolder.getName(),flowHolder.getId());
         }

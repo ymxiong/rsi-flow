@@ -20,7 +20,7 @@ import java.util.Map;
  * Time: 2020-07-01 20:18:53
  */
 
-public class FlowHolder extends BasicExecutable {
+public class FlowHolder extends BasicExecutable implements Cloneable{
 
     private static Logger logger = LoggerFactory.getLogger(FlowHolder.class);
 
@@ -111,6 +111,10 @@ public class FlowHolder extends BasicExecutable {
     }
 
 
+    @Override
+    public FlowHolder clone() throws CloneNotSupportedException {
+        return (FlowHolder) super.clone();
+    }
 }
 
 
