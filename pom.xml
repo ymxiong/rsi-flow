@@ -7,7 +7,7 @@
     <groupId>cc.eamon.open</groupId>
     <artifactId>flow</artifactId>
     <packaging>pom</packaging>
-    <version>0.1.4</version>
+    <version>0.1.5</version>
     <modules>
         <module>flow-core</module>
         <module>flow-config</module>
@@ -18,9 +18,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <slf4j-version>1.7.12</slf4j-version>
-        <flow-config-version>0.1.4</flow-config-version>
-        <flow-remote-version>0.1.4</flow-remote-version>
-        <flow-spring-boot-starter-version>0.1.4</flow-spring-boot-starter-version>
+        <flow-core-version>${project.version}</flow-core-version>
+        <flow-config-version>${project.version}</flow-config-version>
+        <flow-remote-version>${project.version}</flow-remote-version>
+        <flow-spring-boot-starter-version>${project.version}</flow-spring-boot-starter-version>
     </properties>
 
     <distributionManagement>
@@ -49,6 +50,12 @@
 
             <dependency>
                 <groupId>cc.eamon.open</groupId>
+                <artifactId>flow-core</artifactId>
+                <version>${flow-core-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cc.eamon.open</groupId>
                 <artifactId>flow-config</artifactId>
                 <version>${flow-config-version}</version>
             </dependency>
@@ -61,7 +68,7 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>flow-spring-boot-starter</artifactId>
-                <version>${flow-remote-version}</version>
+                <version>${flow-spring-boot-starter-version}</version>
             </dependency>
 
             <dependency>

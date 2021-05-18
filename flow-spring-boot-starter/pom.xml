@@ -5,7 +5,7 @@
     <parent>
         <artifactId>flow</artifactId>
         <groupId>cc.eamon.open</groupId>
-        <version>0.1.4</version>
+        <version>0.1.5</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -20,7 +20,6 @@
         <dependency>
             <groupId>cc.eamon.open</groupId>
             <artifactId>flow-core</artifactId>
-            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
