@@ -2,8 +2,8 @@ package cc.eamon.open.flow.core;
 
 import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.context.FlowDispose;
-import cc.eamon.open.flow.core.spring.SpringUtil;
+import cc.eamon.open.flow.core.context.FlowInitializer;
+import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,10 +18,10 @@ public class FlowEngine {
 
     private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
 
-    private FlowDispose flowDispose = SpringUtil.getBean(FlowDispose.class);
+    private FlowInitializer flowInitializer = new FlowInitializer();
 
     public static FlowEngine instance() {
-        // 保障同一线程仅有单一执行的流程引擎
+        //  保障同一线程仅有单一执行的流程引擎
         if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
             synchronized (FlowEngine.class) {
                 if (FlowContextHolder.get().getFlowEngine() == null) {
@@ -38,18 +38,9 @@ public class FlowEngine {
 
 
     public FlowEngine run(String flowId) throws Exception {
-        FlowHolder flowHolder = flowDispose.getFlowHolderByName(flowId);
-        if (flowHolder!=null){
-            FlowContextHolder.get().getMonitorBus().setMonitorInfo(flowHolder.getName(),flowHolder.getId());
-        }
-        try {
-            flowHolder.execute();
-        } catch (Exception e) {
-            String logInfo = "Error occurs when execute " + flowId;
-            logger.info(logInfo);
-            throw e;
-        }
-        FlowContextHolder.get().getMonitorBus().printStatistics();
+        FlowHolder flowHolder = flowInitializer.getFlowHolder(flowId);
+        if (flowHolder == null) throw new FlowNotFoundException();
+        flowHolder.execute();
         return this;
     }
 
@@ -62,7 +53,6 @@ public class FlowEngine {
      * @return 流程引擎实例
      */
     public FlowEngine register(String paramName, Object paramValue) {
-        //注入参数到上下文中
         return register(FlowConstants.SCOPE_DEFAULT, paramName, paramValue);
     }
 
@@ -74,9 +64,7 @@ public class FlowEngine {
      * @return 流程引擎实例
      */
     public FlowEngine register(String scope, String paramName, Object paramValue) {
-        //注入参数到上下文中
-        Class paramClazz = paramValue == null ? null : paramValue.getClass();
-        FlowContextHolder.get().registerVariable(scope, paramName, paramValue, paramClazz);
+        FlowContextHolder.get().registerVariable(scope, paramName, paramValue);
         return this;
     }
 
@@ -87,7 +75,17 @@ public class FlowEngine {
      * @return 流程引擎实例
      */
     public FlowEngine release(String... paramNames) {
-        FlowContextHolder.get().releaseVariable(paramNames);
+        return release(FlowConstants.SCOPE_DEFAULT, paramNames);
+    }
+
+    /**
+     * 注销某个域下的参数
+     *
+     * @param paramNames 参数名集合
+     * @return 流程引擎实例
+     */
+    public FlowEngine release(String scope, String... paramNames) {
+        FlowContextHolder.get().releaseVariables(scope, paramNames);
         return this;
     }
 

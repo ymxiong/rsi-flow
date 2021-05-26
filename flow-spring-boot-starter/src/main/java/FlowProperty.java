@@ -1,5 +1,3 @@
-import org.springframework.boot.context.properties.ConfigurationProperties;
-
 /**
  * Author: lucas(jvjv)
  * Email: lucas@eamon.cc
@@ -7,7 +5,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 //@ConfigurationProperties()
 public class FlowProperty {
-
 
 
 }

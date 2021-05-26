@@ -16,9 +16,9 @@ import java.util.Map;
  */
 public class ParamContext {
 
-    //键值对
-    //最外层的键值对为：key: 域名 Value:参数Map
-    //内层的键值对为：key:参数名 Value:参数类型
+    // 键值对
+    // 最外层的键值对为：key: 域名 Value:参数Map
+    // 内层的键值对为：key:参数名 Value:参数类型
     private Map<String, Map<String, String>> paramsMap;
 
 
@@ -34,12 +34,12 @@ public class ParamContext {
      */
     public void registerParam(BasicItem basicItem, String scopeName, String paramName, String paramType, CheckResult checkResult) {
         Map<String, String> scopeParamsMap = paramsMap.get(scopeName);
-        //如果获取到的Map为空说明当前Scope尚未注册参数
+        // 如果获取到的Map为空说明当前Scope尚未注册参数
         if (scopeParamsMap == null) {
             scopeParamsMap = new HashMap<>();
             paramsMap.put(scopeName, scopeParamsMap);
         }
-        //检查之前是否已经在该域注册过这个参数
+        // 检查之前是否已经在该域注册过这个参数
         String registedParamType = scopeParamsMap.get(paramName);
         if (registedParamType != null) {
             //TODO:发现重复注册参数,覆盖了东西
@@ -65,8 +65,8 @@ public class ParamContext {
                     ",you cannot retrieve param named" + paramName + " from " + scopeName);
             checkResult.addException(scopeNotExistException);
         }
-        String registedParamType = scopeParamsMap.get(paramName);
-        if (registedParamType != paramType) {
+        String registeredParamType = scopeParamsMap.get(paramName);
+        if (registeredParamType != paramType) {
             if (paramType == null) {
                 //TODO:发现尚未注册参数
                 CheckException paramNotExistException = new CheckException(basicItem, "param named " + scopeName + " have not been registered" +
@@ -74,13 +74,13 @@ public class ParamContext {
                 checkResult.addException(paramNotExistException);
             } else {
                 //TODO:发现取出取出参数与需要的参数不匹配
-                CheckException paramNotMatchException = new CheckException(basicItem, "param in " + scopeName + " named " + paramName + " is " + registedParamType +
+                CheckException paramNotMatchException = new CheckException(basicItem, "param in " + scopeName + " named " + paramName + " is " + registeredParamType +
                         ", required type is " + paramType);
                 checkResult.addException(paramNotMatchException);
             }
         }
 
-        return registedParamType;
+        return registeredParamType;
     }
 }
 

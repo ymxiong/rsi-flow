@@ -3,9 +3,9 @@ package cc.eamon.open.flow.core.check.structure;
 import cc.eamon.open.flow.core.check.context.ContextHolder;
 import cc.eamon.open.flow.core.check.context.ParamContext;
 import cc.eamon.open.flow.core.check.result.CheckResult;
-import cc.eamon.open.flow.config.node.FlowNodeParamConfig;
-import cc.eamon.open.flow.config.node.FlowNodeResultConfig;
-import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
+import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ public class BasicItem {
     private BasicItem preNode;
 
     //当前节点
-    private RouteConfig curNode;
+    private FlowNodeConfig curNode;
 
-    public BasicItem(RouteConfig curNode) {
+    public BasicItem(FlowNodeConfig curNode) {
         this.curNode = curNode;
     }
 
@@ -39,11 +39,11 @@ public class BasicItem {
         this.preNode = preNode;
     }
 
-    public RouteConfig getCurNode() {
+    public FlowNodeConfig getCurNode() {
         return curNode;
     }
 
-    public void setCurNode(RouteConfig curNode) {
+    public void setCurNode(FlowNodeConfig curNode) {
         this.curNode = curNode;
     }
 
@@ -80,8 +80,8 @@ public class BasicItem {
      */
     public void checkParams(CheckResult checkResult) {
         //TODO:检查所有参数是否都符合结果
-        List<FlowNodeParamConfig> params = this.getCurNode().getParams();
-        for (FlowNodeParamConfig param : params) {
+        List<FlowParamConfig> params = this.getCurNode().getParams();
+        for (FlowParamConfig param : params) {
             ParamContext paramContext = ContextHolder.get();
             paramContext.retrieveParam(this, param.getScope(), param.getName(), param.getType(), checkResult);
         }
@@ -97,7 +97,7 @@ public class BasicItem {
         //TODO:如果当前节点入参检查出了问题的时候，后续执行有待商榷
         //     idea1:结束当前路径的检查，用户只有解决了出错才能往后继续检查
         //     idea2:不注入结果，接着检查后续流程节点
-        FlowNodeResultConfig result = this.getCurNode().getResult();
+        FlowResultConfig result = this.getCurNode().getResult();
         ParamContext paramContext = ContextHolder.get();
         paramContext.registerParam(this, result.getScope(), result.getName(), result.getType(), checkResult);
     }

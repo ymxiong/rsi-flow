@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.route.structure;
 
 import cc.eamon.open.flow.core.route.structure.element.RouteElement;
-import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +16,9 @@ public class RouteModel {
     // 路由节点列表
     private List<RouteElement> elements;
 
-    public RouteModel(List<RouteConfig> routeConfigs) {
+    public RouteModel(List<FlowNodeConfig> routeConfigs) {
         elements = new ArrayList<>();
-        for (RouteConfig routeConfig : routeConfigs) {
+        for (FlowNodeConfig routeConfig : routeConfigs) {
             elements.add(new RouteElement(routeConfig));
         }
     }

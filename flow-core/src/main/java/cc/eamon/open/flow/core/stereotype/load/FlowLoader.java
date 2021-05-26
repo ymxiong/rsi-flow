@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.load;
 
 
-import cc.eamon.open.flow.config.FlowConfig;
+import cc.eamon.open.flow.config.flow.FlowConfig;
 
 import java.util.Set;
 

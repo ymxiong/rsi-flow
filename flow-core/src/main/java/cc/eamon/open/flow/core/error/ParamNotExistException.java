@@ -5,7 +5,10 @@ package cc.eamon.open.flow.core.error;
  * Email: lucas@eamon.cc
  * Time: 2021/3/16 14:33
  */
-public class ParamNotExistException extends FlowException{
+public class ParamNotExistException extends FlowException {
+
+    private static final long serialVersionUID = -6528089647923156533L;
+
     public ParamNotExistException() {
     }
 
@@ -24,4 +27,5 @@ public class ParamNotExistException extends FlowException{
     public ParamNotExistException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

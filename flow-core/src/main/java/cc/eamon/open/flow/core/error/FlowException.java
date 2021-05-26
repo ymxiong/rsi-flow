@@ -7,6 +7,8 @@ package cc.eamon.open.flow.core.error;
  */
 public class FlowException extends RuntimeException {
 
+    private static final long serialVersionUID = 6141109116612846635L;
+
     public FlowException() {
     }
 

@@ -2,8 +2,8 @@ package cc.eamon.open.flow.example.FLOW_INSUFFICIENT_PARAMETERS;
 
 import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.FlowEngine;
-import cc.eamon.open.flow.core.context.FlowDispose;
-import cc.eamon.open.flow.example.enums.FlowEnum;
+import cc.eamon.open.flow.core.context.FlowInitializer;
+import cc.eamon.open.flow.example.enums.FlowEnums;
 import cc.eamon.open.flow.example.remote.entity.Account;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
@@ -18,7 +18,7 @@ public class FlowEngineTest {
 
     @Test(expectedExceptions = RuntimeException.class, groups = "insufficient-error-test")
     public void testFlowEngine() throws Exception {
-        FlowDispose.test();
+        // FlowInitializer.test();
         // 参数不足（线性编排）
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数
@@ -27,7 +27,7 @@ public class FlowEngineTest {
                 .register(FlowConstants.SCOPE_TEST,"userService", userService)
                 .register(FlowConstants.SCOPE_TEST,"accountService", accountService)
                 // 执行流程
-                .run(FlowEnum.FLOW_INSUFFICIENT_PARAMETERS)
+                .run(FlowEnums.FLOW_INSUFFICIENT_PARAMETERS)
                 // 取出执行结果
                 .retrieve(FlowConstants.SCOPE_TEST,"account");
 

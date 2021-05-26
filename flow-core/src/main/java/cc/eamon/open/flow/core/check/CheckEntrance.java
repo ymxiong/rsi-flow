@@ -4,10 +4,10 @@ import cc.eamon.open.flow.core.check.context.ConfigContext;
 import cc.eamon.open.flow.core.check.context.ContextHolder;
 import cc.eamon.open.flow.core.check.result.CheckResult;
 import cc.eamon.open.flow.core.check.strategy.ParseStrategy;
-import cc.eamon.open.flow.core.check.strategy.ParseStrategyTypeEnum;
+import cc.eamon.open.flow.core.check.strategy.ParseStrategyTypeEnums;
 import cc.eamon.open.flow.core.check.structure.BasicItem;
-import cc.eamon.open.flow.config.FlowConfig;
-import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 
 import java.util.List;
 
@@ -82,20 +82,20 @@ public class CheckEntrance {
      * @return
      */
     private CheckResult getPaths(FlowConfig config, CheckResult checkResult) {
-        RouteConfig start = getStartNodeRouteConfig(config);
-        ParseStrategy strategy = ParseStrategyTypeEnum.getStrategy(start.getType());
+        FlowNodeConfig start = getStartNodeRouteConfig(config);
+        ParseStrategy strategy = ParseStrategyTypeEnums.getStrategy(start.getType());
 
         strategy.parse(configContext, checkResult, null, start);
         return checkResult;
     }
 
 
-    public RouteConfig getStartNodeRouteConfig(FlowConfig flowConfig) {
-        RouteConfig startConfig = null;
-        for (RouteConfig route : flowConfig.getRoutes()) {
-            if (route.getType().equals("start")) ;
-            startConfig = route;
-        }
+    public FlowNodeConfig getStartNodeRouteConfig(FlowConfig flowConfig) {
+        FlowNodeConfig startConfig = null;
+//        for (FlowNodeConfig route : flowConfig.getRoutes()) {
+//            if (route.getType().equals("start")) ;
+//            startConfig = route;
+//        }
         return startConfig;
     }
 

@@ -1,9 +1,9 @@
 package cc.eamon.open.flow.core.check.structure;
 
-import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 
 public class NodeItem extends BasicItem {
-    public NodeItem(RouteConfig curNode) {
+    public NodeItem(FlowNodeConfig curNode) {
         super(curNode);
     }
 

@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.auto;
 
 
-import cc.eamon.open.flow.core.context.FlowDispose;
+import cc.eamon.open.flow.core.context.FlowInitializer;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.ResourceLoaderAware;
@@ -29,7 +29,7 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
         this.resourceLoader = resourceLoader;
     }
 
-    @Override
+//    @Override
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator) {
 
     }
@@ -60,6 +60,6 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
             basePackages.add(ClassUtils.getPackageName(clazz));
         }
 
-        FlowDispose.setFlowBasePackages(basePackages.toArray(new String[basePackages.size()]));
+        FlowInitializer.setFlowBasePackages(basePackages.toArray(new String[basePackages.size()]));
     }
 }

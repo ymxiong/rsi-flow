@@ -1,18 +1,18 @@
 package cc.eamon.open.flow.core.stereotype.support.execute;
 
-import cc.eamon.open.flow.core.route.Route;
-import cc.eamon.open.flow.core.route.execute.RouteEngine;
-import cc.eamon.open.flow.core.route.structure.element.Target;
-import cc.eamon.open.flow.config.FlowConfig;
-import cc.eamon.open.flow.config.RouteConfig;
-import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import cc.eamon.open.flow.core.stereotype.execute.BasicExecutable;
-import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
-import org.slf4j.LoggerFactory;
+import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
+import cc.eamon.open.flow.config.flow.FlowRouteConfig;
+import cc.eamon.open.flow.core.error.FlowNodeDuplicateDefineException;
+import cc.eamon.open.flow.core.stereotype.support.enums.FlowNodeTypeEnums;
+import cc.eamon.open.flow.core.stereotype.support.execute.node.FlowParamHolder;
+import cc.eamon.open.flow.core.stereotype.support.execute.node.FlowResultHolder;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.util.Assert;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Author: eamon
@@ -20,7 +20,7 @@ import java.util.Map;
  * Time: 2020-07-01 20:18:53
  */
 
-public class FlowHolder extends BasicExecutable implements Cloneable{
+public class FlowHolder {
 
     private static Logger logger = LoggerFactory.getLogger(FlowHolder.class);
 
@@ -29,92 +29,106 @@ public class FlowHolder extends BasicExecutable implements Cloneable{
      */
     private FlowConfig flowConfig;
 
+    /**
+     * 流程节点结构化容器
+     */
+    private Map<String, FlowNodeHolder> nodes = new HashMap<>();
 
     /**
-     *
+     * 流程路由容器
      */
-    private Map<String, RouteConfig> routeMap;
-    /**
-     *
-     */
-    private Map<String, RouteConfig> routeReferenceMap;
+    private List<FlowRouteHolder> routes = new ArrayList<>();
 
     /**
-     * 流程的所有代码
+     * 流程参数容器
      */
-    private Map<String, FlowCode> flowCodes;
+    private List<FlowParamHolder> params = new ArrayList<>();
 
     /**
-     * 流程的路由
+     * 流程结果容器
      */
-    private Route route;
+    private List<FlowResultHolder> results = new ArrayList<>();
 
-    public FlowHolder(String type, String name, String id, FlowHolder parentFlowHolder, FlowConfig flowConfig, Map<String, FlowCode> flowCodes) {
-        super(type, name, id, parentFlowHolder);
+    /**
+     * 流程来源路由容器
+     */
+    private Map<String, List<FlowRouteHolder>> sourceRouteGroup = new HashMap<>();
+
+    /**
+     * TODO: 流程执行队列
+     */
+    private Queue<FlowNodeHolder> nodeQueue = new ConcurrentLinkedQueue<>();
+
+    /**
+     * @param flowConfig 流程配置
+     */
+    public FlowHolder(FlowConfig flowConfig) {
+        // 初始化流程配置
         this.flowConfig = flowConfig;
-        this.flowCodes = flowCodes;
-        route = new RouteEngine(flowConfig.getRoutes());
-        routeMap = new HashMap<>();
-        routeReferenceMap = new HashMap<>();
-        for (RouteConfig route : flowConfig.getRoutes()) {
-            routeMap.put(route.getId(), route);
-            if (route.getType().equals("flow")) {
-                routeReferenceMap.put(route.getReference(), route);
-            }
+        // 初始化流程节点
+        for (FlowNodeConfig node : this.flowConfig.getNodes()) {
+            if (nodes.get(node.getId()) != null) throw new FlowNodeDuplicateDefineException();
+            nodes.put(node.getId(), new FlowNodeHolder(node));
+        }
+        // 初始化流程路由
+        for (FlowRouteConfig route : this.flowConfig.getRoutes()) {
+            FlowRouteHolder holder = new FlowRouteHolder(route);
+            routes.add(holder);
+            // 初始化源头路由
+            sourceRouteGroup.putIfAbsent(holder.getSource(), new ArrayList<>());
+            sourceRouteGroup.computeIfPresent(holder.getSource(), ((s, flowRouteHolders) -> {
+                flowRouteHolders.add(holder);
+                return flowRouteHolders;
+            }));
+        }
+        // 从上下文中获取流程参数
+//        FlowContextHolder.get().retrieveVariableType(param.getScope(), parameterNames[i])
+    }
+
+    public FlowConfig getFlowConfig() {
+        return flowConfig;
+    }
+
+    public Map<String, FlowNodeHolder> getNodes() {
+        return nodes;
+    }
+
+    public List<FlowRouteHolder> getRoutes() {
+        return routes;
+    }
+
+    public void execute() {
+        // 获取开始流程组
+        List<FlowRouteHolder> startGroup = sourceRouteGroup.get(FlowNodeTypeEnums.START.getName());
+        // 流程校验
+        Assert.isTrue(startGroup != null && startGroup.size() > 0, "未定义开始流程组");
+        // 提供执行数据
+        offerQueue(startGroup);
+        // 提供执行
+        executeQueue();
+    }
+
+    private void executeQueue() {
+        while (nodeQueue.size() > 0) {
+            FlowNodeHolder node = nodeQueue.poll();
+            if (node == null) return;
+            node.execute();
+            // 获取当前流程组
+            List<FlowRouteHolder> flowGroup = sourceRouteGroup.get(node.getId());
+            offerQueue(flowGroup);
         }
     }
 
-    public Map<String, FlowCode> getFlowCodes() {
-        return flowCodes;
-    }
-
-    public Route getRoute() {
-        return route;
-    }
-
-    @Override
-    public void setParentFlowHolder(FlowHolder parentFlowHolder) {
-        super.parentFlowHolder = parentFlowHolder;
-    }
-
-    @Override
-    public void execute() throws Exception {
-        try {
-            //获取开始节点开始执行
-            Target start = route.getStartNode();
-            FlowExecutable startNode = getExecuteableByTarget(start, this);
-            startNode.execute();
-            //执行下一个节点
-//            executeNext(this);
-            //执行下一个节点
-            executeNext(this);
-        } catch (Exception e) {
-            throw e;
+    private void offerQueue(List<FlowRouteHolder> flowGroup) {
+        // 执行器
+        for (FlowRouteHolder holder : flowGroup) {
+            String targetId = holder.getTarget();
+            if (FlowNodeTypeEnums.END == FlowNodeTypeEnums.getConfigByName(targetId)) continue;
+            FlowNodeHolder nodeHolder = nodes.get(targetId);
+            nodeQueue.offer(nodeHolder);
         }
     }
 
-    public RouteConfig getRouteConfigById(String flowId) {
-        return routeMap.get(flowId);
-    }
-
-    public RouteConfig getRouteConfigByReference(String reference) {
-        return routeReferenceMap.get(reference);
-    }
-
-    /**
-     * 用于嵌套调用的时候恢复id为父Flow中的RouteId
-     *
-     * @param originId 原id
-     */
-    public void resumeId(String originId) {
-        this.id = originId;
-    }
-
-
-    @Override
-    public FlowHolder clone() throws CloneNotSupportedException {
-        return (FlowHolder) super.clone();
-    }
 }
 
 

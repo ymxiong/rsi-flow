@@ -1,9 +1,6 @@
-import cc.eamon.open.flow.core.context.FlowDispose;
-import cc.eamon.open.flow.core.spring.ComponentScaner;
-import cc.eamon.open.flow.core.spring.SpringUtil;
-import cc.eamon.open.flow.core.util.LogoUtil;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import cc.eamon.open.flow.core.context.FlowInitializer;
+import cc.eamon.open.flow.core.spring.ComponentScanner;
+import cc.eamon.open.flow.core.spring.SpringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,18 +14,18 @@ import org.springframework.context.annotation.Configuration;
 public class FlowAutoConfiguration {
 
     @Bean
-    public ComponentScaner componentScaner(){
-        return new ComponentScaner();
+    public ComponentScanner componentScaner() {
+        return new ComponentScanner();
     }
 
     @Bean
-    public FlowDispose flowDispose(){
-        return new FlowDispose();
+    public FlowInitializer flowDispose() {
+        return new FlowInitializer();
     }
 
     @Bean
-    public SpringUtil springUtil(){
-        return new SpringUtil();
+    public SpringUtils springUtil() {
+        return new SpringUtils();
     }
 
 

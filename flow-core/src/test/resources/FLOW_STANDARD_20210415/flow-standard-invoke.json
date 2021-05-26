@@ -1,0 +1,29 @@
+{
+  "id": "FLOW_SIMPLE_INVOKE",
+  "type": "flow",
+  "name": "简单流程被调用标准",
+  "params": [
+    { "name": "account", "scope": "defaultScope" },
+    { "name": "user", "scope": "defaultScope" }
+  ],
+  "results": [
+    { "name": "role", "scope": "defaultScope" }
+  ],
+  "nodes": [
+    {
+      "id": "ROUTE_3",
+      "type": "event",
+      "name": "更新Account",
+      "reference": "FLOW_CODE_SIMPLE",
+      "params": [
+        { "name": "account", "type": "Account",  "scope": "defaultScope" },
+        { "name": "user", "type": "User",  "scope": "defaultScope" }
+      ],
+      "result": { "name": "role", "type": "String", "scope": "defaultScope" }
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "ROUTE_3" },
+    { "source":"ROUTE_3", "target": "end" }
+  ]
+}

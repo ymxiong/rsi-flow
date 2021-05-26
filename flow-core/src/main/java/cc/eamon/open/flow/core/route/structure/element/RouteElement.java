@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.route.structure.element;
 
-import cc.eamon.open.flow.config.RouteConfig;
-import cc.eamon.open.flow.config.TargetConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
+import cc.eamon.open.flow.config.flow.FlowRouteConfig;
 
 import java.util.List;
 
@@ -12,9 +12,9 @@ import java.util.List;
  */
 public class RouteElement implements Source, Target {
 
-    private RouteConfig routeConfig;
+    private FlowNodeConfig routeConfig;
 
-    public RouteElement(RouteConfig routeConfig) {
+    public RouteElement(FlowNodeConfig routeConfig) {
         this.routeConfig = routeConfig;
     }
 
@@ -38,11 +38,13 @@ public class RouteElement implements Source, Target {
         return routeConfig.getReference();
     }
 
-    public List<TargetConfig> getTargetConfigs() {
-        return routeConfig.getTargets();
+    public List<FlowRouteConfig> getTargetConfigs() {
+        return null;
+//        return routeConfig.getTargets();
     }
 
     public String getDefaultTarget() {
-        return routeConfig.getDefaultTarget();
+        return null;
+//        return routeConfig.getDefaultTarget();
     }
 }

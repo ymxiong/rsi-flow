@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.engine;
 
 import cc.eamon.open.flow.core.FlowEngine;
-import cc.eamon.open.flow.example.enums.FlowEnum;
+import cc.eamon.open.flow.example.enums.FlowEnums;
 import cc.eamon.open.flow.example.remote.entity.Account;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
@@ -30,7 +30,7 @@ public class FlowEngineTest {
                 .register("userService", userService)
                 .register("accountService", accountService)
                 // 执行流程
-                .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
+                .run(FlowEnums.FLOW_QUERY_USER_ACCOUNT)
                 // 取出执行结果
                 .retrieve("account");
 

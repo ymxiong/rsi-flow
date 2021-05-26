@@ -2,8 +2,8 @@ package cc.eamon.open.flow.example.FLOW_QUERY_USER_ACCOUNT;
 
 import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.FlowEngine;
-import cc.eamon.open.flow.core.context.FlowDispose;
-import cc.eamon.open.flow.example.enums.FlowEnum;
+import cc.eamon.open.flow.core.context.FlowInitializer;
+import cc.eamon.open.flow.example.enums.FlowEnums;
 import cc.eamon.open.flow.example.remote.entity.Account;
 import cc.eamon.open.flow.example.remote.service.AccountService;
 import cc.eamon.open.flow.example.remote.service.UserService;
@@ -23,7 +23,7 @@ public class FlowEngineTest {
 
     @Test(groups = "test")
     public void testFlowEngine() throws Exception {
-        FlowDispose.test();
+        // FlowInitializer.test();
         // 线性编排
         Account account = (Account) FlowEngine.instance()
                 // 注册流程所需参数
@@ -32,7 +32,7 @@ public class FlowEngineTest {
                 .register(FlowConstants.SCOPE_TEST, "userService", userService)
                 .register(FlowConstants.SCOPE_TEST, "accountService", accountService)
                 // 执行流程
-                .run(FlowEnum.FLOW_QUERY_USER_ACCOUNT)
+                .run(FlowEnums.FLOW_QUERY_USER_ACCOUNT)
                 // 取出执行结果
                 .retrieve(FlowConstants.SCOPE_TEST, "account");
 

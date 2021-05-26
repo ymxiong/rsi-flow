@@ -1,7 +1,5 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
-import cc.eamon.open.flow.config.RouteConfig;
-
 import java.lang.reflect.Method;
 
 /**
@@ -11,13 +9,10 @@ import java.lang.reflect.Method;
  */
 public interface FlowCode {
 
-    FlowCode getFlowCode();
-
     String getFlowName();
 
-    void execute(RouteConfig routeConfig, Object... args) throws Exception;
+    Object execute(Object... args) throws Exception;
 
-    // TODO: NEED OPTIMIZE
     Method getMethod();
 
 }

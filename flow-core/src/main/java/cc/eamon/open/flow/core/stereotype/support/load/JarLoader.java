@@ -1,9 +1,8 @@
 package cc.eamon.open.flow.core.stereotype.support.load;
 
 import cc.eamon.easyfile.FileTools;
-import cc.eamon.open.flow.config.FlowConfig;
+import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.core.stereotype.load.FlowLoader;
-import cc.eamon.open.flow.core.stereotype.support.execute.FlowNode;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

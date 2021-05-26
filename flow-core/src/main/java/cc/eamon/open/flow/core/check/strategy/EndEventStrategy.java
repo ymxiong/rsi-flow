@@ -4,13 +4,13 @@ import cc.eamon.open.flow.core.check.context.ConfigContext;
 import cc.eamon.open.flow.core.check.result.CheckResult;
 import cc.eamon.open.flow.core.check.structure.BasicItem;
 import cc.eamon.open.flow.core.check.structure.EndItem;
-import cc.eamon.open.flow.config.RouteConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 
 public class EndEventStrategy extends BaseParseStrategy {
 
 
     @Override
-    public void parse(ConfigContext configContext, CheckResult checkResult, BasicItem preItem, RouteConfig routeConfig) {
+    public void parse(ConfigContext configContext, CheckResult checkResult, BasicItem preItem, FlowNodeConfig routeConfig) {
         //TODO:如果是递归的
         EndItem endItem = new EndItem(routeConfig);
         endItem.setPreNode(preItem);

@@ -18,25 +18,16 @@ public class FlowContext {
      * 当前线程流程引擎
      */
     private FlowEngine flowEngine;
-    /**
-     * 当前线程流程名称
-     */
-    private String flowName;
 
     /**
      * 当前线程流程名称
      */
     private MonitorBus monitorBus = new MonitorBus();
 
-
     /**
-     * 当前线程参数列表(多Scope)
+     * 上下文分域
      */
-    private Map<String, Map<String, Object>> variableMap = new HashMap<>();
-    /**
-     * 当前线程参数列表(多Scope)
-     */
-    private Map<String, Map<String, Class>> variableTypeMap = new HashMap<>();
+    private Map<String, FlowScopeContext> scopeContextMap = new HashMap<>();
 
     public FlowEngine getFlowEngine() {
         return flowEngine;
@@ -46,110 +37,28 @@ public class FlowContext {
         this.flowEngine = flowEngine;
     }
 
-    protected Map<String, Map<String, Object>> getVariableMap() {
-        return variableMap;
-    }
-
-    protected Map<String, Map<String, Class>> getVariableTypeMap() {
-
-        return variableTypeMap;
-    }
-
 
     public Object retrieveVariable(String variableName) {
         return retrieveVariable(FlowConstants.SCOPE_DEFAULT, variableName);
     }
 
     public Object retrieveVariable(String scope, String variableName) {
-        Map<String, Object> scopeVariableMap = variableMap.get(scope);
-        Object variable = null;
-        if (scopeVariableMap != null) {
-            variable = scopeVariableMap.get(variableName);
-        }
-        return variable;
+        FlowScopeContext scopeContext = scopeContextMap.get(scope);
+        if (scopeContext == null) return null;
+        return scopeContext.retrieveVariable(variableName);
     }
 
-    public Class retrieveVariableType(String variableName) {
-        return retrieveVariableType(FlowConstants.SCOPE_DEFAULT, variableName);
+    public void registerVariable(String scope, String variableName, Object variable) {
+        // 注册variable
+        scopeContextMap.putIfAbsent(scope, new FlowScopeContext(scope));
+        FlowScopeContext context = scopeContextMap.get(scope);
+        context.registerVariable(variableName, variable);
     }
 
-    public Class retrieveVariableType(String scope, String variableName) {
-        Map<String, Class> scopeVariableTypeMap = variableTypeMap.get(scope);
-        Class variableType = null;
-        if (scopeVariableTypeMap != null) {
-            variableType = scopeVariableTypeMap.get(variableName);
-        }
-        return variableType;
-    }
-
-    public void registerVariable(String scope, String variableName, Object variableValue, Class variableType) {
-        //注册variable
-        Map<String, Object> scopeVariableMap = variableMap.get(scope);
-        if (scopeVariableMap == null) {
-            scopeVariableMap = new HashMap<>();
-            variableMap.put(scope, scopeVariableMap);
-        }
-        //注册variableType
-        Map<String, Class> scopeVariableTypeMap = variableTypeMap.get(scope);
-        if (scopeVariableTypeMap == null) {
-            scopeVariableTypeMap = new HashMap<>();
-            variableTypeMap.put(scope, scopeVariableTypeMap);
-        }
-        scopeVariableMap.put(variableName, variableValue);
-        scopeVariableTypeMap.put(variableName, variableType);
-    }
-
-//    public void registerVariableList(Map<String, Object> variableMap, Map<String, Class> variableTypeMap) {
-//        this.variableMap.putAll(variableMap);
-//        this.variableTypeMap.putAll(variableTypeMap);
-//    }
-
-    //TODO:多Scope支持
-    public void registerVariableList(Map<String, Map<String, Object>> variableMap, Map<String, Map<String, Class>> variableTypeMap) {
-        this.variableMap.putAll(variableMap);
-        this.variableTypeMap.putAll(variableTypeMap);
-    }
-
-    //TODO:多Scope支持
-    public void registerChildVariable(FlowContextExtractor childContext) {
-        //注入参数到上下文中
-        if (childContext != null)
-            FlowContextHolder.get().registerVariableList(childContext.getVariableMap(), childContext.getVariableTypeMap());
-
-    }
-
-    //TODO:测试
-    public void releaseVariable(String... variableNames) {
-        if (variableNames != null) {
-            for (String variableName : variableNames) {
-                variableMap.remove(variableName);
-                variableTypeMap.remove(variableName);
-            }
-        }
-
-    }
-
-    //TODO:测试
-    public void releaseVariable(Map<String, String> variables) {
-        String scope;
-        String variableName;
-        for (Map.Entry<String, String> variable : variables.entrySet()) {
-            scope = variable.getKey();
-            variableName = variable.getValue();
-            Map<String, Object> scopeVariableMap = variableMap.get(scope);
-            Map<String, Object> scopeVariableTypeMap = variableMap.get(scope);
-            scopeVariableMap.remove(variableName);
-            scopeVariableTypeMap.remove(variableName);
-        }
-    }
-
-
-    public String getFlowName() {
-        return flowName;
-    }
-
-    public void setFlowName(String flowName) {
-        this.flowName = flowName;
+    public void releaseVariables(String scope, String... variableName) {
+        FlowScopeContext scopeContext = scopeContextMap.get(scope);
+        if (scopeContext == null) return;
+        scopeContext.releaseVariables(variableName);
     }
 
     public MonitorBus getMonitorBus() {

@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.core.util;
 
-import cc.eamon.open.flow.core.spring.ComponentScaner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

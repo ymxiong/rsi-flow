@@ -7,6 +7,8 @@ package cc.eamon.open.flow.core.error;
  */
 public class RouteStrategyNotFoundException extends RuntimeException {
 
+    private static final long serialVersionUID = -6371563182749992637L;
+
     public RouteStrategyNotFoundException() {
     }
 
@@ -25,4 +27,5 @@ public class RouteStrategyNotFoundException extends RuntimeException {
     public RouteStrategyNotFoundException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

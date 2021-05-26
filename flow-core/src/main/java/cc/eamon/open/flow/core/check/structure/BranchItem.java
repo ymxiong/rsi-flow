@@ -1,14 +1,14 @@
 package cc.eamon.open.flow.core.check.structure;
 
 import cc.eamon.open.flow.core.check.result.CheckResult;
-import cc.eamon.open.flow.config.RouteConfig;
-import cc.eamon.open.flow.config.TargetConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
+import cc.eamon.open.flow.config.flow.FlowRouteConfig;
 
 public class BranchItem extends BasicItem {
     //当前节点
-    private TargetConfig targetConfig;
+    private FlowRouteConfig targetConfig;
 
-    public BranchItem(RouteConfig curNode, TargetConfig targetConfig) {
+    public BranchItem(FlowNodeConfig curNode, FlowRouteConfig targetConfig) {
         super(curNode);
         this.targetConfig = targetConfig;
     }

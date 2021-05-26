@@ -7,6 +7,8 @@ package cc.eamon.open.flow.core.error;
  */
 public class MethodInvokeException extends RuntimeException {
 
+    private static final long serialVersionUID = 7779832145594507914L;
+
     public MethodInvokeException() {
     }
 
@@ -25,4 +27,5 @@ public class MethodInvokeException extends RuntimeException {
     public MethodInvokeException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
+
 }

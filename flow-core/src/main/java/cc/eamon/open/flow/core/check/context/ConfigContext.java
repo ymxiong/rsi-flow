@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.core.check.context;
 
-import cc.eamon.open.flow.config.FlowConfig;
-import cc.eamon.open.flow.config.RouteConfig;
-import cc.eamon.open.flow.core.stereotype.support.load.FlowLoaderEnums;
+import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
+import cc.eamon.open.flow.core.stereotype.support.enums.LoaderEnums;
 
 import java.util.*;
 
@@ -34,7 +34,7 @@ public class ConfigContext {
 
     private FlowConfig mainFlow;
 
-    private Map<String, RouteConfig> routeConfigMap = new HashMap<>();
+    private Map<String, FlowNodeConfig> routeConfigMap = new HashMap<>();
 
 
     public static String getConfigBasePackages() {
@@ -69,11 +69,11 @@ public class ConfigContext {
         this.mainFlow = mainFlow;
     }
 
-    public Map<String, RouteConfig> getRouteConfigMap() {
+    public Map<String, FlowNodeConfig> getRouteConfigMap() {
         return routeConfigMap;
     }
 
-    public void setRouteConfigMap(Map<String, RouteConfig> routeConfigMap) {
+    public void setRouteConfigMap(Map<String, FlowNodeConfig> routeConfigMap) {
         this.routeConfigMap = routeConfigMap;
     }
 
@@ -89,7 +89,7 @@ public class ConfigContext {
     }
 
 
-    public RouteConfig getRouteById(String nodeId) {
+    public FlowNodeConfig getRouteById(String nodeId) {
         return routeConfigMap.get(nodeId);
     }
 
@@ -102,9 +102,9 @@ public class ConfigContext {
     private void prepared(String path, String flowName) {
         loadConfig(path);
         mainFlow = flowConfigs.get(flowName);
-        for (RouteConfig route : mainFlow.getRoutes()) {
-            routeConfigMap.put(route.getId(), route);
-        }
+//        for (FlowNodeConfig route : mainFlow.getRoutes()) {
+//            routeConfigMap.put(route.getId(), route);
+//        }
     }
 
     /**
@@ -113,7 +113,7 @@ public class ConfigContext {
      * @param path
      */
     private void loadConfig(String path) {
-        for (FlowLoaderEnums value : FlowLoaderEnums.values()) {
+        for (LoaderEnums value : LoaderEnums.values()) {
             // @Config自动扫描
             Set<FlowConfig> configs = value.getLoader().load(path);
             if (configs == null) continue;

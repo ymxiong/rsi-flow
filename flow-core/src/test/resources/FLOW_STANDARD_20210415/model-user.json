@@ -1,0 +1,9 @@
+{
+  "id": "User",
+  "type": "model",
+  "fields": [
+    { "name": "id", "type": "String" },
+    { "name": "account", "type": "Account" },
+    { "name": "college", "type": "String" }
+  ]
+}

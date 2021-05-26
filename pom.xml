@@ -17,7 +17,10 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring-version>5.1.1.RELEASE</spring-version>
         <slf4j-version>1.7.12</slf4j-version>
+        <easyfile-version>0.0.2</easyfile-version>
+        <fastjson-version>1.2.60</fastjson-version>
         <flow-core-version>${project.version}</flow-core-version>
         <flow-config-version>${project.version}</flow-config-version>
         <flow-remote-version>${project.version}</flow-remote-version>
@@ -74,7 +77,19 @@
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-core</artifactId>
-                <version>5.1.1.RELEASE</version>
+                <version>${spring-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context</artifactId>
+                <version>${spring-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-beans</artifactId>
+                <version>${spring-version}</version>
             </dependency>
 
             <!-- slf4j api -->
@@ -84,6 +99,19 @@
                 <version>${slf4j-version}</version>
             </dependency>
             <!-- end of slf4j api-->
+
+            <dependency>
+                <groupId>cc.eamon</groupId>
+                <artifactId>easyfile</artifactId>
+                <version>${easyfile-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson-version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
