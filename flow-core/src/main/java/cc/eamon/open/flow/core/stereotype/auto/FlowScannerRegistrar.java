@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.auto;
 
 
-import cc.eamon.open.flow.core.context.FlowInitializer;
+import cc.eamon.open.flow.core.context.Initializer;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.ResourceLoaderAware;
@@ -60,6 +60,6 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
             basePackages.add(ClassUtils.getPackageName(clazz));
         }
 
-        FlowInitializer.setFlowBasePackages(basePackages.toArray(new String[basePackages.size()]));
+        Initializer.setFlowBasePackages(basePackages.toArray(new String[basePackages.size()]));
     }
 }

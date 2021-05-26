@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  FlowAutoConfiguration
+  cc.eamon.open.flow.spring.config.FlowAutoConfiguration

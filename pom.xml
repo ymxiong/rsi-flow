@@ -13,6 +13,7 @@
         <module>flow-config</module>
         <module>flow-remote</module>
         <module>flow-spring-boot-starter</module>
+        <module>flow-test</module>
     </modules>
 
     <properties>
@@ -25,6 +26,7 @@
         <flow-config-version>${project.version}</flow-config-version>
         <flow-remote-version>${project.version}</flow-remote-version>
         <flow-spring-boot-starter-version>${project.version}</flow-spring-boot-starter-version>
+        <flow-test-version>${project.version}</flow-test-version>
     </properties>
 
     <distributionManagement>
@@ -68,10 +70,17 @@
                 <artifactId>flow-remote</artifactId>
                 <version>${flow-remote-version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>flow-spring-boot-starter</artifactId>
                 <version>${flow-spring-boot-starter-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>flow-test</artifactId>
+                <version>${flow-test-version}</version>
             </dependency>
 
             <dependency>

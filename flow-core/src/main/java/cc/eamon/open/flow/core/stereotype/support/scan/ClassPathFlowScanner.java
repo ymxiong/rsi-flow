@@ -6,7 +6,7 @@ import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
 import cc.eamon.open.flow.core.stereotype.support.defination.LocalJavaCode;
 import cc.eamon.open.flow.core.stereotype.support.defination.LocalJavaCodeProxy;
-import cc.eamon.open.flow.core.util.ClassUtils;
+import cc.eamon.open.flow.core.utils.ClassUtils;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 
@@ -31,10 +31,6 @@ public class ClassPathFlowScanner implements FlowScanner {
     }
 
     private Set<LocalJavaCodeProxy> doScan(String... basePackages) {
-//        if (basePackages == null) {
-//            logger.info("At least one base package must be specified");
-//        }
-//        Assert.notEmpty(basePackages, "At least one base package must be specified");
         if (basePackages == null) {
             String errorInfo = "At least one base package must be specified";
             logger.info(errorInfo);

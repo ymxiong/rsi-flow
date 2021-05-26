@@ -2,9 +2,9 @@ package cc.eamon.open.flow.core;
 
 import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.context.FlowInitializer;
+import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
-import cc.eamon.open.flow.core.stereotype.support.execute.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.execute.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public class FlowEngine {
 
     private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
 
-    private FlowInitializer flowInitializer = new FlowInitializer();
+    private Initializer initializer = new Initializer();
 
     public static FlowEngine instance() {
         //  保障同一线程仅有单一执行的流程引擎
@@ -27,6 +27,7 @@ public class FlowEngine {
                 if (FlowContextHolder.get().getFlowEngine() == null) {
 
                     FlowContextHolder.get().setFlowEngine(new FlowEngine());
+                    logger.info("初始化流程引擎");
                 }
             }
         }
@@ -38,7 +39,7 @@ public class FlowEngine {
 
 
     public FlowEngine run(String flowId) throws Exception {
-        FlowHolder flowHolder = flowInitializer.getFlowHolder(flowId);
+        FlowHolder flowHolder = initializer.getFlowHolder(flowId);
         if (flowHolder == null) throw new FlowNotFoundException();
         flowHolder.execute();
         return this;
