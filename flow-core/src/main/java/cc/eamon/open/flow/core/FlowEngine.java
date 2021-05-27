@@ -36,6 +36,13 @@ public class FlowEngine {
     }
 
 
+    /**
+     * 流程引擎调度入口
+     *
+     * @param flowId 流程id
+     * @return 流程引擎
+     * @throws Exception 流程错误
+     */
     public FlowEngine run(String flowId) throws Exception {
         FlowHolder flowHolder = Initializer.getFlowHolder(flowId);
         if (flowHolder == null) throw new FlowNotFoundException(flowId);

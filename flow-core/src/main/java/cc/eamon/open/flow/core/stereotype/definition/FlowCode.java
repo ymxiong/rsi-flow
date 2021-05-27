@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Author: eamon
@@ -15,11 +15,8 @@ public interface FlowCode {
 
     String getScope();
 
-    Method getMethod();
+    List<Class<?>> getParameterTypes();
 
     Object execute(Object... args) throws Exception;
-
-
-
 
 }

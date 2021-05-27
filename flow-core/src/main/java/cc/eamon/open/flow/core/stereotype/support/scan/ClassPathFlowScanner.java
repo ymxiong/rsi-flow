@@ -55,10 +55,8 @@ public class ClassPathFlowScanner implements FlowScanner {
         for (Class<?> aClass : classes) {
             for (Method aClassMethod : aClass.getMethods()) {
                 Flow flow = aClassMethod.getAnnotation(Flow.class);
-                if (flow != null) {
-                    LocalJavaCode definition = new LocalJavaCode(aClass, aClassMethod, flow);
-                    flowItemSet.add(definition);
-                }
+                if (flow == null) continue;
+                flowItemSet.add(new LocalJavaCode(aClass, aClassMethod, flow));
             }
         }
 

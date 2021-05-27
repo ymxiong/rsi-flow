@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
-import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Author: eamon
@@ -40,8 +40,8 @@ public abstract class BaseFlowCodeProxy implements FlowCode {
     }
 
     @Override
-    public Method getMethod() {
-        return flowCode.getMethod();
+    public List<Class<?>> getParameterTypes() {
+        return flowCode.getParameterTypes();
     }
 
     public abstract void beforeExecute(Object... args);

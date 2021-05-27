@@ -29,7 +29,7 @@ public class FlowNodeHolder {
     private Executable flowExecutable;
 
 
-    public FlowNodeHolder(FlowNodeConfig flowNodeConfig) {
+    FlowNodeHolder(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
         Class<? extends Executable> executable = ExecutableEnums.getType(flowNodeConfig.getType()).getExecutable();
         try {

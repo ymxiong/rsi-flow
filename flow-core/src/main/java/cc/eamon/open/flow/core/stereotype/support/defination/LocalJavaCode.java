@@ -6,6 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Author: eamon
@@ -16,46 +19,46 @@ public class LocalJavaCode implements FlowCode {
 
     private static Logger logger = LoggerFactory.getLogger(LocalJavaCode.class);
 
-    private Class<?> flowClass;
+    private Class<?> clazz;
 
-    private Method flowMethod;
+    private Method method;
 
-    private Flow flowAnnotation;
+    private Flow annotation;
 
-    public LocalJavaCode(Class<?> flowClass, Method flowMethod, Flow flowAnnotation) {
-        this.flowClass = flowClass;
-        this.flowMethod = flowMethod;
-        this.flowAnnotation = flowAnnotation;
+    public LocalJavaCode(Class<?> clazz, Method method, Flow annotation) {
+        this.clazz = clazz;
+        this.method = method;
+        this.annotation = annotation;
     }
 
-    Class<?> getFlowClass() {
-        return flowClass;
+    Class<?> getClazz() {
+        return clazz;
     }
 
 
     @Override
     public String getName() {
-        return flowAnnotation.value();
+        return annotation.value();
     }
 
     @Override
     public String getRetrieve() {
-        return flowAnnotation.retrieve();
+        return annotation.retrieve();
     }
 
     @Override
     public String getScope() {
-        return flowAnnotation.scope();
+        return annotation.scope();
     }
 
     // TODO: NEED OPTIMIZE CLASS INSTANCE
     @Override
     public Object execute(Object... args) throws Exception {
         try {
-            Object target = flowClass.newInstance();
-            return flowMethod.invoke(target, args);
+            Object target = clazz.newInstance();
+            return method.invoke(target, args);
         } catch (Exception e) {
-            logger.info("Method in " + flowClass.getName() + " named " + flowMethod.getName() + " invoke failed");
+            logger.info("Method in " + clazz.getName() + " named " + method.getName() + " invoke failed");
             Throwable nestedException = e.getCause();
             if (nestedException instanceof Exception) {
                 throw (Exception) nestedException;
@@ -64,7 +67,7 @@ public class LocalJavaCode implements FlowCode {
         }
 
         // 获取返回参数类型
-//        Class returnType = flowMethod.getReturnType();
+//        Class returnType = method.getReturnType();
 //        // TODO:返回类型匹配校验???
 //        // 存储流程代码运行结果
 //        // TODO:参数放到对应域
@@ -78,7 +81,11 @@ public class LocalJavaCode implements FlowCode {
     }
 
     @Override
-    public Method getMethod() {
-        return flowMethod;
+    public List<Class<?>> getParameterTypes() {
+        return new ArrayList<>(Arrays.asList(method.getParameterTypes()));
+    }
+
+    Method getMethod() {
+        return method;
     }
 }
