@@ -25,8 +25,18 @@ public abstract class BaseFlowCodeProxy implements FlowCode {
     }
 
     @Override
-    public String getFlowName() {
-        return flowCode.getFlowName();
+    public String getName() {
+        return flowCode.getName();
+    }
+
+    @Override
+    public String getRetrieve() {
+        return flowCode.getRetrieve();
+    }
+
+    @Override
+    public String getScope() {
+        return flowCode.getScope();
     }
 
     @Override

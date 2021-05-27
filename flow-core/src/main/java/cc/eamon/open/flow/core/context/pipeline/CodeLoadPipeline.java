@@ -31,7 +31,7 @@ public class CodeLoadPipeline extends BasePipeline {
             Set<? extends FlowCode> flowCodeSet = value.getScanner().scan(basePackages);
             if (flowCodeSet == null) continue;
             for (FlowCode flowCode : flowCodeSet) {
-                flowCodes.put(flowCode.getFlowName(), flowCode);
+                flowCodes.put(flowCode.getName(), flowCode);
             }
         }
     }

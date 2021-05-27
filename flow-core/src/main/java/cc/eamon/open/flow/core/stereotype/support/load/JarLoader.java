@@ -36,9 +36,9 @@ public class JarLoader implements FlowLoader {
                     URL jarURL = new URL(jarPath);
                     JarURLConnection jarCon = (JarURLConnection) jarURL.openConnection();
                     JarFile jarFile = jarCon.getJarFile();
-                    Enumeration<JarEntry> jarEntrys = jarFile.entries();
-                    while (jarEntrys.hasMoreElements()) {
-                        JarEntry entry = jarEntrys.nextElement();
+                    Enumeration<JarEntry> jarEntries = jarFile.entries();
+                    while (jarEntries.hasMoreElements()) {
+                        JarEntry entry = jarEntries.nextElement();
                         String name = entry.getName();
                         String[] split = name.split("/");
                         String fileName = split[split.length - 1];

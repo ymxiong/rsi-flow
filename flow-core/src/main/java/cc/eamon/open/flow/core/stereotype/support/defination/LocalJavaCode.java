@@ -28,33 +28,24 @@ public class LocalJavaCode implements FlowCode {
         this.flowAnnotation = flowAnnotation;
     }
 
-    public Class<?> getFlowClass() {
+    Class<?> getFlowClass() {
         return flowClass;
     }
 
-    public void setFlowClass(Class<?> flowClass) {
-        this.flowClass = flowClass;
-    }
 
-    public Method getFlowMethod() {
-        return flowMethod;
-    }
-
-    public void setFlowMethod(Method flowMethod) {
-        this.flowMethod = flowMethod;
-    }
-
-    public Flow getFlowAnnotation() {
-        return flowAnnotation;
-    }
-
-    public void setFlowAnnotation(Flow flowAnnotation) {
-        this.flowAnnotation = flowAnnotation;
+    @Override
+    public String getName() {
+        return flowAnnotation.value();
     }
 
     @Override
-    public String getFlowName() {
-        return flowAnnotation.value();
+    public String getRetrieve() {
+        return flowAnnotation.retrieve();
+    }
+
+    @Override
+    public String getScope() {
+        return flowAnnotation.scope();
     }
 
     // TODO: NEED OPTIMIZE CLASS INSTANCE

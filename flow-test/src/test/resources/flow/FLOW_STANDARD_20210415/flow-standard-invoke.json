@@ -1,29 +1,28 @@
 {
-  "id": "FLOW_SIMPLE_INVOKE",
+  "id": "FLOW_STANDARD_20210415",
   "type": "flow",
-  "name": "简单流程被调用标准",
+  "name": "简单流程标准",
   "params": [
-    { "name": "account", "scope": "defaultScope" },
-    { "name": "user", "scope": "defaultScope" }
+    { "name": "userName" }
   ],
   "results": [
-    { "name": "role", "scope": "defaultScope" }
+    { "name": "blankName" }
   ],
   "nodes": [
     {
-      "id": "ROUTE_3",
+      "id": "NODE_REFRESH_NAME",
       "type": "event",
-      "name": "更新Account",
-      "reference": "FLOW_CODE_SIMPLE",
+      "name": "清除空白格",
+      "reference": "FLOW_STANDARD_20210415_1",
       "params": [
-        { "name": "account", "type": "Account",  "scope": "defaultScope" },
-        { "name": "user", "type": "User",  "scope": "defaultScope" }
+        { "name": "userName", "type": "String" }
       ],
-      "result": { "name": "role", "type": "String", "scope": "defaultScope" }
+      "result":
+      { "name": "blankName", "type": "String" }
     }
   ],
   "routes": [
-    { "source":"start", "target": "ROUTE_3" },
-    { "source":"ROUTE_3", "target": "end" }
+    { "source":"start", "target": "NODE_REFRESH_NAME" },
+    { "source":"NODE_REFRESH_NAME", "target": "end" }
   ]
 }

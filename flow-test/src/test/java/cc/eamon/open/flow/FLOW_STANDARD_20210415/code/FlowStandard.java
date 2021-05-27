@@ -6,7 +6,7 @@ import cc.eamon.open.flow.core.stereotype.Flow;
 public class FlowStandard {
 
     // 去除姓名中的空格
-    @Flow(value = "FLOW_STANDARD_20210415_1")
+    @Flow(value = "FLOW_STANDARD_20210415_1", retrieve = "blankName")
     public String removeBlank(String userName) {
         return userName.replaceAll(" ", "");
     }

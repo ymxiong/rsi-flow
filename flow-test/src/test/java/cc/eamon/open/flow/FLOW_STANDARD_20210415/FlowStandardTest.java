@@ -17,7 +17,7 @@ public class FlowStandardTest {
         String name = (String) FlowEngine.instance()
                 .register(FlowConstants.SCOPE_DEFAULT, "userName", "    小   朱   ")
                 .run("FLOW_STANDARD_20210415")
-                .retrieve(FlowConstants.SCOPE_DEFAULT, "userName");
+                .retrieve(FlowConstants.SCOPE_DEFAULT, "blankName");
         Assert.assertEquals(name, "小朱");
         FlowEngine.instance().release();
     }

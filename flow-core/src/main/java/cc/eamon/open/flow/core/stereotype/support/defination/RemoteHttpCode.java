@@ -53,9 +53,20 @@ public class RemoteHttpCode implements FlowCode {
     }
 
     @Override
-    public String getFlowName() {
+    public String getName() {
         return flowAnnotation.value();
     }
+
+    @Override
+    public String getRetrieve() {
+        return flowAnnotation.retrieve();
+    }
+
+    @Override
+    public String getScope() {
+        return flowAnnotation.scope();
+    }
+
 
     @Override
     public Object execute(Object... args) throws Exception {

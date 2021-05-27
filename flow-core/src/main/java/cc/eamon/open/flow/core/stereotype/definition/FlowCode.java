@@ -9,10 +9,17 @@ import java.lang.reflect.Method;
  */
 public interface FlowCode {
 
-    String getFlowName();
+    String getName();
+
+    String getRetrieve();
+
+    String getScope();
+
+    Method getMethod();
 
     Object execute(Object... args) throws Exception;
 
-    Method getMethod();
+
+
 
 }

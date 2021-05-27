@@ -19,16 +19,8 @@ public class LocalJavaCodeProxy extends BaseFlowCodeProxy {
 
     private long startTime;
 
-    private long endTime;
-
-
     public LocalJavaCodeProxy(LocalJavaCode flowCode) {
         super(flowCode);
-        this.flowCode = flowCode;
-    }
-
-
-    public void setFlowCode(LocalJavaCode flowCode) {
         this.flowCode = flowCode;
     }
 
@@ -36,16 +28,14 @@ public class LocalJavaCodeProxy extends BaseFlowCodeProxy {
     @Override
     public void beforeExecute(Object... args) {
         startTime = System.currentTimeMillis();
-
-
     }
 
     @Override
     public void afterExecute(Object... args) {
-        endTime = System.currentTimeMillis();
+        long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        //logger.info("method named " + getMethod().getName()+ " in "+flowCode.getFlowClass().getName()+" executed " + totalTime + " ms.");
-        FlowStatistics statistics = new FlowStatistics(getFlowName(), flowCode.getFlowClass().getSimpleName(), flowCode.getMethod().getName());
+        logger.info("method named " + getMethod().getName() + " in " + flowCode.getFlowClass().getName() + " executed " + totalTime + " ms.");
+        FlowStatistics statistics = new FlowStatistics(getName(), flowCode.getFlowClass().getSimpleName(), flowCode.getMethod().getName());
         statistics.setTimeSpent(totalTime);
         FlowContextHolder.get().getMonitorBus().addFlowStatistics(statistics);
     }

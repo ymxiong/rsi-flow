@@ -44,7 +44,7 @@ public class FlowNodeConfig implements Serializable {
     /**
      * 流程结果
      */
-    private FlowResultConfig result;
+    private List<FlowResultConfig> results = new ArrayList<>();
 
     public String getId() {
         return id;
@@ -86,11 +86,12 @@ public class FlowNodeConfig implements Serializable {
         this.params = params;
     }
 
-    public FlowResultConfig getResult() {
-        return result;
+    public List<FlowResultConfig> getResults() {
+        return results;
     }
 
-    public void setResult(FlowResultConfig result) {
-        this.result = result;
+    public void setResults(List<FlowResultConfig> results) {
+        this.results = results;
     }
+
 }

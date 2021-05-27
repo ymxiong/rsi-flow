@@ -43,12 +43,12 @@ public class FlowNodeHolder {
     /**
      * 当前该流程节点需要的入参以及他们所在Scope
      */
-    private Map<String, FlowParamConfig> paramsMap = new HashMap<>();
+    private Map<String, FlowParamConfig> paramMap = new HashMap<>();
 
     /**
      * 当前该流程节点结果以及所在Scope
      */
-    private FlowResultConfig result;
+    private Map<String, FlowResultConfig> resultMap = new HashMap<>();
 
     public FlowNodeHolder(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
@@ -57,13 +57,13 @@ public class FlowNodeHolder {
             logger.error("流程节点代码（reference）未找到");
             throw new FlowCodeNotFoundException();
         }
-        // 封装params
+        // 装载params
         List<FlowParamConfig> params = flowNodeConfig.getParams();
-        if (params != null) params.forEach(param -> paramsMap.put(param.getName(), param));
+        if (params != null) params.forEach(param -> paramMap.put(param.getName(), param));
 
-        // 封装result
-        FlowResultConfig result = flowNodeConfig.getResult();
-        if (result != null) this.result = result;
+        // 装载result
+        List<FlowResultConfig> results = flowNodeConfig.getResults();
+        if (results != null) results.forEach(result -> resultMap.put(result.getName(), result));
     }
 
     public void execute() {
@@ -81,7 +81,7 @@ public class FlowNodeHolder {
         Object[] args = new Object[parameterNum];
 
         for (int i = 0; i < parameterNames.length; i++) {
-            FlowParamConfig param = paramsMap.get(parameterNames[i]);
+            FlowParamConfig param = paramMap.get(parameterNames[i]);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i]);
             Class<?> requiredParType = parameterClasses[i];
             if (variable == null) {
@@ -120,8 +120,12 @@ public class FlowNodeHolder {
         }
 
         try {
+            String scope = flowCode.getScope();
+            String retrieve = flowCode.getRetrieve();
             Object value = flowCode.execute(args);
-            FlowContextHolder.get().registerVariable(result.getScope(), result.getName(), value);
+            FlowContextHolder.get().registerVariable(scope, retrieve, value);
+
+            // TODO: FLOW 注册校验
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -140,15 +144,4 @@ public class FlowNodeHolder {
         return flowNodeConfig.getName();
     }
 
-    public String getReference() {
-        return flowNodeConfig.getReference();
-    }
-
-    public List<FlowParamConfig> getParams() {
-        return flowNodeConfig.getParams();
-    }
-
-    public FlowResultConfig getResult() {
-        return flowNodeConfig.getResult();
-    }
 }
