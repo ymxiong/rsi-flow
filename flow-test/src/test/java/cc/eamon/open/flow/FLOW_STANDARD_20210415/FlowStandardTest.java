@@ -15,10 +15,10 @@ public class FlowStandardTest {
     @Test()
     public void caseNewStandard() throws Exception {
         String name = (String) FlowEngine.instance()
-                .register(FlowConstants.SCOPE_DEFAULT, "userName", "    小   朱   ")
+                .register(FlowConstants.SCOPE_DEFAULT, "value", "    标准 0415   ")
                 .run("FLOW_STANDARD_20210415")
-                .retrieve(FlowConstants.SCOPE_DEFAULT, "blankName");
-        Assert.assertEquals(name, "小朱");
+                .retrieve(FlowConstants.SCOPE_DEFAULT, "trimValue");
+        Assert.assertEquals(name, "标准 0415");
         FlowEngine.instance().release();
     }
 
