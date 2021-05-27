@@ -10,6 +10,7 @@ public class ParamNotExistException extends FlowException {
     private static final long serialVersionUID = -6528089647923156533L;
 
     public ParamNotExistException() {
+        super("流程参数不存在错误");
     }
 
     public ParamNotExistException(String message) {

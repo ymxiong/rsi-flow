@@ -14,19 +14,20 @@ public class FlowSimpleCode {
         return value.trim();
     }
 
-    @Flow(value = "FLOW_SIMPLE_REPLACE_BLANK", retrieve = "blankValue")
+    @Flow(value = "FLOW_SIMPLE_REPLACE_BLANK", retrieve = "replaceBlankValue")
     public String replaceBlank(String value) {
         return value.replace(" ", "");
     }
 
-    @Flow(value = "FLOW_SIMPLE_ADD_BLANK", retrieve = "addValue")
+    @Flow(value = "FLOW_SIMPLE_ADD_BLANK", retrieve = "addBlankValue")
     public String addBlank(String value) {
         return value + " ";
     }
 
 
-    public String replaceAll(String value) {
-        return value.replaceAll(" ", "");
+    @Flow(value = "FLOW_SIMPLE_REPLACE_ALL_BLANK", retrieve = "replaceAllBlankValue")
+    public String replaceAll(String addBlankValue) {
+        return addBlankValue.replaceAll(" ", "");
     }
 
 }

@@ -6,6 +6,7 @@ import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
+import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.error.ParamNotExistException;
 import cc.eamon.open.flow.core.error.ParamNotMatchException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
@@ -46,6 +47,8 @@ public class FlowNodeHolder {
     private Map<String, FlowParamConfig> paramMap = new HashMap<>();
 
     /**
+     * TODO: FLOW 注册校验
+     * <p>
      * 当前该流程节点结果以及所在Scope
      */
     private Map<String, FlowResultConfig> resultMap = new HashMap<>();
@@ -82,6 +85,7 @@ public class FlowNodeHolder {
 
         for (int i = 0; i < parameterNames.length; i++) {
             FlowParamConfig param = paramMap.get(parameterNames[i]);
+            if (param == null) throw new ParamNotMatchException(getId(), parameterNames[i]);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i]);
             Class<?> requiredParType = parameterClasses[i];
             if (variable == null) {
@@ -99,7 +103,7 @@ public class FlowNodeHolder {
                         String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
                                 ". The parameter type is " + contextParType;
                         logger.info(errorInfo);
-                        throw new ParamNotMatchException(errorInfo);
+                        throw new ParamNotMatchException(errorInfo, parameterNames[i]);
                     }
                 } else {
                     try {
@@ -109,7 +113,7 @@ public class FlowNodeHolder {
                         String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
                                 ". The parameter type is " + contextParType;
                         logger.info(errorInfo);
-                        throw new ParamNotMatchException(errorInfo);
+                        throw new ParamNotMatchException(errorInfo, parameterNames[i]);
                     }
                 }
             }
@@ -124,10 +128,8 @@ public class FlowNodeHolder {
             String retrieve = flowCode.getRetrieve();
             Object value = flowCode.execute(args);
             FlowContextHolder.get().registerVariable(scope, retrieve, value);
-
-            // TODO: FLOW 注册校验
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new FlowException();
         }
 
     }

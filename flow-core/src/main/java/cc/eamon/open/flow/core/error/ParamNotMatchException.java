@@ -9,22 +9,23 @@ public class ParamNotMatchException extends FlowException {
 
     private static final long serialVersionUID = 6749099088861453660L;
 
-    public ParamNotMatchException() {
+    public ParamNotMatchException(String flowId, String functionParam) {
+        super("流程参数不匹配，请更改配置信息：" + flowId + " 流程代码参数名：" + functionParam);
     }
 
-    public ParamNotMatchException(String message) {
+    public ParamNotMatchException(String flowId, String functionParam, String message) {
         super(message);
     }
 
-    public ParamNotMatchException(String message, Throwable cause) {
+    public ParamNotMatchException(String flowId, String functionParam, String message, Throwable cause) {
         super(message, cause);
     }
 
-    public ParamNotMatchException(Throwable cause) {
+    public ParamNotMatchException(String flowId, String functionParam, Throwable cause) {
         super(cause);
     }
 
-    public ParamNotMatchException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+    public ParamNotMatchException(String flowId, String functionParam, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 
