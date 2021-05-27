@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
+import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +36,7 @@ public class RemoteHttpCode implements FlowCode {
     }
 
     @Override
-    public List<Class<?>> getParameterTypes() {
+    public List<TypeEnums> getParamTypes() {
         return new ArrayList<>();
     }
 

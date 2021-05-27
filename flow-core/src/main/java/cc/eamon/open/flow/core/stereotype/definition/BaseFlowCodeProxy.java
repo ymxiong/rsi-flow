@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
+import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+
 import java.util.List;
 
 /**
@@ -40,8 +42,8 @@ public abstract class BaseFlowCodeProxy implements FlowCode {
     }
 
     @Override
-    public List<Class<?>> getParameterTypes() {
-        return flowCode.getParameterTypes();
+    public List<TypeEnums> getParamTypes() {
+        return flowCode.getParamTypes();
     }
 
     public abstract void beforeExecute(Object... args);

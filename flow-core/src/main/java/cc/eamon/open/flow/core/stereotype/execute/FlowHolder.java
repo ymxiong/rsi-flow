@@ -3,14 +3,21 @@ package cc.eamon.open.flow.core.stereotype.execute;
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.FlowRouteConfig;
+import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
+import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
+import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.error.FlowNodeDuplicateDefineException;
-import cc.eamon.open.flow.core.stereotype.execute.support.Executable;
-import cc.eamon.open.flow.core.stereotype.support.enums.FlowNodeTypeEnums;
+import cc.eamon.open.flow.core.error.ParamNotExistException;
+import cc.eamon.open.flow.core.error.ResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.node.FlowParamHolder;
 import cc.eamon.open.flow.core.stereotype.execute.node.FlowResultHolder;
+import cc.eamon.open.flow.core.stereotype.execute.support.Executable;
+import cc.eamon.open.flow.core.stereotype.support.enums.FlowNodeTypeEnums;
+import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -66,11 +73,36 @@ public class FlowHolder implements Executable {
     public FlowHolder(FlowConfig flowConfig) {
         // 初始化流程配置
         this.flowConfig = flowConfig;
-        // 初始化流程节点
+
+        // 默认流程域
+        String defaultFlowScope = flowConfig.getId();
+
+        // 初始化参数容器
+        for (FlowParamConfig param : flowConfig.getParams()) {
+            if (StringUtils.isEmpty(param.getScope())) {
+                param.setScope(defaultFlowScope);
+            }
+            params.add(new FlowParamHolder(param));
+        }
+
+        // 初始化结果容器
+        for (FlowResultConfig result : flowConfig.getResults()) {
+            if (StringUtils.isEmpty(result.getScope())) result.setScope(defaultFlowScope);
+            results.add(new FlowResultHolder(result));
+        }
+
+        // 初始化流程节点容器
         for (FlowNodeConfig node : this.flowConfig.getNodes()) {
             if (nodes.get(node.getId()) != null) throw new FlowNodeDuplicateDefineException();
+            for (FlowParamConfig param : node.getParams()) {
+                if (StringUtils.isEmpty(param.getScope())) param.setScope(defaultFlowScope);
+            }
+            for (FlowResultConfig result : node.getResults()) {
+                if (StringUtils.isEmpty(result.getScope())) result.setScope(defaultFlowScope);
+            }
             nodes.put(node.getId(), new FlowNodeHolder(node));
         }
+
         // 初始化流程路由
         for (FlowRouteConfig route : this.flowConfig.getRoutes()) {
             FlowRouteHolder holder = new FlowRouteHolder(route);
@@ -84,20 +116,23 @@ public class FlowHolder implements Executable {
         }
     }
 
-    public FlowConfig getFlowConfig() {
-        return flowConfig;
-    }
-
-    public Map<String, FlowNodeHolder> getNodes() {
-        return nodes;
-    }
-
-    public List<FlowRouteHolder> getRoutes() {
-        return routes;
+    @Override
+    public List<TypeEnums> getParamsTypes() {
+        List<TypeEnums> types = new ArrayList<>();
+        for (FlowParamHolder param : params) {
+            types.add(param.getType());
+        }
+        return types;
     }
 
     @Override
     public void execute() {
+        // 检查参数是否提供
+        for (FlowParamHolder param : params) {
+            Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
+            if (variable == null) throw new ParamNotExistException();
+        }
+
         // 获取开始流程组
         List<FlowRouteHolder> startGroup = sourceRouteGroup.get(FlowNodeTypeEnums.START.getName());
         // 流程校验
@@ -106,6 +141,12 @@ public class FlowHolder implements Executable {
         offerQueue(startGroup);
         // 提供执行
         executeQueue();
+
+        // 检查执行结果是否给出
+        for (FlowResultHolder result : results) {
+            Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
+            if (variable == null) throw new ResultNotExistException(flowConfig.getId(), result.getScope(), result.getName());
+        }
     }
 
     private void executeQueue() {
@@ -129,6 +170,13 @@ public class FlowHolder implements Executable {
         }
     }
 
+    public List<FlowParamHolder> getParams() {
+        return params;
+    }
+
+    public List<FlowResultHolder> getResults() {
+        return results;
+    }
 }
 
 

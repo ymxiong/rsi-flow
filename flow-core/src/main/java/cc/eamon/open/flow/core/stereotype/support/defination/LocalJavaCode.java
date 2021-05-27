@@ -2,12 +2,12 @@ package cc.eamon.open.flow.core.stereotype.support.defination;
 
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
+import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -81,8 +81,12 @@ public class LocalJavaCode implements FlowCode {
     }
 
     @Override
-    public List<Class<?>> getParameterTypes() {
-        return new ArrayList<>(Arrays.asList(method.getParameterTypes()));
+    public List<TypeEnums> getParamTypes() {
+        List<TypeEnums> types = new ArrayList<>();
+        for (Class<?> parameterType : method.getParameterTypes()) {
+            types.add(TypeEnums.getTypeByClass(parameterType));
+        }
+        return types;
     }
 
     Method getMethod() {

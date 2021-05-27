@@ -19,8 +19,18 @@ public class FlowResultHolder {
      */
     private FlowResultConfig flowResultConfig;
 
+    /**
+     * 流程数据类型
+     */
+    private TypeEnums type;
+
     public FlowResultHolder(FlowResultConfig flowResultConfig) {
         this.flowResultConfig = flowResultConfig;
+        type = TypeEnums.getType(flowResultConfig.getType());
+    }
+
+    public boolean verify(TypeEnums type) {
+        return this.type == type;
     }
 
     public String getName() {

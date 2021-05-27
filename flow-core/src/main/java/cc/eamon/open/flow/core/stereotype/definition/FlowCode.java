@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
+import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+
 import java.util.List;
 
 /**
@@ -15,7 +17,7 @@ public interface FlowCode {
 
     String getScope();
 
-    List<Class<?>> getParameterTypes();
+    List<TypeEnums> getParamTypes();
 
     Object execute(Object... args) throws Exception;
 

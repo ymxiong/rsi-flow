@@ -1,13 +1,23 @@
 package cc.eamon.open.flow.core.stereotype.execute;
 
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
+import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
+import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
+import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
+import cc.eamon.open.flow.core.error.ParamNotMatchException;
+import cc.eamon.open.flow.core.error.ResultNotExistException;
+import cc.eamon.open.flow.core.stereotype.execute.node.FlowParamHolder;
+import cc.eamon.open.flow.core.stereotype.execute.node.FlowResultHolder;
 import cc.eamon.open.flow.core.stereotype.execute.support.Executable;
 import cc.eamon.open.flow.core.stereotype.execute.support.ExecutableEnums;
+import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: lucas
@@ -24,6 +34,16 @@ public class FlowNodeHolder {
     private FlowNodeConfig flowNodeConfig;
 
     /**
+     * 流程节点参数容器
+     */
+    private List<FlowParamHolder> paramHolders = new ArrayList<>();
+
+    /**
+     * 流程节点结果容器
+     */
+    private List<FlowResultHolder> resultHolders = new ArrayList<>();
+
+    /**
      * 流程代码
      */
     private Executable flowExecutable;
@@ -38,10 +58,39 @@ public class FlowNodeHolder {
             logger.error(e.toString());
             throw new FlowNodeRuntimeException(flowNodeConfig.getId());
         }
+        for (FlowParamConfig param : flowNodeConfig.getParams()) {
+            paramHolders.add(new FlowParamHolder(param));
+        }
+        for (FlowResultConfig result : flowNodeConfig.getResults()) {
+            resultHolders.add(new FlowResultHolder(result));
+        }
     }
 
     public void execute() {
+        // 校验参数
+        verifyParams();
+        // 执行流程
         flowExecutable.execute();
+        // 校验结果
+        verifyResults();
+    }
+
+    private void verifyParams() {
+        List<TypeEnums> paramTypes = flowExecutable.getParamsTypes();
+        if (paramTypes.size() != paramHolders.size()){
+            System.out.println("p size:" + paramTypes.size() + " h size:" + paramHolders.size());
+            throw new ParamNotMatchException(flowNodeConfig.getId(), "");
+        }
+        for (int i = 0; i < paramHolders.size(); i++) {
+            paramHolders.get(i).verify(paramTypes.get(i));
+        }
+    }
+
+    private void verifyResults() {
+        for (FlowResultHolder resultHolder : resultHolders) {
+            Object variable = FlowContextHolder.get().retrieveVariable(resultHolder.getScope(), resultHolder.getName());
+            if (variable == null) throw new ResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
+        }
     }
 
     public String getId() {
