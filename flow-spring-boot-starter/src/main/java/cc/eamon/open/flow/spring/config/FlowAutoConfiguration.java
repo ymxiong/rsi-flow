@@ -20,10 +20,6 @@ public class FlowAutoConfiguration {
         return new ComponentScanner();
     }
 
-    @Bean
-    public Initializer flowDispose() {
-        return new Initializer();
-    }
 
     @Bean
     public SpringUtils springUtil() {

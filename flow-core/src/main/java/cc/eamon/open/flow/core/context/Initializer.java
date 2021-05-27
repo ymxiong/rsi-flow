@@ -10,7 +10,6 @@ import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,7 +21,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * Date: 2020/6/28
  * Email: lucas@eamon.cc
  */
-@Component
 public class Initializer {
 
     private static Logger logger = LoggerFactory.getLogger(Initializer.class);
@@ -50,19 +48,21 @@ public class Initializer {
     /**
      * 流程配置所在路径
      */
-    private static String[] configBasePackages;
+    private static String[] configBasePackages = new String[]{"flow"};
 
 
     /**
      * 流程代码所在路径
      */
-    private static String[] flowBasePackages;
+    private static String[] flowBasePackages = new String[]{"cc.eamon.open.flow"};
 
-    static {
-        // 测试阶段设置配置扫描路径与代码扫描路径
-        configBasePackages = new String[]{""};
-        flowBasePackages = new String[]{"cc.eamon.open.flow"};
 
+    public static void configPath(String[] configPackages, String[] flowPackages) {
+        configBasePackages = configPackages;
+        flowBasePackages = flowPackages;
+    }
+
+    public static void init() {
         // 0. 初始化环境
         // 1. 扫描所有flow配置
         Pipeline pipeline = new ConfigLoadPipeline(null, flowConfigs, configBasePackages);
@@ -78,9 +78,6 @@ public class Initializer {
         logger.info("流程配置信息装配完成");
     }
 
-    public void print(){
-
-    }
 
     public static FlowHolder getFlowHolder(String flowHolderId) {
         return flowHolders.get(flowHolderId);

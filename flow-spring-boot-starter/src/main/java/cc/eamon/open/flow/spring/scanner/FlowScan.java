@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.stereotype.auto;
+package cc.eamon.open.flow.spring.scanner;
 
 import org.springframework.context.annotation.Import;
 
@@ -16,10 +16,8 @@ import java.lang.annotation.*;
 @Import(FlowScannerRegistrar.class)
 public @interface FlowScan {
 
-    String[] value() default {};
+    String[] configPath() default {};
 
-    String[] basePackages() default {};
-
-    Class<?>[] basePackageClasses() default {};
+    String[] flowPath() default {};
 
 }

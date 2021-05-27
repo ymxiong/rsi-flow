@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.stereotype.auto;
+package cc.eamon.open.flow.spring.scanner;
 
 
 import cc.eamon.open.flow.core.context.Initializer;
@@ -29,10 +29,6 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
         this.resourceLoader = resourceLoader;
     }
 
-//    @Override
-    public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry, BeanNameGenerator importBeanNameGenerator) {
-
-    }
 
     /**
      * 注册Bean
@@ -44,22 +40,8 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         //获取注解的属性
         AnnotationAttributes annoAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(FlowScan.class.getName()));
+        Initializer.configPath(annoAttrs.getStringArray("configPath"),annoAttrs.getStringArray("flowPath"));
+        Initializer.init();
 
-        List<String> basePackages = new ArrayList<String>();
-        for (String pkg : annoAttrs.getStringArray("value")) {
-            if (StringUtils.hasText(pkg)) {
-                basePackages.add(pkg);
-            }
-        }
-        for (String pkg : annoAttrs.getStringArray("basePackages")) {
-            if (StringUtils.hasText(pkg)) {
-                basePackages.add(pkg);
-            }
-        }
-        for (Class<?> clazz : annoAttrs.getClassArray("basePackageClasses")) {
-            basePackages.add(ClassUtils.getPackageName(clazz));
-        }
-
-        Initializer.setFlowBasePackages(basePackages.toArray(new String[basePackages.size()]));
     }
 }
