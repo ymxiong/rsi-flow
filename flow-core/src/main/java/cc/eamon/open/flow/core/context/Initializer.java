@@ -58,7 +58,7 @@ public class Initializer {
      */
     private static String[] flowBasePackages;
 
-    public Initializer() {
+    static {
         // 测试阶段设置配置扫描路径与代码扫描路径
         configBasePackages = new String[]{""};
         flowBasePackages = new String[]{"cc.eamon.open.flow"};
@@ -78,7 +78,11 @@ public class Initializer {
         logger.info("流程配置信息装配完成");
     }
 
-    public FlowHolder getFlowHolder(String flowHolderId) {
+    public void print(){
+
+    }
+
+    public static FlowHolder getFlowHolder(String flowHolderId) {
         return flowHolders.get(flowHolderId);
     }
 

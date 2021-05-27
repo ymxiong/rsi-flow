@@ -24,7 +24,6 @@ public class FlowSimpleCode {
         return value + " ";
     }
 
-
     @Flow(value = "FLOW_SIMPLE_REPLACE_ALL_BLANK", retrieve = "replaceAllBlankValue")
     public String replaceAll(String addBlankValue) {
         return addBlankValue.replaceAll(" ", "");

@@ -4,6 +4,7 @@ import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.FlowRouteConfig;
 import cc.eamon.open.flow.core.error.FlowNodeDuplicateDefineException;
+import cc.eamon.open.flow.core.stereotype.execute.support.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.FlowNodeTypeEnums;
 import cc.eamon.open.flow.core.stereotype.execute.node.FlowParamHolder;
 import cc.eamon.open.flow.core.stereotype.execute.node.FlowResultHolder;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * Time: 2020-07-01 20:18:53
  */
 
-public class FlowHolder {
+public class FlowHolder implements Executable {
 
     private static Logger logger = LoggerFactory.getLogger(FlowHolder.class);
 
@@ -81,8 +82,6 @@ public class FlowHolder {
                 return flowRouteHolders;
             }));
         }
-        // 从上下文中获取流程参数
-//        FlowContextHolder.get().retrieveVariableType(param.getScope(), parameterNames[i])
     }
 
     public FlowConfig getFlowConfig() {
@@ -97,6 +96,7 @@ public class FlowHolder {
         return routes;
     }
 
+    @Override
     public void execute() {
         // 获取开始流程组
         List<FlowRouteHolder> startGroup = sourceRouteGroup.get(FlowNodeTypeEnums.START.getName());

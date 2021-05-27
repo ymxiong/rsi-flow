@@ -1,0 +1,40 @@
+{
+  "id": "FLOW_NEST",
+  "type": "flow",
+  "name": "简单流程嵌套",
+  "params": [
+    { "name": "value" }
+  ],
+  "results": [
+    { "name": "addBlankValue" }
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_MULTI_NODE",
+      "type": "flow",
+      "name": "清除空白格",
+      "reference": "FLOW_MULTI_NODE",
+      "params": [
+        { "name": "value", "type": "String" }
+      ],
+      "result":
+        { "name": "replaceAllBlankValue", "type": "String" }
+    },
+    {
+      "id": "FLOW_SINGLE_NODE",
+      "type": "flow",
+      "name": "添加一个空白格",
+      "reference": "FLOW_SINGLE_NODE",
+      "params": [
+        { "name": "replaceAllBlankValue", "type": "String" }
+      ],
+      "result":
+      { "name": "addBlankValue", "type": "String" }
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_MULTI_NODE" },
+    { "source":"FLOW_MULTI_NODE", "target": "FLOW_SINGLE_NODE" },
+    { "source":"FLOW_SINGLE_NODE", "target": "end" }
+  ]
+}

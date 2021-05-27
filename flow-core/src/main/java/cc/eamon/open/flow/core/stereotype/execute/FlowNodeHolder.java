@@ -1,26 +1,13 @@
 package cc.eamon.open.flow.core.stereotype.execute;
 
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
-import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
-import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
-import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.context.Initializer;
-import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
-import cc.eamon.open.flow.core.error.FlowException;
-import cc.eamon.open.flow.core.error.ParamNotExistException;
-import cc.eamon.open.flow.core.error.ParamNotMatchException;
-import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import cc.eamon.open.flow.core.utils.WrapperClassUtils;
-import com.alibaba.fastjson.JSON;
+import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
+import cc.eamon.open.flow.core.stereotype.execute.support.Executable;
+import cc.eamon.open.flow.core.stereotype.execute.support.ExecutableEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.DefaultParameterNameDiscoverer;
-import org.springframework.util.Assert;
 
-import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * Author: lucas
@@ -39,99 +26,22 @@ public class FlowNodeHolder {
     /**
      * 流程代码
      */
-    private FlowCode flowCode;
+    private Executable flowExecutable;
 
-    /**
-     * 当前该流程节点需要的入参以及他们所在Scope
-     */
-    private Map<String, FlowParamConfig> paramMap = new HashMap<>();
-
-    /**
-     * TODO: FLOW 注册校验
-     * <p>
-     * 当前该流程节点结果以及所在Scope
-     */
-    private Map<String, FlowResultConfig> resultMap = new HashMap<>();
 
     public FlowNodeHolder(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
-        this.flowCode = Initializer.getFlowCodes().get(this.flowNodeConfig.getReference());
-        if (flowCode == null) {
-            logger.error("流程节点代码（reference）未找到");
-            throw new FlowCodeNotFoundException();
+        Class<? extends Executable> executable = ExecutableEnums.getType(flowNodeConfig.getType()).getExecutable();
+        try {
+            flowExecutable = executable.getDeclaredConstructor(FlowNodeConfig.class).newInstance(flowNodeConfig);
+        } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
+            logger.error(e.toString());
+            throw new FlowNodeRuntimeException(flowNodeConfig.getId());
         }
-        // 装载params
-        List<FlowParamConfig> params = flowNodeConfig.getParams();
-        if (params != null) params.forEach(param -> paramMap.put(param.getName(), param));
-
-        // 装载result
-        List<FlowResultConfig> results = flowNodeConfig.getResults();
-        if (results != null) results.forEach(result -> resultMap.put(result.getName(), result));
     }
 
     public void execute() {
-        Method method = flowCode.getMethod();
-
-        // 注入流程代码所需参数
-        Class<?>[] parameterClasses = method.getParameterTypes();
-        // 拿到参数名称以及类型
-        DefaultParameterNameDiscoverer discover = new DefaultParameterNameDiscoverer();
-        String[] parameterNames = discover.getParameterNames(method);
-
-        // 注入参数
-        Assert.notNull(parameterNames, "方法参数名为空");
-        int parameterNum = parameterNames.length;
-        Object[] args = new Object[parameterNum];
-
-        for (int i = 0; i < parameterNames.length; i++) {
-            FlowParamConfig param = paramMap.get(parameterNames[i]);
-            if (param == null) throw new ParamNotMatchException(getId(), parameterNames[i]);
-            Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i]);
-            Class<?> requiredParType = parameterClasses[i];
-            if (variable == null) {
-                String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not exist in scope of " + param.getScope() + " in flowContext.";
-                logger.info(errorInfo);
-                throw new ParamNotExistException(errorInfo);
-            }
-            // 参数类型匹配，包含父子类类型检查
-            Class contextParType = variable.getClass();
-            if (!requiredParType.isAssignableFrom(variable.getClass())) {
-                // 检查基础类型与包装类冲突的问题
-                if (requiredParType.isPrimitive()) {
-                    WrapperClassUtils.getWrapperClass(requiredParType);
-                    if (!WrapperClassUtils.getWrapperClass(requiredParType).isAssignableFrom(contextParType)) {
-                        String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
-                                ". The parameter type is " + contextParType;
-                        logger.info(errorInfo);
-                        throw new ParamNotMatchException(errorInfo, parameterNames[i]);
-                    }
-                } else {
-                    try {
-                        // 解决Map类包装成实体类的问题
-                        args[i] = JSON.parseObject(JSON.toJSONString(FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i])), requiredParType);
-                    } catch (Exception e) {
-                        String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
-                                ". The parameter type is " + contextParType;
-                        logger.info(errorInfo);
-                        throw new ParamNotMatchException(errorInfo, parameterNames[i]);
-                    }
-                }
-            }
-
-            if (args[i] == null) {
-                args[i] = FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i]);
-            }
-        }
-
-        try {
-            String scope = flowCode.getScope();
-            String retrieve = flowCode.getRetrieve();
-            Object value = flowCode.execute(args);
-            FlowContextHolder.get().registerVariable(scope, retrieve, value);
-        } catch (Exception e) {
-            throw new FlowException();
-        }
-
+        flowExecutable.execute();
     }
 
     public String getId() {

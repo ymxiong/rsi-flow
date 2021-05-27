@@ -5,7 +5,7 @@ package cc.eamon.open.flow.core.error;
  * Email: lucas@eamon.cc
  * Time: 2021/3/16 14:33
  */
-public class ParamNotMatchException extends FlowException {
+public class ParamNotMatchException extends RuntimeException {
 
     private static final long serialVersionUID = 6749099088861453660L;
 

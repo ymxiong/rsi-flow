@@ -5,7 +5,7 @@ package cc.eamon.open.flow.core.error;
  * Email: lucas@eamon.cc
  * Time: 2021/3/16 14:33
  */
-public class FlowCallItselfException extends FlowException {
+public class FlowCallItselfException extends RuntimeException {
 
     private static final long serialVersionUID = -2371046550815962280L;
 

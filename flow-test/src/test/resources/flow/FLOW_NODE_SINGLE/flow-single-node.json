@@ -6,23 +6,23 @@
     { "name": "value" }
   ],
   "results": [
-    { "name": "trimValue" }
+    { "name": "addBlankValue" }
   ],
   "nodes": [
     {
-      "id": "FLOW_NODE_SIMPLE_TRIM",
+      "id": "FLOW_SIMPLE_ADD_BLANK",
       "type": "event",
-      "name": "清除两侧空白格",
-      "reference": "FLOW_SIMPLE_TRIM",
+      "name": "添加一个空白格",
+      "reference": "FLOW_SIMPLE_ADD_BLANK",
       "params": [
         { "name": "value", "type": "String" }
       ],
       "result":
-        { "name": "trimValue", "type": "String" }
+        { "name": "addBlankValue", "type": "String" }
     }
   ],
   "routes": [
-    { "source":"start", "target": "FLOW_NODE_SIMPLE_TRIM" },
-    { "source":"FLOW_NODE_SIMPLE_TRIM", "target": "end" }
+    { "source":"start", "target": "FLOW_SIMPLE_ADD_BLANK" },
+    { "source":"FLOW_SIMPLE_ADD_BLANK", "target": "end" }
   ]
 }

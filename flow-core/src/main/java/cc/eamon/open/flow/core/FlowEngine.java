@@ -18,8 +18,6 @@ public class FlowEngine {
 
     private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
 
-    private Initializer initializer = new Initializer();
-
     public static FlowEngine instance() {
         //  保障同一线程仅有单一执行的流程引擎
         if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
@@ -27,7 +25,7 @@ public class FlowEngine {
                 if (FlowContextHolder.get().getFlowEngine() == null) {
 
                     FlowContextHolder.get().setFlowEngine(new FlowEngine());
-                    logger.info("初始化流程引擎");
+                    logger.info("初始化流程引擎完成");
                 }
             }
         }
@@ -39,8 +37,8 @@ public class FlowEngine {
 
 
     public FlowEngine run(String flowId) throws Exception {
-        FlowHolder flowHolder = initializer.getFlowHolder(flowId);
-        if (flowHolder == null) throw new FlowNotFoundException();
+        FlowHolder flowHolder = Initializer.getFlowHolder(flowId);
+        if (flowHolder == null) throw new FlowNotFoundException(flowId);
         flowHolder.execute();
         return this;
     }

@@ -5,7 +5,7 @@ package cc.eamon.open.flow.core.error;
  * Email: lucas@eamon.cc
  * Time: 2021/3/16 14:33
  */
-public class FlowCodeNotFoundException extends FlowException {
+public class FlowCodeNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 959898425615634332L;
 

@@ -15,10 +15,11 @@ public class FlowSingleNodeTest {
     @Test()
     public void caseSingleNode() throws Exception {
         String name = (String) FlowEngine.instance()
-                .register(FlowConstants.SCOPE_DEFAULT, "value", "    单个流程节点   ")
+                .register(FlowConstants.SCOPE_DEFAULT, "value", "流程 节点")
                 .run("FLOW_SINGLE_NODE")
-                .retrieve(FlowConstants.SCOPE_DEFAULT, "trimValue");
-        Assert.assertEquals(name, "单个流程节点");
+                .retrieve(FlowConstants.SCOPE_DEFAULT, "addBlankValue");
+        System.out.println(name);
+        Assert.assertEquals(name, "流程 节点 ");
         FlowEngine.instance().release();
     }
 

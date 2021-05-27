@@ -52,7 +52,7 @@ public enum TypeEnums {
         for (TypeEnums value : TypeEnums.values()) {
             if (value.getKeyword().equals(keyword)) return value;
         }
-        throw new FlowException();
+        throw new FlowException("不支持的数据类型");
     }
 
     public String getKeyword() {

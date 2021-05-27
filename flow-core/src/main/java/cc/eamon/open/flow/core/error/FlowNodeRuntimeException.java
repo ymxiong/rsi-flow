@@ -1,0 +1,31 @@
+package cc.eamon.open.flow.core.error;
+
+/**
+ * Author: eamon
+ * Email: eamon@eamon.cc
+ * Time: 2021-03-15 17:11:27
+ */
+public class FlowNodeRuntimeException extends RuntimeException {
+
+    private static final long serialVersionUID = 6141109116612846635L;
+
+    public FlowNodeRuntimeException(String flowNodeId) {
+        super("流程节点调度错误: " + flowNodeId);
+    }
+
+    public FlowNodeRuntimeException(String flowNodeId, String message) {
+        super(message);
+    }
+
+    public FlowNodeRuntimeException(String flowNodeId, String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public FlowNodeRuntimeException(String flowNodeId, Throwable cause) {
+        super(cause);
+    }
+
+    public FlowNodeRuntimeException(String flowNodeId, String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
+        super(message, cause, enableSuppression, writableStackTrace);
+    }
+}

@@ -3,6 +3,9 @@
     <test name="Test">
         <classes>
             <class name="cc.eamon.open.flow.FLOW_STANDARD_20210415.FlowStandardTest"/>
+            <class name="cc.eamon.open.flow.FLOW_NEST.FlowNestTest"/>
+            <class name="cc.eamon.open.flow.FLOW_NODE_MULTI.FlowMultiNodeTest"/>
+            <class name="cc.eamon.open.flow.FLOW_NODE_SINGLE.FlowSingleNodeTest"/>
         </classes>
     </test>
 
