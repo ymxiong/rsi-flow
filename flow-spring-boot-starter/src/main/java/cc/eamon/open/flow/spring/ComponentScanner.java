@@ -34,9 +34,9 @@ public class ComponentScanner implements BeanPostProcessor, PriorityOrdered {
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         Class clazz = bean.getClass();
-        if (clazz.isAnnotationPresent(FlowComponent.class)){
-            logger.info("FlowComponent [{}] has been found",beanName);
-            Initializer.flowComponentMap.put(clazz.getName(),bean);
+        if (clazz.isAnnotationPresent(FlowComponent.class)) {
+            logger.info("FlowComponent [{}] has been found", beanName);
+            Initializer.flowComponentMap.put(clazz.getName(), bean);
         }
         return bean;
     }

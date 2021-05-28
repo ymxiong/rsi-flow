@@ -44,8 +44,7 @@ public class Initializer {
      */
     private static Map<String, FlowCode> flowCodes = new ConcurrentHashMap<>();
 
-    public static Map<String,Object> flowComponentMap = new HashMap<String,Object>();
-
+    public static Map<String, Object> flowComponentMap = new HashMap<String, Object>();
 
 
     /**
