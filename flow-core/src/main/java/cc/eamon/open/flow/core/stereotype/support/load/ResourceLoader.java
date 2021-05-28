@@ -18,7 +18,7 @@ import java.util.Set;
 public class ResourceLoader implements FlowLoader {
     @Override
     public Set<FlowConfig> load(String... configFiles) {
-        String path = this.getClass().getClassLoader().getResource("").getPath();
+        String path = this.getClass().getClassLoader().getResource("flow").getPath();
         Set<FlowConfig> flowConfigs = new HashSet<>();
         if (configFiles == null) return flowConfigs;
         for (String configFile : configFiles) {

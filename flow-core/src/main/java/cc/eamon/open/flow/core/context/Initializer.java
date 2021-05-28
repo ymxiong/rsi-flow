@@ -48,7 +48,7 @@ public class Initializer {
     /**
      * 流程配置所在路径
      */
-    private static String[] configBasePackages = new String[]{"flow"};
+    private static String[] configBasePackages = new String[]{};
 
 
     /**
