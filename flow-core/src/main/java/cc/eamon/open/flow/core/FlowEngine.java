@@ -36,9 +36,21 @@ public class FlowEngine {
     }
 
 
+    /**
+     * 流程引擎调度入口
+     *
+     * @param flowId 流程id
+     * @return 流程引擎
+     * @throws Exception 流程错误
+     */
     public FlowEngine run(String flowId) throws Exception {
+        // 获取flow容器
         FlowHolder flowHolder = Initializer.getFlowHolder(flowId);
+        // 检查容器是否存在
         if (flowHolder == null) throw new FlowNotFoundException(flowId);
+        // 共享默认上下文
+        FlowContextHolder.get().shareScope(flowId);
+        // 执行容器
         flowHolder.execute();
         return this;
     }

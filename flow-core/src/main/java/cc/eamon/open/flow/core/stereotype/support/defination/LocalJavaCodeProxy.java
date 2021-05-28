@@ -34,8 +34,8 @@ public class LocalJavaCodeProxy extends BaseFlowCodeProxy {
     public void afterExecute(Object... args) {
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
-        logger.info("method named " + getMethod().getName() + " in " + flowCode.getFlowClass().getName() + " executed " + totalTime + " ms.");
-        FlowStatistics statistics = new FlowStatistics(getName(), flowCode.getFlowClass().getSimpleName(), flowCode.getMethod().getName());
+        logger.info("method named " + flowCode.getMethod().getName() + " in " + flowCode.getClazz().getName() + " executed " + totalTime + " ms.");
+        FlowStatistics statistics = new FlowStatistics(getName(), flowCode.getClazz().getSimpleName(), flowCode.getMethod().getName());
         statistics.setTimeSpent(totalTime);
         FlowContextHolder.get().getMonitorBus().addFlowStatistics(statistics);
     }

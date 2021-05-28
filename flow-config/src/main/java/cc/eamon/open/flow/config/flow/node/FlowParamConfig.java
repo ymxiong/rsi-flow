@@ -1,7 +1,5 @@
 package cc.eamon.open.flow.config.flow.node;
 
-import cc.eamon.open.flow.config.constants.FlowConstants;
-
 import java.io.Serializable;
 
 /**
@@ -29,7 +27,7 @@ public class FlowParamConfig implements Serializable {
     /**
      * 该参数所在的域
      */
-    private String scope = FlowConstants.SCOPE_DEFAULT;
+    private String scope;
 
     public String getName() {
         return name;

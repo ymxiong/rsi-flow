@@ -3,10 +3,10 @@
   "type": "flow",
   "name": "简单流程嵌套",
   "params": [
-    { "name": "value" }
+    { "name": "value", "type": "String" }
   ],
   "results": [
-    { "name": "addBlankValue" }
+    { "name": "modifyAddValue", "type": "String" }
   ],
   "nodes": [
     {
@@ -17,8 +17,9 @@
       "params": [
         { "name": "value", "type": "String" }
       ],
-      "result":
-        { "name": "replaceAllBlankValue", "type": "String" }
+      "results": [
+        { "name": "modifyValue", "type": "String" }
+      ]
     },
     {
       "id": "FLOW_SINGLE_NODE",
@@ -26,10 +27,11 @@
       "name": "添加一个空白格",
       "reference": "FLOW_SINGLE_NODE",
       "params": [
-        { "name": "replaceAllBlankValue", "type": "String" }
+        { "name": "modifyValue", "type": "String" }
       ],
-      "result":
-      { "name": "addBlankValue", "type": "String" }
+      "results":[
+        { "name": "modifyAddValue", "type": "String" }
+      ]
     }
   ],
   "routes": [

@@ -37,6 +37,14 @@ public class FlowContext {
         this.flowEngine = flowEngine;
     }
 
+    public void shareScope(String targetScope) {
+        shareScope(FlowConstants.SCOPE_DEFAULT, targetScope);
+    }
+
+    public void shareScope(String sourceScope, String targetScope) {
+        scopeContextMap.putIfAbsent(sourceScope, new FlowScopeContext(sourceScope));
+        scopeContextMap.put(targetScope, scopeContextMap.get(sourceScope));
+    }
 
     public Object retrieveVariable(String variableName) {
         return retrieveVariable(FlowConstants.SCOPE_DEFAULT, variableName);

@@ -3,10 +3,10 @@
   "type": "flow",
   "name": "简单流程标准",
   "params": [
-    { "name": "value" }
+    { "name": "value", "type": "String" }
   ],
   "results": [
-    { "name": "trimValue" }
+    { "name": "trimValue", "type": "String" }
   ],
   "nodes": [
     {
@@ -17,8 +17,9 @@
       "params": [
         { "name": "value", "type": "String" }
       ],
-      "result":
+      "results": [
         { "name": "trimValue", "type": "String" }
+      ]
     }
   ],
   "routes": [

@@ -55,6 +55,13 @@ public enum TypeEnums {
         throw new FlowException("不支持的数据类型");
     }
 
+    public static TypeEnums getTypeByClass(Class<?> classType) {
+        for (TypeEnums value : TypeEnums.values()) {
+            if (classType != null && classType == value.getClassType()) return value;
+        }
+        throw new FlowException("不支持的数据类型");
+    }
+
     public String getKeyword() {
         return keyword;
     }

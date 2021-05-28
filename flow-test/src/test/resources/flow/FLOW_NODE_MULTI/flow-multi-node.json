@@ -3,10 +3,10 @@
   "type": "flow",
   "name": "多节点流程标准",
   "params": [
-    { "name": "value" }
+    { "name": "value", "type": "String" }
   ],
   "results": [
-    { "name": "replaceAllBlankValue" }
+    { "name": "replaceAllBlankValue", "type": "String" }
   ],
   "nodes": [
     {
@@ -17,8 +17,9 @@
       "params": [
         { "name": "value", "type": "String" }
       ],
-      "result":
+      "results": [
         { "name": "addBlankValue", "type": "String" }
+      ]
     },
     {
       "id": "FLOW_SIMPLE_REPLACE_ALL_BLANK",
@@ -28,8 +29,9 @@
       "params": [
         { "name": "addBlankValue", "type": "String" }
       ],
-      "result":
-      { "name": "replaceAllBlankValue", "type": "String" }
+      "results": [
+        { "name": "replaceAllBlankValue", "type": "String" }
+      ]
     }
   ],
   "routes": [

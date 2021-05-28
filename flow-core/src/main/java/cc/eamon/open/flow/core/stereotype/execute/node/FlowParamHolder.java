@@ -19,8 +19,15 @@ public class FlowParamHolder {
      */
     private FlowParamConfig flowParamConfig;
 
+    private TypeEnums type;
+
     public FlowParamHolder(FlowParamConfig flowParamConfig) {
         this.flowParamConfig = flowParamConfig;
+        type = TypeEnums.getType(flowParamConfig.getType());
+    }
+
+    public boolean verify(TypeEnums type) {
+        return this.type == type;
     }
 
     public String getName() {
@@ -28,7 +35,7 @@ public class FlowParamHolder {
     }
 
     public TypeEnums getType() {
-        return TypeEnums.getType(flowParamConfig.getType());
+        return type;
     }
 
     public String getScope() {
