@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
+import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
@@ -55,7 +56,13 @@ public class LocalJavaCode implements FlowCode {
     @Override
     public Object execute(Object... args) throws Exception {
         try {
-            Object target = clazz.newInstance();
+            Object target;
+            if (Initializer.flowComponentMap.size()!=0){
+                target=Initializer.flowComponentMap.get(clazz.getName());
+            }else{
+                target=clazz.newInstance();
+            }
+
             return method.invoke(target, args);
         } catch (Exception e) {
             logger.info("Method in " + clazz.getName() + " named " + method.getName() + " invoke failed");

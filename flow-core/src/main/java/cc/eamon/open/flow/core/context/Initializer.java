@@ -44,11 +44,8 @@ public class Initializer {
      */
     private static Map<String, FlowCode> flowCodes = new ConcurrentHashMap<>();
 
+    public static Map<String,Object> flowComponentMap = new HashMap<String,Object>();
 
-    /**
-     * 流程配置所在路径
-     */
-    private static String[] configBasePackages = new String[]{};
 
 
     /**
@@ -57,19 +54,18 @@ public class Initializer {
     private static String[] flowBasePackages = new String[]{"cc.eamon.open.flow"};
 
 
-    public static void configPath(String[] configPackages, String[] flowPackages) {
-        configBasePackages = configPackages;
+    public static void configPath(String[] flowPackages) {
         flowBasePackages = flowPackages;
     }
 
     public static void init() {
         // 0. 初始化环境
+        String[] configBasePackages = new String[]{""};
         // 1. 扫描所有flow配置
         Pipeline pipeline = new ConfigLoadPipeline(null, flowConfigs, configBasePackages);
         // 2. 扫描所有flow代码
         pipeline = new CodeLoadPipeline(pipeline, flowCodes, flowBasePackages);
         // TODO: 提供添加pipeline的能力
-
         // 3. 装配flow
         pipeline = new FlowAssemblyPipeline(pipeline, flowConfigs, flowHolders);
 
@@ -87,11 +83,5 @@ public class Initializer {
         return flowCodes;
     }
 
-    public static void setConfigBasePackages(String[] configBasePackages) {
-        Initializer.configBasePackages = configBasePackages;
-    }
 
-    public static void setFlowBasePackages(String[] flowBasePackages) {
-        Initializer.flowBasePackages = flowBasePackages;
-    }
 }

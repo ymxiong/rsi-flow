@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.spring;
 
+import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.utils.LogoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,6 @@ public class ComponentScanner implements BeanPostProcessor, PriorityOrdered {
 
     private static final Logger logger = LoggerFactory.getLogger(ComponentScanner.class);
 
-    public static Map<String, Object> flowComponentMap = new HashMap<String, Object>();
 
     @Override
     public int getOrder() {
@@ -36,7 +36,7 @@ public class ComponentScanner implements BeanPostProcessor, PriorityOrdered {
         Class clazz = bean.getClass();
         if (clazz.isAnnotationPresent(FlowComponent.class)){
             logger.info("FlowComponent [{}] has been found",beanName);
-            flowComponentMap.put(clazz.getName(),bean);
+            Initializer.flowComponentMap.put(clazz.getName(),bean);
         }
         return bean;
     }

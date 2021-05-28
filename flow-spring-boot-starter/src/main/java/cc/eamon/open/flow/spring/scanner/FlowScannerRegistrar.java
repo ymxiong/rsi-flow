@@ -40,7 +40,7 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         //获取注解的属性
         AnnotationAttributes annoAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(FlowScan.class.getName()));
-        Initializer.configPath(annoAttrs.getStringArray("configPath"),annoAttrs.getStringArray("flowPath"));
+        Initializer.configPath(annoAttrs.getStringArray("flowPath"));
         Initializer.init();
 
     }
