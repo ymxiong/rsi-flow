@@ -1,8 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.support.enums;
 
 
-import cc.eamon.open.flow.core.error.FlowException;
-
 /**
  * Author: eamon
  * Email: eamon@eamon.cc
@@ -52,14 +50,16 @@ public enum TypeEnums {
         for (TypeEnums value : TypeEnums.values()) {
             if (value.getKeyword().equals(keyword)) return value;
         }
-        throw new FlowException("不支持的数据类型");
+        return TypeEnums.OBJECT;
+//        throw new FlowException("不支持的数据类型");
     }
 
     public static TypeEnums getTypeByClass(Class<?> classType) {
         for (TypeEnums value : TypeEnums.values()) {
             if (classType != null && classType == value.getClassType()) return value;
         }
-        throw new FlowException("不支持的数据类型");
+        return TypeEnums.OBJECT;
+//        throw new FlowException("不支持的数据类型");
     }
 
     public String getKeyword() {
