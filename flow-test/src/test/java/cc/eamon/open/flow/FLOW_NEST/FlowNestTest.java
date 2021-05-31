@@ -18,7 +18,6 @@ public class FlowNestTest {
                 .register(FlowConstants.SCOPE_DEFAULT, "value", "流程 节点")
                 .run("FLOW_NEST")
                 .retrieve(FlowConstants.SCOPE_DEFAULT, "modifyAddValue");
-        System.out.println(name);
         Assert.assertEquals(name, "流程节点 ");
         FlowEngine.instance().release();
     }

@@ -18,7 +18,6 @@ public class FlowSingleNodeTest {
                 .register(FlowConstants.SCOPE_DEFAULT, "value", "流程 节点")
                 .run("FLOW_SINGLE_NODE")
                 .retrieve(FlowConstants.SCOPE_DEFAULT, "addBlankValue");
-        System.out.println(name);
         Assert.assertEquals(name, "流程 节点 ");
         FlowEngine.instance().release();
     }
