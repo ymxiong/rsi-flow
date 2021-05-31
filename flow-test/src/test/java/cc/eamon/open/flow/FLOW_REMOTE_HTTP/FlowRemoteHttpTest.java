@@ -14,12 +14,14 @@ public class FlowRemoteHttpTest {
 
     @Test()
     public void caseHttpTest() throws Exception {
-        String name = (String) FlowEngine.instance()
-                .register(FlowConstants.SCOPE_DEFAULT, "id", "1C86955EA8644F599E05B8BD809A3AC3")
-                .run("FLOW_REMOTE_HTTP")
-                .retrieve(FlowConstants.SCOPE_DEFAULT, "nickname");
-        System.out.println(name);
-        Assert.assertEquals(name, "eamon");
+        FlowEngine flowEngine = FlowEngine.instance()
+                .register(FlowConstants.SCOPE_DEFAULT, "id", "B207BE79230C4ABBBAE7BA4AAD8AD4F3")
+                .run("FLOW_REMOTE_HTTP");
+
+        String name = (String) flowEngine.retrieve(FlowConstants.SCOPE_DEFAULT, "name");
+        String status = (String) flowEngine.retrieve(FlowConstants.SCOPE_DEFAULT, "status");
+        Assert.assertEquals(name, "倚码模型");
+        Assert.assertEquals(status, "STAGE_RUN_FINISHED");
         FlowEngine.instance().release();
     }
 

@@ -6,21 +6,22 @@
     { "name": "id", "type": "String" }
   ],
   "results": [
-    { "name": "nickname", "type": "String" },
-    { "name": "phone", "type": "String" }
+    { "name": "name", "type": "String" },
+    { "name": "status", "type": "String" }
   ],
   "nodes": [
     {
       "id": "FLOW_REMOTE_HTTP_NODE",
       "type": "http",
       "name": "远程HTTP调度",
-      "reference": "http://test.horsecoder.com/horsecoder-identity/api/sys/user/single/simple",
+      "method": "GET",
+      "reference": "http://localhost:10102/api/auto/model/single",
       "params": [
         { "name": "id", "type": "String" }
       ],
       "results": [
-        { "name": "nickname", "type": "String" },
-        { "name": "phone", "type": "String" }
+        { "name": "name", "type": "String", "parse": "data.value.name" },
+        { "name": "status", "type": "String", "parse": "data.value.status" }
       ]
     }
   ],

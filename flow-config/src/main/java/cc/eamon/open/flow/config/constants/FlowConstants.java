@@ -15,4 +15,10 @@ public class FlowConstants {
 
     public static final String NODE_END = "FLOW_NODE_END";
 
+    public static final String QUESTION_SPLIT = "?";
+
+    public static final String EQUAL_SPLIT = "=";
+
+    public static final String ET_SPLIT = "&";
+
 }

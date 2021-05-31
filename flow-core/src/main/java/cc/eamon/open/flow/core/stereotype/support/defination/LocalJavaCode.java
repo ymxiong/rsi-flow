@@ -57,10 +57,10 @@ public class LocalJavaCode implements FlowCode {
     public Object execute(Object... args) throws Exception {
         try {
             Object target;
-            if (Initializer.flowComponentMap.size()!=0){
-                target=Initializer.flowComponentMap.get(clazz.getName());
-            }else{
-                target=clazz.newInstance();
+            if (Initializer.flowComponentMap.size() != 0) {
+                target = Initializer.flowComponentMap.get(clazz.getName());
+            } else {
+                target = clazz.newInstance();
             }
 
             return method.invoke(target, args);
@@ -72,19 +72,6 @@ public class LocalJavaCode implements FlowCode {
             }
             throw e;
         }
-
-        // 获取返回参数类型
-//        Class returnType = method.getReturnType();
-//        // TODO:返回类型匹配校验???
-//        // 存储流程代码运行结果
-//        // TODO:参数放到对应域
-//        FlowResultConfig result = routeConfig.getResult();
-//        // 获取返回参数名
-//        String returnName = result.getName();
-//        // 获取返回参数域
-//        String returnScope = result.getScope();
-//        FlowContextHolder.get().registerVariable(returnScope, returnName, returnValue, returnType);
-
     }
 
     @Override

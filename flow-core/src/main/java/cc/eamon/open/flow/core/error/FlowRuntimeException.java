@@ -14,7 +14,7 @@ public class FlowRuntimeException extends RuntimeException {
     }
 
     public FlowRuntimeException(String flowId, String message) {
-        super(message);
+        super("流程调度错误: " + flowId + " " + message);
     }
 
     public FlowRuntimeException(String flowId, String message, Throwable cause) {

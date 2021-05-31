@@ -29,6 +29,11 @@ public class FlowResultConfig implements Serializable {
      */
     private String scope;
 
+    /**
+     * 解析目标
+     */
+    private String parse;
+
     public String getName() {
         return name;
     }
@@ -51,5 +56,13 @@ public class FlowResultConfig implements Serializable {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public String getParse() {
+        return parse;
+    }
+
+    public void setParse(String parse) {
+        this.parse = parse;
     }
 }

@@ -32,6 +32,11 @@ public class FlowNodeConfig implements Serializable {
     private String name;
 
     /**
+     *  调度方法，仅在http等环境下调用
+     */
+    private String method;
+
+    /**
      * 具体调用的FlowNode或Flow的Id
      */
     private String reference;
@@ -68,6 +73,14 @@ public class FlowNodeConfig implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public void setMethod(String method) {
+        this.method = method;
     }
 
     public String getReference() {

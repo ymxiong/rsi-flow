@@ -10,7 +10,7 @@ public class ResultNotExistException extends RuntimeException {
     private static final long serialVersionUID = -6528089647923156533L;
 
     public ResultNotExistException(String id, String scope, String name) {
-        super("流程结果不存在" + "流程ID：" + id + " 域：" + scope + "结果名：" + name);
+        super("流程结果不存在" + ", 流程ID：" + id + ", 域：" + scope + ", 结果名：" + name);
     }
 
     public ResultNotExistException(String message) {
