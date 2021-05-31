@@ -7,7 +7,7 @@ import cc.eamon.open.flow.core.context.pipeline.ConfigLoadPipeline;
 import cc.eamon.open.flow.core.context.pipeline.FlowAssemblyPipeline;
 import cc.eamon.open.flow.core.context.pipeline.Pipeline;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import cc.eamon.open.flow.core.stereotype.execute.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

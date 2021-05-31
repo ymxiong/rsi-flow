@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.stereotype.execute;
+package cc.eamon.open.flow.core.stereotype.execute.holder;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
@@ -9,9 +9,7 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.error.FlowNodeDuplicateDefineException;
 import cc.eamon.open.flow.core.error.ParamNotExistException;
 import cc.eamon.open.flow.core.error.ResultNotExistException;
-import cc.eamon.open.flow.core.stereotype.execute.node.FlowParamHolder;
-import cc.eamon.open.flow.core.stereotype.execute.node.FlowResultHolder;
-import cc.eamon.open.flow.core.stereotype.execute.support.Executable;
+import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.FlowNodeTypeEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import org.slf4j.Logger;
@@ -130,7 +128,7 @@ public class FlowHolder implements Executable {
         // 检查参数是否提供
         for (FlowParamHolder param : params) {
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
-            if (variable == null) throw new ParamNotExistException();
+            if (variable == null) throw new ParamNotExistException(param.getName());
         }
 
         // 获取开始流程组

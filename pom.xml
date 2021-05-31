@@ -20,15 +20,20 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
-        <spring-version>5.1.1.RELEASE</spring-version>
-        <slf4j-version>1.7.12</slf4j-version>
-        <easyfile-version>0.0.2</easyfile-version>
-        <fastjson-version>1.2.60</fastjson-version>
         <flow-core-version>${project.version}</flow-core-version>
         <flow-config-version>${project.version}</flow-config-version>
         <flow-remote-version>${project.version}</flow-remote-version>
         <flow-spring-boot-starter-version>${project.version}</flow-spring-boot-starter-version>
         <flow-test-version>${project.version}</flow-test-version>
+        <spring-version>5.1.1.RELEASE</spring-version>
+        <slf4j-version>1.7.12</slf4j-version>
+        <easyfile-version>0.0.2</easyfile-version>
+        <fastjson-version>1.2.60</fastjson-version>
+        <transmittable-thread-local-version>2.11.5</transmittable-thread-local-version>
+        <commons-jexl-version>2.1.1</commons-jexl-version>
+        <cglib-version>2.2.2</cglib-version>
+        <testng-version>6.14.3</testng-version>
+        <logback-classic-version>1.2.3</logback-classic-version>
     </properties>
 
     <distributionManagement>
@@ -121,6 +126,36 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>${fastjson-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>${transmittable-thread-local-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-jexl</artifactId>
+                <version>${commons-jexl-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.testng</groupId>
+                <artifactId>testng</artifactId>
+                <version>${testng-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback-classic-version}</version>
             </dependency>
 
         </dependencies>

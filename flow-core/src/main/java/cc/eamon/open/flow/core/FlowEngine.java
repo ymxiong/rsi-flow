@@ -4,7 +4,7 @@ import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
-import cc.eamon.open.flow.core.stereotype.execute.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

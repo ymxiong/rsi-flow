@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.core.stereotype.execute.support;
+package cc.eamon.open.flow.core.stereotype.execute;
 
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 

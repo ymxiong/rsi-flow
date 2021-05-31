@@ -1,0 +1,31 @@
+{
+  "id": "FLOW_REMOTE_HTTP",
+  "type": "flow",
+  "name": "远程调度流程",
+  "params": [
+    { "name": "id", "type": "String" }
+  ],
+  "results": [
+    { "name": "nickname", "type": "String" },
+    { "name": "phone", "type": "String" }
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_REMOTE_HTTP_NODE",
+      "type": "http",
+      "name": "远程HTTP调度",
+      "reference": "http://test.horsecoder.com/horsecoder-identity/api/sys/user/single/simple",
+      "params": [
+        { "name": "id", "type": "String" }
+      ],
+      "results": [
+        { "name": "nickname", "type": "String" },
+        { "name": "phone", "type": "String" }
+      ]
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_REMOTE_HTTP_NODE" },
+    { "source":"FLOW_REMOTE_HTTP_NODE", "target": "end" }
+  ]
+}

@@ -1,6 +1,10 @@
-package cc.eamon.open.flow.core.stereotype.execute.support;
+package cc.eamon.open.flow.core.stereotype.support.enums;
 
-import cc.eamon.open.flow.core.error.FlowException;
+import cc.eamon.open.flow.core.error.FlowTypeNotSupportException;
+import cc.eamon.open.flow.core.stereotype.support.execute.EventExecutable;
+import cc.eamon.open.flow.core.stereotype.execute.Executable;
+import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
+import cc.eamon.open.flow.core.stereotype.support.execute.HttpExecutable;
 
 /**
  * Author: eamon
@@ -19,6 +23,11 @@ public enum ExecutableEnums {
      */
     EVENT("event", EventExecutable.class),
 
+    /**
+     * 远程HTTP调度
+     */
+    HTTP("http", HttpExecutable.class),
+    
     ;
 
     private String keyword;
@@ -42,7 +51,7 @@ public enum ExecutableEnums {
         for (ExecutableEnums value : ExecutableEnums.values()) {
             if (value.getKeyword().equals(keyword)) return value;
         }
-        throw new FlowException("流程类型不支持：" + keyword);
+        throw new FlowTypeNotSupportException("流程类型不支持：" + keyword);
     }
 
 }
