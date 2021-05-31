@@ -66,7 +66,8 @@ public class EventExecutable implements Executable {
 
         try {
             String scope = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getScope();
-            String retrieve = flowCode.getRetrieve();
+//            String retrieve = flowCode.getRetrieve();
+            String retrieve = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getName();
             Object value = flowCode.execute(args);
             FlowContextHolder.get().registerVariable(scope, retrieve, value);
         } catch (Exception e) {

@@ -8,6 +8,7 @@ import cc.eamon.open.flow.core.stereotype.execute.holder.FlowNodeHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -32,6 +33,8 @@ public class FlowAssemblyPipeline extends BasePipeline {
 
     @Override
     public void initializerSelf() {
+        // TODO:未知，不知道有些时候会放入一个null元素,猜测是读取jar包
+        flowConfigs.removeAll(Collections.singleton(null));
         for (FlowConfig flowConfig : flowConfigs) {
             try {
                 flowHolders.put(flowConfig.getId(), new FlowHolder(flowConfig));
