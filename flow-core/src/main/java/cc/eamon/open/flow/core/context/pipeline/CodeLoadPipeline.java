@@ -17,8 +17,8 @@ public class CodeLoadPipeline extends BasePipeline {
 
     private String[] basePackages;
 
-    public CodeLoadPipeline(Pipeline pre, Map<String, FlowCode> flowCodes, String... basePackages) {
-        super(pre);
+    public CodeLoadPipeline(int level, Map<String, FlowCode> flowCodes, String... basePackages) {
+        super(level);
         this.flowCodes = flowCodes;
         this.basePackages = basePackages;
     }

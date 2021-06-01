@@ -25,8 +25,8 @@ public class FlowAssemblyPipeline extends BasePipeline {
 
     private Map<String, FlowHolder> flowHolders;
 
-    public FlowAssemblyPipeline(Pipeline pre, List<FlowConfig> flowConfigs, Map<String, FlowHolder> flowHolders) {
-        super(pre);
+    public FlowAssemblyPipeline(int level,List<FlowConfig> flowConfigs, Map<String, FlowHolder> flowHolders) {
+        super(level);
         this.flowConfigs = flowConfigs;
         this.flowHolders = flowHolders;
     }

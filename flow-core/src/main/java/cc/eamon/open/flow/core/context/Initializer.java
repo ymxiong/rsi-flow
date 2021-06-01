@@ -2,10 +2,8 @@ package cc.eamon.open.flow.core.context;
 
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
-import cc.eamon.open.flow.core.context.pipeline.CodeLoadPipeline;
-import cc.eamon.open.flow.core.context.pipeline.ConfigLoadPipeline;
-import cc.eamon.open.flow.core.context.pipeline.FlowAssemblyPipeline;
-import cc.eamon.open.flow.core.context.pipeline.Pipeline;
+import cc.eamon.open.flow.core.context.pipeline.*;
+import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import org.slf4j.Logger;
@@ -58,20 +56,25 @@ public class Initializer {
     private static String[] configBasePackages = new String[]{""};
 
 
+    private static PriorityQueue<Pipeline> priorityQueue = new PriorityQueue<>();
+
     public static void initPath(String[] flowPackages) {
         flowBasePackages = flowPackages;
     }
 
-    public static void init() {
-        // 1. 扫描所有flow配置
-        Pipeline pipeline = new ConfigLoadPipeline(null, flowConfigs, configBasePackages);
-        // 2. 扫描所有flow代码
-        pipeline = new CodeLoadPipeline(pipeline, flowCodes, flowBasePackages);
-        // TODO: 提供添加pipeline的能力
-        // 3. 装配flow
-        pipeline = new FlowAssemblyPipeline(pipeline, flowConfigs, flowHolders);
+    public static void addPipeline(BasePipeline... basePipeline) {
+        priorityQueue.addAll(Arrays.asList(basePipeline));
+    }
 
-        // 4. 初始化
+    public static void init() {
+        addPipeline(new ConfigLoadPipeline(1, flowConfigs, configBasePackages));
+        addPipeline(new CodeLoadPipeline(2, flowCodes, flowBasePackages));
+        addPipeline(new FlowAssemblyPipeline(100, flowConfigs, flowHolders));
+        BasePipeline pipeline = null;
+        while (priorityQueue.peek() != null) {
+            pipeline = ((BasePipeline) priorityQueue.poll()).setPre(pipeline);
+        }
+        if (pipeline == null) throw new FlowException("pipline装配错误");
         pipeline.initializer();
         logger.info("流程配置信息装配完成");
     }

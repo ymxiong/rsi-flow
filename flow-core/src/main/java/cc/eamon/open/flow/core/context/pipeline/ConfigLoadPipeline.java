@@ -17,8 +17,8 @@ public class ConfigLoadPipeline extends BasePipeline {
 
     private String[] configFiles;
 
-    public ConfigLoadPipeline(Pipeline pre, List<FlowConfig> flowConfigs, String... configFiles) {
-        super(pre);
+    public ConfigLoadPipeline(int level,List<FlowConfig> flowConfigs, String... configFiles) {
+        super(level);
         this.flowConfigs = flowConfigs;
         this.configFiles = configFiles;
     }
