@@ -52,14 +52,17 @@ public class Initializer {
      */
     private static String[] flowBasePackages = new String[]{"cc.eamon.open.flow"};
 
+    /**
+     * 流程代码所在路径
+     */
+    private static String[] configBasePackages = new String[]{""};
 
-    public static void configPath(String[] flowPackages) {
+
+    public static void initPath(String[] flowPackages) {
         flowBasePackages = flowPackages;
     }
 
     public static void init() {
-        // 0. 初始化环境
-        String[] configBasePackages = new String[]{""};
         // 1. 扫描所有flow配置
         Pipeline pipeline = new ConfigLoadPipeline(null, flowConfigs, configBasePackages);
         // 2. 扫描所有flow代码
