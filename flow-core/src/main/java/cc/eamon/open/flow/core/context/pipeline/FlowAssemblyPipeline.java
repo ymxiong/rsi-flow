@@ -19,7 +19,7 @@ import java.util.Map;
  */
 public class FlowAssemblyPipeline extends BasePipeline {
 
-    private static Logger logger = LoggerFactory.getLogger(FlowNodeHolder.class);
+    private static Logger logger = LoggerFactory.getLogger(FlowAssemblyPipeline.class);
 
     private List<FlowConfig> flowConfigs;
 
@@ -34,6 +34,7 @@ public class FlowAssemblyPipeline extends BasePipeline {
     @Override
     public void initializerSelf() {
         // TODO:未知，不知道有些时候会放入一个null元素,猜测是读取jar包
+        logger.info("执行FlowAssemblyPipeline组装过程");
         flowConfigs.removeAll(Collections.singleton(null));
         for (FlowConfig flowConfig : flowConfigs) {
             try {

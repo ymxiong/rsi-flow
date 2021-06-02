@@ -2,6 +2,7 @@ package cc.eamon.open.flow.spring.scanner;
 
 
 import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.spring.context.pipline.SpringComponentPipeline;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.ResourceLoaderAware;
@@ -40,8 +41,7 @@ public class FlowScannerRegistrar implements ImportBeanDefinitionRegistrar, Reso
     public void registerBeanDefinitions(AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
         //获取注解的属性
         AnnotationAttributes annoAttrs = AnnotationAttributes.fromMap(importingClassMetadata.getAnnotationAttributes(FlowScan.class.getName()));
-        Initializer.initPath(annoAttrs.getStringArray("flowPath"));
-        Initializer.init();
+        SpringComponentPipeline.initPath(annoAttrs.getStringArray("flowPath"));
 
     }
 }

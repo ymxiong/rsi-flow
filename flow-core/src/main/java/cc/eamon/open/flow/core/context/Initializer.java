@@ -42,8 +42,6 @@ public class Initializer {
      */
     private static Map<String, FlowCode> flowCodes = new ConcurrentHashMap<>();
 
-    public static Map<String, Object> flowComponentMap = new HashMap<String, Object>();
-
 
     /**
      * 流程代码所在路径
@@ -57,10 +55,6 @@ public class Initializer {
 
 
     private static PriorityQueue<Pipeline> priorityQueue = new PriorityQueue<>();
-
-    public static void initPath(String[] flowPackages) {
-        flowBasePackages = flowPackages;
-    }
 
     public static void addPipeline(BasePipeline... basePipeline) {
         priorityQueue.addAll(Arrays.asList(basePipeline));
@@ -87,6 +81,5 @@ public class Initializer {
     public static Map<String, FlowCode> getFlowCodes() {
         return flowCodes;
     }
-
 
 }
