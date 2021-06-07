@@ -1,11 +1,11 @@
-package cc.eamon.open.flow.core.route.structure.element;
+package cc.eamon.open.flow.route.stereotype;
 
 /**
  * Author: eamon
  * Email: eamon@eamon.cc
- * Time: 2020-07-03 21:17:36
+ * Time: 2020-07-03 21:17:46
  */
-public interface Source {
+public interface Target {
 
     /*
      * get current route id

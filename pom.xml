@@ -12,6 +12,7 @@
         <module>flow-core</module>
         <module>flow-config</module>
         <module>flow-remote</module>
+        <module>flow-route</module>
         <module>flow-spring-boot-starter</module>
         <module>flow-test</module>
     </modules>
@@ -23,8 +24,10 @@
         <flow-core-version>${project.version}</flow-core-version>
         <flow-config-version>${project.version}</flow-config-version>
         <flow-remote-version>${project.version}</flow-remote-version>
+        <flow-route-version>${project.version}</flow-route-version>
         <flow-spring-boot-starter-version>${project.version}</flow-spring-boot-starter-version>
         <flow-test-version>${project.version}</flow-test-version>
+
         <spring-version>5.1.1.RELEASE</spring-version>
         <slf4j-version>1.7.12</slf4j-version>
         <easyfile-version>0.0.2</easyfile-version>
@@ -77,6 +80,12 @@
                 <groupId>cc.eamon.open</groupId>
                 <artifactId>flow-remote</artifactId>
                 <version>${flow-remote-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cc.eamon.open</groupId>
+                <artifactId>flow-route</artifactId>
+                <version>${flow-route-version}</version>
             </dependency>
 
             <dependency>

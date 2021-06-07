@@ -40,6 +40,11 @@
         </dependency>
 
         <dependency>
+            <groupId>cc.eamon.open</groupId>
+            <artifactId>flow-route</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
