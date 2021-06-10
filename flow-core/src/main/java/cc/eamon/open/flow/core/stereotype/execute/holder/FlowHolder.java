@@ -14,14 +14,15 @@ import cc.eamon.open.flow.core.stereotype.support.enums.FlowNodeTypeEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.route.holder.Routes;
 import cc.eamon.open.flow.route.stereotype.Route;
-import cc.eamon.open.flow.route.stereotype.Target;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Author: eamon
@@ -57,11 +58,6 @@ public class FlowHolder implements Executable {
      * 流程结果容器
      */
     private List<FlowResultHolder> results = new ArrayList<>();
-
-    /**
-     * TODO: 流程执行队列
-     */
-    private Queue<FlowNodeHolder> nodeQueue = new ConcurrentLinkedQueue<>();
 
     /**
      * @param flowConfig 流程配置
@@ -100,7 +96,6 @@ public class FlowHolder implements Executable {
         }
 
         // 初始化流程路由
-
         for (FlowRouteConfig route : this.flowConfig.getRoutes()) {
             FlowRouteHolder holder = new FlowRouteHolder(route);
             routes.load(holder);
@@ -129,36 +124,18 @@ public class FlowHolder implements Executable {
         // 流程校验
         Assert.isTrue(startGroup != null && startGroup.size() > 0, "未定义开始流程组");
         // 提供执行数据
-        offerQueue(startGroup);
+        routes.offerQueue(startGroup);
         // 提供执行
-        executeQueue();
+        List<String> nodeIds = routes.executeQueue();
+        for (String nodeId : nodeIds) {
+            nodes.get(nodeId).execute();
+        }
 
         // 检查执行结果是否给出
         for (FlowResultHolder result : results) {
             Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
             if (variable == null)
                 throw new ResultNotExistException(flowConfig.getId(), result.getScope(), result.getName());
-        }
-    }
-
-    private void executeQueue() {
-        while (nodeQueue.size() > 0) {
-            FlowNodeHolder node = nodeQueue.poll();
-            if (node == null) return;
-            node.execute();
-            // 获取当前流程组
-            List<Route> flowGroup = routes.get(node.getId());
-            offerQueue(flowGroup);
-        }
-    }
-
-    private void offerQueue(List<Route> flowGroup) {
-        // 执行器
-        for (Route holder : flowGroup) {
-            Target target = holder.getTarget();
-            if (FlowNodeTypeEnums.END == FlowNodeTypeEnums.getConfigByName(target.getId())) continue;
-            FlowNodeHolder nodeHolder = nodes.get(target.getId());
-            nodeQueue.offer(nodeHolder);
         }
     }
 
