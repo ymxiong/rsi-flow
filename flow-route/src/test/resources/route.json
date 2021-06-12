@@ -1,0 +1,16 @@
+{
+  "routes": [
+    { "source":"start", "target": "疑似高血压", "condition": "bp>180||bp>110", "before": "collectBp()"},
+    { "source":"疑似高血压", "target": "主动脉夹层或冠脉缺血", "condition": "胸痛" },
+    { "source":"疑似高血压", "target": "充血性心衰", "condition": "急性呼吸困难" },
+    { "source":"疑似高血压", "target": "缺血性脑病或出血性卒中", "condition": "神经系统症状" },
+    { "source":"疑似高血压", "target": "MH、TMA、急性肾衰", "condition": "头痛视力缺损" },
+    { "source":"主动脉夹层或冠脉缺血", "target": "end", "condition": "true" },
+    { "source":"充血性心衰", "target": "end", "condition": "true" },
+    { "source":"缺血性脑病或出血性卒中", "target": "end", "condition": "true" },
+    { "source":"MH、TMA、急性肾衰", "target": "end", "condition": "true" }
+  ],
+  "strategies": [
+    { "source":"start", "strategy": "simple" }
+  ]
+}

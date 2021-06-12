@@ -8,6 +8,17 @@
     <groupId>cc.eamon.open</groupId>
     <version>0.1.8</version>
 
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
+
+        <easyfile-version>0.0.2</easyfile-version>
+        <fastjson-version>1.2.60</fastjson-version>
+        <junit-version>4.12</junit-version>
+    </properties>
+
     <distributionManagement>
         <repository>
             <id>releases</id>
@@ -28,6 +39,26 @@
             <url>http://central.horsecoder.com:8081/repository/maven-releases/</url>
         </repository>
     </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.eamon</groupId>
+            <artifactId>easyfile</artifactId>
+            <version>${easyfile-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit-version}</version>
+        </dependency>
+    </dependencies>
 
 
     <build>

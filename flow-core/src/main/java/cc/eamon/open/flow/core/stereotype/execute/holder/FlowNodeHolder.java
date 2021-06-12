@@ -10,6 +10,8 @@ import cc.eamon.open.flow.core.error.ResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.ExecutableEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.route.stereotype.Source;
+import cc.eamon.open.flow.route.stereotype.Target;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +24,7 @@ import java.util.List;
  * Date: 2020/7/12
  * Email: lucas@eamon.cc
  */
-public class FlowNodeHolder {
+public class FlowNodeHolder implements Source, Target {
 
     private static Logger logger = LoggerFactory.getLogger(FlowNodeHolder.class);
 
@@ -75,7 +77,7 @@ public class FlowNodeHolder {
 
     private void verifyParams() {
         List<TypeEnums> paramTypes = flowExecutable.getParamsTypes();
-        if (paramTypes.size() != paramHolders.size()){
+        if (paramTypes.size() != paramHolders.size()) {
             System.out.println("p size:" + paramTypes.size() + " h size:" + paramHolders.size());
             throw new ParamNotMatchException(flowNodeConfig.getId(), "");
         }
@@ -87,7 +89,8 @@ public class FlowNodeHolder {
     private void verifyResults() {
         for (FlowResultHolder resultHolder : resultHolders) {
             Object variable = FlowContextHolder.get().retrieveVariable(resultHolder.getScope(), resultHolder.getName());
-            if (variable == null) throw new ResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
+            if (variable == null)
+                throw new ResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
         }
     }
 

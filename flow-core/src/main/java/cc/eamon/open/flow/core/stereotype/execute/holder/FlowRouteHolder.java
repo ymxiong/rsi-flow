@@ -33,40 +33,35 @@ public class FlowRouteHolder implements Route {
      */
     private Target target;
 
+    /**
+     * 流程路由条件
+     */
+    private Condition condition;
 
-    public FlowRouteHolder(FlowRouteConfig flowRouteConfig) {
+    public FlowRouteHolder(FlowRouteConfig flowRouteConfig, Source source, Target target, Condition condition) {
         Assert.notNull(flowRouteConfig, "流程路由配置不能为空");
         this.flowRouteConfig = flowRouteConfig;
 
+        this.source = source;
+        this.target = target;
+        this.condition = condition;
     }
 
     @Override
     public Source getSource() {
-        return () -> flowRouteConfig.getSource();
+        return source;
     }
 
     @Override
     public Target getTarget() {
-        return () -> flowRouteConfig.getTarget();
+        return target;
     }
 
     @Override
     public Condition getCondition() {
-        return new Condition() {
-        };
+        return condition;
     }
 
-    //    public String getSource() {
-//        return flowRouteConfig.getSource();
-//    }
-//
-//    public String getTarget() {
-//        return flowRouteConfig.getTarget();
-//    }
-//
-//    public String getCondition() {
-//        return flowRouteConfig.getCondition();
-//    }
 
     public String getScope() {
         return flowRouteConfig.getScope();

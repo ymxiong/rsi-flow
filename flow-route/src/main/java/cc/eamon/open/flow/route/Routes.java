@@ -1,10 +1,10 @@
-package cc.eamon.open.flow.route.holder;
+package cc.eamon.open.flow.route;
 
-import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.stereotype.*;
+import cc.eamon.open.flow.route.strategy.RouteStrategy;
+import cc.eamon.open.flow.route.strategy.SimpleStrategy;
 
 import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Author: eamon
@@ -28,19 +28,27 @@ public class Routes {
     private Map<String, List<Target>> targetRouteGroup = new HashMap<>();
 
     /**
-     * TODO: 流程执行队列
+     * 流程来源执行策略
      */
-    private Queue<String> nodeQueue = new ConcurrentLinkedQueue<>();
+    private Map<String, RouteStrategy> sourceStrategyGroup = new HashMap<>();
 
 
-    private List<Condition> conditions;
+    /**
+     * 流程目标执行策略
+     */
+    private Map<String, RouteStrategy> targetStrategyGroup = new HashMap<>();
+
+
+    private List<Condition> conditions = new ArrayList<>();
 
     public void load(Route... routes) {
         load(Arrays.asList(routes));
     }
 
     public void load(List<Route> routes) {
+        RouteStrategy strategy = new SimpleStrategy(conditions, sourceRouteGroup, sources, targets);
         for (Route route : routes) {
+            System.out.println(route.getSource());
             sources.putIfAbsent(route.getSource().getId(), route.getSource());
             targets.putIfAbsent(route.getTarget().getId(), route.getTarget());
             sourceRouteGroup.putIfAbsent(route.getSource().getId(), new ArrayList<>());
@@ -48,38 +56,28 @@ public class Routes {
                 sources.add(route);
                 return sources;
             }));
+            sourceStrategyGroup.put(route.getSource().getId(), strategy);
             targetRouteGroup.putIfAbsent(route.getTarget().getId(), new ArrayList<>());
             targetRouteGroup.computeIfPresent(route.getTarget().getId(), ((s, targets) -> {
                 targets.add(route.getTarget());
                 return targets;
             }));
+            targetStrategyGroup.put(route.getTarget().getId(), strategy);
         }
     }
 
-    public List<Route> get(String groupId) {
-        return sourceRouteGroup.get(groupId);
+    public void load(Condition... conditions) {
+        this.conditions.addAll(Arrays.asList(conditions));
     }
 
-    public List<String> executeQueue() {
-        List<String> executeQueue = new ArrayList<>();
-        while (nodeQueue.size() > 0) {
-            String node = nodeQueue.poll();
-            if (node == null) break;
-            executeQueue.add(node);
-            // 获取当前流程组
-            List<Route> flowGroup = get(node);
-            offerQueue(flowGroup);
+    public void load(Strategy... strategies) {
+        for (Strategy strategy : strategies) {
+            sourceStrategyGroup.put(strategy.getSource().getId(), strategy.getStrategy());
         }
-        return executeQueue;
     }
 
-    public void offerQueue(List<Route> flowGroup) {
-        // 执行器
-        for (Route holder : flowGroup) {
-            Target target = holder.getTarget();
-            if (RouteEnums.END == RouteEnums.getConfigByName(target.getId())) continue;
-            nodeQueue.offer(target.getId());
-        }
+    public List<Target> execute(Source source) {
+        return sourceStrategyGroup.get(source.getId()).route(source);
     }
 
 }

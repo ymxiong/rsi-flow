@@ -7,4 +7,9 @@ package cc.eamon.open.flow.route.stereotype;
  */
 public interface Condition {
 
+    /*
+     * get current route id
+     */
+    String getId();
+
 }

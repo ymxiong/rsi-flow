@@ -10,13 +10,15 @@ import cc.eamon.open.flow.core.error.FlowNodeDuplicateDefineException;
 import cc.eamon.open.flow.core.error.ParamNotExistException;
 import cc.eamon.open.flow.core.error.ResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
-import cc.eamon.open.flow.core.stereotype.support.enums.FlowNodeTypeEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
-import cc.eamon.open.flow.route.holder.Routes;
-import cc.eamon.open.flow.route.stereotype.Route;
+import cc.eamon.open.flow.route.Routes;
+import cc.eamon.open.flow.route.basic.EndNode;
+import cc.eamon.open.flow.route.basic.StartNode;
+import cc.eamon.open.flow.route.enums.RouteEnums;
+import cc.eamon.open.flow.route.stereotype.Source;
+import cc.eamon.open.flow.route.stereotype.Target;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
@@ -97,7 +99,11 @@ public class FlowHolder implements Executable {
 
         // 初始化流程路由
         for (FlowRouteConfig route : this.flowConfig.getRoutes()) {
-            FlowRouteHolder holder = new FlowRouteHolder(route);
+            Source sourceNode = nodes.get(route.getSource());
+            if (sourceNode == null) sourceNode = new StartNode();
+            Target targetNode = nodes.get(route.getTarget());
+            if (targetNode == null) targetNode = new EndNode();
+            FlowRouteHolder holder = new FlowRouteHolder(route, sourceNode, targetNode, () -> "true");
             routes.load(holder);
         }
     }
@@ -119,16 +125,13 @@ public class FlowHolder implements Executable {
             if (variable == null) throw new ParamNotExistException(param.getName());
         }
 
-        // 获取开始流程组
-        List<Route> startGroup = routes.get(FlowNodeTypeEnums.START.getName());
         // 流程校验
-        Assert.isTrue(startGroup != null && startGroup.size() > 0, "未定义开始流程组");
-        // 提供执行数据
-        routes.offerQueue(startGroup);
-        // 提供执行
-        List<String> nodeIds = routes.executeQueue();
-        for (String nodeId : nodeIds) {
-            nodes.get(nodeId).execute();
+//        Assert.isTrue(startGroup != null && startGroup.size() > 0, "未定义开始流程组");
+
+        for (Target target : routes.execute(() -> "start")) {
+            if (target.getId().equals(RouteEnums.END.getName())) continue;
+            FlowNodeHolder holder = (FlowNodeHolder) target;
+            holder.execute();
         }
 
         // 检查执行结果是否给出
