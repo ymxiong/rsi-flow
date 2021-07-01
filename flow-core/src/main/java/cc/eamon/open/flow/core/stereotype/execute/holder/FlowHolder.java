@@ -42,11 +42,6 @@ public class FlowHolder implements Executable {
     private FlowConfig flowConfig;
 
     /**
-     * 流程节点结构化容器
-     */
-    private Map<String, FlowNodeHolder> nodes = new HashMap<>();
-
-    /**
      * 流程路由容器
      */
     private Routes routes = new Routes();
@@ -84,6 +79,9 @@ public class FlowHolder implements Executable {
             if (StringUtils.isEmpty(result.getScope())) result.setScope(defaultFlowScope);
             results.add(new FlowResultHolder(result));
         }
+
+        // 流程节点结构化容器
+        Map<String, FlowNodeHolder> nodes = new HashMap<>();
 
         // 初始化流程节点容器
         for (FlowNodeConfig node : this.flowConfig.getNodes()) {
@@ -128,7 +126,7 @@ public class FlowHolder implements Executable {
         // 流程校验
 //        Assert.isTrue(startGroup != null && startGroup.size() > 0, "未定义开始流程组");
 
-        for (Target target : routes.execute(() -> "start")) {
+        for (Target target : routes.execute(RouteEnums.START::getName)) {
             if (target.getId().equals(RouteEnums.END.getName())) continue;
             FlowNodeHolder holder = (FlowNodeHolder) target;
             holder.execute();

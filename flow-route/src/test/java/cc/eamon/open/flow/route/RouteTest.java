@@ -4,6 +4,7 @@ import cc.eamon.easyfile.FileTools;
 import cc.eamon.open.flow.route.code.Collector;
 import cc.eamon.open.flow.route.code.MyRoute;
 import cc.eamon.open.flow.route.code.Node;
+import cc.eamon.open.flow.route.stereotype.Target;
 import com.alibaba.fastjson.JSONObject;
 import org.junit.Test;
 
@@ -41,11 +42,13 @@ public class RouteTest {
         }
 
         routes.load(
-                collector.getCondition("头痛视力缺损")
-                , collector.getCondition("bp>180||bp>110")
-//                , collector.getCondition("胸痛")
+                collector.getCondition("bp>180||bp>110")
+//                , collector.getCondition("头痛视力缺损")
+                , collector.getCondition("胸痛")
         );
-        routes.execute(collector.getNode("start"));
+        for (Target start : routes.execute(collector.getNode("start"))) {
+            System.out.println(start.getId());
+        }
     }
 
 }

@@ -48,7 +48,6 @@ public class Routes {
     public void load(List<Route> routes) {
         RouteStrategy strategy = new SimpleStrategy(conditions, sourceRouteGroup, sources, targets);
         for (Route route : routes) {
-            System.out.println(route.getSource());
             sources.putIfAbsent(route.getSource().getId(), route.getSource());
             targets.putIfAbsent(route.getTarget().getId(), route.getTarget());
             sourceRouteGroup.putIfAbsent(route.getSource().getId(), new ArrayList<>());
