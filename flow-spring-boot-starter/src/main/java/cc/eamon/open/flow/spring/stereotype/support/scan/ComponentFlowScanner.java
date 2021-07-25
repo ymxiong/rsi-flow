@@ -57,10 +57,20 @@ public class ComponentFlowScanner implements FlowScanner {
 
         List<Class<?>> classes = ClassUtils.getAllClassByPackageName(basePackage);
         for (Class<?> aClass : classes) {
+            Object component = ComponentScanner.flowComponentMap.get(aClass.getName());
+            if (component==null){
+                try {
+                    component=aClass.newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
             for (Method aClassMethod : aClass.getMethods()) {
                 Flow flow = aClassMethod.getAnnotation(Flow.class);
                 if (flow == null) continue;
-                flowItemSet.add(new SpringCode(ComponentScanner.flowComponentMap.get(aClass.getName()), aClassMethod, flow));
+                flowItemSet.add(new SpringCode(component, aClassMethod, flow));
             }
         }
 
