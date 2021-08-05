@@ -21,11 +21,11 @@ public class FlowAssemblyPipeline extends BasePipeline {
 
     private static Logger logger = LoggerFactory.getLogger(FlowAssemblyPipeline.class);
 
-    private List<FlowConfig> flowConfigs;
+    private Map<String, FlowConfig> flowConfigs;
 
     private Map<String, FlowHolder> flowHolders;
 
-    public FlowAssemblyPipeline(int level,List<FlowConfig> flowConfigs, Map<String, FlowHolder> flowHolders) {
+    public FlowAssemblyPipeline(int level, Map<String, FlowConfig> flowConfigs, Map<String, FlowHolder> flowHolders) {
         super(level);
         this.flowConfigs = flowConfigs;
         this.flowHolders = flowHolders;
@@ -35,8 +35,8 @@ public class FlowAssemblyPipeline extends BasePipeline {
     public void initializerSelf() {
         // TODO:未知，不知道有些时候会放入一个null元素,猜测是读取jar包
         logger.info("执行FlowAssemblyPipeline组装过程");
-        flowConfigs.removeAll(Collections.singleton(null));
-        for (FlowConfig flowConfig : flowConfigs) {
+        flowConfigs.remove(null);
+        for (FlowConfig flowConfig : flowConfigs.values()) {
             try {
                 flowHolders.put(flowConfig.getId(), new FlowHolder(flowConfig));
             } catch (FlowCodeNotFoundException | FlowTypeNotSupportException e) {

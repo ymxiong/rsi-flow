@@ -33,7 +33,7 @@ public class Initializer {
     /**
      * 流程配置键值
      */
-    private static List<FlowConfig> flowConfigs = new ArrayList<>();
+    private static Map<String,FlowConfig> flowConfigs= new ConcurrentHashMap<>();
 
     /**
      * 流程代码键值Map

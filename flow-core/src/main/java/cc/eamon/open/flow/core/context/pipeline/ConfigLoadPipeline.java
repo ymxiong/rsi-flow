@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,11 +19,11 @@ public class ConfigLoadPipeline extends BasePipeline {
 
     private static Logger logger = LoggerFactory.getLogger(ConfigLoadPipeline.class);
 
-    private List<FlowConfig> flowConfigs;
+    private Map<String,FlowConfig> flowConfigs;
 
     private String[] configFiles;
 
-    public ConfigLoadPipeline(int level,List<FlowConfig> flowConfigs, String... configFiles) {
+    public ConfigLoadPipeline(int level,Map<String,FlowConfig> flowConfigs, String... configFiles) {
         super(level);
         this.flowConfigs = flowConfigs;
         this.configFiles = configFiles;
@@ -35,7 +36,9 @@ public class ConfigLoadPipeline extends BasePipeline {
             // @Config自动扫描
             Set<FlowConfig> configs = value.getLoader().load(configFiles);
             if (configs == null) continue;
-            flowConfigs.addAll(configs);
+            for (FlowConfig config : configs) {
+                flowConfigs.put(config.getId(),config);
+            }
         }
     }
 }
