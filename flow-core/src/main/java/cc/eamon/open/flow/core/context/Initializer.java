@@ -33,7 +33,7 @@ public class Initializer {
     /**
      * 流程配置键值
      */
-    private static Map<String,FlowConfig> flowConfigs= new ConcurrentHashMap<>();
+    private static Map<String, FlowConfig> flowConfigs = new ConcurrentHashMap<>();
 
     /**
      * 流程代码键值Map
@@ -80,6 +80,13 @@ public class Initializer {
 
     public static Map<String, FlowCode> getFlowCodes() {
         return flowCodes;
+    }
+
+
+    public static void addExtraFlow(Map<String, FlowConfig> extraFlowConfigs, Map<String, FlowCode> extraFlowCodes, Map<String, FlowHolder> extraFlowHolders) {
+        flowConfigs.putAll(extraFlowConfigs);
+        flowCodes.putAll(extraFlowCodes);
+        flowHolders.putAll(extraFlowHolders);
     }
 
 }
