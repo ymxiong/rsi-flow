@@ -1,9 +1,11 @@
 package cc.eamon.open.flow.spring.extra;
 
+import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
 import cc.eamon.open.flow.core.stereotype.support.enums.ScannerEnums;
+import cc.eamon.open.flow.spring.stereotype.support.scan.ComponentFlowScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,10 +35,11 @@ public class ExtraCodeLoadPipeline extends BasePipeline {
     public void initializerSelf() {
         // 枚举扫描器
         logger.info("执行CodeLoadPipeline组装过程");
-        FlowScanner classpath_scan = ScannerEnums.CLASSPATH_SCANNER.getScanner();
-        Set<? extends FlowCode> flowCodeSet = classpath_scan.scan(basePackages);
+        ComponentFlowScanner componentFlowScanner = new ComponentFlowScanner();
+        Set<? extends FlowCode> flowCodeSet = componentFlowScanner.scan(basePackages);
         for (FlowCode flowCode : flowCodeSet) {
             flowCodes.put(flowCode.getName(), flowCode);
         }
+        Initializer.addExtraFlowCode(flowCodes);
     }
 }

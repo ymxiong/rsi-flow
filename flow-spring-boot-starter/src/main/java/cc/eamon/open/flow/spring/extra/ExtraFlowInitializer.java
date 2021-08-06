@@ -69,8 +69,6 @@ public class ExtraFlowInitializer {
         if (pipeline == null) throw new FlowException("extraPipeline装配错误");
         pipeline.initializer();
 
-        Initializer.addExtraFlow(extraFlowConfigs, extraFlowCodes, extraFlowHolders);
-
         logger.info(extraJar.getName() + "流程配置信息装配完成");
     }
 

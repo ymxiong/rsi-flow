@@ -83,9 +83,15 @@ public class Initializer {
     }
 
 
-    public static void addExtraFlow(Map<String, FlowConfig> extraFlowConfigs, Map<String, FlowCode> extraFlowCodes, Map<String, FlowHolder> extraFlowHolders) {
+    public static void addExtraFlowConfig(Map<String, FlowConfig> extraFlowConfigs) {
         flowConfigs.putAll(extraFlowConfigs);
+    }
+
+    public static void addExtraFlowCode(Map<String, FlowCode> extraFlowCodes) {
         flowCodes.putAll(extraFlowCodes);
+    }
+
+    public static void addExtraFlowHolder(Map<String, FlowHolder> extraFlowHolders) {
         flowHolders.putAll(extraFlowHolders);
     }
 
