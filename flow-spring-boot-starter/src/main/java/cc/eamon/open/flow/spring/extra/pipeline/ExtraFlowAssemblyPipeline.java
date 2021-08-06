@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.spring.extra;
+package cc.eamon.open.flow.spring.extra.pipeline;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.core.context.Initializer;

@@ -2,13 +2,17 @@ package cc.eamon.open.flow.spring.extra;
 
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
-import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.context.pipeline.*;
 import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
+import cc.eamon.open.flow.spring.extra.pipeline.ExtraCodeLoadPipeline;
+import cc.eamon.open.flow.spring.extra.pipeline.ExtraConfigLoadPipeline;
+import cc.eamon.open.flow.spring.extra.pipeline.ExtraFlowAssemblyPipeline;
+import cc.eamon.open.flow.spring.extra.pipeline.ExtraJarLoadPipeline;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.util.Arrays;
@@ -53,11 +57,16 @@ public class ExtraFlowInitializer {
         priorityQueue.addAll(Arrays.asList(basePipeline));
     }
 
-    public static void loadExtraFlow(File extraJar, String[] flowBasePackages) {
+    public static void loadExtraFlowFromFile(File extraJar, String[] flowBasePackages) {
         loadExtraFlow(extraJar, flowBasePackages, new String[]{""});
     }
 
-    public static void loadExtraFlow(File extraJar, String[] flowBasePackages, String[] configBasePackages) {
+    public static void loadExtraFlowFromMultipartFile(MultipartFile file, String[] flowBasePackages) {
+        File extraJar = FileHelper.getFileFromMultipartFile(file);
+        loadExtraFlow(extraJar, flowBasePackages, new String[]{""});
+    }
+
+    private static void loadExtraFlow(File extraJar, String[] flowBasePackages, String[] configBasePackages) {
         addPipeline(new ExtraJarLoadPipeline(0, extraJar));
         addPipeline(new ExtraConfigLoadPipeline(1, extraFlowConfigs, configBasePackages));
         addPipeline(new ExtraCodeLoadPipeline(2, extraFlowCodes, flowBasePackages));

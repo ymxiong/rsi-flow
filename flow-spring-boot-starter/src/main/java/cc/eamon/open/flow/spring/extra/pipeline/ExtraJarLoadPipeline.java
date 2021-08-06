@@ -1,10 +1,6 @@
-package cc.eamon.open.flow.spring.extra;
+package cc.eamon.open.flow.spring.extra.pipeline;
 
-import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
-import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
-import cc.eamon.open.flow.core.error.FlowTypeNotSupportException;
-import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +8,6 @@ import java.io.File;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Map;
 
 /**
  * Author: eamon

@@ -1,10 +1,8 @@
-package cc.eamon.open.flow.spring.extra;
+package cc.eamon.open.flow.spring.extra.pipeline;
 
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
-import cc.eamon.open.flow.core.stereotype.support.enums.ScannerEnums;
 import cc.eamon.open.flow.spring.stereotype.support.scan.ComponentFlowScanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
