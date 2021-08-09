@@ -5,8 +5,11 @@ import cc.eamon.open.flow.config.enums.ConfigEnums;
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.core.stereotype.load.FlowLoader;
 import com.alibaba.fastjson.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,10 +19,18 @@ import java.util.Set;
  * Date: 2020/7/5
  */
 public class ResourceLoader implements FlowLoader {
+
+    private static Logger logger = LoggerFactory.getLogger(ResourceLoader.class);
+
     @Override
     public Set<FlowConfig> load(String... configFiles) {
-        String path = this.getClass().getClassLoader().getResource("flow").getPath();
         Set<FlowConfig> flowConfigs = new HashSet<>();
+        URL flow = this.getClass().getClassLoader().getResource("flow");
+        if (flow == null) {
+            logger.info("jar包中未找到名为flow的config包");
+            return flowConfigs;
+        }
+        String path = flow.getPath();
         if (configFiles == null) return flowConfigs;
         for (String configFile : configFiles) {
             for (File file : FileTools.readFiles(path + configFile)) {
@@ -27,7 +38,7 @@ public class ResourceLoader implements FlowLoader {
                     if (file.getName().startsWith(value.getName())) {
                         String flowConfigJson = FileTools.loadFile(file);
                         FlowConfig flowConfig = JSONObject.parseObject(flowConfigJson, FlowConfig.class);
-                        if (flowConfig==null) continue;
+                        if (flowConfig == null) continue;
                         flowConfigs.add(flowConfig);
                     }
 
