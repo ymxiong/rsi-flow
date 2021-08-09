@@ -27,7 +27,7 @@ public class ResourceLoader implements FlowLoader {
         Set<FlowConfig> flowConfigs = new HashSet<>();
         URL flow = this.getClass().getClassLoader().getResource("flow");
         if (flow == null) {
-            logger.info("jar包中未找到名为flow的config包");
+            logger.info("resource包中未找到名为flow的config包");
             return flowConfigs;
         }
         String path = flow.getPath();
