@@ -1,20 +1,13 @@
 package cc.eamon.open.flow.spring.scanner;
 
 
-import cc.eamon.open.flow.core.context.Initializer;
-import cc.eamon.open.flow.spring.context.pipline.SpringComponentPipeline;
+import cc.eamon.open.flow.spring.context.pipeline.SpringComponentPipeline;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.BeanNameGenerator;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.util.ClassUtils;
-import org.springframework.util.StringUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Author: lucas

@@ -2,7 +2,7 @@ package cc.eamon.open.flow.spring;
 
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.utils.LogoUtil;
-import cc.eamon.open.flow.spring.context.pipline.SpringComponentPipeline;
+import cc.eamon.open.flow.spring.context.pipeline.SpringComponentPipeline;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;

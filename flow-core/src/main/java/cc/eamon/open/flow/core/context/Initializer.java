@@ -68,7 +68,7 @@ public class Initializer {
         while (priorityQueue.peek() != null) {
             pipeline = ((BasePipeline) priorityQueue.poll()).setPre(pipeline);
         }
-        if (pipeline == null) throw new FlowException("pipline装配错误");
+        if (pipeline == null) throw new FlowException("pipeline装配错误");
         pipeline.initializer();
         logger.info("流程配置信息装配完成");
     }
