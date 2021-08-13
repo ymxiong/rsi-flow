@@ -56,15 +56,10 @@ public class LocalJavaCode implements FlowCode {
     @Override
     public Object execute(Object... args) throws Exception {
         try {
-            Object target;
-            if (Initializer.flowComponentMap.size() != 0) {
-                target = Initializer.flowComponentMap.get(clazz.getName());
-            } else {
-                target = clazz.newInstance();
-            }
-
+            Object target = clazz.newInstance();
             return method.invoke(target, args);
-        } catch (Exception e) {
+        } catch (
+                Exception e) {
             logger.info("Method in " + clazz.getName() + " named " + method.getName() + " invoke failed");
             Throwable nestedException = e.getCause();
             if (nestedException instanceof Exception) {
@@ -72,6 +67,7 @@ public class LocalJavaCode implements FlowCode {
             }
             throw e;
         }
+
     }
 
     @Override

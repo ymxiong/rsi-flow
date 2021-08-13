@@ -1,9 +1,13 @@
 package cc.eamon.open.flow.core.context.pipeline;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.stereotype.support.enums.LoaderEnums;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -13,23 +17,28 @@ import java.util.Set;
  */
 public class ConfigLoadPipeline extends BasePipeline {
 
-    private List<FlowConfig> flowConfigs;
+    private static Logger logger = LoggerFactory.getLogger(ConfigLoadPipeline.class);
+
+    private Map<String,FlowConfig> flowConfigs;
 
     private String[] configFiles;
 
-    public ConfigLoadPipeline(Pipeline pre, List<FlowConfig> flowConfigs, String... configFiles) {
-        super(pre);
+    public ConfigLoadPipeline(int level,Map<String,FlowConfig> flowConfigs, String... configFiles) {
+        super(level);
         this.flowConfigs = flowConfigs;
         this.configFiles = configFiles;
     }
 
     @Override
     public void initializerSelf() {
+        logger.info("执行ConfigLoadPipeline组装过程");
         for (LoaderEnums value : LoaderEnums.values()) {
             // @Config自动扫描
             Set<FlowConfig> configs = value.getLoader().load(configFiles);
             if (configs == null) continue;
-            flowConfigs.addAll(configs);
+            for (FlowConfig config : configs) {
+                flowConfigs.put(config.getId(),config);
+            }
         }
     }
 }

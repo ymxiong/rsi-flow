@@ -16,8 +16,6 @@ import java.lang.annotation.*;
 @Import(FlowScannerRegistrar.class)
 public @interface FlowScan {
 
-    String[] configPath() default {};
-
     String[] flowPath() default {};
 
 }

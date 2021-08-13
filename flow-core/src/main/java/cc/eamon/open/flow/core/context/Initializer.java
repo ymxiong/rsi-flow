@@ -2,10 +2,8 @@ package cc.eamon.open.flow.core.context;
 
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
-import cc.eamon.open.flow.core.context.pipeline.CodeLoadPipeline;
-import cc.eamon.open.flow.core.context.pipeline.ConfigLoadPipeline;
-import cc.eamon.open.flow.core.context.pipeline.FlowAssemblyPipeline;
-import cc.eamon.open.flow.core.context.pipeline.Pipeline;
+import cc.eamon.open.flow.core.context.pipeline.*;
+import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import org.slf4j.Logger;
@@ -35,7 +33,7 @@ public class Initializer {
     /**
      * 流程配置键值
      */
-    private static List<FlowConfig> flowConfigs = new ArrayList<>();
+    private static Map<String, FlowConfig> flowConfigs = new ConcurrentHashMap<>();
 
     /**
      * 流程代码键值Map
@@ -44,31 +42,33 @@ public class Initializer {
      */
     private static Map<String, FlowCode> flowCodes = new ConcurrentHashMap<>();
 
-    public static Map<String, Object> flowComponentMap = new HashMap<String, Object>();
-
 
     /**
      * 流程代码所在路径
      */
     private static String[] flowBasePackages = new String[]{"cc.eamon.open.flow"};
 
+    /**
+     * 流程代码所在路径
+     */
+    private static String[] configBasePackages = new String[]{""};
 
-    public static void configPath(String[] flowPackages) {
-        flowBasePackages = flowPackages;
+
+    private static PriorityQueue<Pipeline> priorityQueue = new PriorityQueue<>();
+
+    public static void addPipeline(BasePipeline... basePipeline) {
+        priorityQueue.addAll(Arrays.asList(basePipeline));
     }
 
     public static void init() {
-        // 0. 初始化环境
-        String[] configBasePackages = new String[]{""};
-        // 1. 扫描所有flow配置
-        Pipeline pipeline = new ConfigLoadPipeline(null, flowConfigs, configBasePackages);
-        // 2. 扫描所有flow代码
-        pipeline = new CodeLoadPipeline(pipeline, flowCodes, flowBasePackages);
-        // TODO: 提供添加pipeline的能力
-        // 3. 装配flow
-        pipeline = new FlowAssemblyPipeline(pipeline, flowConfigs, flowHolders);
-
-        // 4. 初始化
+        addPipeline(new ConfigLoadPipeline(1, flowConfigs, configBasePackages));
+        addPipeline(new CodeLoadPipeline(2, flowCodes, flowBasePackages));
+        addPipeline(new FlowAssemblyPipeline(100, flowConfigs, flowHolders));
+        BasePipeline pipeline = null;
+        while (priorityQueue.peek() != null) {
+            pipeline = ((BasePipeline) priorityQueue.poll()).setPre(pipeline);
+        }
+        if (pipeline == null) throw new FlowException("pipline装配错误");
         pipeline.initializer();
         logger.info("流程配置信息装配完成");
     }
@@ -82,5 +82,17 @@ public class Initializer {
         return flowCodes;
     }
 
+
+    public static void addExtraFlowConfig(Map<String, FlowConfig> extraFlowConfigs) {
+        flowConfigs.putAll(extraFlowConfigs);
+    }
+
+    public static void addExtraFlowCode(Map<String, FlowCode> extraFlowCodes) {
+        flowCodes.putAll(extraFlowCodes);
+    }
+
+    public static void addExtraFlowHolder(Map<String, FlowHolder> extraFlowHolders) {
+        flowHolders.putAll(extraFlowHolders);
+    }
 
 }

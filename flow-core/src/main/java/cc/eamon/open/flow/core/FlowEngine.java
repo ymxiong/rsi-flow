@@ -16,6 +16,10 @@ import org.slf4j.LoggerFactory;
  */
 public class FlowEngine {
 
+    static {
+        Initializer.init();
+    }
+
     private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
 
     public static FlowEngine instance() {
@@ -23,7 +27,7 @@ public class FlowEngine {
         if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
             synchronized (FlowEngine.class) {
                 if (FlowContextHolder.get().getFlowEngine() == null) {
-                    Initializer.init();
+
                     FlowContextHolder.get().setFlowEngine(new FlowEngine());
                     logger.info("初始化流程引擎完成");
                 }

@@ -31,6 +31,10 @@ public class JarLoader implements FlowLoader {
         if (configFiles != null) {
             try {
                 URL url = this.getClass().getClassLoader().getResource("flow");
+                if (url == null) {
+                    logger.info("jar包中未找到名为flow的config包");
+                    return flowConfigs;
+                }
                 String jarPath = url.toString().substring(0, url.toString().indexOf("!/") + 2);
                 URL jarURL = new URL(jarPath);
                 JarURLConnection jarCon = (JarURLConnection) jarURL.openConnection();
@@ -45,8 +49,8 @@ public class JarLoader implements FlowLoader {
                         Resource resource = new ClassPathResource(name);
                         String flowConfigJson = FileTools.inputStream2Str(resource.getInputStream());
                         FlowConfig flowConfig = JSONObject.parseObject(flowConfigJson, FlowConfig.class);
-                        if (flowConfig==null){
-                            logger.info("Please rename the file which named"+fileName);
+                        if (flowConfig == null) {
+                            logger.info("Please rename the file which named" + fileName);
                             continue;
                         }
                         flowConfigs.add(flowConfig);

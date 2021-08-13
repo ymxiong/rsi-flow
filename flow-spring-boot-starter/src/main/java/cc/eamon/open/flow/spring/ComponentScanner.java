@@ -2,6 +2,7 @@ package cc.eamon.open.flow.spring;
 
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.utils.LogoUtil;
+import cc.eamon.open.flow.spring.context.pipline.SpringComponentPipeline;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
@@ -21,10 +22,16 @@ public class ComponentScanner implements BeanPostProcessor, PriorityOrdered {
 
     static {
         LogoUtil.print();
+        Initializer.addPipeline(new SpringComponentPipeline(3, Initializer.getFlowCodes(), SpringComponentPipeline.getComponentBasePackages()));
     }
 
     private static final Logger logger = LoggerFactory.getLogger(ComponentScanner.class);
 
+
+    public static Map<String, Object> flowComponentMap = new HashMap<String, Object>();
+
+    public ComponentScanner() {
+    }
 
     @Override
     public int getOrder() {
@@ -36,7 +43,7 @@ public class ComponentScanner implements BeanPostProcessor, PriorityOrdered {
         Class clazz = bean.getClass();
         if (clazz.isAnnotationPresent(FlowComponent.class)) {
             logger.info("FlowComponent [{}] has been found", beanName);
-            Initializer.flowComponentMap.put(clazz.getName(), bean);
+            flowComponentMap.put(clazz.getName(), bean);
         }
         return bean;
     }
