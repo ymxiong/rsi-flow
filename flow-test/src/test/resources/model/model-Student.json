@@ -1,0 +1,9 @@
+{
+  "id": "Student",
+  "type": "model",
+  "fields": [
+    { "name": "id", "type": "String" },
+    { "name": "age", "type": "Integer" },
+    { "name": "sons", "type": "HashMap" }
+  ]
+}

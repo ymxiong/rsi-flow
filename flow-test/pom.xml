@@ -17,6 +17,12 @@
             <artifactId>flow-core</artifactId>
         </dependency>
 
+
+        <dependency>
+            <groupId>cc.eamon.open</groupId>
+            <artifactId>flow-model</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

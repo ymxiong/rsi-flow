@@ -1,0 +1,5 @@
+{
+  "id": "Integer",
+  "type": "model",
+  "reference": "java.lang.Integer"
+}

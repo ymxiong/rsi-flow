@@ -3,6 +3,7 @@ package cc.eamon.open.flow.config.model;
 import cc.eamon.open.flow.config.CommonConfig;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Author: eamon
@@ -31,6 +32,8 @@ public class ModelConfig implements CommonConfig, Serializable {
      */
     private String reference;
 
+    private List<ModelFiledConfig> fields;
+
     public String getId() {
         return id;
     }
@@ -53,5 +56,14 @@ public class ModelConfig implements CommonConfig, Serializable {
 
     public void setReference(String reference) {
         this.reference = reference;
+    }
+
+
+    public List<ModelFiledConfig> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<ModelFiledConfig> fields) {
+        this.fields = fields;
     }
 }

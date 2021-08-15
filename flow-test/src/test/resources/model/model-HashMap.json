@@ -1,0 +1,5 @@
+{
+  "id": "HashMap",
+  "type": "model",
+  "reference": "java.util.HashMap"
+}

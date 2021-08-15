@@ -1,0 +1,5 @@
+{
+  "id": "String",
+  "type": "model",
+  "reference": "java.lang.String"
+}
