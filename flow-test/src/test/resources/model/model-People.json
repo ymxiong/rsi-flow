@@ -6,6 +6,6 @@
     { "name": "age", "type": "Integer" },
     { "name": "sons", "type": "HashMap" },
     { "name": "birthday", "type": "Date" },
-    { "name": "deadday", "type": "java.sql.Date" }
+    { "name": "workday", "type": "java.sql.Date" }
   ]
 }

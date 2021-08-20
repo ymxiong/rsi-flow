@@ -92,6 +92,7 @@ public class ModelAssemblyPipeline extends BasePipeline {
                     }
                 } else {
                     //报错类型未定义
+                    logger.info("FlowModel named " + type + " not defined.");
                     throw new FlowModelNotDefinedException("FlowModel named " + type + " not defined.");
                 }
             }

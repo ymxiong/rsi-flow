@@ -1,5 +1,8 @@
 package cc.eamon.open.flow.model.enums;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
@@ -139,15 +142,16 @@ public enum BasicTypeEnums {
 
     /**
      * 获取类型
+     *
      * @param reference
      * @return
      */
     public static Class getType(String reference) {
-        Class clazz=null;
+        Class clazz = null;
         if (!reference.contains(".")) {
-            clazz=getPreparedType(reference);
+            clazz = getPreparedType(reference);
         } else {
-            clazz=getAddtionalType(reference);
+            clazz = getAddtionalType(reference);
         }
         return clazz;
     }
@@ -164,7 +168,8 @@ public enum BasicTypeEnums {
         try {
             clazz = Class.forName(reference);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            Logger logger = LoggerFactory.getLogger(BasicTypeEnums.class);
+            logger.info("Class named " + e.getMessage() + " basic type not found.");
         }
         return clazz;
     }
