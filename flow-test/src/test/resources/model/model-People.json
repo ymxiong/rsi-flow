@@ -4,6 +4,8 @@
   "fields": [
     { "name": "id", "type": "String" },
     { "name": "age", "type": "Integer" },
-    { "name": "sons", "type": "HashMap" }
+    { "name": "sons", "type": "HashMap" },
+    { "name": "birthday", "type": "Date" },
+    { "name": "deadday", "type": "java.sql.Date" }
   ]
 }

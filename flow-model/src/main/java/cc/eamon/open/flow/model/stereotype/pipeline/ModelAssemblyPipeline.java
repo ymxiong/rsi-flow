@@ -3,11 +3,8 @@ package cc.eamon.open.flow.model.stereotype.pipeline;
 import cc.eamon.open.flow.config.model.ModelConfig;
 import cc.eamon.open.flow.config.model.ModelFiledConfig;
 import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
-import cc.eamon.open.flow.core.context.pipeline.Pipeline;
-import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.model.definition.FlowModel;
-import cc.eamon.open.flow.model.enums.ModelLoaderEnums;
+import cc.eamon.open.flow.model.enums.BasicTypeEnums;
 import cc.eamon.open.flow.model.error.FlowModelNotDefinedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,10 +75,10 @@ public class ModelAssemblyPipeline extends BasePipeline {
         for (ModelFiledConfig modelFiledConfig : config.getFields()) {
             String name = modelFiledConfig.getName();
             String type = modelFiledConfig.getType();
-            TypeEnums clazz = TypeEnums.getType(type);
-            if (clazz != TypeEnums.OBJECT) {
+            Class clazz = BasicTypeEnums.getType(type);
+            if (clazz != null) {
                 //基础类型
-                model.addbasicFiled(name, clazz.getClassType().getName());
+                model.addbasicFiled(name, clazz.getName());
             } else {
                 //复杂类型
                 if (flowModelConfigs.get(type) != null) {

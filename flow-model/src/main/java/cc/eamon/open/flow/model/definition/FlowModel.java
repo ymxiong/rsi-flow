@@ -61,6 +61,7 @@ public class FlowModel {
             e.printStackTrace();
         }
         basicFileds.put(name, clazz);
+
     }
 
     public void addcomplexFiled(String name, FlowModel flowModel) {
