@@ -1,0 +1,52 @@
+{
+  "id": "FLOW_CONDITION_SIMPLE",
+  "type": "flow",
+  "name": "简单条件标准",
+  "params": [
+    { "name": "birthday", "type": "Integer" }
+  ],
+  "results": [
+    { "name": "message", "type": "String" }
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_BIRTHDAY",
+      "type": "event",
+      "name": "生日识别",
+      "reference": "FLOW_BIRTHDAY",
+      "params": [
+        { "name": "birthday", "type": "Integer" }
+      ],
+      "results": [
+        { "name": "type", "type": "Integer" }
+      ]
+    },
+    {
+      "id": "FLOW_CONDITION_CHILD",
+      "type": "event",
+      "name": "输出小孩",
+      "reference": "FLOW_CONDITION_CHILD",
+      "params": [],
+      "results": [
+        { "name": "message", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_CONDITION_OLD",
+      "type": "event",
+      "name": "输出成年人",
+      "reference": "FLOW_CONDITION_OLD",
+      "params": [],
+      "results": [
+        { "name": "message", "type": "String" }
+      ]
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_BIRTHDAY"},
+    { "source":"FLOW_BIRTHDAY", "target": "FLOW_CONDITION_OLD", "condition": "type==1"},
+    { "source":"FLOW_BIRTHDAY", "target": "FLOW_CONDITION_CHILD", "condition": "type==0"},
+    { "source":"FLOW_CONDITION_CHILD", "target": "end" },
+    { "source":"FLOW_CONDITION_OLD", "target": "end" }
+  ]
+}

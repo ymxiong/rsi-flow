@@ -70,9 +70,11 @@ public class SimpleStrategy implements RouteStrategy {
     private void offerQueue(List<Route> routes) {
         // 执行器
         for (Route route : routes) {
+            System.out.println(route.toString());
             Target target = route.getTarget();
             if (RouteEnums.END == RouteEnums.getConfigByName(target.getId())) continue;
-            if (!"true".equals(route.getCondition().getId()) && !conditions.contains(route.getCondition())) continue;
+//            System.out.println(con);
+            if (!"true".equals(route.getCondition().getExpression()) && !conditions.contains(route.getCondition())) continue;
             executeQueue.offer(target.getId());
         }
     }

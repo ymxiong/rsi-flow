@@ -7,6 +7,7 @@
             <class name="cc.eamon.open.flow.FLOW_NODE_MULTI.FlowMultiNodeTest"/>
             <class name="cc.eamon.open.flow.FLOW_NODE_SINGLE.FlowSingleNodeTest"/>
             <class name="cc.eamon.open.flow.FLOW_REMOTE_HTTP.FlowRemoteHttpTest"/>
+            <class name="cc.eamon.open.flow.FLOW_CONDITION_SIMPLE.FlowConditionTest"/>
         </classes>
     </test>
 

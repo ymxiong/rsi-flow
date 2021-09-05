@@ -15,6 +15,7 @@ import cc.eamon.open.flow.route.Routes;
 import cc.eamon.open.flow.route.basic.EndNode;
 import cc.eamon.open.flow.route.basic.StartNode;
 import cc.eamon.open.flow.route.enums.RouteEnums;
+import cc.eamon.open.flow.route.stereotype.Condition;
 import cc.eamon.open.flow.route.stereotype.Source;
 import cc.eamon.open.flow.route.stereotype.Target;
 import org.slf4j.Logger;
@@ -97,11 +98,23 @@ public class FlowHolder implements Executable {
 
         // 初始化流程路由
         for (FlowRouteConfig route : this.flowConfig.getRoutes()) {
+            Condition condition = new Condition() {
+                @Override
+                public String getId() {
+                    return route.getSource() + "-" + route.getTarget();
+                }
+
+                @Override
+                public String getExpression() {
+                    return route.getCondition();
+                }
+            };
+
             Source sourceNode = nodes.get(route.getSource());
             if (sourceNode == null) sourceNode = new StartNode();
             Target targetNode = nodes.get(route.getTarget());
             if (targetNode == null) targetNode = new EndNode();
-            FlowRouteHolder holder = new FlowRouteHolder(route, sourceNode, targetNode, () -> "true");
+            FlowRouteHolder holder = new FlowRouteHolder(route, sourceNode, targetNode, condition);
             routes.load(holder);
         }
     }
@@ -123,20 +136,34 @@ public class FlowHolder implements Executable {
             if (variable == null) throw new ParamNotExistException(param.getName());
         }
 
-        // 流程校验
-//        Assert.isTrue(startGroup != null && startGroup.size() > 0, "未定义开始流程组");
-
-        for (Target target : routes.execute(RouteEnums.START::getName)) {
-            if (target.getId().equals(RouteEnums.END.getName())) continue;
-            FlowNodeHolder holder = (FlowNodeHolder) target;
-            holder.execute();
+        Map<String, Object> paramMap = new HashMap<>();
+        for (FlowParamConfig param : flowConfig.getParams()) {
+            Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
+            paramMap.put(param.getName(), variable);
         }
+        execute(RouteEnums.START::getName, paramMap);
+
 
         // 检查执行结果是否给出
         for (FlowResultHolder result : results) {
             Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
             if (variable == null)
                 throw new ResultNotExistException(flowConfig.getId(), result.getScope(), result.getName());
+        }
+    }
+
+    private void execute(Source source, Map<String, Object> paramMap){
+        // 1.1 找到当前需要执行的节点
+        // 1.2 向route注入流程参数，放入route context
+        List<Target> targets = routes.execute(source, paramMap);
+        for (Target target : targets) {
+            if (target.getId().equals(RouteEnums.END.getName())) continue;
+
+            // 1.3 代码执行, holder会自动装配
+            FlowNodeHolder holder = (FlowNodeHolder) target;
+            holder.execute();
+            // 1.4 逻辑执行，与代码执行解构
+            execute(holder, paramMap);
         }
     }
 

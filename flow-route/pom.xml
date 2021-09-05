@@ -14,7 +14,8 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 
-        <easyfile-version>0.0.2</easyfile-version>
+        <easyfile-version>0.0.3</easyfile-version>
+        <aviator-version>5.2.5</aviator-version>
         <fastjson-version>1.2.60</fastjson-version>
         <junit-version>4.12</junit-version>
     </properties>
@@ -51,6 +52,12 @@
             <groupId>cc.eamon</groupId>
             <artifactId>easyfile</artifactId>
             <version>${easyfile-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.googlecode.aviator</groupId>
+            <artifactId>aviator</artifactId>
+            <version>${aviator-version}</version>
         </dependency>
 
         <dependency>

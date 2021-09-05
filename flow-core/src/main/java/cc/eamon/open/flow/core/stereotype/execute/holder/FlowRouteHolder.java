@@ -62,7 +62,6 @@ public class FlowRouteHolder implements Route {
         return condition;
     }
 
-
     public String getScope() {
         return flowRouteConfig.getScope();
     }

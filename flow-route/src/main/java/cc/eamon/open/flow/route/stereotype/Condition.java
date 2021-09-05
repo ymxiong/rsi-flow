@@ -12,4 +12,9 @@ public interface Condition {
      */
     String getId();
 
+    /*
+     * get condition
+     */
+    String getExpression();
+
 }
