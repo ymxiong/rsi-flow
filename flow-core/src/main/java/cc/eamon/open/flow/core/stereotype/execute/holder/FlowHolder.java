@@ -143,7 +143,6 @@ public class FlowHolder implements Executable {
         }
         execute(RouteEnums.START::getName, paramMap);
 
-
         // 检查执行结果是否给出
         for (FlowResultHolder result : results) {
             Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
@@ -162,6 +161,10 @@ public class FlowHolder implements Executable {
             // 1.3 代码执行, holder会自动装配
             FlowNodeHolder holder = (FlowNodeHolder) target;
             holder.execute();
+            for (FlowResultHolder result : holder.getResultHolders()) {
+                Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
+                paramMap.put(result.getName(), variable);
+            }
             // 1.4 逻辑执行，与代码执行解构
             execute(holder, paramMap);
         }

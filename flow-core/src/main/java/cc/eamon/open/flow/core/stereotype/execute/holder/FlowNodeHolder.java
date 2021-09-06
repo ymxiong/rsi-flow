@@ -106,4 +106,11 @@ public class FlowNodeHolder implements Source, Target {
         return flowNodeConfig.getName();
     }
 
+    public List<FlowParamHolder> getParamHolders() {
+        return paramHolders;
+    }
+
+    public List<FlowResultHolder> getResultHolders() {
+        return resultHolders;
+    }
 }

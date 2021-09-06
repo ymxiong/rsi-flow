@@ -2,7 +2,6 @@ package cc.eamon.open.flow.route;
 
 import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.strategy.RouteStrategy;
-import cc.eamon.open.flow.route.strategy.SimpleStrategy;
 import com.googlecode.aviator.AviatorEvaluator;
 
 import java.util.*;
@@ -60,23 +59,6 @@ public class Routes {
             }));
         }
 
-        RouteStrategy strategy = new SimpleStrategy(conditions, sourceRouteGroup, sources, targets);
-        for (Route route : routes) {
-            sources.putIfAbsent(route.getSource().getId(), route.getSource());
-            targets.putIfAbsent(route.getTarget().getId(), route.getTarget());
-            sourceRouteGroup.putIfAbsent(route.getSource().getId(), new ArrayList<>());
-            sourceRouteGroup.computeIfPresent(route.getSource().getId(), ((s, sources) -> {
-                sources.add(route);
-                return sources;
-            }));
-            sourceStrategyGroup.put(route.getSource().getId(), strategy);
-            targetRouteGroup.putIfAbsent(route.getTarget().getId(), new ArrayList<>());
-            targetRouteGroup.computeIfPresent(route.getTarget().getId(), ((s, targets) -> {
-                targets.add(route);
-                return targets;
-            }));
-            targetStrategyGroup.put(route.getTarget().getId(), strategy);
-        }
     }
 
     public void load(Condition... conditions) {
@@ -96,7 +78,10 @@ public class Routes {
         List<Target> targets = new ArrayList<>();
         for (Route route : routes) {
             // 校验condition
-            String expression = route.getCondition().getExpression().replaceAll("type", "0");
+            String expression = route.getCondition().getExpression();
+            for (Map.Entry<String, Object> entry : variables.entrySet()) {
+                expression = expression.replaceAll(entry.getKey(), entry.getValue().toString());
+            }
             Boolean success = (Boolean) AviatorEvaluator.execute(expression);
             if (success) {
                 targets.add(route.getTarget());
