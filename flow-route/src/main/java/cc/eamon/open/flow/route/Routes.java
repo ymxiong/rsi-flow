@@ -1,8 +1,10 @@
 package cc.eamon.open.flow.route;
 
+import cc.eamon.open.flow.route.enums.ConditionEnums;
 import cc.eamon.open.flow.route.enums.RouteEnums;
-import cc.eamon.open.flow.route.stereotype.*;
-import cc.eamon.open.flow.route.strategy.RouteStrategy;
+import cc.eamon.open.flow.route.stereotype.Route;
+import cc.eamon.open.flow.route.stereotype.Source;
+import cc.eamon.open.flow.route.stereotype.Target;
 import com.googlecode.aviator.AviatorEvaluator;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -21,10 +23,6 @@ import java.util.*;
  */
 public class Routes {
 
-    private Map<String, Source> sources = new HashMap<>();
-
-    private Map<String, Target> targets = new HashMap<>();
-
     // Initialize the engine.
     private VelocityEngine engine;
 
@@ -38,19 +36,6 @@ public class Routes {
      */
     private Map<String, List<Route>> targetRouteGroup = new HashMap<>();
 
-    /**
-     * 流程来源执行策略
-     */
-    private Map<String, RouteStrategy> sourceStrategyGroup = new HashMap<>();
-
-
-    /**
-     * 流程目标执行策略
-     */
-    private Map<String, RouteStrategy> targetStrategyGroup = new HashMap<>();
-
-
-    private List<Condition> conditions = new ArrayList<>();
 
     public Routes() {
         engine = new VelocityEngine();
@@ -79,22 +64,19 @@ public class Routes {
 
     }
 
-    public void load(Condition... conditions) {
-        this.conditions.addAll(Arrays.asList(conditions));
-    }
-
-    public void load(Strategy... strategies) {
-        for (Strategy strategy : strategies) {
-            sourceStrategyGroup.put(strategy.getSource().getId(), strategy.getStrategy());
-        }
-    }
-
 
     // 只有一个
     public List<Target> execute(Source source, Map<String, Object> variables) {
         List<Route> routes = sourceRouteGroup.get(source.getId());
         List<Target> targets = new ArrayList<>();
+
+        Target defaultTarget = null;
+
         for (Route route : routes) {
+            if (ConditionEnums.DEFAULT.getId().equals(route.getCondition().getExpression())) {
+                defaultTarget = route.getTarget();
+                continue;
+            }
             // 校验condition
             // Add template to repository
             StringResourceRepository repository = StringResourceLoader.getRepository();
@@ -115,6 +97,10 @@ public class Routes {
             if (success) {
                 targets.add(route.getTarget());
             }
+        }
+
+        if (targets.size() == 0 && defaultTarget != null) {
+            targets.add(defaultTarget);
         }
 
         Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
