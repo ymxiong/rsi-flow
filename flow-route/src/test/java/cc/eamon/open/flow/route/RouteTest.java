@@ -48,7 +48,7 @@ public class RouteTest {
 //                , collector.getExpression("头痛视力缺损")
                 , collector.getCondition("胸痛")
         );
-        for (Target start : routes.execute(collector.getNode(RouteEnums.START.getName()), new HashMap<>())) {
+        for (Target start : routes.execute(collector.getNode(RouteEnums.START.getId()), new HashMap<>())) {
             System.out.println(start.getId());
         }
     }

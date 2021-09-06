@@ -11,6 +11,6 @@ import cc.eamon.open.flow.route.stereotype.Source;
 public class StartNode implements Source {
     @Override
     public String getId() {
-        return RouteEnums.START.getName();
+        return RouteEnums.START.getId();
     }
 }

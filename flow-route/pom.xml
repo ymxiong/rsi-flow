@@ -16,6 +16,8 @@
 
         <easyfile-version>0.0.3</easyfile-version>
         <aviator-version>5.2.5</aviator-version>
+        <spring-version>5.1.1.RELEASE</spring-version>
+        <velocity-version>2.2</velocity-version>
         <fastjson-version>1.2.60</fastjson-version>
         <junit-version>4.12</junit-version>
     </properties>
@@ -58,6 +60,18 @@
             <groupId>com.googlecode.aviator</groupId>
             <artifactId>aviator</artifactId>
             <version>${aviator-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity-engine-core</artifactId>
+            <version>${velocity-version}</version>
         </dependency>
 
         <dependency>

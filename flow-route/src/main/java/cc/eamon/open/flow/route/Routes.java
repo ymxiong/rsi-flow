@@ -1,9 +1,17 @@
 package cc.eamon.open.flow.route;
 
+import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.strategy.RouteStrategy;
 import com.googlecode.aviator.AviatorEvaluator;
+import org.apache.velocity.VelocityContext;
+import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
+import org.apache.velocity.runtime.resource.util.StringResourceRepository;
+import org.springframework.util.Assert;
 
+import java.io.StringWriter;
 import java.util.*;
 
 /**
@@ -16,6 +24,9 @@ public class Routes {
     private Map<String, Source> sources = new HashMap<>();
 
     private Map<String, Target> targets = new HashMap<>();
+
+    // Initialize the engine.
+    private VelocityEngine engine;
 
     /**
      * 流程来源路由容器
@@ -40,6 +51,13 @@ public class Routes {
 
 
     private List<Condition> conditions = new ArrayList<>();
+
+    public Routes() {
+        engine = new VelocityEngine();
+        engine.setProperty(Velocity.RESOURCE_LOADERS, "string");
+        engine.setProperty("resource.loader.string.class", StringResourceLoader.class.getName());
+        engine.init();
+    }
 
     public void load(Route... routes) {
         load(Arrays.asList(routes));
@@ -78,15 +96,30 @@ public class Routes {
         List<Target> targets = new ArrayList<>();
         for (Route route : routes) {
             // 校验condition
-            String expression = route.getCondition().getExpression();
+            // Add template to repository
+            StringResourceRepository repository = StringResourceLoader.getRepository();
+            repository.putStringResource(route.getCondition().getId(), route.getCondition().getExpression());
+
+            // Set parameters
+            VelocityContext context = new VelocityContext();
+
             for (Map.Entry<String, Object> entry : variables.entrySet()) {
-                expression = expression.replaceAll(entry.getKey(), entry.getValue().toString());
+                context.put(entry.getKey(), entry.getValue().toString());
             }
-            Boolean success = (Boolean) AviatorEvaluator.execute(expression);
+
+            // Process the template
+            StringWriter writer = new StringWriter();
+            engine.getTemplate(route.getCondition().getId()).merge(context, writer);
+
+            Boolean success = (Boolean) AviatorEvaluator.execute(writer.toString());
             if (success) {
                 targets.add(route.getTarget());
             }
         }
+
+        Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
+                "流程条件有误，当前节点未能正确路由：" + source.getId());
+
         return targets;
     }
 

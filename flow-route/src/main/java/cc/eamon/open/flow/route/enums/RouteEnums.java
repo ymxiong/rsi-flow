@@ -23,25 +23,25 @@ public enum RouteEnums {
     DEFAULT("default"),
     ;
 
-    private String name;
+    private String id;
 
-    RouteEnums(String name) {
-        this.name = name;
+    RouteEnums(String id) {
+        this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
     /**
      * 获取节点类型
      *
-     * @param name 类型名称
+     * @param id 类型名称
      * @return 枚举
      */
-    public static RouteEnums getConfigByName(String name) {
+    public static RouteEnums getConfigById(String id) {
         for (RouteEnums value : RouteEnums.values()) {
-            if (value.getName().equals(name)) return value;
+            if (value.getId().equals(id)) return value;
         }
         return RouteEnums.DEFAULT;
     }
@@ -49,12 +49,12 @@ public enum RouteEnums {
     /**
      * 确定名称是否被保留，用于id校验
      *
-     * @param name 名称
+     * @param id 名称
      * @return 是否被保留
      */
-    public static boolean isProtectName(String name) {
+    public static boolean isProtectId(String id) {
         for (RouteEnums value : RouteEnums.values()) {
-            if (value.getName().equals(name)) return true;
+            if (value.getId().equals(id)) return true;
         }
         return false;
     }
@@ -64,10 +64,10 @@ public enum RouteEnums {
      *
      * @return 保留字
      */
-    public static String printProtectName() {
+    public static String printProtectId() {
         StringBuilder names = new StringBuilder();
         for (RouteEnums value : RouteEnums.values()) {
-            names.append(value.getName());
+            names.append(value.getId());
             names.append(", ");
         }
         names.deleteCharAt(names.length() - 1);

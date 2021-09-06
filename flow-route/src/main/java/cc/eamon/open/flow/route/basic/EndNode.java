@@ -11,6 +11,6 @@ import cc.eamon.open.flow.route.stereotype.Target;
 public class EndNode implements Target {
     @Override
     public String getId() {
-        return RouteEnums.END.getName();
+        return RouteEnums.END.getId();
     }
 }

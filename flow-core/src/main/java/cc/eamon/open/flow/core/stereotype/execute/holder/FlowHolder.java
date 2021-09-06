@@ -141,7 +141,7 @@ public class FlowHolder implements Executable {
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
             paramMap.put(param.getName(), variable);
         }
-        execute(RouteEnums.START::getName, paramMap);
+        execute(RouteEnums.START::getId, paramMap);
 
         // 检查执行结果是否给出
         for (FlowResultHolder result : results) {
@@ -156,7 +156,7 @@ public class FlowHolder implements Executable {
         // 1.2 向route注入流程参数，放入route context
         List<Target> targets = routes.execute(source, paramMap);
         for (Target target : targets) {
-            if (target.getId().equals(RouteEnums.END.getName())) continue;
+            if (target.getId().equals(RouteEnums.END.getId())) continue;
 
             // 1.3 代码执行, holder会自动装配
             FlowNodeHolder holder = (FlowNodeHolder) target;

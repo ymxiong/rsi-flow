@@ -72,7 +72,7 @@ public class SimpleStrategy implements RouteStrategy {
         for (Route route : routes) {
             System.out.println(route.toString());
             Target target = route.getTarget();
-            if (RouteEnums.END == RouteEnums.getConfigByName(target.getId())) continue;
+            if (RouteEnums.END == RouteEnums.getConfigById(target.getId())) continue;
 //            System.out.println(con);
             if (!"true".equals(route.getCondition().getExpression()) && !conditions.contains(route.getCondition())) continue;
             executeQueue.offer(target.getId());
