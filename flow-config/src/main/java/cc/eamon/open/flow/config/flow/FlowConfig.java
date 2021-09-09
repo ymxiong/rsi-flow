@@ -56,6 +56,12 @@ public class FlowConfig implements CommonConfig, Serializable {
      */
     private List<FlowRouteConfig> routes = new ArrayList<>();
 
+
+    /**
+     * 流程路由
+     */
+    private List<FlowRouteStrategyConfig> strategies = new ArrayList<>();
+
     public String getId() {
         return id;
     }
@@ -110,5 +116,13 @@ public class FlowConfig implements CommonConfig, Serializable {
 
     public void setRoutes(List<FlowRouteConfig> routes) {
         this.routes = routes;
+    }
+
+    public List<FlowRouteStrategyConfig> getStrategies() {
+        return strategies;
+    }
+
+    public void setStrategies(List<FlowRouteStrategyConfig> strategies) {
+        this.strategies = strategies;
     }
 }

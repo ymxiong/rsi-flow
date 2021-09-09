@@ -3,8 +3,11 @@ package cc.eamon.open.flow.route;
 import cc.eamon.open.flow.route.enums.ConditionEnums;
 import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.stereotype.Route;
+import cc.eamon.open.flow.route.stereotype.RouteStrategy;
 import cc.eamon.open.flow.route.stereotype.Source;
 import cc.eamon.open.flow.route.stereotype.Target;
+import cc.eamon.open.flow.route.result.RouteResult;
+import cc.eamon.open.flow.route.strategy.*;
 import com.googlecode.aviator.AviatorEvaluator;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -37,8 +40,15 @@ public class Routes {
     private Map<String, List<Route>> targetRouteGroup = new HashMap<>();
 
 
+    /**
+     * 流程目标路由容器
+     */
+    private Map<String, RouteStrategy> sourceStrategyGroup = new HashMap<>();
+
+
     public Routes() {
         engine = new VelocityEngine();
+        engine.setProperty("runtime.log.invalid.references",false);
         engine.setProperty(Velocity.RESOURCE_LOADERS, "string");
         engine.setProperty("resource.loader.string.class", StringResourceLoader.class.getName());
         engine.init();
@@ -60,8 +70,28 @@ public class Routes {
                 targets.add(route);
                 return targets;
             }));
+
+            sourceStrategyGroup.putIfAbsent(route.getSource().getId(), RouteStrategyEnums.routeStrategyInit(RouteStrategyEnums.NORMALRESULTSTRATEGY.getType(), route.getSource()));
+            sourceStrategyGroup.computeIfPresent(route.getSource().getId(), ((s, strategy) -> {
+                strategy.setEngine(engine);
+                strategy.addRoute(route);
+                return strategy;
+            }));
+
         }
 
+    }
+
+
+    public void loadStrategy(RouteStrategy... strategies) {
+        loadStrategy(Arrays.asList(strategies));
+    }
+
+    public void loadStrategy(List<RouteStrategy> strategies) {
+        for (RouteStrategy routeStrategy : strategies) {
+            RouteStrategy routeResultStrategy = sourceStrategyGroup.putIfAbsent(routeStrategy.getSource().getId(), RouteStrategyEnums.routeStrategyInit(routeStrategy.getType(), routeStrategy.getSource()));
+            // TODO:报错
+        }
     }
 
 
@@ -107,6 +137,10 @@ public class Routes {
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
 
         return targets;
+    }
+
+    public RouteResult executeByStrategy(Source source, Map<String, Object> variables) {
+        return sourceStrategyGroup.get(source.getId()).route(source, variables);
     }
 
 }

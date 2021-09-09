@@ -1,7 +1,5 @@
 package cc.eamon.open.flow.route.stereotype;
 
-import cc.eamon.open.flow.route.strategy.RouteStrategy;
-
 /**
  * Author: eamon
  * Email: eamon@eamon.cc

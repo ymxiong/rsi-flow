@@ -8,6 +8,8 @@
             <class name="cc.eamon.open.flow.FLOW_NODE_SINGLE.FlowSingleNodeTest"/>
             <class name="cc.eamon.open.flow.FLOW_REMOTE_HTTP.FlowRemoteHttpTest"/>
             <class name="cc.eamon.open.flow.FLOW_CONDITION_SIMPLE.FlowConditionTest"/>
+            <class name="cc.eamon.open.flow.FLOW_ASYNC_ALL.FlowAsyncAllTest"/>
+            <class name="cc.eamon.open.flow.FLOW_ASYNC_ANY.FlowAsyncAnyTest"/>
         </classes>
     </test>
 

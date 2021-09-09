@@ -1,0 +1,74 @@
+{
+  "id": "FLOW_ASYNC_ANY",
+  "type": "flow",
+  "name": "简单条件标准",
+  "params": [
+    { "name": "birthday", "type": "Integer" }
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_ASYNC_ANY_START",
+      "type": "event",
+      "name": "生日识别",
+      "reference": "FLOW_ASYNC_ANY_START",
+      "results": [
+        { "name": "start", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_ANY_NODE_1",
+      "type": "event",
+      "name": "输出小孩",
+      "reference": "FLOW_ASYNC_ANY_NODE_1",
+      "params": [],
+      "results": [
+        { "name": "message1", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_ANY_NODE_2",
+      "type": "event",
+      "name": "输出成年人",
+      "reference": "FLOW_ASYNC_ANY_NODE_2",
+      "params": [],
+      "results": [
+        { "name": "message2", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_ANY_NODE_3",
+      "type": "event",
+      "name": "输出成年人",
+      "reference": "FLOW_ASYNC_ANY_NODE_3",
+      "params": [],
+      "results": [
+        { "name": "message3", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_ANY_CLOSE",
+      "type": "event",
+      "name": "输出成年人",
+      "reference": "FLOW_ASYNC_ANY_CLOSE",
+      "results": [
+        { "name": "result", "type": "String" }
+      ]
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_ASYNC_ANY_START"},
+    { "source":"FLOW_ASYNC_ANY_START", "target": "FLOW_ASYNC_ANY_NODE_1" },
+    { "source":"FLOW_ASYNC_ANY_START", "target": "FLOW_ASYNC_ANY_NODE_2"},
+    { "source":"FLOW_ASYNC_ANY_START", "target": "FLOW_ASYNC_ANY_NODE_3"},
+    { "source":"FLOW_ASYNC_ANY_NODE_1", "target": "FLOW_ASYNC_ANY_CLOSE"},
+    { "source":"FLOW_ASYNC_ANY_NODE_2", "target": "FLOW_ASYNC_ANY_CLOSE"},
+    { "source":"FLOW_ASYNC_ANY_NODE_3", "target": "FLOW_ASYNC_ANY_CLOSE"},
+    { "source":"FLOW_ASYNC_ANY_CLOSE", "target": "end" }
+  ],
+  "strategies": [
+    { "source":"FLOW_ASYNC_ANY_START", "strategy": "any" },
+    { "source":"FLOW_ASYNC_ANY_NODE_1", "strategy": "close" },
+    { "source":"FLOW_ASYNC_ANY_NODE_2", "strategy": "close" },
+    { "source":"FLOW_ASYNC_ANY_NODE_3", "strategy": "close" }
+  ]
+}

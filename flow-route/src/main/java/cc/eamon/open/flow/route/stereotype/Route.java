@@ -21,5 +21,4 @@ public interface Route {
      * get condition
      */
     Condition getCondition();
-
 }

@@ -1,0 +1,74 @@
+{
+  "id": "FLOW_ASYNC_ALL",
+  "type": "flow",
+  "name": "简单条件标准",
+  "params": [
+    { "name": "birthday", "type": "Integer" }
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_ASYNC_START",
+      "type": "event",
+      "name": "生日识别",
+      "reference": "FLOW_ASYNC_START",
+      "results": [
+        { "name": "start", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_NODE_1",
+      "type": "event",
+      "name": "输出小孩",
+      "reference": "FLOW_ASYNC_NODE_1",
+      "params": [],
+      "results": [
+        { "name": "message1", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_NODE_2",
+      "type": "event",
+      "name": "输出成年人",
+      "reference": "FLOW_ASYNC_NODE_2",
+      "params": [],
+      "results": [
+        { "name": "message2", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_NODE_3",
+      "type": "event",
+      "name": "输出成年人",
+      "reference": "FLOW_ASYNC_NODE_3",
+      "params": [],
+      "results": [
+        { "name": "message3", "type": "String" }
+      ]
+    },
+    {
+      "id": "FLOW_ASYNC_CLOSE",
+      "type": "event",
+      "name": "输出成年人",
+      "reference": "FLOW_ASYNC_CLOSE",
+      "results": [
+        { "name": "result", "type": "String" }
+      ]
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_ASYNC_START"},
+    { "source":"FLOW_ASYNC_START", "target": "FLOW_ASYNC_NODE_1" },
+    { "source":"FLOW_ASYNC_START", "target": "FLOW_ASYNC_NODE_2" },
+    { "source":"FLOW_ASYNC_START", "target": "FLOW_ASYNC_NODE_3" },
+    { "source":"FLOW_ASYNC_NODE_1", "target": "FLOW_ASYNC_CLOSE" },
+    { "source":"FLOW_ASYNC_NODE_2", "target": "FLOW_ASYNC_CLOSE" },
+    { "source":"FLOW_ASYNC_NODE_3", "target": "FLOW_ASYNC_CLOSE" },
+    { "source":"FLOW_ASYNC_CLOSE", "target": "end" }
+  ],
+  "strategies": [
+    { "source":"FLOW_ASYNC_START", "strategy": "all" },
+    { "source":"FLOW_ASYNC_NODE_1", "strategy": "close" },
+    { "source":"FLOW_ASYNC_NODE_2", "strategy": "close" },
+    { "source":"FLOW_ASYNC_NODE_3", "strategy": "close" }
+  ]
+}

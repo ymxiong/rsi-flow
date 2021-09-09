@@ -77,29 +77,3 @@ public class EventExecutable implements Executable {
 }
 
 
-//            // 参数类型匹配，包含父子类类型检查
-//            Class contextParType = variable.getClass();
-//            Class<?> requiredParType = parameterClasses.get(i);
-//            if (!requiredParType.isAssignableFrom(variable.getClass())) {
-//                // 检查基础类型与包装类冲突的问题
-//                if (requiredParType.isPrimitive()) {
-//                    WrapperClassUtils.getWrapperClass(requiredParType);
-//                    if (!WrapperClassUtils.getWrapperClass(requiredParType).isAssignableFrom(contextParType)) {
-//                        String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
-//                                ". The parameter type is " + contextParType;
-//                        logger.info(errorInfo);
-//                        throw new ParamNotMatchException(errorInfo, parameterNames[i]);
-//                    }
-//                } else {
-//                    try {
-//                        // 解决Map类包装成实体类的问题
-//                        args[i] = JSON.parseObject(JSON.toJSONString(FlowContextHolder.get().retrieveVariable(param.getScope(), parameterNames[i])), requiredParType);
-//                    } catch (Exception e) {
-//                        String errorInfo = "Error occurs when invoke " + method.getName() + "().The nested problem is " + parameterNames[i] + " does not match. Require type is " + WrapperClassUtils.getWrapperClass(requiredParType) +
-//                                ". The parameter type is " + contextParType;
-//                        logger.info(errorInfo);
-//                        throw new ParamNotMatchException(errorInfo, parameterNames[i]);
-//                    }
-//                }
-//            }
-

@@ -72,4 +72,12 @@ public class FlowContext {
     public MonitorBus getMonitorBus() {
         return monitorBus;
     }
+
+    public void registerVariable(FlowContextExtractor flowContextExtractor) {
+        this.scopeContextMap.putAll(flowContextExtractor.getScopeContextMap());
+    }
+
+    public Map<String, FlowScopeContext> getScopeContextMap() {
+        return scopeContextMap;
+    }
 }

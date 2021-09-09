@@ -41,7 +41,6 @@ public class FlowRouteHolder implements Route {
     public FlowRouteHolder(FlowRouteConfig flowRouteConfig, Source source, Target target, Condition condition) {
         Assert.notNull(flowRouteConfig, "流程路由配置不能为空");
         this.flowRouteConfig = flowRouteConfig;
-
         this.source = source;
         this.target = target;
         this.condition = condition;
@@ -61,6 +60,7 @@ public class FlowRouteHolder implements Route {
     public Condition getCondition() {
         return condition;
     }
+
 
     public String getScope() {
         return flowRouteConfig.getScope();

@@ -3,6 +3,7 @@ package cc.eamon.open.flow.core.stereotype.execute.holder;
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.FlowRouteConfig;
+import cc.eamon.open.flow.config.flow.FlowRouteStrategyConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
@@ -11,6 +12,7 @@ import cc.eamon.open.flow.core.error.ParamNotExistException;
 import cc.eamon.open.flow.core.error.ResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
 import cc.eamon.open.flow.route.Routes;
 import cc.eamon.open.flow.route.basic.EndNode;
 import cc.eamon.open.flow.route.basic.StartNode;
@@ -18,6 +20,8 @@ import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.stereotype.Condition;
 import cc.eamon.open.flow.route.stereotype.Source;
 import cc.eamon.open.flow.route.stereotype.Target;
+import cc.eamon.open.flow.route.stereotype.RouteStrategy;
+import cc.eamon.open.flow.route.strategy.RouteStrategyEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -96,6 +100,16 @@ public class FlowHolder implements Executable {
             nodes.put(node.getId(), new FlowNodeHolder(node));
         }
 
+
+        // 初始化流程路由
+        for (FlowRouteStrategyConfig strategyConfig : this.flowConfig.getStrategies()) {
+            Source source = nodes.get(strategyConfig.getSource());
+            RouteStrategy routeStrategy = RouteStrategyEnums.routeStrategyInit(strategyConfig.getStrategy(), source);
+            FlowRouteStrategyHolder holder = new FlowRouteStrategyHolder(strategyConfig, source, routeStrategy);
+            routes.loadStrategy(holder);
+        }
+
+
         // 初始化流程路由
         for (FlowRouteConfig route : this.flowConfig.getRoutes()) {
             Condition condition = new Condition() {
@@ -151,23 +165,11 @@ public class FlowHolder implements Executable {
         }
     }
 
-    private void execute(Source source, Map<String, Object> paramMap){
-        // 1.1 找到当前需要执行的节点
-        // 1.2 向route注入流程参数，放入route context
-        List<Target> targets = routes.execute(source, paramMap);
-        for (Target target : targets) {
-            if (target.getId().equals(RouteEnums.END.getId())) continue;
-
-            // 1.3 代码执行, holder会自动装配
-            FlowNodeHolder holder = (FlowNodeHolder) target;
-            holder.execute();
-            for (FlowResultHolder result : holder.getResultHolders()) {
-                Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
-                paramMap.put(result.getName(), variable);
-            }
-            // 1.4 逻辑执行，与代码执行解构
-            execute(holder, paramMap);
-        }
+    private void execute(Source source, Map<String, Object> paramMap) {
+        ExecutorHolder.get().setRoutes(routes);
+        ExecutorHolder.get().addExecuteNode(source);
+        ExecutorHolder.get().execute(paramMap);
+        ExecutorHolder.get().recoverRoutes();
     }
 
     public List<FlowParamHolder> getParams() {
