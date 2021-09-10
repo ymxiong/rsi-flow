@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.route.strategy.source;
 
-import cc.eamon.open.flow.route.result.AsynVoidResult;
+import cc.eamon.open.flow.route.result.AsyncVoidResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.*;
 import org.apache.velocity.app.VelocityEngine;
@@ -46,12 +46,12 @@ public class AsyncVoidStrategy implements SourceRouteStrategy {
     @Override
     public RouteResult route(Source source,Map<String, Object> variables) {
 
-        AsynVoidResult asynVoidResult = null;
+        AsyncVoidResult asyncVoidResult = null;
         if (routes.size() == 1) {
 //            asynVoidResult = new AsynVoidResult(routes.get(0).getTarget());
         }
 
-        return asynVoidResult;
+        return asyncVoidResult;
     }
 
 

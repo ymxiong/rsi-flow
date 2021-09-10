@@ -9,11 +9,11 @@ package cc.eamon.open.flow.route.result;
 public enum RouteResultEnums {
 
 
-    ASYNCALLRESULT("AsynAllResult", AsynAllResult.class),
+    ASYNCALLRESULT("AsynAllResult", AsyncAllResult.class),
 
     ASYNCANYRESULT("AsynAnyResult", AsyncAnyResult.class),
 
-    ASYNCVOIDRESULT("AsynVoidResult", AsynVoidResult.class),
+    ASYNCVOIDRESULT("AsynVoidResult", AsyncVoidResult.class),
 
     NORMALRESULT("NormalResult", NormalResult.class);
 

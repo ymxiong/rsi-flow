@@ -10,11 +10,11 @@ import cc.eamon.open.flow.route.result.*;
  */
 public enum RouteExecutorEnums {
 
-    ASYNCALLEXECUTOR(AsynAllResult.class, new AsyncAllExecutor()),
+    ASYNCALLEXECUTOR(AsyncAllResult.class, new AsyncAllExecutor()),
 
     ASYNCANYEXECUTOR(AsyncAnyResult.class, new AsyncAnyExecutor()),
 
-    ASYNCVOIDEXECUTOR(AsynVoidResult.class, new AsyncVoidExecutor()),
+    ASYNCVOIDEXECUTOR(AsyncVoidResult.class, new AsyncVoidExecutor()),
 
     ASYNCCLOSERESULT(AsyncCloseResult.class, new AsyncCloseExecutor()),
 

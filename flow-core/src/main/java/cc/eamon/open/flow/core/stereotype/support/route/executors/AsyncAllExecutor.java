@@ -7,7 +7,7 @@ import cc.eamon.open.flow.core.stereotype.route.RouteExecutor;
 import cc.eamon.open.flow.core.stereotype.support.route.Executor;
 import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
 import cc.eamon.open.flow.route.Routes;
-import cc.eamon.open.flow.route.result.AsynAllResult;
+import cc.eamon.open.flow.route.result.AsyncAllResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowSupplier;
 import cc.eamon.open.flow.route.enums.RouteEnums;
@@ -23,13 +23,13 @@ public class AsyncAllExecutor implements RouteExecutor {
 
     @Override
     public void execute(RouteResult routeResult, Executor parentExecutor) {
-        if (!(routeResult instanceof AsynAllResult)) return;
-        List<Target> asynNodes = ((AsynAllResult) routeResult).getAsyncNodes();
+        if (!(routeResult instanceof AsyncAllResult)) return;
+        List<Target> asyncNodes = ((AsyncAllResult) routeResult).getAsyncNodes();
         List<CompletableFuture<FlowContextExtractor>> futures = new ArrayList<>();
         Routes routes= ExecutorHolder.get().getRoutes();
-        for (Target asynNode : asynNodes) {
-            if (asynNode.getId().equals(RouteEnums.END.getId())) continue;
-            FlowNodeHolder holder = (FlowNodeHolder) asynNode;
+        for (Target asyncNode : asyncNodes) {
+            if (asyncNode.getId().equals(RouteEnums.END.getId())) continue;
+            FlowNodeHolder holder = (FlowNodeHolder) asyncNode;
 
             Map<String, Object> paramMap = new HashMap<>();
 

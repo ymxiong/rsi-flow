@@ -5,7 +5,7 @@ import cc.eamon.open.flow.route.stereotype.Target;
 
 import java.util.List;
 
-public class AsynAllResult implements RouteResult {
+public class AsyncAllResult implements RouteResult {
 
     private List<Target> asyncNodes;
 
@@ -14,7 +14,7 @@ public class AsynAllResult implements RouteResult {
         return asyncNodes;
     }
 
-    public AsynAllResult(List<Target> asynNodes) {
+    public AsyncAllResult(List<Target> asynNodes) {
         this.asyncNodes = asynNodes;
     }
 

@@ -5,7 +5,7 @@ import cc.eamon.open.flow.core.stereotype.execute.holder.FlowNodeHolder;
 import cc.eamon.open.flow.core.stereotype.route.RouteExecutor;
 import cc.eamon.open.flow.core.stereotype.support.route.Executor;
 import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
-import cc.eamon.open.flow.route.result.AsynVoidResult;
+import cc.eamon.open.flow.route.result.AsyncVoidResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowThread;
 import cc.eamon.open.flow.route.enums.RouteEnums;
@@ -19,18 +19,17 @@ public class AsyncVoidExecutor implements RouteExecutor {
     @Override
     public void execute(RouteResult routeResult, Executor parentExecutor){
         // 执行异步
-        if (!(routeResult instanceof AsynVoidResult)) return;
-        Target asynNode = ((AsynVoidResult) routeResult).getAsynNode();
-        if (asynNode.getId().equals(RouteEnums.END.getId())) return;
-        FlowNodeHolder asynNodeholder = (FlowNodeHolder) asynNode;
-        FlowThread flowThread = new FlowThread(asynNodeholder, new FlowContextExtractor());
+        if (!(routeResult instanceof AsyncVoidResult)) return;
+        Target asyncNode = ((AsyncVoidResult) routeResult).getAsyncNode();
+        if (asyncNode.getId().equals(RouteEnums.END.getId())) return;
+        FlowNodeHolder asyncNodeholder = (FlowNodeHolder) asyncNode;
+        FlowThread flowThread = new FlowThread(asyncNodeholder, new FlowContextExtractor());
         CompletableFuture future = CompletableFuture.runAsync(flowThread);
 
         // 执行普通
-        Target nextNode = ((AsynVoidResult) routeResult).getNormalNode();
+        Target nextNode = ((AsyncVoidResult) routeResult).getNormalNode();
         if (nextNode.getId().equals(RouteEnums.END.getId())) return;
         FlowNodeHolder holder = (FlowNodeHolder) nextNode;
-//        holder.execute();
         ExecutorHolder.get().addExecuteNode(holder);
     }
 }

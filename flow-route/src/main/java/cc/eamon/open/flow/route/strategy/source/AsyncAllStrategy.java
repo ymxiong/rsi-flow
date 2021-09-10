@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.route.strategy.source;
 
 import cc.eamon.open.flow.route.enums.RouteEnums;
-import cc.eamon.open.flow.route.result.AsynAllResult;
+import cc.eamon.open.flow.route.result.AsyncAllResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.util.ConditionHelper;
@@ -48,11 +48,11 @@ public class AsyncAllStrategy implements SourceRouteStrategy {
 
     @Override
     public RouteResult route(Source source, Map<String, Object> variables) {
-        AsynAllResult asynAllResult = null;
+        AsyncAllResult asynAllResult = null;
         List<Target> targets = ConditionHelper.condition(source, routes, variables, engine);
         Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
-        asynAllResult = new AsynAllResult(targets);
+        asynAllResult = new AsyncAllResult(targets);
         return asynAllResult;
     }
 
