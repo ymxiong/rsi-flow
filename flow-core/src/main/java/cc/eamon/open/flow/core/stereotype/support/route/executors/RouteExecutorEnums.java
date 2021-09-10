@@ -12,11 +12,11 @@ public enum RouteExecutorEnums {
 
     ASYNCALLEXECUTOR(AsynAllResult.class, new AsyncAllExecutor()),
 
-    ASYNCANYEXECUTOR(AsynAnyResult.class, new AsyncAnyExecutor()),
+    ASYNCANYEXECUTOR(AsyncAnyResult.class, new AsyncAnyExecutor()),
 
     ASYNCVOIDEXECUTOR(AsynVoidResult.class, new AsyncVoidExecutor()),
 
-    ASYNCCLOSERESULT(AsynCloseResult.class, new AsyncCloseExecutor()),
+    ASYNCCLOSERESULT(AsyncCloseResult.class, new AsyncCloseExecutor()),
 
     NORMALEXECUTOR(NormalResult.class,new NormalExecutor());
 

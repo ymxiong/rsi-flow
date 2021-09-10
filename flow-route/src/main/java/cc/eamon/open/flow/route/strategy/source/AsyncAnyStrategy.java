@@ -1,7 +1,8 @@
-package cc.eamon.open.flow.route.strategy;
+package cc.eamon.open.flow.route.strategy.source;
 
 import cc.eamon.open.flow.route.enums.RouteEnums;
-import cc.eamon.open.flow.route.result.*;
+import cc.eamon.open.flow.route.result.AsyncAnyResult;
+import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.util.ConditionHelper;
 import org.apache.velocity.app.VelocityEngine;
@@ -16,7 +17,7 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2021-06-12 16:31:25
  */
-public class AsyncCloseStrategy implements RouteStrategy {
+public class AsyncAnyStrategy implements SourceRouteStrategy {
 
     private Source source;
 
@@ -25,14 +26,14 @@ public class AsyncCloseStrategy implements RouteStrategy {
     // Initialize the engine.
     private VelocityEngine engine;
 
-    public AsyncCloseStrategy(Source source) {
+    public AsyncAnyStrategy(Source source) {
         this.source = source;
         routes=new ArrayList<>();
     }
 
     @Override
-    public String getType() {
-        return RouteStrategyEnums.ASYNCCLOSESTRATEGY.getType();
+    public String getSRType() {
+        return SourceRouteStrategyEnums.ASYNCANYSTRATEGY.getType();
     }
 
     @Override
@@ -40,17 +41,14 @@ public class AsyncCloseStrategy implements RouteStrategy {
         return source;
     }
 
-
-
-
     @Override
     public RouteResult route(Source source,Map<String, Object> variables) {
-        AsynCloseResult asynCloseResult = null;
+        AsyncAnyResult asynAnyResult = null;
         List<Target> targets = ConditionHelper.condition(source, routes, variables, engine);
         Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
-        asynCloseResult = new AsynCloseResult(targets.get(0));
-        return asynCloseResult;
+        asynAnyResult = new AsyncAnyResult(targets);
+        return asynAnyResult;
     }
 
 

@@ -5,7 +5,7 @@ import cc.eamon.open.flow.route.stereotype.Target;
 
 import java.util.List;
 
-public class AsynCloseResult implements RouteResult {
+public class AsyncCloseResult implements RouteResult {
 
     private Target closeTarget;
 
@@ -13,7 +13,12 @@ public class AsynCloseResult implements RouteResult {
         return closeTarget;
     }
 
-    public AsynCloseResult(Target closeTarget) {
+    public AsyncCloseResult(Target closeTarget) {
         this.closeTarget = closeTarget;
+    }
+
+    @Override
+    public int getTargetsSize() {
+        return 1;
     }
 }

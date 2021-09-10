@@ -22,4 +22,9 @@ public class AsynVoidResult implements RouteResult {
         this.asynNode = asynNode;
         this.normalNode = normalNode;
     }
+
+    @Override
+    public int getTargetsSize() {
+        return 2;
+    }
 }

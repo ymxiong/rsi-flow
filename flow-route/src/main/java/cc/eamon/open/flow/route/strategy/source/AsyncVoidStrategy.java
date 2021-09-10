@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.route.strategy;
+package cc.eamon.open.flow.route.strategy.source;
 
 import cc.eamon.open.flow.route.result.AsynVoidResult;
 import cc.eamon.open.flow.route.result.RouteResult;
@@ -14,7 +14,7 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2021-06-12 16:31:25
  */
-public class AsyncVoidStrategy implements RouteStrategy {
+public class AsyncVoidStrategy implements SourceRouteStrategy {
 
 
     private Source source;
@@ -30,8 +30,8 @@ public class AsyncVoidStrategy implements RouteStrategy {
     }
 
     @Override
-    public String getType() {
-        return RouteStrategyEnums.ASYNCVOIDSTRATEGY.getType();
+    public String getSRType() {
+        return SourceRouteStrategyEnums.ASYNCVOIDSTRATEGY.getType();
     }
 
     @Override

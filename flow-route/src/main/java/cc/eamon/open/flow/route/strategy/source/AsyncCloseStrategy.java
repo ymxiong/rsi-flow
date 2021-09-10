@@ -1,8 +1,7 @@
-package cc.eamon.open.flow.route.strategy;
+package cc.eamon.open.flow.route.strategy.source;
 
 import cc.eamon.open.flow.route.enums.RouteEnums;
-import cc.eamon.open.flow.route.result.AsynAllResult;
-import cc.eamon.open.flow.route.result.RouteResult;
+import cc.eamon.open.flow.route.result.*;
 import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.util.ConditionHelper;
 import org.apache.velocity.app.VelocityEngine;
@@ -17,7 +16,8 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2021-06-12 16:31:25
  */
-public class AsyncAllStrategy implements RouteStrategy {
+public class AsyncCloseStrategy implements SourceRouteStrategy {
+
     private Source source;
 
     private List<Route> routes;
@@ -25,20 +25,14 @@ public class AsyncAllStrategy implements RouteStrategy {
     // Initialize the engine.
     private VelocityEngine engine;
 
-    public AsyncAllStrategy(Source source) {
+    public AsyncCloseStrategy(Source source) {
         this.source = source;
         routes=new ArrayList<>();
     }
 
-    public AsyncAllStrategy(Route route) {
-        this.source = route.getSource();
-        routes = new ArrayList<>();
-        routes.add(route);
-    }
-
     @Override
-    public String getType() {
-        return RouteStrategyEnums.ASYNCALLSTRATEGY.getType();
+    public String getSRType() {
+        return SourceRouteStrategyEnums.ASYNCCLOSESTRATEGY.getType();
     }
 
     @Override
@@ -46,14 +40,17 @@ public class AsyncAllStrategy implements RouteStrategy {
         return source;
     }
 
+
+
+
     @Override
-    public RouteResult route(Source source, Map<String, Object> variables) {
-        AsynAllResult asynAllResult = null;
+    public RouteResult route(Source source,Map<String, Object> variables) {
+        AsyncCloseResult asynCloseResult = null;
         List<Target> targets = ConditionHelper.condition(source, routes, variables, engine);
         Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
-        asynAllResult = new AsynAllResult(targets);
-        return asynAllResult;
+        asynCloseResult = new AsyncCloseResult(targets.get(0));
+        return asynCloseResult;
     }
 
 

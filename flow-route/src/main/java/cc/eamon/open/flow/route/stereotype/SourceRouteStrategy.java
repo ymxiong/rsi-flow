@@ -14,9 +14,9 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2021-06-12 16:34:31
  */
-public interface RouteStrategy {
+public interface SourceRouteStrategy {
 
-    String getType();
+    String getSRType();
 
     Source getSource();
 

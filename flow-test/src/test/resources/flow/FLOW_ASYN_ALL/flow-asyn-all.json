@@ -67,8 +67,6 @@
   ],
   "strategies": [
     { "source":"FLOW_ASYNC_START", "strategy": "all" },
-    { "source":"FLOW_ASYNC_NODE_1", "strategy": "close" },
-    { "source":"FLOW_ASYNC_NODE_2", "strategy": "close" },
-    { "source":"FLOW_ASYNC_NODE_3", "strategy": "close" }
+    { "target":"FLOW_ASYNC_CLOSE", "strategy": "close" }
   ]
 }

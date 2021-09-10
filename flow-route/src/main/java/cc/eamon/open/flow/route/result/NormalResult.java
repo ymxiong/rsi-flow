@@ -13,4 +13,9 @@ public class NormalResult implements RouteResult {
     public NormalResult(Target nextNode) {
         this.nextNode = nextNode;
     }
+
+    @Override
+    public int getTargetsSize() {
+        return 1;
+    }
 }

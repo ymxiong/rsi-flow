@@ -17,11 +17,9 @@ import cc.eamon.open.flow.route.Routes;
 import cc.eamon.open.flow.route.basic.EndNode;
 import cc.eamon.open.flow.route.basic.StartNode;
 import cc.eamon.open.flow.route.enums.RouteEnums;
-import cc.eamon.open.flow.route.stereotype.Condition;
-import cc.eamon.open.flow.route.stereotype.Source;
-import cc.eamon.open.flow.route.stereotype.Target;
-import cc.eamon.open.flow.route.stereotype.RouteStrategy;
-import cc.eamon.open.flow.route.strategy.RouteStrategyEnums;
+import cc.eamon.open.flow.route.stereotype.*;
+import cc.eamon.open.flow.route.strategy.source.SourceRouteStrategyEnums;
+import cc.eamon.open.flow.route.strategy.target.TargetRouteStrategyEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.StringUtils;
@@ -104,9 +102,16 @@ public class FlowHolder implements Executable {
         // 初始化流程路由
         for (FlowRouteStrategyConfig strategyConfig : this.flowConfig.getStrategies()) {
             Source source = nodes.get(strategyConfig.getSource());
-            RouteStrategy routeStrategy = RouteStrategyEnums.routeStrategyInit(strategyConfig.getStrategy(), source);
-            FlowRouteStrategyHolder holder = new FlowRouteStrategyHolder(strategyConfig, source, routeStrategy);
-            routes.loadStrategy(holder);
+            Target target=nodes.get(strategyConfig.getTarget());
+            if (source!=null){
+                SourceRouteStrategy routeStrategy = SourceRouteStrategyEnums.routeStrategyInit(strategyConfig.getStrategy(), source);
+                FlowRouteRouteStrategyHolder holder = new FlowRouteRouteStrategyHolder(strategyConfig, source, routeStrategy);
+                routes.loadStrategy(holder);
+            }else {
+                TargetRouteStrategy targetRouteStrategy = TargetRouteStrategyEnums.targetStrategyInit(strategyConfig.getStrategy(),target);
+                FlowRouteRouteStrategyHolder holder = new FlowRouteRouteStrategyHolder(strategyConfig, target, targetRouteStrategy);
+                routes.loadTargetStrategy(holder);
+            }
         }
 
 

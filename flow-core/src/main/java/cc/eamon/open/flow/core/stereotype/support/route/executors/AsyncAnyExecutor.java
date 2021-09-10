@@ -7,7 +7,7 @@ import cc.eamon.open.flow.core.stereotype.route.RouteExecutor;
 import cc.eamon.open.flow.core.stereotype.support.route.Executor;
 import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
 import cc.eamon.open.flow.route.Routes;
-import cc.eamon.open.flow.route.result.AsynAnyResult;
+import cc.eamon.open.flow.route.result.AsyncAnyResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.core.stereotype.support.thread.FlowSupplier;
 import cc.eamon.open.flow.route.enums.RouteEnums;
@@ -23,8 +23,8 @@ public class AsyncAnyExecutor implements RouteExecutor {
 
     @Override
     public void execute(RouteResult routeResult, Executor parentExecutor) {
-        if (!(routeResult instanceof AsynAnyResult)) return;
-        List<Target> asynNodes = ((AsynAnyResult) routeResult).getAsynNodes();
+        if (!(routeResult instanceof AsyncAnyResult)) return;
+        List<Target> asynNodes = ((AsyncAnyResult) routeResult).getAsyncNodes();
         List<CompletableFuture<FlowContextExtractor>> futures = new ArrayList<>();
         Routes routes= ExecutorHolder.get().getRoutes();
         for (Target asynNode : asynNodes) {

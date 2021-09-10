@@ -1,7 +1,7 @@
-package cc.eamon.open.flow.route.strategy;
+package cc.eamon.open.flow.route.strategy.source;
 
 import cc.eamon.open.flow.route.enums.RouteEnums;
-import cc.eamon.open.flow.route.result.AsynAnyResult;
+import cc.eamon.open.flow.route.result.AsynAllResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.util.ConditionHelper;
@@ -17,8 +17,7 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2021-06-12 16:31:25
  */
-public class AsyncAnyStrategy implements RouteStrategy {
-
+public class AsyncAllStrategy implements SourceRouteStrategy {
     private Source source;
 
     private List<Route> routes;
@@ -26,14 +25,20 @@ public class AsyncAnyStrategy implements RouteStrategy {
     // Initialize the engine.
     private VelocityEngine engine;
 
-    public AsyncAnyStrategy(Source source) {
+    public AsyncAllStrategy(Source source) {
         this.source = source;
         routes=new ArrayList<>();
     }
 
+    public AsyncAllStrategy(Route route) {
+        this.source = route.getSource();
+        routes = new ArrayList<>();
+        routes.add(route);
+    }
+
     @Override
-    public String getType() {
-        return RouteStrategyEnums.ASYNCANYSTRATEGY.getType();
+    public String getSRType() {
+        return SourceRouteStrategyEnums.ASYNCALLSTRATEGY.getType();
     }
 
     @Override
@@ -42,13 +47,13 @@ public class AsyncAnyStrategy implements RouteStrategy {
     }
 
     @Override
-    public RouteResult route(Source source,Map<String, Object> variables) {
-        AsynAnyResult asynAnyResult = null;
+    public RouteResult route(Source source, Map<String, Object> variables) {
+        AsynAllResult asynAllResult = null;
         List<Target> targets = ConditionHelper.condition(source, routes, variables, engine);
         Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
-        asynAnyResult = new AsynAnyResult(targets);
-        return asynAnyResult;
+        asynAllResult = new AsynAllResult(targets);
+        return asynAllResult;
     }
 
 

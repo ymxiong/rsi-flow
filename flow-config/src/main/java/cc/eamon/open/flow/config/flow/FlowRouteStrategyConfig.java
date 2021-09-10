@@ -17,9 +17,15 @@ public class FlowRouteStrategyConfig implements Serializable {
     private String source;
 
     /**
+     * 目标节点
+     */
+    private String target;
+
+
+    /**
      * 到目标节点的条件
      */
-    private String strategy = "NormalStrategy";
+    private String strategy = "normal";
 
     public String getSource() {
         return source;
@@ -35,5 +41,13 @@ public class FlowRouteStrategyConfig implements Serializable {
 
     public void setStrategy(String strategy) {
         this.strategy = strategy;
+    }
+
+    public String getTarget() {
+        return target;
+    }
+
+    public void setTarget(String target) {
+        this.target = target;
     }
 }

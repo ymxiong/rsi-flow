@@ -17,7 +17,6 @@ public class NormalExecutor implements RouteExecutor {
         Target nextNode = ((NormalResult) routeResult).getNextNode();
         if (nextNode.getId().equals(RouteEnums.END.getId())) return;
         FlowNodeHolder holder = (FlowNodeHolder) nextNode;
-//        holder.execute();
         ExecutorHolder.get().addExecuteNode(holder);
     }
 }

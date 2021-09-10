@@ -24,7 +24,7 @@ public class AsyncAllExecutor implements RouteExecutor {
     @Override
     public void execute(RouteResult routeResult, Executor parentExecutor) {
         if (!(routeResult instanceof AsynAllResult)) return;
-        List<Target> asynNodes = ((AsynAllResult) routeResult).getAsynNodes();
+        List<Target> asynNodes = ((AsynAllResult) routeResult).getAsyncNodes();
         List<CompletableFuture<FlowContextExtractor>> futures = new ArrayList<>();
         Routes routes= ExecutorHolder.get().getRoutes();
         for (Target asynNode : asynNodes) {

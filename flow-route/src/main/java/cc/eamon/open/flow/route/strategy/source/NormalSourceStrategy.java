@@ -1,10 +1,10 @@
-package cc.eamon.open.flow.route.strategy;
+package cc.eamon.open.flow.route.strategy.source;
 
 import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.result.NormalResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.Route;
-import cc.eamon.open.flow.route.stereotype.RouteStrategy;
+import cc.eamon.open.flow.route.stereotype.SourceRouteStrategy;
 import cc.eamon.open.flow.route.stereotype.Source;
 import cc.eamon.open.flow.route.stereotype.Target;
 import cc.eamon.open.flow.route.util.ConditionHelper;
@@ -20,7 +20,7 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2021-06-12 16:31:25
  */
-public class NormalResultStrategy implements RouteStrategy {
+public class NormalSourceStrategy implements SourceRouteStrategy {
 
     private Source source;
 
@@ -30,7 +30,7 @@ public class NormalResultStrategy implements RouteStrategy {
     private VelocityEngine engine;
 
 
-    public NormalResultStrategy(Source source) {
+    public NormalSourceStrategy(Source source) {
         this.source = source;
         routes = new ArrayList<>();
     }
@@ -41,8 +41,8 @@ public class NormalResultStrategy implements RouteStrategy {
     }
 
     @Override
-    public String getType() {
-        return RouteStrategyEnums.NORMALRESULTSTRATEGY.getType();
+    public String getSRType() {
+        return SourceRouteStrategyEnums.NORMALRESULTSTRATEGY.getType();
     }
 
     @Override

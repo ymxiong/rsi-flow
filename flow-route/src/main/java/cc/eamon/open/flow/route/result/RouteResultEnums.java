@@ -11,7 +11,7 @@ public enum RouteResultEnums {
 
     ASYNCALLRESULT("AsynAllResult", AsynAllResult.class),
 
-    ASYNCANYRESULT("AsynAnyResult", AsynAnyResult.class),
+    ASYNCANYRESULT("AsynAnyResult", AsyncAnyResult.class),
 
     ASYNCVOIDRESULT("AsynVoidResult", AsynVoidResult.class),
 

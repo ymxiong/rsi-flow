@@ -2,9 +2,7 @@ package cc.eamon.open.flow.core.stereotype.execute.holder;
 
 import cc.eamon.open.flow.config.flow.FlowRouteStrategyConfig;
 import cc.eamon.open.flow.route.result.RouteResult;
-import cc.eamon.open.flow.route.stereotype.Route;
-import cc.eamon.open.flow.route.stereotype.Source;
-import cc.eamon.open.flow.route.stereotype.RouteStrategy;
+import cc.eamon.open.flow.route.stereotype.*;
 import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,9 +15,9 @@ import java.util.Map;
  * Email: eamon@eamon.cc
  * Time: 2021-05-21 21:46:19
  */
-public class FlowRouteStrategyHolder implements RouteStrategy {
+public class FlowRouteRouteStrategyHolder implements SourceRouteStrategy, TargetRouteStrategy {
 
-    private static Logger logger = LoggerFactory.getLogger(FlowRouteStrategyHolder.class);
+    private static Logger logger = LoggerFactory.getLogger(FlowRouteRouteStrategyHolder.class);
 
     /**
      * 流程路由的配置
@@ -31,18 +29,35 @@ public class FlowRouteStrategyHolder implements RouteStrategy {
      */
     private Source source;
 
+
+    /**
+     *
+     */
+    private Target target;
+
     /**
      * 流程路由条件
      */
-    private RouteStrategy strategy;
+    private SourceRouteStrategy strategy;
 
-    public FlowRouteStrategyHolder(FlowRouteStrategyConfig flowRouteStrategyConfig, Source source, RouteStrategy strategy) {
+    /**
+     *
+     */
+    private TargetRouteStrategy targetRouteStrategy;
+
+    public FlowRouteRouteStrategyHolder(FlowRouteStrategyConfig flowRouteStrategyConfig, Source source, SourceRouteStrategy strategy) {
         Assert.notNull(flowRouteStrategyConfig, "流程路由策略配置不能为空");
         this.flowRouteStrategyConfig = flowRouteStrategyConfig;
         this.source = source;
         this.strategy = strategy;
     }
 
+
+    public FlowRouteRouteStrategyHolder(FlowRouteStrategyConfig flowRouteStrategyConfig, Target target, TargetRouteStrategy targetRouteStrategy) {
+        this.flowRouteStrategyConfig = flowRouteStrategyConfig;
+        this.target = target;
+        this.targetRouteStrategy = targetRouteStrategy;
+    }
 
     public FlowRouteStrategyConfig getFlowRouteStrategyConfig() {
         return flowRouteStrategyConfig;
@@ -53,8 +68,23 @@ public class FlowRouteStrategyHolder implements RouteStrategy {
     }
 
     @Override
-    public String getType() {
-        return strategy.getType();
+    public String getTRType() {
+        return targetRouteStrategy.getTRType();
+    }
+
+    @Override
+    public Target getTarget() {
+        return target;
+    }
+
+    @Override
+    public RouteResult route(RouteResult routeResult) {
+        return targetRouteStrategy.route(routeResult);
+    }
+
+    @Override
+    public String getSRType() {
+        return strategy.getSRType();
     }
 
     public Source getSource() {
@@ -80,11 +110,11 @@ public class FlowRouteStrategyHolder implements RouteStrategy {
         this.source = source;
     }
 
-    public RouteStrategy getStrategy() {
+    public SourceRouteStrategy getStrategy() {
         return strategy;
     }
 
-    public void setStrategy(RouteStrategy strategy) {
+    public void setStrategy(SourceRouteStrategy strategy) {
         this.strategy = strategy;
     }
 }
