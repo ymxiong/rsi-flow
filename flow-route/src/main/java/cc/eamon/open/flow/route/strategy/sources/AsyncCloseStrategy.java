@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.route.strategy.source;
+package cc.eamon.open.flow.route.strategy.sources;
 
 import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.result.*;
@@ -45,12 +45,12 @@ public class AsyncCloseStrategy implements SourceRouteStrategy {
 
     @Override
     public RouteResult route(Source source,Map<String, Object> variables) {
-        AsyncCloseResult asynCloseResult = null;
+        AsyncCloseResult asyncCloseResult = null;
         List<Target> targets = ConditionHelper.condition(source, routes, variables, engine);
         Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
-        asynCloseResult = new AsyncCloseResult(targets.get(0));
-        return asynCloseResult;
+        asyncCloseResult = new AsyncCloseResult(targets.get(0));
+        return asyncCloseResult;
     }
 
 

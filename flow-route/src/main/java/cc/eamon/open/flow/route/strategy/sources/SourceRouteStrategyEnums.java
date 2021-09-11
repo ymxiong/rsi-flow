@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.route.strategy.source;
+package cc.eamon.open.flow.route.strategy.sources;
 
 import cc.eamon.open.flow.route.stereotype.Route;
 import cc.eamon.open.flow.route.stereotype.SourceRouteStrategy;
