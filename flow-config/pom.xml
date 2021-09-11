@@ -6,7 +6,7 @@
 
     <artifactId>flow-config</artifactId>
     <groupId>cc.eamon.open</groupId>
-    <version>0.1.9</version>
+    <version>0.1.10</version>
 
     <distributionManagement>
         <repository>
