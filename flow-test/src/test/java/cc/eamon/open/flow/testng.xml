@@ -10,6 +10,7 @@
             <class name="cc.eamon.open.flow.FLOW_CONDITION_SIMPLE.FlowConditionTest"/>
             <class name="cc.eamon.open.flow.FLOW_ASYNC_ALL.FlowAsyncAllTest"/>
             <class name="cc.eamon.open.flow.FLOW_ASYNC_ANY.FlowAsyncAnyTest"/>
+            <class name="cc.eamon.open.flow.FLOW_ASYNC_VOID.FlowAsyncVoidTest"/>
         </classes>
     </test>
 

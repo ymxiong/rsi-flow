@@ -1,9 +1,12 @@
 package cc.eamon.open.flow.route.strategy.sources;
 
+import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.result.AsyncVoidResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.*;
+import cc.eamon.open.flow.route.util.ConditionHelper;
 import org.apache.velocity.app.VelocityEngine;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +29,7 @@ public class AsyncVoidStrategy implements SourceRouteStrategy {
 
     public AsyncVoidStrategy(Source source) {
         this.source = source;
-        routes=new ArrayList<>();
+        routes = new ArrayList<>();
     }
 
     @Override
@@ -44,13 +47,13 @@ public class AsyncVoidStrategy implements SourceRouteStrategy {
     }
 
     @Override
-    public RouteResult route(Source source,Map<String, Object> variables) {
+    public RouteResult route(Source source, Map<String, Object> variables) {
 
         AsyncVoidResult asyncVoidResult = null;
-        if (routes.size() == 1) {
-//            asynVoidResult = new AsynVoidResult(routes.get(0).getTarget());
-        }
-
+        List<Target> targets = ConditionHelper.condition(source, routes, variables, engine);
+        Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
+                "流程条件有误，当前节点未能正确路由：" + source.getId());
+        asyncVoidResult = new AsyncVoidResult(targets);
         return asyncVoidResult;
     }
 

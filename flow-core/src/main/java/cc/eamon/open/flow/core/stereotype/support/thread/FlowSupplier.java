@@ -27,7 +27,7 @@ public class FlowSupplier implements Supplier<FlowContextExtractor> {
     private Executor parentExecutor;
 
 
-    private  Map<String, Object> paramMap;
+    private Map<String, Object> paramMap;
 
     private Routes routes;
 
@@ -35,8 +35,8 @@ public class FlowSupplier implements Supplier<FlowContextExtractor> {
         this.flowNodeHolder = flowNodeHolder;
         this.flowContextExtractor = flowContextExtractor;
         this.parentExecutor = ExecutorHolder.get();
-        this.paramMap=paramMap;
-        this.routes=routes;
+        this.paramMap = paramMap;
+        this.routes = routes;
     }
 
     @Override

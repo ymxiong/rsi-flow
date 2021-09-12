@@ -2,9 +2,13 @@ package cc.eamon.open.flow.core.stereotype.support.thread;
 
 import cc.eamon.open.flow.core.context.FlowContextExtractor;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowNodeHolder;
 import cc.eamon.open.flow.core.stereotype.support.route.Executor;
 import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
+import cc.eamon.open.flow.route.Routes;
+
+import java.util.Map;
 
 
 /**
@@ -16,32 +20,39 @@ public class FlowThread implements Runnable {
 
     private FlowNodeHolder flowNodeHolder;
 
-    private FlowContextExtractor parentContextExtractor;
+
+    private FlowContextExtractor flowContextExtractor;
+
 
     private Executor parentExecutor;
 
-    public FlowThread(FlowNodeHolder flowNodeHolder, FlowContextExtractor parentContextExtractor) {
+
+    private Map<String, Object> paramMap;
+
+    private Routes routes;
+
+    public FlowThread(FlowNodeHolder flowNodeHolder, FlowContextExtractor flowContextExtractor, Map<String, Object> paramMap, Routes routes) {
         this.flowNodeHolder = flowNodeHolder;
-        this.parentContextExtractor = parentContextExtractor;
-        parentExecutor = ExecutorHolder.get();
+        this.flowContextExtractor = flowContextExtractor;
+        this.parentExecutor = ExecutorHolder.get();
+        this.paramMap = paramMap;
+        this.routes = routes;
     }
 
 
     @Override
     public void run() {
-        // 因为线程池是复用线程，所以要先清空一次
         FlowContextHolder.clear();
         ExecutorHolder.clear();
-        if (parentContextExtractor != null) {
+        if (flowContextExtractor != null) {
             // TODO:优化从父线程拿参数
-            FlowContextHolder.get().registerVariable(parentContextExtractor);
+            // 注册参数
+            FlowContextHolder.get().registerVariable(flowContextExtractor);
+            ExecutorHolder.get().setRoutes(routes);
             ExecutorHolder.get().setParentExecutor(parentExecutor);
             ExecutorHolder.get().addExecuteNode(flowNodeHolder);
+            ExecutorHolder.get().execute(this.paramMap);
         }
-        try {
-//            flowNodeHolder.execute();
-        } catch (Exception e) {
-            throw e;
-        }
+
     }
 }

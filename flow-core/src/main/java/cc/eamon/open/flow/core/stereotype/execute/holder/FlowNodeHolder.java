@@ -49,6 +49,11 @@ public class FlowNodeHolder implements Source, Target {
     private Executable flowExecutable;
 
 
+    /**
+     * 流程代码
+     */
+    private boolean isAsync=false;
+
     FlowNodeHolder(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
         Class<? extends Executable> executable = ExecutableEnums.getType(flowNodeConfig.getType()).getExecutable();
@@ -64,6 +69,7 @@ public class FlowNodeHolder implements Source, Target {
         for (FlowResultConfig result : flowNodeConfig.getResults()) {
             resultHolders.add(new FlowResultHolder(result));
         }
+        this.isAsync=Boolean.parseBoolean(flowNodeConfig.getAsync());
     }
 
     public void execute() {
@@ -112,5 +118,9 @@ public class FlowNodeHolder implements Source, Target {
 
     public List<FlowResultHolder> getResultHolders() {
         return resultHolders;
+    }
+
+    public boolean isAsync() {
+        return isAsync;
     }
 }

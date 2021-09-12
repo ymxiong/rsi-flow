@@ -32,6 +32,11 @@ public class FlowNodeConfig implements Serializable {
     private String name;
 
     /**
+     * 是否是异步
+     */
+    private String async="false";
+
+    /**
      *  调度方法，仅在http等环境下调用
      */
     private String method;
@@ -107,4 +112,12 @@ public class FlowNodeConfig implements Serializable {
         this.results = results;
     }
 
+
+    public String getAsync() {
+        return async;
+    }
+
+    public void setAsync(String async) {
+        this.async = async;
+    }
 }

@@ -3,28 +3,26 @@ package cc.eamon.open.flow.route.result;
 
 import cc.eamon.open.flow.route.stereotype.Target;
 
+import java.util.List;
+
 public class AsyncVoidResult implements RouteResult {
 
-    private Target asyncNode;
+    private List<Target> nextNodes;
 
-
-    private Target normalNode;
-
-    public Target getAsyncNode() {
-        return asyncNode;
+    public AsyncVoidResult(List<Target> nextNodes) {
+        this.nextNodes = nextNodes;
     }
 
-    public Target getNormalNode() {
-        return normalNode;
+    public List<Target> getNextNodes() {
+        return nextNodes;
     }
 
-    public AsyncVoidResult(Target asyncNode, Target normalNode) {
-        this.asyncNode = asyncNode;
-        this.normalNode = normalNode;
+    public void setNextNodes(List<Target> nextNodes) {
+        this.nextNodes = nextNodes;
     }
 
     @Override
     public int getTargetsSize() {
-        return 2;
+        return nextNodes.size();
     }
 }

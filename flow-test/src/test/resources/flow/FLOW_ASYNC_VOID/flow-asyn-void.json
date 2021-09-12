@@ -1,0 +1,119 @@
+{
+  "id": "FLOW_ASYNC_VOID",
+  "type": "flow",
+  "name": "简单条件标准",
+  "params": [
+    { "name": "name", "type": "String" },
+    { "name": "age", "type": "Integer" }
+  ],
+  "results": [
+    { "name": "age", "type": "Integer" }
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_KINDERGARTEN",
+      "type": "event",
+      "name": "读幼儿园",
+      "reference": "FLOW_KINDERGARTEN",
+      "params": [
+        { "name": "name", "type": "String" },
+        { "name": "age", "type": "Integer" }
+      ],
+      "results": [
+        { "name": "age", "type": "Integer" }
+      ]
+    },
+    {
+      "id": "FLOW_PRIMARYSCHOOL",
+      "type": "event",
+      "name": "读小学",
+      "reference": "FLOW_PRIMARYSCHOOL",
+      "params": [
+        { "name": "name", "type": "String" },
+        { "name": "age", "type": "Integer" }
+      ],
+      "results": [
+        { "name": "age", "type": "Integer" }
+      ]
+    },
+    {
+      "id": "FLOW_SECONDARYSCHOOL",
+      "type": "event",
+      "name": "读中学",
+      "reference": "FLOW_SECONDARYSCHOOL",
+      "params": [
+        { "name": "name", "type": "String" },
+        { "name": "age", "type": "Integer" }
+      ],
+      "results": [
+        { "name": "age", "type": "Integer" }
+      ]
+    },
+    {
+      "id": "FLOW_UNIVERSITY",
+      "type": "event",
+      "name": "读大学",
+      "reference": "FLOW_UNIVERSITY",
+      "params": [
+        { "name": "name", "type": "String" },
+        { "name": "age", "type": "Integer" }
+      ],
+      "results": [
+        { "name": "age", "type": "Integer" }
+      ]
+    },
+    {
+      "id": "FLOW_MARRY",
+      "type": "event",
+      "name": "结婚",
+      "reference": "FLOW_MARRY",
+      "params": [
+        { "name": "name", "type": "String" },
+        { "name": "age", "type": "Integer" }
+      ],
+      "results": [
+        { "name": "age", "type": "Integer" }
+      ]
+    },
+    {
+      "id": "FLOW_FIRSTJOB",
+      "type": "event",
+      "name": "第一份工作",
+      "async": "true",
+      "reference": "FLOW_FIRSTJOB",
+      "params": [
+        { "name": "name", "type": "String" }
+      ],
+      "results": [
+        { "name": "money", "type": "Integer" }
+      ]
+    },
+    {
+      "id": "FLOW_SECONDJOB",
+      "type": "event",
+      "name": "第二份工作",
+      "reference": "FLOW_SECONDJOB",
+      "params": [
+        { "name": "name", "type": "String" },
+        { "name": "money", "type": "Integer" }
+      ],
+      "results": [
+        { "name": "money", "type": "Integer" }
+      ]
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_KINDERGARTEN"},
+    { "source":"FLOW_KINDERGARTEN", "target": "FLOW_PRIMARYSCHOOL" },
+    { "source":"FLOW_PRIMARYSCHOOL", "target": "FLOW_SECONDARYSCHOOL" },
+    { "source":"FLOW_SECONDARYSCHOOL", "target": "FLOW_UNIVERSITY" },
+    { "source":"FLOW_UNIVERSITY", "target": "FLOW_MARRY" },
+    { "source":"FLOW_UNIVERSITY", "target": "FLOW_FIRSTJOB" },
+    { "source":"FLOW_FIRSTJOB", "target": "FLOW_SECONDJOB" },
+    { "source":"FLOW_MARRY", "target": "end" },
+    { "source":"FLOW_SECONDJOB", "target": "end" }
+  ],
+  "strategies": [
+    { "source":"FLOW_UNIVERSITY", "strategy": "async" }
+  ]
+}
