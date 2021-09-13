@@ -1,0 +1,72 @@
+package cc.eamon.open.flow.config.builder.flow;
+
+import cc.eamon.open.flow.config.flow.FlowRouteConfig;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+
+/**
+ * Author: jvjv
+ * Email: 1181370590@qq.com
+ * Time: 2021-09-13 21:35:54
+ */
+public class FlowRouteConfigBuilder {
+
+    /**
+     * 源节点
+     */
+    private String source;
+
+    /**
+     * 目标节点
+     */
+    private String target;
+
+    /**
+     * 到目标节点的条件
+     */
+    private String condition = "true";
+
+    /**
+     * 目标条件所处域
+     */
+    private String scope;
+
+    public FlowRouteConfig build() {
+        validate();
+        FlowRouteConfig flowRouteConfig = new FlowRouteConfig();
+        flowRouteConfig.setSource(source);
+        flowRouteConfig.setTarget(target);
+        flowRouteConfig.setCondition(condition);
+        flowRouteConfig.setScope(scope);
+        return flowRouteConfig;
+    }
+
+    public String toJSONString() {
+        return JSONObject.toJSONString(build(), SerializerFeature.PrettyFormat);
+    }
+
+    private void validate() {
+
+    }
+
+
+    public FlowRouteConfigBuilder addSource(String source) {
+        this.source = source;
+        return this;
+    }
+
+    public FlowRouteConfigBuilder addTarget(String target) {
+        this.target = target;
+        return this;
+    }
+
+    public FlowRouteConfigBuilder addCondition(String condition) {
+        this.condition = condition;
+        return this;
+    }
+
+    public FlowRouteConfigBuilder addScope(String scope) {
+        this.scope = scope;
+        return this;
+    }
+}

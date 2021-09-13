@@ -1,13 +1,13 @@
-package cc.eamon.open.flow.config.builder;
+package cc.eamon.open.flow.config.builder.flow;
 
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 
 /**
- * Author: eamon
- * Email: eamon@eamon.cc
- * Time: 2021-09-13 16:35:54
+ * Author: jvjv
+ * Email: 1181370590@qq.com
+ * Time: 2021-09-13 21:35:54
  */
 public class FlowParamConfigBuilder {
 
@@ -30,6 +30,8 @@ public class FlowParamConfigBuilder {
         validate();
         FlowParamConfig flowParamConfig = new FlowParamConfig();
         flowParamConfig.setName(name);
+        flowParamConfig.setType(type);
+        flowParamConfig.setScope(scope);
         return flowParamConfig;
     }
 
@@ -41,4 +43,19 @@ public class FlowParamConfigBuilder {
 
     }
 
+
+    public FlowParamConfigBuilder addName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public FlowParamConfigBuilder addType(String type) {
+        this.type = type;
+        return this;
+    }
+
+    public FlowParamConfigBuilder addScope(String scope) {
+        this.scope = scope;
+        return this;
+    }
 }

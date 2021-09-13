@@ -1,4 +1,4 @@
-package cc.eamon.open.flow.config.builder;
+package cc.eamon.open.flow.config.builder.flow;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
