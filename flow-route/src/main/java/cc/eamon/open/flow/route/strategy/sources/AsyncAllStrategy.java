@@ -49,7 +49,7 @@ public class AsyncAllStrategy implements SourceRouteStrategy {
     @Override
     public RouteResult route(Source source, Map<String, Object> variables) {
         AsyncAllResult asyncAllResult = null;
-        List<Target> targets = ConditionHelper.condition(source, routes, variables, engine);
+        List<Target> targets = ConditionHelper.JexlEngine(source, routes, variables);
         Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
         asyncAllResult = new AsyncAllResult(targets);

@@ -52,7 +52,7 @@ public class NormalSourceStrategy implements SourceRouteStrategy {
 
     @Override
     public RouteResult route(Source source, Map<String, Object> variables) {
-        List<Target> condition = ConditionHelper.condition(source, routes, variables, engine);
+        List<Target> condition = ConditionHelper.JexlEngine(source, routes, variables);
         Assert.isTrue(condition.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
                 "流程条件有误，当前节点未能正确路由：" + source.getId());
         NormalResult normalResult = new NormalResult(condition.get(0));

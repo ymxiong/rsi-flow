@@ -8,6 +8,11 @@
     <groupId>cc.eamon.open</groupId>
     <version>0.1.11</version>
 
+    <parent>
+        <artifactId>flow</artifactId>
+        <groupId>cc.eamon.open</groupId>
+        <version>0.1.11</version>
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -79,6 +84,13 @@
             <artifactId>junit</artifactId>
             <version>${junit-version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-jexl</artifactId>
+        </dependency>
+
+
     </dependencies>
 
 

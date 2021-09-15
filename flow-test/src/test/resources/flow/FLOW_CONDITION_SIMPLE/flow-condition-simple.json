@@ -44,8 +44,8 @@
   ],
   "routes": [
     { "source":"start", "target": "FLOW_BIRTHDAY"},
-    { "source":"FLOW_BIRTHDAY", "target": "FLOW_CONDITION_OLD", "condition": "$type==1"},
-    { "source":"FLOW_BIRTHDAY", "target": "FLOW_CONDITION_CHILD", "condition": "$type==0"},
+    { "source":"FLOW_BIRTHDAY", "target": "FLOW_CONDITION_OLD", "condition": "type==1"},
+    { "source":"FLOW_BIRTHDAY", "target": "FLOW_CONDITION_CHILD", "condition": "type==0"},
     { "source":"FLOW_CONDITION_CHILD", "target": "end" },
     { "source":"FLOW_CONDITION_OLD", "target": "end" }
   ]

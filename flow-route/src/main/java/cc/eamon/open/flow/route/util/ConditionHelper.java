@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class ConditionHelper {
 
-    public static List<Target> condition(Source source, List<Route> routes, Map<String, Object> variables, VelocityEngine engine) {
+    public static List<Target> AeEngine(Source source, List<Route> routes, Map<String, Object> variables, VelocityEngine engine) {
         List<Target> targets = new ArrayList<>();
         Target defaultTarget = null;
         for (Route route : routes) {
@@ -59,4 +59,28 @@ public class ConditionHelper {
         return targets;
     }
 
+
+    public static List<Target> JexlEngine(Source source, List<Route> routes, Map<String, Object> variables) {
+        List<Target> targets = new ArrayList<>();
+        Target defaultTarget = null;
+        for (Route route : routes) {
+            if (ConditionEnums.DEFAULT.getId().equals(route.getCondition().getExpression())) {
+                defaultTarget = route.getTarget();
+                continue;
+            }
+            Boolean success = (Boolean) JexlUtils.invokeMethod(route.getCondition().getExpression(), variables);
+            if (success) {
+                targets.add(route.getTarget());
+            }
+
+        }
+        if (targets.size() == 0 && defaultTarget != null) {
+            targets.add(defaultTarget);
+        }
+
+        Assert.isTrue(targets.size() != 0 || RouteEnums.END.getId().equals(source.getId()),
+                "流程条件有误，当前节点未能正确路由：" + source.getId());
+
+        return targets;
+    }
 }

@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 public class FlowAsyncVoidTest {
 
     @Test()
-    public void caseAsyncAll() throws Exception {
+    public void caseAsyncVoid() throws Exception {
         Integer age = (Integer) FlowEngine.instance()
                 .register(FlowConstants.SCOPE_DEFAULT, "name", "小兔子")
                 .register(FlowConstants.SCOPE_DEFAULT, "age", 0)
