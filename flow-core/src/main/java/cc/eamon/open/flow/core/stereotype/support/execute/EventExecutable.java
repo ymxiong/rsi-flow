@@ -38,7 +38,7 @@ public class EventExecutable implements Executable {
         this.flowNodeConfig = flowNodeConfig;
         this.flowCode = Initializer.getFlowCodes().get(this.flowNodeConfig.getReference());
         if (flowCode == null) {
-            logger.error("流程节点代码（reference）未找到");
+            logger.error("流程节点代码"+flowNodeConfig.getReference()+"未找到");
             throw new FlowCodeNotFoundException();
         }
     }
