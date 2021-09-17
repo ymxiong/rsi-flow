@@ -5,8 +5,12 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.execute.holder.FlowResultHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -57,6 +61,46 @@ public class FlowEngine {
         // 执行容器
         flowHolder.execute();
         return this;
+    }
+
+    /**
+     * 流程引擎获取结果
+     *
+     * @param flowId 流程id
+     * @return 流程结果
+     * @throws Exception 流程错误
+     */
+    public Map<String, Object> retrieveFlowResults(String flowId) throws Exception {
+        return this.retrieveFlowResults(flowId, null);
+    }
+
+
+    /**
+     * 流程引擎获取结果
+     *
+     * @param flowId       流程id
+     * @param extraResults 额外需要获取的结果 key为参数名 value为参数域
+     * @return
+     * @throws Exception
+     */
+    public Map<String, Object> retrieveFlowResults(String flowId, Map<String, String> extraResults) throws Exception {
+        Map<String, Object> results = new HashMap<>();
+        // 获取flow容器
+        FlowHolder flowHolder = Initializer.getFlowHolder(flowId);
+        // 检查容器是否存在
+        if (flowHolder == null) throw new FlowNotFoundException(flowId);
+        // 共享默认上下文
+        for (FlowResultHolder result : flowHolder.getResults()) {
+            results.put(result.getName(), this.retrieve(result.getScope(), result.getName()));
+        }
+        if (extraResults != null) {
+            for (Map.Entry<String, String> resultInfo : extraResults.entrySet()) {
+                String resultName = resultInfo.getKey();
+                String resultScope = resultInfo.getValue();
+                results.put(resultName, this.retrieve(resultScope, resultName));
+            }
+        }
+        return results;
     }
 
 
