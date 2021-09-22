@@ -45,6 +45,11 @@
         </dependency>
 
         <dependency>
+            <groupId>cc.eamon.open</groupId>
+            <artifactId>flow-model</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>

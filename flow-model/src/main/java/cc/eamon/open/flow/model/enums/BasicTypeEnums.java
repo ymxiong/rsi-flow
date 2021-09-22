@@ -134,6 +134,7 @@ public enum BasicTypeEnums {
 
     private Class<?> classType;
 
+
     BasicTypeEnums(String keyword, String packageName, Class<?> classType) {
         this.keyword = keyword;
         this.packageName = packageName;
@@ -156,14 +157,14 @@ public enum BasicTypeEnums {
         return clazz;
     }
 
-    public static Class getPreparedType(String keyword) {
+    private static Class getPreparedType(String keyword) {
         for (BasicTypeEnums value : BasicTypeEnums.values()) {
             if (value.getKeyword().equals(keyword)) return value.classType;
         }
         return null;
     }
 
-    public static Class getAddtionalType(String reference) {
+    private static Class getAddtionalType(String reference) {
         Class clazz = null;
         try {
             clazz = Class.forName(reference);
@@ -180,6 +181,7 @@ public enum BasicTypeEnums {
         }
         return null;
     }
+
 
     public String getKeyword() {
         return keyword;

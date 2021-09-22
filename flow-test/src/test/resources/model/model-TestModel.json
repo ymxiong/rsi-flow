@@ -1,0 +1,5 @@
+{
+  "id": "TestModel",
+  "type": "model",
+  "reference": "cc.eamon.open.flow.model.TestModel"
+}

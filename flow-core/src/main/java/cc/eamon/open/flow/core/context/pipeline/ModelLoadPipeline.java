@@ -1,7 +1,6 @@
-package cc.eamon.open.flow.model.stereotype.pipeline;
+package cc.eamon.open.flow.core.context.pipeline;
 
 import cc.eamon.open.flow.config.model.ModelConfig;
-import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
 import cc.eamon.open.flow.model.enums.ModelLoaderEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,10 +21,10 @@ public class ModelLoadPipeline extends BasePipeline {
 
     private String[] modelConfigFiles;
 
-    public ModelLoadPipeline(int level, String[] modelConfigFiles,Map<String, ModelConfig> flowModelConfigs) {
+    public ModelLoadPipeline(int level, String[] modelConfigFiles, Map<String, ModelConfig> flowModelConfigs) {
         super(level);
         this.modelConfigFiles = modelConfigFiles;
-        this.flowModelConfigs=flowModelConfigs;
+        this.flowModelConfigs = flowModelConfigs;
     }
 
     @Override

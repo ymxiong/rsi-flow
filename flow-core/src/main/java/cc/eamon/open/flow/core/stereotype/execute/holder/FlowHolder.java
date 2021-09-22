@@ -13,6 +13,7 @@ import cc.eamon.open.flow.core.error.ResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
+import cc.eamon.open.flow.model.ModelEngine;
 import cc.eamon.open.flow.route.Routes;
 import cc.eamon.open.flow.route.basic.EndNode;
 import cc.eamon.open.flow.route.basic.StartNode;
@@ -102,13 +103,13 @@ public class FlowHolder implements Executable {
         // 初始化流程路由
         for (FlowRouteStrategyConfig strategyConfig : this.flowConfig.getStrategies()) {
             Source source = nodes.get(strategyConfig.getSource());
-            Target target=nodes.get(strategyConfig.getTarget());
-            if (source!=null){
+            Target target = nodes.get(strategyConfig.getTarget());
+            if (source != null) {
                 SourceRouteStrategy routeStrategy = SourceRouteStrategyEnums.routeStrategyInit(strategyConfig.getStrategy(), source);
                 FlowRouteRouteStrategyHolder holder = new FlowRouteRouteStrategyHolder(strategyConfig, source, routeStrategy);
                 routes.loadStrategy(holder);
-            }else {
-                TargetRouteStrategy targetRouteStrategy = TargetRouteStrategyEnums.targetStrategyInit(strategyConfig.getStrategy(),target);
+            } else {
+                TargetRouteStrategy targetRouteStrategy = TargetRouteStrategyEnums.targetStrategyInit(strategyConfig.getStrategy(), target);
                 FlowRouteRouteStrategyHolder holder = new FlowRouteRouteStrategyHolder(strategyConfig, target, targetRouteStrategy);
                 routes.loadTargetStrategy(holder);
             }
@@ -149,16 +150,15 @@ public class FlowHolder implements Executable {
 
     @Override
     public void execute() {
-        // 检查参数是否提供
-        for (FlowParamHolder param : params) {
-            Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
-            if (variable == null) throw new ParamNotExistException(param.getName());
-        }
 
         Map<String, Object> paramMap = new HashMap<>();
         for (FlowParamConfig param : flowConfig.getParams()) {
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
-            paramMap.put(param.getName(), variable);
+            if (variable == null) throw new ParamNotExistException(param.getName());
+            Object convertedVariable = ModelEngine.check(param.getType(), variable);
+            if (!variable.equals(convertedVariable))
+                FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
+            paramMap.put(param.getName(), convertedVariable);
         }
         execute(RouteEnums.START::getId, paramMap);
 

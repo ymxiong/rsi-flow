@@ -22,7 +22,7 @@ public class ComponentScanner implements BeanPostProcessor, PriorityOrdered {
 
     static {
         LogoUtil.print();
-        Initializer.addPipeline(new SpringComponentPipeline(3, Initializer.getFlowCodes(), SpringComponentPipeline.getComponentBasePackages()));
+        Initializer.addPipeline(new SpringComponentPipeline(5, Initializer.getFlowCodes(), SpringComponentPipeline.getComponentBasePackages()));
     }
 
     private static final Logger logger = LoggerFactory.getLogger(ComponentScanner.class);

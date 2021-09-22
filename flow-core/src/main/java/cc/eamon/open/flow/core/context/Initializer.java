@@ -2,10 +2,16 @@ package cc.eamon.open.flow.core.context;
 
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.config.model.ModelConfig;
 import cc.eamon.open.flow.core.context.pipeline.*;
 import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
+import cc.eamon.open.flow.model.ModelEngine;
+import cc.eamon.open.flow.model.definition.FlowModel;
+import cc.eamon.open.flow.model.definition.FlowReferenceModel;
+import cc.eamon.open.flow.model.enums.BasicTypeEnums;
+import cc.eamon.open.flow.model.error.FlowModelNotDefinedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,6 +60,12 @@ public class Initializer {
     private static String[] configBasePackages = new String[]{""};
 
 
+    /**
+     * 流程模型所在路径
+     */
+    private static String[] modelConfigFiles = new String[]{""};
+
+
     private static PriorityQueue<Pipeline> priorityQueue = new PriorityQueue<>();
 
     public static void addPipeline(BasePipeline... basePipeline) {
@@ -63,6 +75,8 @@ public class Initializer {
     public static void init() {
         addPipeline(new ConfigLoadPipeline(1, flowConfigs, configBasePackages));
         addPipeline(new CodeLoadPipeline(2, flowCodes, flowBasePackages));
+        addPipeline(new ModelLoadPipeline(3, modelConfigFiles, ModelEngine.flowModelConfigs));
+        addPipeline(new ModelAssemblyPipeline(4, ModelEngine.flowModelConfigs, ModelEngine.flowModels));
         addPipeline(new FlowAssemblyPipeline(100, flowConfigs, flowHolders));
         BasePipeline pipeline = null;
         while (priorityQueue.peek() != null) {

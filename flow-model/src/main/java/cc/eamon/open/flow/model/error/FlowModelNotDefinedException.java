@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.model.error;
 
+import java.io.Serializable;
+
 /**
  * Author: lucas(jvjv)
  * Email: lucas@eamon.cc

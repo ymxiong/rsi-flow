@@ -12,9 +12,26 @@
     <artifactId>flow-model</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>cc.eamon</groupId>
+            <artifactId>easyfile</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+
+
         <dependency>
             <groupId>cc.eamon.open</groupId>
-            <artifactId>flow-core</artifactId>
+            <artifactId>flow-config</artifactId>
         </dependency>
     </dependencies>
 

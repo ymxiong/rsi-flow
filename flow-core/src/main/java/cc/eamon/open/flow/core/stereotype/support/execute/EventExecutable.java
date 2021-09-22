@@ -10,6 +10,7 @@ import cc.eamon.open.flow.core.error.ParamNotExistException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.ModelEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +39,7 @@ public class EventExecutable implements Executable {
         this.flowNodeConfig = flowNodeConfig;
         this.flowCode = Initializer.getFlowCodes().get(this.flowNodeConfig.getReference());
         if (flowCode == null) {
-            logger.error("流程节点代码"+flowNodeConfig.getReference()+"未找到");
+            logger.error("流程节点代码" + flowNodeConfig.getReference() + "未找到");
             throw new FlowCodeNotFoundException();
         }
     }
@@ -61,12 +62,15 @@ public class EventExecutable implements Executable {
                 logger.info(errorInfo);
                 throw new ParamNotExistException(errorInfo);
             }
-            args[i] = variable;
+            // TODO:不知道需不需要类型校验
+            Object convertedVariable = ModelEngine.check(param.getType(), variable);
+            if (!variable.equals(convertedVariable))
+                FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
+            args[i] = convertedVariable;
+            // TODO:
         }
-
         try {
             String scope = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getScope();
-//            String retrieve = flowCode.getRetrieve();
             String retrieve = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getName();
             Object value = flowCode.execute(args);
             FlowContextHolder.get().registerVariable(scope, retrieve, value);

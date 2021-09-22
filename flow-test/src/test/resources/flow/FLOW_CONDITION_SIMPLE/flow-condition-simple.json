@@ -3,7 +3,7 @@
   "type": "flow",
   "name": "简单条件标准",
   "params": [
-    { "name": "birthday", "type": "Integer" }
+    { "name": "birthday", "type": "String" }
   ],
   "results": [
     { "name": "message", "type": "String" }
@@ -15,7 +15,7 @@
       "name": "生日识别",
       "reference": "FLOW_BIRTHDAY",
       "params": [
-        { "name": "birthday", "type": "Integer" }
+        { "name": "birthday", "type": "String" }
       ],
       "results": [
         { "name": "type", "type": "Integer" }
