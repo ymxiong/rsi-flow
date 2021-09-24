@@ -36,8 +36,9 @@ public class ModelEngine {
             if (clazz != null) {
                 // 可能是reference类型,但是没有写JSON未加载,在此处加载
                 flowModel = new FlowReferenceModel(clazz.getSimpleName(), clazz.getName(), clazz);
+                flowModels.put(modelType, flowModel);
             } else {
-                throw new FlowModelNotDefinedException();
+                throw new FlowModelNotDefinedException("FlowModel named " + modelType + " not found. Check your json file.");
             }
         }
         // STEP 2:根据FlowModel的类型进行不同的校验
