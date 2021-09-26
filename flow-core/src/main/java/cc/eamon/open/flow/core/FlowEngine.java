@@ -26,6 +26,11 @@ public class FlowEngine {
 
     private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
 
+    /**
+     * 当前执行流程ID，用于注册参数到对应域
+     */
+    private static String flowScope;
+
     public static FlowEngine instance() {
         //  保障同一线程仅有单一执行的流程引擎
         if (FlowContextHolder.get() != null && FlowContextHolder.get().getFlowEngine() == null) {
@@ -59,6 +64,7 @@ public class FlowEngine {
         // 共享默认上下文
         FlowContextHolder.get().shareScope(flowId);
         // 执行容器
+        flowScope = flowId;
         flowHolder.execute();
         return this;
     }
@@ -115,7 +121,8 @@ public class FlowEngine {
      * @return 流程引擎实例
      */
     public FlowEngine register(String paramName, Object paramValue) {
-        return register(FlowConstants.SCOPE_DEFAULT, paramName, paramValue);
+//        return register(FlowConstants.SCOPE_DEFAULT, paramName, paramValue);
+        return register(flowScope, paramName, paramValue);
     }
 
     /**
