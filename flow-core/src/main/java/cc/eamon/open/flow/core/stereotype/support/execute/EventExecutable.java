@@ -62,18 +62,19 @@ public class EventExecutable implements Executable {
                 logger.info(errorInfo);
                 throw new ParamNotExistException(errorInfo);
             }
-            // TODO:不知道需不需要类型校验
             Object convertedVariable = ModelEngine.check(param.getType(), variable);
             if (!variable.equals(convertedVariable))
                 FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
             args[i] = convertedVariable;
-            // TODO:
         }
         try {
-            String scope = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getScope();
-            String retrieve = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getName();
+            //TODO: 修改参数注入配置
             Object value = flowCode.execute(args);
-            FlowContextHolder.get().registerVariable(scope, retrieve, value);
+            if (flowNodeConfig.getResults().size() >= 1) {
+                String scope = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getScope();
+                String retrieve = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getName();
+                FlowContextHolder.get().registerVariable(scope, retrieve, value);
+            }
         } catch (Exception e) {
             throw new FlowRuntimeException(flowNodeConfig.getId());
         }
