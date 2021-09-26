@@ -29,6 +29,11 @@ public class FlowParamConfig implements Serializable {
      */
     private String scope;
 
+    /**
+     * 是否可以为空
+     */
+    private String notnull = "true";
+
     public String getName() {
         return name;
     }
@@ -51,5 +56,13 @@ public class FlowParamConfig implements Serializable {
 
     public void setScope(String scope) {
         this.scope = scope;
+    }
+
+    public Boolean getNotnull() {
+        return Boolean.parseBoolean(notnull);
+    }
+
+    public void setNotnull(String notnull) {
+        this.notnull = notnull;
     }
 }

@@ -42,5 +42,7 @@ public class FlowParamHolder {
         return flowParamConfig.getScope();
     }
 
-
+    public Boolean getNotNull() {
+        return flowParamConfig.getNotnull();
+    }
 }
