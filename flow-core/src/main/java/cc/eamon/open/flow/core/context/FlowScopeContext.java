@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.core.context;
 
+import cc.eamon.open.flow.route.util.JexlUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,8 @@ public class FlowScopeContext {
     }
 
     Object retrieveVariable(String variableName) {
-        return variableMap.get(variableName);
+        return JexlUtils.getVariable(variableName, variableMap);
+//        return variableMap.get(variableName);
     }
 
     void releaseVariables(String... variableNames) {

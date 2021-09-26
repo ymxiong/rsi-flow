@@ -34,4 +34,23 @@ public class JexlUtils {
         }
         return e.evaluate(jc);
     }
+
+
+    /**
+     * 从环境中取出参数
+     *
+     * @param exp -- 待执行的java表达式
+     * @param map -- 执行环境（变量，常量，对象）
+     * @return 执行结果
+     * @author xsy
+     */
+    public static Object getVariable(String exp, Map<String, Object> map) {
+        JexlEngine jexl = new JexlEngine();
+        Expression e = jexl.createExpression(exp);
+        JexlContext jc = new MapContext();
+        for (String key : map.keySet()) {
+            jc.set(key, map.get(key));
+        }
+        return e.evaluate(jc);
+    }
 }
