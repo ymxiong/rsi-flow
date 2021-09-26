@@ -47,13 +47,19 @@ public class FlowContext {
     }
 
     public Object retrieveVariable(String variableName) {
+
         return retrieveVariable(FlowConstants.SCOPE_DEFAULT, variableName);
     }
 
     public Object retrieveVariable(String scope, String variableName) {
         FlowScopeContext scopeContext = scopeContextMap.get(scope);
         if (scopeContext == null) return null;
-        return scopeContext.retrieveVariable(variableName);
+        Object variable = scopeContext.retrieveVariable(variableName);
+        if (variable == null) {
+            FlowScopeContext defaultScopeContext = scopeContextMap.get(FlowConstants.SCOPE_DEFAULT);
+            variable = scopeContext.retrieveVariable(variableName);
+        }
+        return variable;
     }
 
     public void registerVariable(String scope, String variableName, Object variable) {
