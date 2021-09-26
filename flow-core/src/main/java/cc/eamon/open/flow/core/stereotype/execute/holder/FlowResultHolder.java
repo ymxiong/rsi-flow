@@ -2,6 +2,7 @@ package cc.eamon.open.flow.core.stereotype.execute.holder;
 
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,10 @@ public class FlowResultHolder {
 
     public String getScope() {
         return flowResultConfig.getScope();
+    }
+
+    public Boolean getNotNull() {
+        return Boolean.parseBoolean(flowResultConfig.getNotnull());
     }
 
 

@@ -52,7 +52,7 @@ public class FlowNodeHolder implements Source, Target {
     /**
      * 流程代码
      */
-    private boolean isAsync=false;
+    private boolean isAsync = false;
 
     FlowNodeHolder(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
@@ -69,7 +69,7 @@ public class FlowNodeHolder implements Source, Target {
         for (FlowResultConfig result : flowNodeConfig.getResults()) {
             resultHolders.add(new FlowResultHolder(result));
         }
-        this.isAsync=Boolean.parseBoolean(flowNodeConfig.getAsync());
+        this.isAsync = Boolean.parseBoolean(flowNodeConfig.getAsync());
     }
 
     public void execute() {
@@ -94,8 +94,9 @@ public class FlowNodeHolder implements Source, Target {
 
     private void verifyResults() {
         for (FlowResultHolder resultHolder : resultHolders) {
+
             Object variable = FlowContextHolder.get().retrieveVariable(resultHolder.getScope(), resultHolder.getName());
-            if (variable == null)
+            if (variable == null && resultHolder.getNotNull())
                 throw new ResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
         }
     }

@@ -91,7 +91,10 @@ public class FlowEngine {
         if (flowHolder == null) throw new FlowNotFoundException(flowId);
         // 共享默认上下文
         for (FlowResultHolder result : flowHolder.getResults()) {
-            results.put(result.getName(), this.retrieve(result.getScope(), result.getName()));
+            Object retrieve = this.retrieve(result.getScope(), result.getName());
+            if (retrieve != null) {
+                results.put(result.getName(), retrieve);
+            }
         }
         if (extraResults != null) {
             for (Map.Entry<String, String> resultInfo : extraResults.entrySet()) {

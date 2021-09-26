@@ -34,6 +34,12 @@ public class FlowResultConfig implements Serializable {
      */
     private String parse;
 
+    /**
+     * 是否可以为空
+     */
+    private String notnull = "true";
+
+
     public String getName() {
         return name;
     }
@@ -64,5 +70,13 @@ public class FlowResultConfig implements Serializable {
 
     public void setParse(String parse) {
         this.parse = parse;
+    }
+
+    public String getNotnull() {
+        return notnull;
+    }
+
+    public void setNotnull(String notnull) {
+        this.notnull = notnull;
     }
 }

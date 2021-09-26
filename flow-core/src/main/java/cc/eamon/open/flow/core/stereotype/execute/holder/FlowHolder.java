@@ -165,7 +165,7 @@ public class FlowHolder implements Executable {
         // 检查执行结果是否给出
         for (FlowResultHolder result : results) {
             Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
-            if (variable == null)
+            if (variable == null && result.getNotNull())
                 throw new ResultNotExistException(flowConfig.getId(), result.getScope(), result.getName());
         }
     }
