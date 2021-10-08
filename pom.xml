@@ -32,7 +32,7 @@
 
         <spring-version>5.1.1.RELEASE</spring-version>
         <slf4j-version>1.7.12</slf4j-version>
-        <easyfile-version>0.0.2</easyfile-version>
+        <easyfile-version>0.0.3</easyfile-version>
         <fastjson-version>1.2.60</fastjson-version>
         <transmittable-thread-local-version>2.11.5</transmittable-thread-local-version>
         <cglib-version>2.2.2</cglib-version>
