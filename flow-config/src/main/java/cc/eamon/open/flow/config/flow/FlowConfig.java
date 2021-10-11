@@ -3,6 +3,7 @@ package cc.eamon.open.flow.config.flow;
 import cc.eamon.open.flow.config.CommonConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,43 +24,49 @@ public class FlowConfig implements CommonConfig, Serializable {
     /**
      * 流程id
      */
+    @JSONField(ordinal = 1)
     private String id;
 
     /**
      * 流程类型
      */
+    @JSONField(ordinal = 2)
     private String type;
 
     /**
      * 流程名
      */
+    @JSONField(ordinal = 3)
     private String name;
 
     /**
      * 流程参数
      */
+    @JSONField(ordinal = 4)
     private List<FlowParamConfig> params = new ArrayList<>();
 
     /**
      * 流程结果
      */
+    @JSONField(ordinal = 5)
     private List<FlowResultConfig> results = new ArrayList<>();
 
     /**
      * 节点列表
      */
+    @JSONField(ordinal = 6)
     private List<FlowNodeConfig> nodes = new ArrayList<>();
 
-
     /**
      * 流程路由
      */
+    @JSONField(ordinal = 7)
     private List<FlowRouteConfig> routes = new ArrayList<>();
 
-
     /**
      * 流程路由
      */
+    @JSONField(ordinal = 8)
     private List<FlowRouteStrategyConfig> strategies = new ArrayList<>();
 
     public String getId() {

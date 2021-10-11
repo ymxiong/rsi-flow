@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.config.flow;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -17,21 +19,25 @@ public class FlowRouteConfig implements Serializable {
     /**
      * 源节点
      */
+    @JSONField(ordinal = 1)
     private String source;
 
     /**
      * 目标节点
      */
+    @JSONField(ordinal = 2)
     private String target;
 
     /**
      * 到目标节点的条件
      */
+    @JSONField(ordinal = 3)
     private String condition = "true";
 
     /**
      * 目标条件所处域
      */
+    @JSONField(ordinal = 4)
     private String scope;
 
     public String getSource() {

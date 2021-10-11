@@ -12,10 +12,10 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-//这个类交给Spring管理
+// 这个类交给Spring管理
 @Import(FlowScannerRegistrar.class)
 public @interface FlowScan {
 
-    String[] flowPath() default {};
+    String[] flowPackages() default {};
 
 }

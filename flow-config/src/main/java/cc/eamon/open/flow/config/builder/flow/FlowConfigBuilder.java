@@ -49,7 +49,6 @@ public class FlowConfigBuilder {
      */
     private List<FlowNodeConfig> nodes = new ArrayList<>();
 
-
     /**
      * 流程路由
      */

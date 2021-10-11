@@ -1,5 +1,7 @@
 package cc.eamon.open.flow.config.flow.node;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -17,26 +19,31 @@ public class FlowResultConfig implements Serializable {
     /**
      * 该结果的名称
      */
+    @JSONField(ordinal = 1)
     private String name;
 
     /**
      * 该结果的类型
      */
+    @JSONField(ordinal = 2)
     private String type;
 
     /**
      * 结果存放到的域
      */
+    @JSONField(ordinal = 3)
     private String scope;
 
     /**
      * 解析目标
      */
+    @JSONField(ordinal = 4)
     private String parse;
 
     /**
      * 是否可以为空
      */
+    @JSONField(ordinal = 5)
     private String notnull = "true";
 
 

@@ -2,6 +2,7 @@ package cc.eamon.open.flow.config.flow;
 
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,41 +20,49 @@ public class FlowNodeConfig implements Serializable {
     /**
      * 节点id，用于路由
      */
+    @JSONField(ordinal = 1)
     private String id;
 
     /**
      * 节点类型
      */
+    @JSONField(ordinal = 2)
     private String type;
 
     /**
      * 节点名，用于显示给用户查看
      */
+    @JSONField(ordinal = 3)
     private String name;
 
     /**
      * 是否是异步
      */
-    private String async="false";
+    @JSONField(ordinal = 4)
+    private String async = "false";
 
     /**
-     *  调度方法，仅在http等环境下调用
+     * 调度方法，仅在http等环境下调用
      */
+    @JSONField(ordinal = 5)
     private String method;
 
     /**
      * 具体调用的FlowNode或Flow的Id
      */
+    @JSONField(ordinal = 6)
     private String reference;
 
     /**
      * 流程参数
      */
+    @JSONField(ordinal = 7)
     private List<FlowParamConfig> params = new ArrayList<>();
 
     /**
      * 流程结果
      */
+    @JSONField(ordinal = 8)
     private List<FlowResultConfig> results = new ArrayList<>();
 
     public String getId() {
