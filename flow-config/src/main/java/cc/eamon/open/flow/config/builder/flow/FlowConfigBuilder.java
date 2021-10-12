@@ -6,11 +6,8 @@ import cc.eamon.open.flow.config.flow.FlowRouteConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Author: eamon
@@ -71,7 +68,33 @@ public class FlowConfigBuilder {
     }
 
     public String toJSONString() {
-        return JSONObject.toJSONString(build(), SerializerFeature.PrettyFormat);
+        FlowConfig flowConfig = build();
+        Map<String, String> jsonMap = new LinkedHashMap<>();
+        jsonMap.put("id", flowConfig.getId());
+        jsonMap.put("type", flowConfig.getType());
+        jsonMap.put("title", flowConfig.getTitle());
+        List<String> params = new ArrayList<>();
+        for (FlowParamConfig param : flowConfig.getParams()) {
+            params.add(JSONObject.toJSONString(param));
+        }
+        jsonMap.put("params", JSONObject.toJSONString(params));
+        List<String> results = new ArrayList<>();
+        for (FlowResultConfig result : flowConfig.getResults()) {
+            params.add(JSONObject.toJSONString(result));
+        }
+        jsonMap.put("results", JSONObject.toJSONString(results));
+        List<String> nodes = new ArrayList<>();
+        for (FlowNodeConfig node : flowConfig.getNodes()) {
+            nodes.add(JSONObject.toJSONString(node));
+        }
+        jsonMap.put("nodes", JSONObject.toJSONString(nodes));
+        List<String> routes = new ArrayList<>();
+        for (FlowRouteConfig route : flowConfig.getRoutes()) {
+            routes.add(JSONObject.toJSONString(route));
+        }
+        jsonMap.put("routes", JSONObject.toJSONString(routes));
+
+        return jsonMap.toString();
     }
 
     private void validate() {
