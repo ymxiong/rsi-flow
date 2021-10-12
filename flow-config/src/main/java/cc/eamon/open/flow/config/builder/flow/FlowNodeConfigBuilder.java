@@ -30,7 +30,7 @@ public class FlowNodeConfigBuilder {
     /**
      * 节点名，用于显示给用户查看
      */
-    private String name;
+    private String title;
 
     /**
      * 是否是异步
@@ -62,7 +62,7 @@ public class FlowNodeConfigBuilder {
         FlowNodeConfig flowNodeConfig = new FlowNodeConfig();
         flowNodeConfig.setId(id);
         flowNodeConfig.setType(type);
-        flowNodeConfig.setName(name);
+        flowNodeConfig.setTitle(title);
         flowNodeConfig.setAsync(async);
         flowNodeConfig.setMethod(method);
         flowNodeConfig.setReference(reference);
@@ -90,8 +90,8 @@ public class FlowNodeConfigBuilder {
         return this;
     }
 
-    public FlowNodeConfigBuilder addName(String name) {
-        this.name = name;
+    public FlowNodeConfigBuilder addTitle(String title) {
+        this.title = title;
         return this;
 
     }

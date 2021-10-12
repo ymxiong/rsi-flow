@@ -32,7 +32,7 @@ public class FlowConfigBuilder {
     /**
      * 流程名
      */
-    private String name;
+    private String title;
 
     /**
      * 流程参数
@@ -62,7 +62,7 @@ public class FlowConfigBuilder {
         FlowConfig flowConfig = new FlowConfig();
         flowConfig.setId(id);
         flowConfig.setType(type);
-        flowConfig.setName(name);
+        flowConfig.setTitle(title);
         flowConfig.setParams(params);
         flowConfig.setResults(results);
         flowConfig.setNodes(nodes);
@@ -88,8 +88,8 @@ public class FlowConfigBuilder {
         return this;
     }
 
-    public FlowConfigBuilder addName(String name) {
-        this.name = name;
+    public FlowConfigBuilder addTitle(String title) {
+        this.title = title;
         return this;
     }
 

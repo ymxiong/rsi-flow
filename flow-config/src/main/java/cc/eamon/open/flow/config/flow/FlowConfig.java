@@ -37,7 +37,7 @@ public class FlowConfig implements CommonConfig, Serializable {
      * 流程名
      */
     @JSONField(ordinal = 3)
-    private String name;
+    private String title;
 
     /**
      * 流程参数
@@ -85,12 +85,12 @@ public class FlowConfig implements CommonConfig, Serializable {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public List<FlowParamConfig> getParams() {

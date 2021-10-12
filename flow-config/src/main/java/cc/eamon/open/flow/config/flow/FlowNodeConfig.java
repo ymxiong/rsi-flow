@@ -33,7 +33,7 @@ public class FlowNodeConfig implements Serializable {
      * 节点名，用于显示给用户查看
      */
     @JSONField(ordinal = 3)
-    private String name;
+    private String title;
 
     /**
      * 是否是异步
@@ -81,12 +81,12 @@ public class FlowNodeConfig implements Serializable {
         this.type = type;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getMethod() {
