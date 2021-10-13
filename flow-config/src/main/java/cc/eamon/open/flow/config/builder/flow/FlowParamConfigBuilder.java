@@ -26,12 +26,18 @@ public class FlowParamConfigBuilder {
      */
     private String scope;
 
+    /**
+     * 该参数是否可以为空
+     */
+    private Boolean notnull;
+
     public FlowParamConfig build() {
         validate();
         FlowParamConfig flowParamConfig = new FlowParamConfig();
         flowParamConfig.setName(name);
         flowParamConfig.setType(type);
         flowParamConfig.setScope(scope);
+        flowParamConfig.setNotnull(notnull);
         return flowParamConfig;
     }
 
@@ -56,6 +62,11 @@ public class FlowParamConfigBuilder {
 
     public FlowParamConfigBuilder addScope(String scope) {
         this.scope = scope;
+        return this;
+    }
+
+    public FlowParamConfigBuilder addNotnull(Boolean notnull) {
+        this.notnull = notnull;
         return this;
     }
 }

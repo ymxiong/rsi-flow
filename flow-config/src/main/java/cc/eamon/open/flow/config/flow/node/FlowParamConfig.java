@@ -38,7 +38,7 @@ public class FlowParamConfig implements Serializable {
      * 是否可以为空
      */
     @JSONField(ordinal = 4)
-    private String notnull = "true";
+    private Boolean notnull;
 
     public String getName() {
         return name;
@@ -65,10 +65,10 @@ public class FlowParamConfig implements Serializable {
     }
 
     public Boolean getNotnull() {
-        return Boolean.parseBoolean(notnull);
+        return notnull;
     }
 
-    public void setNotnull(String notnull) {
+    public void setNotnull(Boolean notnull) {
         this.notnull = notnull;
     }
 }

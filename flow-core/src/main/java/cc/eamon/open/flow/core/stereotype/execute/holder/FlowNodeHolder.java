@@ -69,7 +69,14 @@ public class FlowNodeHolder implements Source, Target {
         for (FlowResultConfig result : flowNodeConfig.getResults()) {
             resultHolders.add(new FlowResultHolder(result));
         }
-        this.isAsync = Boolean.parseBoolean(flowNodeConfig.getAsync());
+        if ( flowNodeConfig.getAsync()==null){
+            this.isAsync=false;
+        }else {
+            this.isAsync = flowNodeConfig.getAsync();
+        }
+
+
+
     }
 
     public void execute() {

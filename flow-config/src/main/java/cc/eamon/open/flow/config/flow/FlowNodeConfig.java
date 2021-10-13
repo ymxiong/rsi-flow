@@ -39,7 +39,7 @@ public class FlowNodeConfig implements Serializable {
      * 是否是异步
      */
     @JSONField(ordinal = 4)
-    private String async = "false";
+    private Boolean async;
 
     /**
      * 调度方法，仅在http等环境下调用
@@ -121,12 +121,11 @@ public class FlowNodeConfig implements Serializable {
         this.results = results;
     }
 
-
-    public String getAsync() {
+    public Boolean getAsync() {
         return async;
     }
 
-    public void setAsync(String async) {
+    public void setAsync(Boolean async) {
         this.async = async;
     }
 }

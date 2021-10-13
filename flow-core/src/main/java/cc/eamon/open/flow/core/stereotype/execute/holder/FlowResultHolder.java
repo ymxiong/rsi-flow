@@ -47,7 +47,8 @@ public class FlowResultHolder {
     }
 
     public Boolean getNotNull() {
-        return Boolean.parseBoolean(flowResultConfig.getNotnull());
+        if (flowResultConfig.getNotnull() == null) return true;
+        return flowResultConfig.getNotnull();
     }
 
 

@@ -43,6 +43,7 @@ public class FlowParamHolder {
     }
 
     public Boolean getNotNull() {
+        if (flowParamConfig.getNotnull() == null) return true;
         return flowParamConfig.getNotnull();
     }
 }

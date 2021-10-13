@@ -35,7 +35,7 @@ public class FlowNodeConfigBuilder {
     /**
      * 是否是异步
      */
-    private String async = "false";
+    private Boolean async;
 
     /**
      * 调度方法，仅在http等环境下调用
@@ -66,7 +66,6 @@ public class FlowNodeConfigBuilder {
         flowNodeConfig.setAsync(async);
         flowNodeConfig.setMethod(method);
         flowNodeConfig.setReference(reference);
-        flowNodeConfig.setAsync(async);
         flowNodeConfig.setParams(params);
         flowNodeConfig.setResults(results);
         return flowNodeConfig;
@@ -96,7 +95,7 @@ public class FlowNodeConfigBuilder {
 
     }
 
-    public FlowNodeConfigBuilder addAsync(String async) {
+    public FlowNodeConfigBuilder addAsync(Boolean async) {
         this.async = async;
         return this;
     }

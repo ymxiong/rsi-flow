@@ -31,6 +31,11 @@ public class FlowResultConfigBuilder {
      */
     private String parse;
 
+    /**
+     * 该结果是否可以为空
+     */
+    private Boolean notnull;
+
     public FlowResultConfig build() {
         validate();
         FlowResultConfig flowResultConfig = new FlowResultConfig();
@@ -38,6 +43,7 @@ public class FlowResultConfigBuilder {
         flowResultConfig.setType(type);
         flowResultConfig.setScope(scope);
         flowResultConfig.setParse(parse);
+        flowResultConfig.setNotnull(notnull);
         return flowResultConfig;
     }
 
@@ -67,6 +73,11 @@ public class FlowResultConfigBuilder {
 
     public FlowResultConfigBuilder addParse(String parse) {
         this.parse = parse;
+        return this;
+    }
+
+    public FlowResultConfigBuilder addNotnull(Boolean notnull) {
+        this.notnull = notnull;
         return this;
     }
 
