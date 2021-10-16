@@ -1,8 +1,7 @@
 package cc.eamon.open.flow.config.builder.flow;
 
 import cc.eamon.open.flow.config.flow.FlowRouteConfig;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.springframework.util.StringUtils;
 
 /**
  * Author: jvjv
@@ -41,8 +40,20 @@ public class FlowRouteConfigBuilder {
         return flowRouteConfig;
     }
 
-    public String toJSONString() {
-        return JSONObject.toJSONString(build(), SerializerFeature.PrettyFormat);
+    public static String toJSONString(FlowRouteConfig config) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{ ");
+        if (!StringUtils.isEmpty(config.getSource()))
+            builder.append("\"source\":").append("\"").append(config.getSource()).append("\", ");
+        if (!StringUtils.isEmpty(config.getTarget()))
+            builder.append("\"target\":").append("\"").append(config.getTarget()).append("\", ");
+        if (!StringUtils.isEmpty(config.getCondition()))
+            builder.append("\"condition\":").append("\"").append(config.getCondition()).append("\", ");
+        if (!StringUtils.isEmpty(config.getScope()))
+            builder.append("\"scope\":").append("\"").append(config.getScope()).append("\", ");
+        builder.deleteCharAt(builder.length() - 2);
+        builder.append("}");
+        return builder.toString();
     }
 
     private void validate() {

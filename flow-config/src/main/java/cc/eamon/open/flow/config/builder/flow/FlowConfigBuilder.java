@@ -1,13 +1,19 @@
 package cc.eamon.open.flow.config.builder.flow;
 
+import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.FlowRouteConfig;
+import cc.eamon.open.flow.config.flow.FlowRouteStrategyConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
-import com.alibaba.fastjson.JSONObject;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Author: eamon
@@ -67,38 +73,65 @@ public class FlowConfigBuilder {
         return flowConfig;
     }
 
-    public String toJSONString() {
-        FlowConfig flowConfig = build();
-        Map<String, String> jsonMap = new LinkedHashMap<>();
-        jsonMap.put("id", flowConfig.getId());
-        jsonMap.put("type", flowConfig.getType());
-        jsonMap.put("title", flowConfig.getTitle());
-        List<String> params = new ArrayList<>();
-        for (FlowParamConfig param : flowConfig.getParams()) {
-            params.add(JSONObject.toJSONString(param));
+    public static String toJSONString(FlowConfig config) {
+        String TAB = FlowConstants.JSON_TAB;
+        StringBuilder builder = new StringBuilder();
+        builder.append("{\n");
+        if (!StringUtils.isEmpty(config.getId()))
+            builder.append(TAB).append("\"id\":").append("\"").append(config.getId()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getType()))
+            builder.append(TAB).append("\"type\":").append("\"").append(config.getType()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getTitle()))
+            builder.append(TAB).append("\"title\":").append("\"").append(config.getTitle()).append("\",\n");
+        if (!CollectionUtils.isEmpty(config.getParams())) {
+            builder.append(TAB).append("\"params\":[\n");
+            for (FlowParamConfig param : config.getParams()) {
+                builder.append(TAB).append(TAB).append(FlowParamConfigBuilder.toJSONString(param)).append(",\n");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            builder.append(TAB).append("],\n");
         }
-        jsonMap.put("params", JSONObject.toJSONString(params));
-        List<String> results = new ArrayList<>();
-        for (FlowResultConfig result : flowConfig.getResults()) {
-            params.add(JSONObject.toJSONString(result));
+        if (!CollectionUtils.isEmpty(config.getResults())) {
+            builder.append(TAB).append("\"results\":[\n");
+            for (FlowResultConfig result : config.getResults()) {
+                builder.append(TAB).append(TAB).append(FlowResultConfigBuilder.toJSONString(result)).append(",\n");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            builder.append(TAB).append("],\n");
         }
-        jsonMap.put("results", JSONObject.toJSONString(results));
-        List<String> nodes = new ArrayList<>();
-        for (FlowNodeConfig node : flowConfig.getNodes()) {
-            nodes.add(JSONObject.toJSONString(node));
-        }
-        jsonMap.put("nodes", JSONObject.toJSONString(nodes));
-        List<String> routes = new ArrayList<>();
-        for (FlowRouteConfig route : flowConfig.getRoutes()) {
-            routes.add(JSONObject.toJSONString(route));
-        }
-        jsonMap.put("routes", JSONObject.toJSONString(routes));
 
-        return jsonMap.toString();
+        if (!CollectionUtils.isEmpty(config.getNodes())) {
+            builder.append(TAB).append("\"nodes\":[\n");
+            for (FlowNodeConfig node : config.getNodes()) {
+                builder.append(FlowNodeConfigBuilder.toJSONString(node)).append(",\n");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            builder.append(TAB).append("],\n");
+        }
+        if (!CollectionUtils.isEmpty(config.getRoutes())) {
+            builder.append(TAB).append("\"routes\":[\n");
+            for (FlowRouteConfig route : config.getRoutes()) {
+                builder.append(TAB).append(TAB).append(FlowRouteConfigBuilder.toJSONString(route)).append(",\n");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            builder.append(TAB).append("],\n");
+        }
+        if (!CollectionUtils.isEmpty(config.getStrategies())) {
+            builder.append(TAB).append("\"strategies\":[\n");
+            for (FlowRouteStrategyConfig strategy : config.getStrategies()) {
+                builder.append(TAB).append(TAB).append(FlowRouteStrategyConfigBuilder.toJSONString(strategy)).append(",\n");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            builder.append(TAB).append("],\n");
+        }
+        builder.deleteCharAt(builder.length() - 2);
+        builder.append("}");
+        return builder.toString();
     }
 
     private void validate() {
-
+        Assert.notNull(id, "flow config id null");
+        Assert.notNull(type, "flow config type null");
     }
 
     public FlowConfigBuilder addId(String id) {

@@ -1,10 +1,12 @@
 package cc.eamon.open.flow.config.builder.flow;
 
+import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,12 +73,44 @@ public class FlowNodeConfigBuilder {
         return flowNodeConfig;
     }
 
-    public String toJSONString() {
-        return JSONObject.toJSONString(build(), SerializerFeature.PrettyFormat);
+    public static String toJSONString(FlowNodeConfig config) {
+        String TAB = FlowConstants.JSON_TAB;
+        StringBuilder builder = new StringBuilder();
+        builder.append(TAB).append(TAB).append("{\n");
+        if (!StringUtils.isEmpty(config.getId()))
+            builder.append(TAB).append(TAB).append(TAB).append("\"id\":").append("\"").append(config.getId()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getType()))
+            builder.append(TAB).append(TAB).append(TAB).append("\"type\":").append("\"").append(config.getType()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getTitle()))
+            builder.append(TAB).append(TAB).append(TAB).append("\"title\":").append("\"").append(config.getTitle()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getAsync()))
+            builder.append(TAB).append(TAB).append(TAB).append("\"async\":").append("\"").append(config.getAsync()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getReference()))
+            builder.append(TAB).append(TAB).append(TAB).append("\"reference\":").append("\"").append(config.getReference()).append("\",\n");
+        if (!CollectionUtils.isEmpty(config.getParams())) {
+            builder.append(TAB).append(TAB).append(TAB).append("\"params\":[\n");
+            for (FlowParamConfig param : config.getParams()) {
+                builder.append(TAB).append(TAB).append(TAB).append(TAB).append(FlowParamConfigBuilder.toJSONString(param)).append(",\n");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            builder.append(TAB).append(TAB).append(TAB).append("],\n");
+        }
+        if (!CollectionUtils.isEmpty(config.getResults())) {
+            builder.append(TAB).append(TAB).append(TAB).append("\"results\":[\n");
+            for (FlowResultConfig result : config.getResults()) {
+                builder.append(TAB).append(TAB).append(TAB).append(TAB).append(FlowResultConfigBuilder.toJSONString(result)).append(",\n");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            builder.append(TAB).append(TAB).append(TAB).append("],\n");
+        }
+        builder.deleteCharAt(builder.length() - 2);
+        builder.append(TAB).append(TAB).append("}");
+        return builder.toString();
     }
 
     private void validate() {
-
+        Assert.notNull(id, "node name null");
+        Assert.notNull(type, "node type null");
     }
 
     public FlowNodeConfigBuilder addId(String id) {

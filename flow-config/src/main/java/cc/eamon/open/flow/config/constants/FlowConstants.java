@@ -21,4 +21,6 @@ public class FlowConstants {
 
     public static final String ET_SPLIT = "&";
 
+    public static final String JSON_TAB = "  ";
+
 }

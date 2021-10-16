@@ -1,8 +1,8 @@
 package cc.eamon.open.flow.config.builder.flow;
 
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * Author: jvjv
@@ -47,12 +47,27 @@ public class FlowResultConfigBuilder {
         return flowResultConfig;
     }
 
-    public String toJSONString() {
-        return JSONObject.toJSONString(build(), SerializerFeature.PrettyFormat);
+    public static String toJSONString(FlowResultConfig config) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("{ ");
+        if (!StringUtils.isEmpty(config.getName()))
+            builder.append("\"name\":").append("\"").append(config.getName()).append("\", ");
+        if (!StringUtils.isEmpty(config.getType()))
+            builder.append("\"type\":").append("\"").append(config.getType()).append("\", ");
+        if (!StringUtils.isEmpty(config.getScope()))
+            builder.append("\"scope\":").append("\"").append(config.getScope()).append("\", ");
+        if (!StringUtils.isEmpty(config.getParse()))
+            builder.append("\"parse\":").append("\"").append(config.getParse()).append("\", ");
+        if (!StringUtils.isEmpty(config.getNotnull()))
+            builder.append("\"notnull\":").append(config.getNotnull()).append(", ");
+        builder.deleteCharAt(builder.length() - 2);
+        builder.append("}");
+        return builder.toString();
     }
 
     private void validate() {
-
+        Assert.notNull(name, "result name null");
+        Assert.notNull(type, "result type null");
     }
 
 
