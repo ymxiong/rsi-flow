@@ -47,7 +47,7 @@ public class FlowExecutable implements Executable {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         if (flowHolder == null)
             this.flowHolder = Initializer.getFlowHolder(flowNodeConfig.getReference());
         if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());

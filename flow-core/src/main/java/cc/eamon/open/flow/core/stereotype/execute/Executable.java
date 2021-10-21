@@ -13,5 +13,5 @@ public interface Executable {
 
     List<TypeEnums> getParamsTypes();
 
-    void execute();
+    void execute() throws Exception;
 }

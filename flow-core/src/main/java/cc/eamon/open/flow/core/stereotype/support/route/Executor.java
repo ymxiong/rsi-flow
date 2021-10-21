@@ -68,7 +68,7 @@ public class Executor {
         return parentExecutor;
     }
 
-    public void execute(Map<String, Object> variables) {
+    public void execute(Map<String, Object> variables) throws Exception {
         while (this.executeQueue.size() > 0) {
             Source source = this.executeQueue.poll();
             if (source == null) break;

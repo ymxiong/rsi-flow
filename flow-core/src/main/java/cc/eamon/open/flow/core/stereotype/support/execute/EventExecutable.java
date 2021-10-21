@@ -50,7 +50,7 @@ public class EventExecutable implements Executable {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
         // 注入流程代码所需参数
         Object[] args = new Object[flowNodeConfig.getParams().size()];
 
@@ -82,7 +82,9 @@ public class EventExecutable implements Executable {
                 FlowContextHolder.get().registerVariable(scope, retrieve, value);
             }
         } catch (Exception e) {
-            throw new FlowRuntimeException(flowNodeConfig.getId());
+            logger.info("Exception in ["+flowNodeConfig.getId()+"]:"+e.getMessage());
+            throw e;
+//            throw new FlowRuntimeException(flowNodeConfig.getId());
         }
     }
 }

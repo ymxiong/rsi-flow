@@ -51,7 +51,11 @@ public class FlowSupplier implements Supplier<FlowContextExtractor> {
             ExecutorHolder.get().setRoutes(routes);
             ExecutorHolder.get().setParentExecutor(parentExecutor);
             ExecutorHolder.get().addExecuteNode(flowNodeHolder);
-            ExecutorHolder.get().execute(this.paramMap);
+            try {
+                ExecutorHolder.get().execute(this.paramMap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return new FlowContextExtractor();
     }

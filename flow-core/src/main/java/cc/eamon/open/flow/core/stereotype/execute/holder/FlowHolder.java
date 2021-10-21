@@ -149,7 +149,7 @@ public class FlowHolder implements Executable {
     }
 
     @Override
-    public void execute() {
+    public void execute() throws Exception {
 
         Map<String, Object> paramMap = new HashMap<>();
         for (FlowParamConfig param : flowConfig.getParams()) {
@@ -170,7 +170,7 @@ public class FlowHolder implements Executable {
         }
     }
 
-    private void execute(Source source, Map<String, Object> paramMap) {
+    private void execute(Source source, Map<String, Object> paramMap) throws Exception {
         ExecutorHolder.get().setRoutes(routes);
         ExecutorHolder.get().addExecuteNode(source);
         ExecutorHolder.get().execute(paramMap);

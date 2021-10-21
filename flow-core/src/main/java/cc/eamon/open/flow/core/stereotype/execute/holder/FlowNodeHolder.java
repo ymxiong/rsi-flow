@@ -79,7 +79,7 @@ public class FlowNodeHolder implements Source, Target {
 
     }
 
-    public void execute() {
+    public void execute() throws Exception {
         // 校验参数
         verifyParams();
         // 执行流程
