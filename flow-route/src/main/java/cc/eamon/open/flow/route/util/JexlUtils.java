@@ -4,6 +4,8 @@ import org.apache.commons.jexl2.Expression;
 import org.apache.commons.jexl2.JexlContext;
 import org.apache.commons.jexl2.JexlEngine;
 import org.apache.commons.jexl2.MapContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
@@ -13,6 +15,9 @@ import java.util.Map;
  * date : 2020/7/10
  */
 public class JexlUtils {
+
+
+    private static Logger logger = LoggerFactory.getLogger(JexlUtils.class);
 
     /**
      * 根据环境执行java表达式
@@ -29,8 +34,13 @@ public class JexlUtils {
         for (String key : map.keySet()) {
             jc.set(key, map.get(key));
         }
-        if (null == e.evaluate(jc)) {
-            return "";
+        try {
+            if (null == e.evaluate(jc)) {
+                return "";
+            }
+        } catch (Exception exception) {
+            logger.info("判断表达式【" + exp + "】时出错，异常信息为" + exception.getMessage());
+            throw exception;
         }
         return e.evaluate(jc);
     }
