@@ -36,7 +36,7 @@ public class FlowReferenceModel implements FlowModel {
     @Override
     public Object check(Object object) {
         // 检查Object是否是该类型
-        if (referenceClazz.equals(object.getClass())) return object;
+        if (referenceClazz.equals(object.getClass())||referenceClazz.isAssignableFrom(object.getClass())) return object;
         // 可能是Map需要进行转换
         object = JSONObject.parseObject(JSONObject.toJSONString(object), referenceClazz);
         return object;
