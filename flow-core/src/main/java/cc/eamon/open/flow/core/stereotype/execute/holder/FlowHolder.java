@@ -154,7 +154,12 @@ public class FlowHolder implements Executable {
         Map<String, Object> paramMap = new HashMap<>();
         for (FlowParamConfig param : flowConfig.getParams()) {
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
-            if (variable == null) throw new ParamNotExistException(param.getName());
+            if (variable == null) {
+                if (param.getNotnull()){
+                    throw new ParamNotExistException(param.getName());
+                }
+                continue;
+            }
             Object convertedVariable = ModelEngine.check(param.getType(), variable);
             if (!variable.equals(convertedVariable))
                 FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
