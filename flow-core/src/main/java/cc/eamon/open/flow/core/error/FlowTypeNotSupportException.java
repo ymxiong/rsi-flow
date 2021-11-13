@@ -10,7 +10,7 @@ public class FlowTypeNotSupportException extends RuntimeException {
     private static final long serialVersionUID = 959898425615634332L;
 
     public FlowTypeNotSupportException() {
-        super("流程代码未找到");
+        super("流程类型不支持");
     }
 
     public FlowTypeNotSupportException(String message) {

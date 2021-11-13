@@ -5,8 +5,7 @@ import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
-import cc.eamon.open.flow.core.error.FlowRuntimeException;
-import cc.eamon.open.flow.core.error.ParamNotExistException;
+import cc.eamon.open.flow.core.error.FlowNodeParamNotExistException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
@@ -61,7 +60,7 @@ public class EventExecutable implements Executable {
                 if (param.getNotnull()) {
                     String errorInfo = "Error occurs when invoke " + flowNodeConfig.getId() + ".The nested problem is " + param.getName() + " does not exist in scope of " + param.getScope() + " in flowContext.";
                     logger.info(errorInfo);
-                    throw new ParamNotExistException(errorInfo);
+                    throw new FlowNodeParamNotExistException(flowNodeConfig.getId(), param.getScope(), param.getName(), errorInfo);
                 } else {
                     args[i] = variable;
                     continue;
@@ -82,7 +81,7 @@ public class EventExecutable implements Executable {
                 FlowContextHolder.get().registerVariable(scope, retrieve, value);
             }
         } catch (Exception e) {
-            logger.info("Exception in [" + flowNodeConfig.getId() + "]:" + e.getMessage());
+            logger.info("流程节点：" + flowNodeConfig.getId() + " 执行错误，错误信息为:" + e.getMessage());
             throw e;
 //            throw new FlowRuntimeException(flowNodeConfig.getId());
         }

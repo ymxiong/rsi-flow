@@ -8,8 +8,9 @@ import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.error.FlowNodeDuplicateDefineException;
-import cc.eamon.open.flow.core.error.ParamNotExistException;
-import cc.eamon.open.flow.core.error.ResultNotExistException;
+import cc.eamon.open.flow.core.error.FlowParamNotExistException;
+import cc.eamon.open.flow.core.error.FlowNodeResultNotExistException;
+import cc.eamon.open.flow.core.error.FlowResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
@@ -155,8 +156,8 @@ public class FlowHolder implements Executable {
         for (FlowParamConfig param : flowConfig.getParams()) {
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
             if (variable == null) {
-                if (param.getNotnull()){
-                    throw new ParamNotExistException(param.getName());
+                if (param.getNotnull()) {
+                    throw new FlowParamNotExistException(flowConfig.getId(), param.getScope(), param.getName());
                 }
                 continue;
             }
@@ -171,7 +172,7 @@ public class FlowHolder implements Executable {
         for (FlowResultHolder result : results) {
             Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
             if (variable == null && result.getNotNull())
-                throw new ResultNotExistException(flowConfig.getId(), result.getScope(), result.getName());
+                throw new FlowResultNotExistException(flowConfig.getId(), result.getScope(), result.getName());
         }
     }
 

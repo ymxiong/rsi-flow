@@ -6,7 +6,7 @@ import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
 import cc.eamon.open.flow.core.error.ParamNotMatchException;
-import cc.eamon.open.flow.core.error.ResultNotExistException;
+import cc.eamon.open.flow.core.error.FlowNodeResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.ExecutableEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
@@ -104,7 +104,7 @@ public class FlowNodeHolder implements Source, Target {
 
             Object variable = FlowContextHolder.get().retrieveVariable(resultHolder.getScope(), resultHolder.getName());
             if (variable == null && resultHolder.getNotNull())
-                throw new ResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
+                throw new FlowNodeResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
         }
     }
 
