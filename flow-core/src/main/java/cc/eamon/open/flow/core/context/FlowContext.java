@@ -69,6 +69,14 @@ public class FlowContext {
         context.registerVariable(variableName, variable);
     }
 
+
+    public void registerVariable(String variableName, Object variable) {
+        // 注册variable
+        scopeContextMap.putIfAbsent(FlowConstants.SCOPE_DEFAULT, new FlowScopeContext(FlowConstants.SCOPE_DEFAULT));
+        FlowScopeContext context = scopeContextMap.get(FlowConstants.SCOPE_DEFAULT);
+        context.registerVariable(variableName, variable);
+    }
+
     public void releaseVariables(String scope, String... variableName) {
         FlowScopeContext scopeContext = scopeContextMap.get(scope);
         if (scopeContext == null) return;
