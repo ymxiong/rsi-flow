@@ -67,4 +67,7 @@ public class FlowExecutable implements Executable {
         }
     }
 
+    public void setFlowHolder(FlowHolder flowHolder) {
+        this.flowHolder = flowHolder;
+    }
 }

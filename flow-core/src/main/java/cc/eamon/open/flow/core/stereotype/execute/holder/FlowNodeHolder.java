@@ -4,10 +4,12 @@ import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
 import cc.eamon.open.flow.core.error.ParamNotMatchException;
 import cc.eamon.open.flow.core.error.FlowNodeResultNotExistException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
+import cc.eamon.open.flow.core.stereotype.execute.FlowExecutable;
 import cc.eamon.open.flow.core.stereotype.support.enums.ExecutableEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.route.stereotype.Source;
@@ -44,7 +46,7 @@ public class FlowNodeHolder implements Source, Target {
     private List<FlowResultHolder> resultHolders = new ArrayList<>();
 
     /**
-     * 流程代码
+     * 流程代码`
      */
     private Executable flowExecutable;
 
@@ -59,6 +61,9 @@ public class FlowNodeHolder implements Source, Target {
         Class<? extends Executable> executable = ExecutableEnums.getType(flowNodeConfig.getType()).getExecutable();
         try {
             flowExecutable = executable.getDeclaredConstructor(FlowNodeConfig.class).newInstance(flowNodeConfig);
+            if (flowExecutable.getClass().equals(FlowExecutable.class)){
+                ((FlowExecutable)flowExecutable).setFlowHolder(Initializer.getFlowHolder(flowNodeConfig.getId()));
+            }
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             logger.error(e.toString());
             throw new FlowNodeRuntimeException(flowNodeConfig.getId());
