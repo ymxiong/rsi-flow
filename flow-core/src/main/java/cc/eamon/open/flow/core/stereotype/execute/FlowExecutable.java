@@ -5,11 +5,15 @@ import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.error.FlowNestParamNotExistException;
+import cc.eamon.open.flow.core.error.FlowNodeParamNotExistException;
+import cc.eamon.open.flow.core.error.FlowNodeRefMissingException;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowParamHolder;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowResultHolder;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.ModelEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,21 +52,43 @@ public class FlowExecutable implements Executable {
 
     @Override
     public void execute() throws Exception {
-        if (flowHolder == null)
+        if (flowHolder == null) {
+            if (flowNodeConfig == null) throw new FlowNodeRefMissingException(flowNodeConfig.getId());
             this.flowHolder = Initializer.getFlowHolder(flowNodeConfig.getReference());
+        }
         if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());
 
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
             FlowParamConfig flowParamConfig = flowNodeConfig.getParams().get(i);
             FlowParamHolder flowParamHolder = flowHolder.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(flowParamConfig.getScope(), flowParamConfig.getName());
-            FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), variable);
+            if (null == variable) {
+                if (flowParamHolder.getNotNull()) {
+                    throw new FlowNestParamNotExistException(flowNodeConfig.getId(), flowParamHolder.getScope(), flowParamHolder.getName());
+                } else {
+                    continue;
+                }
+            }
+            Object convertedVariable = ModelEngine.check(flowParamConfig.getType(), variable);
+            if (!variable.equals(convertedVariable))
+                FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
+            FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
         }
         flowHolder.execute();
         for (int i = 0; i < flowNodeConfig.getResults().size(); i++) {
             FlowResultConfig flowResultConfig = flowNodeConfig.getResults().get(i);
             FlowResultHolder flowResultHolder = flowHolder.getResults().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(flowResultHolder.getScope(), flowResultHolder.getName());
+            if (null == variable) {
+                if (flowResultHolder.getNotNull()) {
+                    throw new FlowNestParamNotExistException(flowNodeConfig.getId(), flowResultConfig.getScope(), flowResultConfig.getName());
+                } else {
+                    continue;
+                }
+            }
+            Object convertedVariable = ModelEngine.check(flowResultConfig.getType(), variable);
+            if (!variable.equals(convertedVariable))
+                FlowContextHolder.get().registerVariable(flowResultConfig.getScope(), flowResultConfig.getName(), convertedVariable);
             FlowContextHolder.get().registerVariable(flowResultConfig.getScope(), flowResultConfig.getName(), variable);
         }
     }
