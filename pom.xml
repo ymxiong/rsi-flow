@@ -7,7 +7,7 @@
     <groupId>cc.eamon.open</groupId>
     <artifactId>flow</artifactId>
     <packaging>pom</packaging>
-    <version>0.2.1</version>
+    <version>0.2.3</version>
     <modules>
         <module>flow-core</module>
         <module>flow-config</module>
