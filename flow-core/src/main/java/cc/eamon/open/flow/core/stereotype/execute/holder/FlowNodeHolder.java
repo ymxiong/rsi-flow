@@ -4,6 +4,7 @@ import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
+import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
 import cc.eamon.open.flow.core.error.ParamNotMatchException;
 import cc.eamon.open.flow.core.error.FlowNodeResultNotExistException;
@@ -54,14 +55,17 @@ public class FlowNodeHolder implements Source, Target {
      */
     private boolean isAsync = false;
 
-    FlowNodeHolder(FlowNodeConfig flowNodeConfig) {
+    FlowNodeHolder(FlowNodeConfig flowNodeConfig) throws Exception{
         this.flowNodeConfig = flowNodeConfig;
         Class<? extends Executable> executable = ExecutableEnums.getType(flowNodeConfig.getType()).getExecutable();
         try {
             flowExecutable = executable.getDeclaredConstructor(FlowNodeConfig.class).newInstance(flowNodeConfig);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             logger.error(e.toString());
-            throw new FlowNodeRuntimeException(flowNodeConfig.getId());
+            throw new FlowNodeRuntimeException(flowNodeConfig.getId(),e.getMessage());
+        }catch (FlowException e){
+            logger.error(e.toString());
+            throw e;
         }
         for (FlowParamConfig param : flowNodeConfig.getParams()) {
             paramHolders.add(new FlowParamHolder(param));

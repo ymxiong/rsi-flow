@@ -72,7 +72,7 @@ public class Initializer {
         priorityQueue.addAll(Arrays.asList(basePipeline));
     }
 
-    public static void init() {
+    public static void init() throws Exception {
         addPipeline(new ConfigLoadPipeline(1, flowConfigs, configBasePackages));
         addPipeline(new CodeLoadPipeline(2, flowCodes, flowBasePackages));
         addPipeline(new ModelLoadPipeline(3, modelConfigFiles, ModelEngine.flowModelConfigs));

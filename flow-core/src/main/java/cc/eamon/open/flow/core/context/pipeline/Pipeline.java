@@ -7,6 +7,6 @@ package cc.eamon.open.flow.core.context.pipeline;
  */
 public interface Pipeline {
 
-    void initializer();
+    void initializer() throws Exception;
 
 }

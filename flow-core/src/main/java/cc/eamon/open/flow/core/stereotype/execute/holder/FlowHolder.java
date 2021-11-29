@@ -64,7 +64,7 @@ public class FlowHolder implements Executable {
     /**
      * @param flowConfig 流程配置
      */
-    public FlowHolder(FlowConfig flowConfig) {
+    public FlowHolder(FlowConfig flowConfig) throws Exception {
         // 初始化流程配置
         this.flowConfig = flowConfig;
 

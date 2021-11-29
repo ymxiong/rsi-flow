@@ -22,12 +22,12 @@ public abstract class BasePipeline implements Pipeline, Comparable<BasePipeline>
     }
 
     @Override
-    public void initializer() {
+    public void initializer() throws Exception {
         if (pre != null) pre.initializer();
         initializerSelf();
     }
 
-    public abstract void initializerSelf();
+    public abstract void initializerSelf() throws Exception;
 
     @Override
     public int compareTo(BasePipeline o) {

@@ -31,7 +31,7 @@ public class ExtraFlowAssemblyPipeline extends BasePipeline {
     }
 
     @Override
-    public void initializerSelf() {
+    public void initializerSelf() throws Exception {
         // TODO:未知，不知道有些时候会放入一个null元素,猜测是读取jar包
         logger.info("执行FlowAssemblyPipeline组装过程");
         for (FlowConfig flowConfig : flowConfigs.values()) {

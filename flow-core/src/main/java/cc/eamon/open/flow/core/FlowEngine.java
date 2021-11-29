@@ -21,7 +21,11 @@ import java.util.Map;
 public class FlowEngine {
 
     static {
-        Initializer.init();
+        try {
+            Initializer.init();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private static Logger logger = LoggerFactory.getLogger(FlowEngine.class);
