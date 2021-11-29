@@ -57,16 +57,16 @@ public class ExtraFlowInitializer {
         priorityQueue.addAll(Arrays.asList(basePipeline));
     }
 
-    public static void loadExtraFlowFromFile(File extraJar, String[] flowBasePackages) {
+    public static void loadExtraFlowFromFile(File extraJar, String[] flowBasePackages) throws Exception {
         loadExtraFlow(extraJar, flowBasePackages, new String[]{""});
     }
 
-    public static void loadExtraFlowFromMultipartFile(MultipartFile file, String[] flowBasePackages) {
+    public static void loadExtraFlowFromMultipartFile(MultipartFile file, String[] flowBasePackages) throws Exception {
         File extraJar = FileHelper.getFileFromMultipartFile(file);
         loadExtraFlow(extraJar, flowBasePackages, new String[]{""});
     }
 
-    private static void loadExtraFlow(File extraJar, String[] flowBasePackages, String[] configBasePackages) {
+    private static void loadExtraFlow(File extraJar, String[] flowBasePackages, String[] configBasePackages) throws Exception {
         addPipeline(new ExtraJarLoadPipeline(0, extraJar));
         addPipeline(new ExtraConfigLoadPipeline(1, extraFlowConfigs, configBasePackages));
         addPipeline(new ExtraCodeLoadPipeline(2, extraFlowCodes, flowBasePackages));

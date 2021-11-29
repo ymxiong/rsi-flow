@@ -19,7 +19,7 @@ public abstract class ExtraBasePipeline implements Pipeline, Comparable<ExtraBas
     }
 
     @Override
-    public void initializer() {
+    public void initializer() throws Exception {
         if (pre != null) pre.initializer();
         initializerSelf();
     }
