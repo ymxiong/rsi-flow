@@ -83,9 +83,12 @@ public class FlowContext {
         scopeContext.releaseVariables(variableName);
     }
 
-    public FlowScopeContext getScopeParams(String scope) {
+    public Map<String,Object> getScopeParams(String scope) {
         FlowScopeContext scopeContext = scopeContextMap.get(scope);
-        return scopeContext;
+        if (scopeContext!=null) {
+            return scopeContext.getVariableMap();
+        }
+        return null;
     }
 
     public MonitorBus getMonitorBus() {

@@ -38,6 +38,10 @@ public class FlowScopeContext {
         }
     }
 
+    public Map<String, Object> getVariableMap() {
+        return variableMap;
+    }
+
     public String getName() {
         return name;
     }
