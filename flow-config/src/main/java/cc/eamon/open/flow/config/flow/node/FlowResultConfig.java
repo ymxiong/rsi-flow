@@ -23,27 +23,34 @@ public class FlowResultConfig implements Serializable {
     private String name;
 
     /**
-     * 该结果的类型
+     * 该结果的标题
      */
     @JSONField(ordinal = 2)
+    private String title;
+
+
+    /**
+     * 该结果的类型
+     */
+    @JSONField(ordinal = 3)
     private String type;
 
     /**
      * 结果存放到的域
      */
-    @JSONField(ordinal = 3)
+    @JSONField(ordinal = 4)
     private String scope;
 
     /**
      * 解析目标
      */
-    @JSONField(ordinal = 4)
+    @JSONField(ordinal = 5)
     private String parse;
 
     /**
      * 是否可以为空
      */
-    @JSONField(ordinal = 5)
+    @JSONField(ordinal = 6)
     private Boolean notnull;
 
 
@@ -53,6 +60,14 @@ public class FlowResultConfig implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getType() {

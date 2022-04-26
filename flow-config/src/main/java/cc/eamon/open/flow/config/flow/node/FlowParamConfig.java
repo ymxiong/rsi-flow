@@ -23,21 +23,27 @@ public class FlowParamConfig implements Serializable {
     private String name;
 
     /**
-     * 该参数的类型
+     * 该参数的标题
      */
     @JSONField(ordinal = 2)
+    private String title;
+
+    /**
+     * 该参数的类型
+     */
+    @JSONField(ordinal = 3)
     private String type;
 
     /**
      * 该参数所在的域
      */
-    @JSONField(ordinal = 3)
+    @JSONField(ordinal = 4)
     private String scope;
 
     /**
      * 是否可以为空
      */
-    @JSONField(ordinal = 4)
+    @JSONField(ordinal = 5)
     private Boolean notnull;
 
     public String getName() {
@@ -46,6 +52,14 @@ public class FlowParamConfig implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getType() {
