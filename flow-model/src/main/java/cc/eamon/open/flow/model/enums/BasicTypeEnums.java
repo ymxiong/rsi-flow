@@ -126,7 +126,9 @@ public enum BasicTypeEnums {
     PREPAREDSTATEMENT("PreparedStatement", "java.sql", PreparedStatement.class),
     CALLABLESTATEMENT("CallableStatement", "java.sql", CallableStatement.class),
     DATABASEMETADATA("DatabaseMetaData", "java.sql", DatabaseMetaData.class),
-    RESULTSET("ResultSet", "java.sql", ResultSet.class);
+    RESULTSET("ResultSet", "java.sql", ResultSet.class),
+
+    ;
 
     private String keyword;
 
@@ -152,7 +154,7 @@ public enum BasicTypeEnums {
         if (!reference.contains(".")) {
             clazz = getPreparedType(reference);
         } else {
-            clazz = getAddtionalType(reference);
+            clazz = getAdditionalType(reference);
         }
         return clazz;
     }
@@ -164,7 +166,7 @@ public enum BasicTypeEnums {
         return null;
     }
 
-    private static Class getAddtionalType(String reference) {
+    private static Class getAdditionalType(String reference) {
         Class clazz = null;
         try {
             clazz = Class.forName(reference);
@@ -182,6 +184,24 @@ public enum BasicTypeEnums {
         return null;
     }
 
+    public static BasicType getTypeByReference(String reference) {
+        BasicTypeEnums enumType = getTypeByClass(getType(reference));
+        if (enumType != null) return new BasicType(enumType);
+        BasicType type = new BasicType();
+        if (!reference.contains(".")) return null;
+
+        String[] values = reference.split("\\.");
+        String keyword = values[values.length - 1];
+        StringBuilder packageNameBuilder = new StringBuilder();
+        for (int i = 0; i < values.length - 1; i++) {
+            packageNameBuilder.append(values[i]).append(".");
+        }
+        packageNameBuilder.deleteCharAt(packageNameBuilder.length() - 1);
+        type.setKeyword(keyword);
+        type.setPackageName(packageNameBuilder.toString());
+
+        return type;
+    }
 
     public String getKeyword() {
         return keyword;
@@ -194,5 +214,48 @@ public enum BasicTypeEnums {
     public Class<?> getClassType() {
         return classType;
     }
+
+    public static class BasicType {
+
+        private String keyword;
+
+        private String packageName;
+
+        private Class<?> classType;
+
+        public BasicType() {
+        }
+
+        public BasicType(BasicTypeEnums enums) {
+            this.keyword = enums.getKeyword();
+            this.packageName = enums.getPackageName();
+            this.classType = enums.getClassType();
+        }
+
+        public String getKeyword() {
+            return keyword;
+        }
+
+        public void setKeyword(String keyword) {
+            this.keyword = keyword;
+        }
+
+        public String getPackageName() {
+            return packageName;
+        }
+
+        public void setPackageName(String packageName) {
+            this.packageName = packageName;
+        }
+
+        public Class<?> getClassType() {
+            return classType;
+        }
+
+        public void setClassType(Class<?> classType) {
+            this.classType = classType;
+        }
+    }
+
 }
 
