@@ -67,23 +67,17 @@ public class EventExecutable implements Executable {
                 }
 
             }
+            // 进行类型校验
             Object convertedVariable = ModelEngine.check(param.getType(), variable);
             if (!variable.equals(convertedVariable))
                 FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
             args[i] = convertedVariable;
         }
         try {
-            //TODO: 修改参数注入配置
-            Object value = flowCode.execute(args);
-            if (flowNodeConfig.getResults().size() >= 1) {
-                String scope = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getScope();
-                String retrieve = flowNodeConfig.getResults().get(flowNodeConfig.getResults().size() - 1).getName();
-                FlowContextHolder.get().registerVariable(scope, retrieve, value);
-            }
+            flowCode.execute(args);
         } catch (Exception e) {
             logger.info("流程节点：" + flowNodeConfig.getId() + " 执行错误，错误信息为:" + e.getMessage());
             throw e;
-//            throw new FlowRuntimeException(flowNodeConfig.getId());
         }
     }
 }
