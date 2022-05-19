@@ -9,6 +9,7 @@ import cc.eamon.open.flow.core.stereotype.support.defination.LocalJavaCode;
 import cc.eamon.open.flow.core.stereotype.support.defination.LocalJavaCodeProxy;
 import cc.eamon.open.flow.core.utils.ClassUtils;
 import cc.eamon.open.flow.spring.ComponentScanner;
+import cc.eamon.open.flow.spring.FlowComponent;
 import cc.eamon.open.flow.spring.stereotype.support.defination.SpringCode;
 import cc.eamon.open.flow.spring.stereotype.support.defination.SpringCodeProxy;
 import org.slf4j.Logger;
@@ -57,10 +58,11 @@ public class ComponentFlowScanner implements FlowScanner {
 
         List<Class<?>> classes = ClassUtils.getAllClassByPackageName(basePackage);
         for (Class<?> aClass : classes) {
+            if (aClass.isInterface() || !aClass.isAnnotationPresent(FlowComponent.class)) continue;
             Object component = ComponentScanner.flowComponentMap.get(aClass.getName());
-            if (component==null){
+            if (component == null) {
                 try {
-                    component=aClass.newInstance();
+                    component = aClass.newInstance();
                 } catch (InstantiationException e) {
                     e.printStackTrace();
                 } catch (IllegalAccessException e) {
