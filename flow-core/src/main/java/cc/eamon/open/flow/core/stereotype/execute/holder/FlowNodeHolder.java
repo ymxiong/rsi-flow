@@ -55,15 +55,15 @@ public class FlowNodeHolder implements Source, Target {
      */
     private boolean isAsync = false;
 
-    FlowNodeHolder(FlowNodeConfig flowNodeConfig) throws Exception{
+    FlowNodeHolder(FlowNodeConfig flowNodeConfig) throws Exception {
         this.flowNodeConfig = flowNodeConfig;
         Class<? extends Executable> executable = ExecutableEnums.getType(flowNodeConfig.getType()).getExecutable();
         try {
             flowExecutable = executable.getDeclaredConstructor(FlowNodeConfig.class).newInstance(flowNodeConfig);
         } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException e) {
             logger.error(e.toString());
-            throw new FlowNodeRuntimeException(flowNodeConfig.getId(),e.getMessage());
-        }catch (FlowException e){
+            throw new FlowNodeRuntimeException(flowNodeConfig.getId(), e.getMessage());
+        } catch (FlowException e) {
             logger.error(e.toString());
             throw e;
         }
@@ -73,12 +73,11 @@ public class FlowNodeHolder implements Source, Target {
         for (FlowResultConfig result : flowNodeConfig.getResults()) {
             resultHolders.add(new FlowResultHolder(result));
         }
-        if ( flowNodeConfig.getAsync()==null){
-            this.isAsync=false;
-        }else {
+        if (flowNodeConfig.getAsync() == null) {
+            this.isAsync = false;
+        } else {
             this.isAsync = flowNodeConfig.getAsync();
         }
-
 
 
     }

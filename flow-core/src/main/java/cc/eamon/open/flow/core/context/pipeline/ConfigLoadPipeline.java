@@ -1,12 +1,13 @@
 package cc.eamon.open.flow.core.context.pipeline;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.stereotype.support.enums.LoaderEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -19,11 +20,11 @@ public class ConfigLoadPipeline extends BasePipeline {
 
     private static Logger logger = LoggerFactory.getLogger(ConfigLoadPipeline.class);
 
-    private Map<String,FlowConfig> flowConfigs;
+    private Map<String, FlowConfig> flowConfigs;
 
     private String[] configFiles;
 
-    public ConfigLoadPipeline(int level,Map<String,FlowConfig> flowConfigs, String... configFiles) {
+    public ConfigLoadPipeline(int level, Map<String, FlowConfig> flowConfigs, String... configFiles) {
         super(level);
         this.flowConfigs = flowConfigs;
         this.configFiles = configFiles;
@@ -35,10 +36,15 @@ public class ConfigLoadPipeline extends BasePipeline {
         for (LoaderEnums value : LoaderEnums.values()) {
             // @Config自动扫描
             Set<FlowConfig> configs = value.getLoader().load(configFiles);
-            if (configs == null) continue;
+            if (configs == null || configs.isEmpty()) continue;
+            Map<FlowNodeConfig, FlowConfig> flowNodeConfigFlowConfigs = new HashMap<>(configs.size());
             for (FlowConfig config : configs) {
-                flowConfigs.put(config.getId(),config);
+                flowConfigs.put(config.getId(), config);
+                for (FlowNodeConfig flowNodeConfig : config.getNodes()) {
+                    flowNodeConfigFlowConfigs.put(flowNodeConfig, config);
+                }
             }
+            Initializer.addFlowNodeConfigFlowConfig(flowNodeConfigFlowConfigs);
         }
     }
 }

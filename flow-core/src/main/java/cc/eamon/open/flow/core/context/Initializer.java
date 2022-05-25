@@ -2,6 +2,7 @@ package cc.eamon.open.flow.core.context;
 
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.model.ModelConfig;
 import cc.eamon.open.flow.core.context.pipeline.*;
 import cc.eamon.open.flow.core.error.FlowException;
@@ -40,6 +41,11 @@ public class Initializer {
      * 流程配置键值
      */
     private static Map<String, FlowConfig> flowConfigs = new ConcurrentHashMap<>();
+
+    /**
+     * 流程Node配置对应流程配置映射
+     */
+    private static Map<FlowNodeConfig, FlowConfig> flowNodeConfigFlowConfigs = new ConcurrentHashMap<>();
 
     /**
      * 流程代码键值Map
@@ -96,9 +102,23 @@ public class Initializer {
         return flowCodes;
     }
 
+    public static Map<FlowNodeConfig, FlowConfig> getFlowNodeConfigFlowConfigs() {
+        return flowNodeConfigFlowConfigs;
+    }
+
+    public static void addFlowNodeConfigFlowConfig(Map<FlowNodeConfig, FlowConfig> extraFlowNodeConfigFlowConfigs) {
+        flowNodeConfigFlowConfigs.putAll(extraFlowNodeConfigFlowConfigs);
+    }
+
 
     public static void addExtraFlowConfig(Map<String, FlowConfig> extraFlowConfigs) {
         flowConfigs.putAll(extraFlowConfigs);
+        for (Map.Entry<String, FlowConfig> flowConfigEntry : extraFlowConfigs.entrySet()) {
+            FlowConfig flowConfig = flowConfigEntry.getValue();
+            for (FlowNodeConfig flowNodeConfig : flowConfig.getNodes()) {
+                flowNodeConfigFlowConfigs.put(flowNodeConfig, flowConfig);
+            }
+        }
     }
 
     public static void addExtraFlowCode(Map<String, FlowCode> extraFlowCodes) {
