@@ -3,10 +3,10 @@ package cc.eamon.open.flow.core.stereotype.execute;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
+import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowNestParamNotExistException;
-import cc.eamon.open.flow.core.error.FlowNodeParamNotExistException;
 import cc.eamon.open.flow.core.error.FlowNodeRefMissingException;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
@@ -57,6 +57,8 @@ public class FlowExecutable implements Executable {
             this.flowHolder = Initializer.getFlowHolder(flowNodeConfig.getReference());
         }
         if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());
+
+        FlowEngine.instance().setFlowScope(flowNodeConfig.getReference());
 
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
             FlowParamConfig flowParamConfig = flowNodeConfig.getParams().get(i);

@@ -33,7 +33,7 @@ public class FlowEngine {
     /**
      * 当前执行流程ID，用于注册参数到对应域
      */
-    private static String flowScope;
+    private String flowScope;
 
     public static FlowEngine instance() {
         //  保障同一线程仅有单一执行的流程引擎
@@ -125,8 +125,18 @@ public class FlowEngine {
      * @return 流程引擎实例
      */
     public FlowEngine register(String paramName, Object paramValue) {
-//        return register(FlowConstants.SCOPE_DEFAULT, paramName, paramValue);
         return register(flowScope, paramName, paramValue);
+    }
+
+    /**
+     * 注入参数
+     *
+     * @param paramName  注册参数名
+     * @param paramValue 注册参数对象
+     * @return 流程引擎实例
+     */
+    public FlowEngine registerWithDefaultScope(String paramName, Object paramValue) {
+        return register(flowScope, paramName, paramValue).register(FlowConstants.SCOPE_DEFAULT, paramName, paramValue);
     }
 
     /**
@@ -148,7 +158,17 @@ public class FlowEngine {
      * @return 流程引擎实例
      */
     public FlowEngine release(String... paramNames) {
-        return release(FlowConstants.SCOPE_DEFAULT, paramNames);
+        return release(flowScope, paramNames);
+    }
+
+    /**
+     * 注销参数
+     *
+     * @param paramNames 参数名集合
+     * @return 流程引擎实例
+     */
+    public FlowEngine releaseWithDefaultScope(String... paramNames) {
+        return release(flowScope, paramNames).release(FlowConstants.SCOPE_DEFAULT, paramNames);
     }
 
     /**
@@ -178,7 +198,7 @@ public class FlowEngine {
      * @return 对象
      */
     public Object retrieve(String paramName) {
-        return this.retrieve(FlowConstants.SCOPE_DEFAULT, paramName);
+        return this.retrieve(flowScope, paramName);
     }
 
     /**
@@ -191,5 +211,12 @@ public class FlowEngine {
         return FlowContextHolder.get().retrieveVariable(scope, paramName);
     }
 
-
+    /**
+     * 设置执行流程引擎域
+     *
+     * @param flowScope
+     */
+    public void setFlowScope(String flowScope) {
+        this.flowScope = flowScope;
+    }
 }

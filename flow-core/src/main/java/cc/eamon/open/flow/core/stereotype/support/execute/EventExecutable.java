@@ -2,6 +2,7 @@ package cc.eamon.open.flow.core.stereotype.support.execute;
 
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
+import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
@@ -50,6 +51,9 @@ public class EventExecutable implements Executable {
 
     @Override
     public void execute() throws Exception {
+
+        FlowEngine.instance().setFlowScope(Initializer.getFlowNodeConfigFlowConfigs().get(flowNodeConfig).getId());
+
         // 注入流程代码所需参数
         Object[] args = new Object[flowNodeConfig.getParams().size()];
 
