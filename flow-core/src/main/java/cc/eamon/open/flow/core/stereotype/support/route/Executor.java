@@ -7,6 +7,7 @@ import cc.eamon.open.flow.core.stereotype.execute.holder.FlowResultHolder;
 import cc.eamon.open.flow.core.stereotype.route.RouteExecutor;
 import cc.eamon.open.flow.core.stereotype.support.route.executors.RouteExecutorEnums;
 import cc.eamon.open.flow.route.Routes;
+import cc.eamon.open.flow.route.RoutesRuntime;
 import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.Source;
@@ -18,15 +19,20 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class Executor {
 
     /**
+     * 流程路由运行时容器
+     */
+    private RoutesRuntime routesRuntime;
+
+    /**
      * 流程路由容器
      */
     private Routes routes;
 
 
-    /**
-     * 流程路由容器
-     */
-    private Routes parentRoutes;
+//    /**
+//     * 流程路由容器
+//     */
+//    private Routes parentRoutes;
 
 
     /**
@@ -41,16 +47,18 @@ public class Executor {
     }
 
     public void setRoutes(Routes routes) {
-        if (this.routes != null) {
-            parentRoutes = this.routes;
+        RoutesRuntime routesRuntime = new RoutesRuntime(routes);
+        if (this.routesRuntime != null) {
+            routesRuntime.setParent(this.routesRuntime);
         }
         this.routes = routes;
+        this.routesRuntime = routesRuntime;
     }
 
     public void recoverRoutes() {
-        if (this.parentRoutes != null) {
-            routes = this.parentRoutes;
-            this.parentRoutes = null;
+        if (this.routesRuntime.getParent() != null) {
+            this.routesRuntime = this.routesRuntime.getParent();
+            routes = this.routesRuntime.getRoutes();
         }
 
     }
