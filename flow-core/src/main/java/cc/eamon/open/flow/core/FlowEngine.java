@@ -2,7 +2,7 @@ package cc.eamon.open.flow.core;
 
 import cc.eamon.open.flow.config.constants.FlowConstants;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowResultHolder;
@@ -22,7 +22,7 @@ public class FlowEngine {
 
     static {
         try {
-            Initializer.init();
+            InitializerEnums.DEFAULT.getInitializer().init();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,7 +62,7 @@ public class FlowEngine {
      */
     public FlowEngine run(String flowId) throws Exception {
         // 获取flow容器
-        FlowHolder flowHolder = Initializer.getFlowHolder(flowId);
+        FlowHolder flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(flowId);
         // 检查容器是否存在
         if (flowHolder == null) throw new FlowNotFoundException(flowId);
         // 共享默认上下文
@@ -96,7 +96,7 @@ public class FlowEngine {
     public Map<String, Object> retrieveFlowResults(String flowId, Map<String, String> extraResults) throws Exception {
         Map<String, Object> results = new HashMap<>();
         // 获取flow容器
-        FlowHolder flowHolder = Initializer.getFlowHolder(flowId);
+        FlowHolder flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(flowId);
         // 检查容器是否存在
         if (flowHolder == null) throw new FlowNotFoundException(flowId);
         // 共享默认上下文

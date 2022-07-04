@@ -2,7 +2,7 @@ package cc.eamon.open.flow.core.context.pipeline;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
-import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.LoaderEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +44,7 @@ public class ConfigLoadPipeline extends BasePipeline {
                     flowNodeConfigFlowConfigs.put(flowNodeConfig, config);
                 }
             }
-            Initializer.addFlowNodeConfigFlowConfig(flowNodeConfigFlowConfigs);
+            InitializerEnums.DEFAULT.getInitializer().addFlowNodeConfigFlowConfig(flowNodeConfigFlowConfigs);
         }
     }
 }

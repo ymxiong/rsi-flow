@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.spring;
 
-import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.utils.LogoUtil;
 import cc.eamon.open.flow.spring.context.pipeline.SpringComponentPipeline;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class ComponentScanner implements BeanPostProcessor, PriorityOrdered {
 
     static {
         LogoUtil.print();
-        Initializer.addPipeline(new SpringComponentPipeline(5, Initializer.getFlowCodes(), SpringComponentPipeline.getComponentBasePackages()));
+        InitializerEnums.DEFAULT.getInitializer().addPipeline(new SpringComponentPipeline(5, InitializerEnums.DEFAULT.getInitializer().getFlowCodes(), SpringComponentPipeline.getComponentBasePackages()));
     }
 
     private static final Logger logger = LoggerFactory.getLogger(ComponentScanner.class);

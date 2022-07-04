@@ -1,12 +1,9 @@
 package cc.eamon.open.flow.spring.stereotype.support.scan;
 
-import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.PackageNotFoundException;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
-import cc.eamon.open.flow.core.stereotype.support.defination.LocalJavaCode;
-import cc.eamon.open.flow.core.stereotype.support.defination.LocalJavaCodeProxy;
 import cc.eamon.open.flow.core.utils.ClassUtils;
 import cc.eamon.open.flow.spring.ComponentScanner;
 import cc.eamon.open.flow.spring.FlowComponent;

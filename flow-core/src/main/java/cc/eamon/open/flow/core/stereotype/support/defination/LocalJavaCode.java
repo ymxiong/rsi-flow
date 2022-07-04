@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.core.stereotype.support.defination;
 
-import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;

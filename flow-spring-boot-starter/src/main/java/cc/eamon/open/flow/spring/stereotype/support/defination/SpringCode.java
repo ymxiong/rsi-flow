@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.spring.stereotype.support.defination;
 
-import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowComponentNotFoundException;
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;

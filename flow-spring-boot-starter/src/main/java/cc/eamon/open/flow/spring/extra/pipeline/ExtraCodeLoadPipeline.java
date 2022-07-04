@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.spring.extra.pipeline;
 
-import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.spring.stereotype.support.scan.ComponentFlowScanner;
@@ -38,6 +38,6 @@ public class ExtraCodeLoadPipeline extends BasePipeline {
         for (FlowCode flowCode : flowCodeSet) {
             flowCodes.put(flowCode.getName(), flowCode);
         }
-        Initializer.addExtraFlowCode(flowCodes);
+        InitializerEnums.DEFAULT.getInitializer().addExtraFlowCode(flowCodes);
     }
 }

@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.spring.config;
 
-import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.spring.ComponentScanner;
 import cc.eamon.open.flow.spring.SpringUtils;
 import org.springframework.context.annotation.Bean;
@@ -16,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class FlowAutoConfiguration {
 
     @Bean
-    public ComponentScanner componentScaner() {
+    public ComponentScanner componentScanner() {
         return new ComponentScanner();
     }
 

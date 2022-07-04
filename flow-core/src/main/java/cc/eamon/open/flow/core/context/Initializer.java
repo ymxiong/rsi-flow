@@ -3,20 +3,17 @@ package cc.eamon.open.flow.core.context;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
-import cc.eamon.open.flow.config.model.ModelConfig;
 import cc.eamon.open.flow.core.context.pipeline.*;
 import cc.eamon.open.flow.core.error.FlowException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import cc.eamon.open.flow.model.ModelEngine;
-import cc.eamon.open.flow.model.definition.FlowModel;
-import cc.eamon.open.flow.model.definition.FlowReferenceModel;
-import cc.eamon.open.flow.model.enums.BasicTypeEnums;
-import cc.eamon.open.flow.model.error.FlowModelNotDefinedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -35,50 +32,50 @@ public class Initializer {
      * 键为流程id
      * 值为该流程的Holder,其中包含了流程的配置信息以及流程所需要的流程代码配置
      */
-    private static Map<String, FlowHolder> flowHolders = new ConcurrentHashMap<>();
+    private Map<String, FlowHolder> flowHolders = new ConcurrentHashMap<>();
 
     /**
      * 流程配置键值
      */
-    private static Map<String, FlowConfig> flowConfigs = new ConcurrentHashMap<>();
+    private Map<String, FlowConfig> flowConfigs = new ConcurrentHashMap<>();
 
     /**
      * 流程Node配置对应流程配置映射
      */
-    private static Map<FlowNodeConfig, FlowConfig> flowNodeConfigFlowConfigs = new ConcurrentHashMap<>();
+    private Map<FlowNodeConfig, FlowConfig> flowNodeConfigFlowConfigs = new ConcurrentHashMap<>();
 
     /**
      * 流程代码键值Map
      * 键为流程代码的名称
      * 值为对应的流程代码
      */
-    private static Map<String, FlowCode> flowCodes = new ConcurrentHashMap<>();
+    private Map<String, FlowCode> flowCodes = new ConcurrentHashMap<>();
 
 
     /**
      * 流程代码所在路径
      */
-    private static String[] flowBasePackages = new String[]{"cc.eamon.open.flow"};
+    private String[] flowBasePackages = new String[]{"cc.eamon.open.flow"};
 
     /**
      * 流程代码所在路径
      */
-    private static String[] configBasePackages = new String[]{""};
+    private String[] configBasePackages = new String[]{""};
 
 
     /**
      * 流程模型所在路径
      */
-    private static String[] modelConfigFiles = new String[]{""};
+    private String[] modelConfigFiles = new String[]{""};
 
 
-    private static PriorityQueue<Pipeline> priorityQueue = new PriorityQueue<>();
+    private PriorityQueue<Pipeline> priorityQueue = new PriorityQueue<>();
 
-    public static void addPipeline(BasePipeline... basePipeline) {
+    public void addPipeline(BasePipeline... basePipeline) {
         priorityQueue.addAll(Arrays.asList(basePipeline));
     }
 
-    public static void init() throws Exception {
+    public void init() throws Exception {
         addPipeline(new ConfigLoadPipeline(1, flowConfigs, configBasePackages));
         addPipeline(new CodeLoadPipeline(2, flowCodes, flowBasePackages));
         addPipeline(new ModelLoadPipeline(3, modelConfigFiles, ModelEngine.flowModelConfigs));
@@ -94,24 +91,24 @@ public class Initializer {
     }
 
 
-    public static FlowHolder getFlowHolder(String flowHolderId) {
+    public FlowHolder getFlowHolder(String flowHolderId) {
         return flowHolders.get(flowHolderId);
     }
 
-    public static Map<String, FlowCode> getFlowCodes() {
+    public Map<String, FlowCode> getFlowCodes() {
         return flowCodes;
     }
 
-    public static Map<FlowNodeConfig, FlowConfig> getFlowNodeConfigFlowConfigs() {
+    public Map<FlowNodeConfig, FlowConfig> getFlowNodeConfigFlowConfigs() {
         return flowNodeConfigFlowConfigs;
     }
 
-    public static void addFlowNodeConfigFlowConfig(Map<FlowNodeConfig, FlowConfig> extraFlowNodeConfigFlowConfigs) {
+    public void addFlowNodeConfigFlowConfig(Map<FlowNodeConfig, FlowConfig> extraFlowNodeConfigFlowConfigs) {
         flowNodeConfigFlowConfigs.putAll(extraFlowNodeConfigFlowConfigs);
     }
 
 
-    public static void addExtraFlowConfig(Map<String, FlowConfig> extraFlowConfigs) {
+    public void addExtraFlowConfig(Map<String, FlowConfig> extraFlowConfigs) {
         flowConfigs.putAll(extraFlowConfigs);
         for (Map.Entry<String, FlowConfig> flowConfigEntry : extraFlowConfigs.entrySet()) {
             FlowConfig flowConfig = flowConfigEntry.getValue();
@@ -121,11 +118,11 @@ public class Initializer {
         }
     }
 
-    public static void addExtraFlowCode(Map<String, FlowCode> extraFlowCodes) {
+    public void addExtraFlowCode(Map<String, FlowCode> extraFlowCodes) {
         flowCodes.putAll(extraFlowCodes);
     }
 
-    public static void addExtraFlowHolder(Map<String, FlowHolder> extraFlowHolders) {
+    public void addExtraFlowHolder(Map<String, FlowHolder> extraFlowHolders) {
         flowHolders.putAll(extraFlowHolders);
     }
 

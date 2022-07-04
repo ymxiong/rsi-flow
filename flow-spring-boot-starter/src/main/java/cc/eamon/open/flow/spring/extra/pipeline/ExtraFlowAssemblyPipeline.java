@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.spring.extra.pipeline;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
-import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
 import cc.eamon.open.flow.core.error.FlowTypeNotSupportException;
@@ -41,6 +41,6 @@ public class ExtraFlowAssemblyPipeline extends BasePipeline {
                 logger.info(e.getMessage());
             }
         }
-        Initializer.addExtraFlowHolder(flowHolders);
+        InitializerEnums.DEFAULT.getInitializer().addExtraFlowHolder(flowHolders);
     }
 }

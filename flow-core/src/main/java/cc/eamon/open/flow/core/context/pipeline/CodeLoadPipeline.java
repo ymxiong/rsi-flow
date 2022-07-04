@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.core.context.pipeline;
 
-import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.scan.FlowScanner;
 import cc.eamon.open.flow.core.stereotype.support.enums.ScannerEnums;

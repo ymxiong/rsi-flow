@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.spring.extra.pipeline;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
-import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.context.pipeline.BasePipeline;
 import cc.eamon.open.flow.core.stereotype.support.enums.LoaderEnums;
 import org.slf4j.Logger;
@@ -40,6 +40,6 @@ public class ExtraConfigLoadPipeline extends BasePipeline {
                 flowConfigs.put(config.getId(),config);
             }
         }
-        Initializer.addExtraFlowConfig(flowConfigs);
+        InitializerEnums.DEFAULT.getInitializer().addExtraFlowConfig(flowConfigs);
     }
 }

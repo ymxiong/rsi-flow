@@ -4,7 +4,7 @@ import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
 import cc.eamon.open.flow.core.error.FlowNodeParamNotExistException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
@@ -37,7 +37,7 @@ public class EventExecutable implements Executable {
 
     public EventExecutable(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
-        this.flowCode = Initializer.getFlowCodes().get(this.flowNodeConfig.getReference());
+        this.flowCode = InitializerEnums.DEFAULT.getInitializer().getFlowCodes().get(this.flowNodeConfig.getReference());
         if (flowCode == null) {
             logger.error("流程节点代码" + flowNodeConfig.getReference() + "未找到");
             throw new FlowCodeNotFoundException();
@@ -52,7 +52,7 @@ public class EventExecutable implements Executable {
     @Override
     public void execute() throws Exception {
 
-        FlowEngine.instance().setFlowScope(Initializer.getFlowNodeConfigFlowConfigs().get(flowNodeConfig).getId());
+        FlowEngine.instance().setFlowScope(InitializerEnums.DEFAULT.getInitializer().getFlowNodeConfigFlowConfigs().get(flowNodeConfig).getId());
 
         // 注入流程代码所需参数
         Object[] args = new Object[flowNodeConfig.getParams().size()];
