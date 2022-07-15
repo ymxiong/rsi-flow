@@ -68,12 +68,14 @@ public class FlowExecutable implements Executable {
                 if (flowParamHolder.getNotNull()) {
                     throw new FlowNestParamNotExistException(flowNodeConfig.getId(), flowParamHolder.getScope(), flowParamHolder.getName());
                 } else {
-                    continue;
+                    if (flowParamHolder.getDefaultValue() != null) {
+                        variable = flowParamHolder.getDefaultValue();
+                    } else continue;
                 }
             }
             Object convertedVariable = ModelEngine.check(flowParamConfig.getType(), variable);
-            if (!variable.equals(convertedVariable))
-                FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
+//            if (!variable.equals(convertedVariable))
+//                FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
             FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
         }
         flowHolder.execute();

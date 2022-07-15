@@ -52,6 +52,8 @@ public class FlowParamConfigBuilder {
             builder.append("\"scope\":").append("\"").append(config.getScope()).append("\", ");
         if (!StringUtils.isEmpty(config.getNotnull()))
             builder.append("\"notnull\":").append(config.getNotnull()).append(", ");
+        if (!StringUtils.isEmpty(config.getDefaultValue()))
+            builder.append("\"defaultValue\":").append(config.getDefaultValue()).append(", ");
         builder.deleteCharAt(builder.length() - 2);
         builder.append("}");
         return builder.toString();

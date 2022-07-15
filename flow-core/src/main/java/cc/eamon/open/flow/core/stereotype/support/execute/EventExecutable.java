@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.support.execute;
 
+import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.core.FlowEngine;
@@ -7,8 +8,12 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
 import cc.eamon.open.flow.core.error.FlowNodeParamNotExistException;
+import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
+import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
+import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
+import cc.eamon.open.flow.core.stereotype.execute.holder.FlowParamHolder;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.model.ModelEngine;
 import org.slf4j.Logger;
@@ -52,22 +57,33 @@ public class EventExecutable implements Executable {
     @Override
     public void execute() throws Exception {
 
-        FlowEngine.instance().setFlowScope(Initializer.getFlowNodeConfigFlowConfigs().get(flowNodeConfig).getId());
+        FlowConfig flowConfig = Initializer.getFlowNodeConfigFlowConfigs().get(flowNodeConfig);
+        if (flowConfig == null) throw new FlowNodeRuntimeException(flowNodeConfig.getId());
+        FlowEngine.instance().setFlowScope(flowConfig.getId());
+        FlowHolder flowHolder = Initializer.getFlowHolder(flowConfig.getId());
+        if (flowHolder == null) throw new FlowNotFoundException(flowConfig.getId());
 
         // 注入流程代码所需参数
         Object[] args = new Object[flowNodeConfig.getParams().size()];
 
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
             FlowParamConfig param = flowNodeConfig.getParams().get(i);
+            FlowParamHolder flowParamHolder = flowHolder.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
             if (null == variable) {
-                if (Boolean.TRUE.equals(param.getNotnull())) {
+                if (flowParamHolder.getNotNull()) {
                     String errorInfo = "Error occurs when invoke " + flowNodeConfig.getId() + ".The nested problem is " + param.getName() + " does not exist in scope of " + param.getScope() + " in flowContext.";
                     logger.info(errorInfo);
                     throw new FlowNodeParamNotExistException(flowNodeConfig.getId(), param.getScope(), param.getName(), errorInfo);
                 } else {
-                    args[i] = variable;
-                    continue;
+                    Object defaultValue = flowParamHolder.getDefaultValue();
+                    if (defaultValue != null) {
+                        variable = defaultValue;
+                        FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), variable);
+                    } else {
+                        args[i] = null;
+                        continue;
+                    }
                 }
 
             }

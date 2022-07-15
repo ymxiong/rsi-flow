@@ -46,4 +46,9 @@ public class FlowParamHolder {
         if (flowParamConfig.getNotnull() == null) return true;
         return flowParamConfig.getNotnull();
     }
+
+    public Object getDefaultValue() {
+        if (flowParamConfig.getDefaultValue() == null) return type.getDefaultValue();
+        return flowParamConfig.getDefaultValue();
+    }
 }

@@ -7,10 +7,8 @@ import cc.eamon.open.flow.config.flow.FlowRouteStrategyConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.error.FlowNodeDuplicateDefineException;
-import cc.eamon.open.flow.core.error.FlowParamNotExistException;
-import cc.eamon.open.flow.core.error.FlowNodeResultNotExistException;
-import cc.eamon.open.flow.core.error.FlowResultNotExistException;
+import cc.eamon.open.flow.core.context.Initializer;
+import cc.eamon.open.flow.core.error.*;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.core.stereotype.support.route.ExecutorHolder;
@@ -153,13 +151,18 @@ public class FlowHolder implements Executable {
     public void execute() throws Exception {
 
         Map<String, Object> paramMap = new HashMap<>();
-        for (FlowParamConfig param : flowConfig.getParams()) {
+        for (int i = 0; i < flowConfig.getParams().size(); i++) {
+            FlowParamConfig param = flowConfig.getParams().get(i);
+            FlowParamHolder flowParamHolder = params.get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
             if (variable == null) {
-                if (Boolean.TRUE.equals(param.getNotnull())) {
+                if (flowParamHolder.getNotNull()) {
                     throw new FlowParamNotExistException(flowConfig.getId(), param.getScope(), param.getName());
                 }
-                continue;
+                if (flowParamHolder.getDefaultValue() != null) {
+                    variable = flowParamHolder.getDefaultValue();
+                    FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), variable);
+                } else continue;
             }
             Object convertedVariable = ModelEngine.check(param.getType(), variable);
             if (!variable.equals(convertedVariable))
