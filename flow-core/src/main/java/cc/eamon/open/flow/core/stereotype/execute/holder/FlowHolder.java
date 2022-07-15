@@ -156,7 +156,7 @@ public class FlowHolder implements Executable {
         for (FlowParamConfig param : flowConfig.getParams()) {
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
             if (variable == null) {
-                if (param.getNotnull()) {
+                if (Boolean.TRUE.equals(param.getNotnull())) {
                     throw new FlowParamNotExistException(flowConfig.getId(), param.getScope(), param.getName());
                 }
                 continue;

@@ -61,7 +61,7 @@ public class EventExecutable implements Executable {
             FlowParamConfig param = flowNodeConfig.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
             if (null == variable) {
-                if (param.getNotnull()) {
+                if (Boolean.TRUE.equals(param.getNotnull())) {
                     String errorInfo = "Error occurs when invoke " + flowNodeConfig.getId() + ".The nested problem is " + param.getName() + " does not exist in scope of " + param.getScope() + " in flowContext.";
                     logger.info(errorInfo);
                     throw new FlowNodeParamNotExistException(flowNodeConfig.getId(), param.getScope(), param.getName(), errorInfo);
