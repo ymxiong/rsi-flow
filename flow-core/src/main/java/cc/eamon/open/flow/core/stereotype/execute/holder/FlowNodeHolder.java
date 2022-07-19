@@ -4,13 +4,11 @@ import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.error.FlowException;
-import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
-import cc.eamon.open.flow.core.error.ParamNotMatchException;
-import cc.eamon.open.flow.core.error.FlowNodeResultNotExistException;
+import cc.eamon.open.flow.core.error.*;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.ExecutableEnums;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.ModelEngine;
 import cc.eamon.open.flow.route.stereotype.Source;
 import cc.eamon.open.flow.route.stereotype.Target;
 import org.slf4j.Logger;
@@ -98,7 +96,21 @@ public class FlowNodeHolder implements Source, Target {
             throw new ParamNotMatchException(flowNodeConfig.getId(), "");
         }
         for (int i = 0; i < paramHolders.size(); i++) {
-            paramHolders.get(i).verify(paramTypes.get(i));
+            FlowParamHolder flowParamHolder = paramHolders.get(i);
+            flowParamHolder.verify(paramTypes.get(i));
+            FlowParamConfig flowParamConfig = flowNodeConfig.getParams().get(i);
+            Object variable = FlowContextHolder.get().retrieveVariable(flowParamConfig.getScope(), flowParamConfig.getName());
+            if (null == variable) {
+                if (flowParamHolder.getNotNull()) {
+                    throw new FlowNestParamNotExistException(flowNodeConfig.getId(), flowParamHolder.getScope(), flowParamHolder.getName());
+                } else {
+                    if (flowParamHolder.getDefaultValue() != null) {
+                        variable = flowParamHolder.getDefaultValue();
+                        Object convertedVariable = ModelEngine.check(flowParamConfig.getType(), variable);
+                        FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
+                    }
+                }
+            }
         }
     }
 

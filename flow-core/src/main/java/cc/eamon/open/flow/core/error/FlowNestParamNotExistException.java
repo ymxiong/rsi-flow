@@ -10,7 +10,7 @@ public class FlowNestParamNotExistException extends RuntimeException {
     private static final long serialVersionUID = -6528089647923156533L;
 
     public FlowNestParamNotExistException(String flowNodeId,String scope,String name) {
-        super("嵌套调用流程时参数确实" + ",流程节点ID:" + flowNodeId+",参数域:" + scope+",参数名ID:" + name);
+        super("嵌套调用流程时参数缺失" + ",流程节点ID:" + flowNodeId+",参数域:" + scope+",参数名ID:" + name);
 
     }
 

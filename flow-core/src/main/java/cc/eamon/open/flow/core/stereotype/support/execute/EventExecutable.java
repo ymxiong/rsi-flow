@@ -8,12 +8,8 @@ import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
 import cc.eamon.open.flow.core.error.FlowNodeParamNotExistException;
-import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
-import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
-import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
-import cc.eamon.open.flow.core.stereotype.execute.holder.FlowParamHolder;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.model.ModelEngine;
 import org.slf4j.Logger;
@@ -58,25 +54,21 @@ public class EventExecutable implements Executable {
     public void execute() throws Exception {
 
         FlowConfig flowConfig = Initializer.getFlowNodeConfigFlowConfigs().get(flowNodeConfig);
-        if (flowConfig == null) throw new FlowNodeRuntimeException(flowNodeConfig.getId());
         FlowEngine.instance().setFlowScope(flowConfig.getId());
-        FlowHolder flowHolder = Initializer.getFlowHolder(flowConfig.getId());
-        if (flowHolder == null) throw new FlowNotFoundException(flowConfig.getId());
 
         // 注入流程代码所需参数
         Object[] args = new Object[flowNodeConfig.getParams().size()];
 
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
             FlowParamConfig param = flowNodeConfig.getParams().get(i);
-            FlowParamHolder flowParamHolder = flowHolder.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
             if (null == variable) {
-                if (flowParamHolder.getNotNull()) {
+                if (param.getNotnull() == null || param.getNotnull()) {
                     String errorInfo = "Error occurs when invoke " + flowNodeConfig.getId() + ".The nested problem is " + param.getName() + " does not exist in scope of " + param.getScope() + " in flowContext.";
                     logger.info(errorInfo);
                     throw new FlowNodeParamNotExistException(flowNodeConfig.getId(), param.getScope(), param.getName(), errorInfo);
                 } else {
-                    Object defaultValue = flowParamHolder.getDefaultValue();
+                    Object defaultValue = getDefaultValue(param);
                     if (defaultValue != null) {
                         variable = defaultValue;
                         FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), variable);
@@ -99,6 +91,12 @@ public class EventExecutable implements Executable {
             logger.info("流程节点：" + flowNodeConfig.getId() + " 执行错误，错误信息为:" + e.getMessage());
             throw e;
         }
+    }
+
+    private Object getDefaultValue(FlowParamConfig flowParamConfig) {
+        if (flowParamConfig.getDefaultValue() == null)
+            return TypeEnums.getType(flowParamConfig.getType()).getDefaultValue();
+        return flowParamConfig.getDefaultValue();
     }
 }
 
