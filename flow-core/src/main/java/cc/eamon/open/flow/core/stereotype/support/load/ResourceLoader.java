@@ -46,7 +46,7 @@ public class ResourceLoader implements FlowLoader {
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
-                        throw new FlowConfigLoadException(file.getName());
+                        throw new FlowConfigLoadException(file.getName(), e);
                     }
                 }
             }
