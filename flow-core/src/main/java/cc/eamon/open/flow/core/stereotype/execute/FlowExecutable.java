@@ -52,30 +52,29 @@ public class FlowExecutable implements Executable {
 
     @Override
     public void execute() throws Exception {
+        String currentScope = flowNodeConfig.getReference();
         if (flowHolder == null) {
             if (flowNodeConfig == null) throw new FlowNodeRefMissingException(flowNodeConfig.getId());
-            this.flowHolder = Initializer.getFlowHolder(flowNodeConfig.getReference());
+            this.flowHolder = Initializer.getFlowHolder(currentScope);
         }
-        if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());
+        if (flowHolder == null) throw new FlowNotFoundException(currentScope);
 
-        FlowEngine.instance().setFlowScope(flowNodeConfig.getReference());
+        FlowEngine.instance().setFlowScope(currentScope);
 
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
             FlowParamConfig flowParamConfig = flowNodeConfig.getParams().get(i);
             FlowParamHolder flowParamHolder = flowHolder.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(flowParamConfig.getScope(), flowParamConfig.getName());
-            if (null == variable) {
-                if (flowParamHolder.getNotNull()) {
+            Object convertedVariable = ModelEngine.build(flowParamConfig.getName(), flowParamConfig.getType(), variable, FlowContextHolder.get().retrieveVariables(currentScope));
+            if (convertedVariable == null) {
+                if (flowParamHolder.getNotNull())
                     throw new FlowNestParamNotExistException(flowNodeConfig.getId(), flowParamHolder.getScope(), flowParamHolder.getName());
-                } else {
+                else {
                     if (flowParamHolder.getDefaultValue() != null) {
-                        variable = flowParamHolder.getDefaultValue();
+                        convertedVariable = flowParamHolder.getDefaultValue();
                     } else continue;
                 }
             }
-            Object convertedVariable = ModelEngine.check(flowParamConfig.getType(), variable);
-//            if (!variable.equals(convertedVariable))
-//                FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
             FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
         }
         flowHolder.execute();
@@ -83,17 +82,15 @@ public class FlowExecutable implements Executable {
             FlowResultConfig flowResultConfig = flowNodeConfig.getResults().get(i);
             FlowResultHolder flowResultHolder = flowHolder.getResults().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(flowResultHolder.getScope(), flowResultHolder.getName());
-            if (null == variable) {
+            Object convertedVariable = ModelEngine.build(flowResultConfig.getName(), flowResultConfig.getType(), variable, FlowContextHolder.get().retrieveVariables(flowResultConfig.getScope()));
+            if (null == convertedVariable) {
                 if (flowResultHolder.getNotNull()) {
                     throw new FlowNestParamNotExistException(flowNodeConfig.getId(), flowResultConfig.getScope(), flowResultConfig.getName());
                 } else {
                     continue;
                 }
             }
-            Object convertedVariable = ModelEngine.check(flowResultConfig.getType(), variable);
-            if (!variable.equals(convertedVariable))
-                FlowContextHolder.get().registerVariable(flowResultConfig.getScope(), flowResultConfig.getName(), convertedVariable);
-            FlowContextHolder.get().registerVariable(flowResultConfig.getScope(), flowResultConfig.getName(), variable);
+            FlowContextHolder.get().registerVariable(flowResultConfig.getScope(), flowResultConfig.getName(), convertedVariable);
         }
     }
 

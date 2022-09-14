@@ -1,6 +1,8 @@
 package cc.eamon.open.flow.model.definition;
 
 
+import java.util.Map;
+
 /**
  * Author: lucas(jvjv)
  * Email: lucas@eamon.cc
@@ -12,7 +14,11 @@ public interface FlowModel {
 
     String getType();
 
-    Object check(Object object);
+    void check(Object object);
+
+    Object build(String name, String modelType, Map<String, Object> variables);
+
+    Object parse(Object variable);
 
 
 }

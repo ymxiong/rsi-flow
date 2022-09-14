@@ -7,7 +7,6 @@ import cc.eamon.open.flow.config.flow.FlowRouteStrategyConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
-import cc.eamon.open.flow.core.context.Initializer;
 import cc.eamon.open.flow.core.error.*;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
@@ -155,18 +154,16 @@ public class FlowHolder implements Executable {
             FlowParamConfig param = flowConfig.getParams().get(i);
             FlowParamHolder flowParamHolder = params.get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
-            if (variable == null) {
+            Object convertedVariable = ModelEngine.build(param.getName(), param.getType(), variable, FlowContextHolder.get().retrieveVariables(param.getScope()));
+            if (convertedVariable == null) {
                 if (flowParamHolder.getNotNull()) {
                     throw new FlowParamNotExistException(flowConfig.getId(), param.getScope(), param.getName());
                 }
                 if (flowParamHolder.getDefaultValue() != null) {
-                    variable = flowParamHolder.getDefaultValue();
-                    FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), variable);
+                    convertedVariable = flowParamHolder.getDefaultValue();
                 } else continue;
             }
-            Object convertedVariable = ModelEngine.check(param.getType(), variable);
-            if (!variable.equals(convertedVariable))
-                FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
+            FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
             paramMap.put(param.getName(), convertedVariable);
         }
         execute(RouteEnums.START::getId, paramMap);

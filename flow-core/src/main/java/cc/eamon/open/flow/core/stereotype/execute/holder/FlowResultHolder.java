@@ -2,7 +2,6 @@ package cc.eamon.open.flow.core.stereotype.execute.holder;
 
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,8 +37,11 @@ public class FlowResultHolder {
         return flowResultConfig.getName();
     }
 
-    public TypeEnums getType() {
-        return TypeEnums.getType(flowResultConfig.getType());
+    public String getType() {
+        return flowResultConfig.getType();
+    }
+    public TypeEnums getTypeEnums() {
+        return TypeEnums.getType(getType());
     }
 
     public String getScope() {

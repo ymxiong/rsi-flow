@@ -24,6 +24,11 @@ public class ModelFiledConfig implements Serializable {
      */
     private String type;
 
+    /**
+     * 字段模型引用
+     */
+    private String reference;
+
     public String getName() {
         return name;
     }
@@ -38,5 +43,13 @@ public class ModelFiledConfig implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 }

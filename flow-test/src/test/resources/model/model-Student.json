@@ -1,9 +1,10 @@
 {
   "id": "Student",
   "type": "model",
+  "targetReference": "cc.eamon.open.flow.model.Student",
   "fields": [
     { "name": "id", "type": "String" },
     { "name": "age", "type": "Integer" },
-    { "name": "father", "type": "People" }
+    { "name": "people", "reference": "People" }
   ]
 }

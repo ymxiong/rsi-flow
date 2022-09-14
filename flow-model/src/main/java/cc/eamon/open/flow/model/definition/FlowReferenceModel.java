@@ -1,10 +1,11 @@
 package cc.eamon.open.flow.model.definition;
 
-import cc.eamon.open.flow.model.ModelEngine;
 import cc.eamon.open.flow.model.enums.FlowModelTypeEnums;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Map;
 
 /**
  * Author: lucas(jvjv)
@@ -13,19 +14,26 @@ import org.slf4j.LoggerFactory;
  */
 public class FlowReferenceModel implements FlowModel {
 
-    private static Logger logger = LoggerFactory.getLogger(FlowReferenceModel.class);
+    private static final Logger logger = LoggerFactory.getLogger(FlowReferenceModel.class);
 
-    private String id;
+    private final String id;
 
     private String reference;
 
-    private Class referenceClazz;
+    private Class<?> referenceClazz;
+
+    private FlowModel flowModelReference;
 
 
     public FlowReferenceModel(String id, String reference, Class referenceClazz) {
         this.id = id;
         this.reference = reference;
         this.referenceClazz = referenceClazz;
+    }
+
+    public FlowReferenceModel(String id, FlowModel flowModelReference) {
+        this.id = id;
+        this.flowModelReference = flowModelReference;
     }
 
     @Override
@@ -39,19 +47,25 @@ public class FlowReferenceModel implements FlowModel {
     }
 
     @Override
-    public Object check(Object object) {
-        // 检查Object是否是该类型
-        if (referenceClazz.equals(object.getClass()) || referenceClazz.isAssignableFrom(object.getClass()))
-            return object;
-        // 可能是Map需要进行转换
-        try {
-            object = JSONObject.parseObject(JSONObject.toJSONString(object), referenceClazz);
-        } catch (Exception e) {
-            logger.info("无法将类型为【" + object.getClass() + "】的对象用JSONObject解析为类型【" + referenceClazz.getClass() + "】的对象");
-            throw e;
-        }
-        return object;
+    public void check(Object variable) {
+        if (this.flowModelReference != null) flowModelReference.check(variable);
     }
 
+    @Override
+    public Object parse(Object variable) {
+        if (this.flowModelReference != null) return flowModelReference.parse(variable);
+        if (referenceClazz != null && referenceClazz.isAssignableFrom(variable.getClass())) {
+            return variable;
+        } else if (Map.class.isAssignableFrom(variable.getClass())) {
+            return JSONObject.parseObject(JSONObject.toJSONString(variable), referenceClazz);
+        }
+        // TODO: 2022/9/13 基础类型转换匹配
+        return null;
+    }
 
+    @Override
+    public Object build(String name, String modelType, Map<String, Object> variables) {
+        if (this.flowModelReference != null) return flowModelReference.build(name, modelType, variables);
+        return variables.get(name);
+    }
 }

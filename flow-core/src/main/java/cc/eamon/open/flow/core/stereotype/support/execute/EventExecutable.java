@@ -62,7 +62,8 @@ public class EventExecutable implements Executable {
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
             FlowParamConfig param = flowNodeConfig.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
-            if (null == variable) {
+            Object convertedVariable = ModelEngine.build(param.getName(), param.getType(), variable, FlowContextHolder.get().retrieveVariables(param.getScope()));
+            if (null == convertedVariable) {
                 if (param.getNotnull() == null || param.getNotnull()) {
                     String errorInfo = "Error occurs when invoke " + flowNodeConfig.getId() + ".The nested problem is " + param.getName() + " does not exist in scope of " + param.getScope() + " in flowContext.";
                     logger.info(errorInfo);
@@ -70,19 +71,14 @@ public class EventExecutable implements Executable {
                 } else {
                     Object defaultValue = getDefaultValue(param);
                     if (defaultValue != null) {
-                        variable = defaultValue;
-                        FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), variable);
+                        convertedVariable = defaultValue;
                     } else {
                         args[i] = null;
                         continue;
                     }
                 }
-
             }
-            // 进行类型校验
-            Object convertedVariable = ModelEngine.check(param.getType(), variable);
-            if (!variable.equals(convertedVariable))
-                FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
+            FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
             args[i] = convertedVariable;
         }
         try {

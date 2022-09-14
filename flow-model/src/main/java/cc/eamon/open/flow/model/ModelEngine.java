@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class ModelEngine {
 
-    private static Logger logger = LoggerFactory.getLogger(ModelEngine.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModelEngine.class);
     /**
      * 用于存储流程模型
      */
@@ -28,21 +28,22 @@ public class ModelEngine {
         ModelEngine.flowModels = flowModels;
     }
 
-    public static Object check(String modelType, Object object) {
+    public static Object build(String name, String modelType, Object object, Map<String, Object> variables) {
         // STEP 1:根据modelType构建出FlowModel
         FlowModel flowModel = flowModels.get(modelType);
         if (flowModel == null) {
             Class clazz = BasicTypeEnums.getType(modelType);
             if (clazz != null) {
                 // 可能是reference类型,但是没有写JSON未加载,在此处加载
-                flowModel = new FlowReferenceModel(clazz.getSimpleName(), clazz.getName(), clazz);
+                flowModel = new FlowReferenceModel(clazz.getName(), clazz.getName(), clazz);
                 flowModels.put(modelType, flowModel);
             } else {
                 throw new FlowModelNotDefinedException("FlowModel named " + modelType + " not found. Check your json file.");
             }
         }
-        // STEP 2:根据FlowModel的类型进行不同的校验
-        object = flowModel.check(object);
+        // STEP 2:根据FlowModel的类型进行不同的构建
+        object = flowModel.parse(object);
+        if (object == null) object = flowModel.build(name, modelType, variables);
         return object;
     }
 

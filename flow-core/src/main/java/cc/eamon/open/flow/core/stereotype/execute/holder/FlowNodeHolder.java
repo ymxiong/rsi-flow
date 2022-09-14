@@ -100,26 +100,27 @@ public class FlowNodeHolder implements Source, Target {
             flowParamHolder.verify(paramTypes.get(i));
             FlowParamConfig flowParamConfig = flowNodeConfig.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(flowParamConfig.getScope(), flowParamConfig.getName());
-            if (null == variable) {
+            Object convertedVariable = ModelEngine.build(flowParamConfig.getName(), flowParamConfig.getType(), variable, FlowContextHolder.get().retrieveVariables());
+            if (null == convertedVariable) {
                 if (flowParamHolder.getNotNull()) {
-                    throw new FlowNestParamNotExistException(flowNodeConfig.getId(), flowParamHolder.getScope(), flowParamHolder.getName());
+                    throw new FlowNodeParamNotExistException(flowNodeConfig.getId(), flowParamHolder.getScope(), flowParamHolder.getName());
                 } else {
                     if (flowParamHolder.getDefaultValue() != null) {
-                        variable = flowParamHolder.getDefaultValue();
-                        Object convertedVariable = ModelEngine.check(flowParamConfig.getType(), variable);
-                        FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
-                    }
+                        convertedVariable = flowParamHolder.getDefaultValue();
+                    } else continue;
                 }
             }
+            FlowContextHolder.get().registerVariable(flowParamHolder.getScope(), flowParamHolder.getName(), convertedVariable);
         }
     }
 
     private void verifyResults() {
         for (FlowResultHolder resultHolder : resultHolders) {
-
             Object variable = FlowContextHolder.get().retrieveVariable(resultHolder.getScope(), resultHolder.getName());
-            if (variable == null && resultHolder.getNotNull())
+            Object convertedVariable = ModelEngine.build(resultHolder.getName(), resultHolder.getType(), variable, FlowContextHolder.get().retrieveVariables());
+            if (convertedVariable == null && resultHolder.getNotNull())
                 throw new FlowNodeResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
+            FlowContextHolder.get().registerVariable(resultHolder.getScope(), resultHolder.getName(), convertedVariable);
         }
     }
 
