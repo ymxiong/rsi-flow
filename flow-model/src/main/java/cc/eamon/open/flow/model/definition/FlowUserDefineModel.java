@@ -1,9 +1,11 @@
 package cc.eamon.open.flow.model.definition;
 
+import cc.eamon.open.flow.config.model.ModelConfig;
+import cc.eamon.open.flow.config.model.ModelFiledConfig;
 import cc.eamon.open.flow.model.enums.BasicTypeEnums;
 import cc.eamon.open.flow.model.enums.FlowModelTypeEnums;
-import cc.eamon.open.flow.model.error.FlowModelNotMatchException;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,8 +23,11 @@ public class FlowUserDefineModel implements FlowModel {
 
     private Class<?> targetReferenceClazz;
 
-    public FlowUserDefineModel(String id, String targetReference) {
+    private ModelConfig modelConfig;
+
+    public FlowUserDefineModel(String id, ModelConfig modelConfig, String targetReference) {
         this.id = id;
+        this.modelConfig = modelConfig;
         this.targetReference = targetReference;
         if (targetReference != null) {
             this.targetReferenceClazz = BasicTypeEnums.getType(targetReference);
@@ -57,7 +62,17 @@ public class FlowUserDefineModel implements FlowModel {
 
 
     @Override
-    public void check(Object variable) {
+    public Object check(Object variable) {
+        // 基于Map作校验，否则没法取出准确实体，或者序列化工具会造成类型转化混乱
+        Map<String, Object> checkVariable = JSONObject.parseObject(JSON.toJSONString(variable));
+        for (ModelFiledConfig field : modelConfig.getFields()) {
+            String fieldName = field.getName();
+            checkVariable.put(fieldName, fields.get(fieldName).check(checkVariable.get(fieldName)));
+        }
+        if (targetReference != null && targetReferenceClazz != null) {
+            return JSON.parseObject(JSON.toJSONString(checkVariable), targetReferenceClazz);
+        }
+        return checkVariable;
     }
 
     @Override
@@ -66,14 +81,15 @@ public class FlowUserDefineModel implements FlowModel {
             fields.forEach((k, v) -> {
                 Map<String, Object> variableMap = (Map<String, Object>) variable;
                 Object value = (variableMap).get(k);
-                if (value == null) {
-                    throw new FlowModelNotMatchException();
-                }
+                value = v.check(value);
                 variableMap.put(k, v.parse(value));
             });
+            if (targetReference != null && targetReferenceClazz != null) {
+                return JSON.parseObject(JSON.toJSONString(variable), targetReferenceClazz);
+            } else return variable;
+        } else {
+            return check(variable);
         }
-        check(variable);
-        return variable;
     }
 
     @Override
@@ -82,9 +98,9 @@ public class FlowUserDefineModel implements FlowModel {
         for (Map.Entry<String, FlowModel> modelEntry : fields.entrySet()) {
             FlowModel fieldModel = modelEntry.getValue();
             String fieldName = modelEntry.getKey();
-            Object existModelVariables = variables.get(fieldName);
-            if (existModelVariables != null) {
-                modelMap.put(fieldName, existModelVariables);
+            Object existModelVariable = variables.get(fieldName);
+            if (existModelVariable != null) {
+                modelMap.put(fieldName, existModelVariable);
             } else {
                 modelMap.put(fieldName, fieldModel.build(fieldName, fieldModel.getType(), variables));
             }

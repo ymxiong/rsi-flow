@@ -81,7 +81,7 @@ public class ModelAssemblyPipeline extends BasePipeline {
     }
 
     private FlowModel getUserDefinedModel(ModelConfig config) {
-        FlowUserDefineModel model = new FlowUserDefineModel(config.getId(), config.getTargetReference());
+        FlowUserDefineModel model = new FlowUserDefineModel(config.getId(), config, config.getTargetReference());
         for (ModelFiledConfig modelFiledConfig : config.getFields()) {
             String name = modelFiledConfig.getName();
             String type = modelFiledConfig.getType();
@@ -98,7 +98,7 @@ public class ModelAssemblyPipeline extends BasePipeline {
                 else {
                     Class referenceClass = BasicTypeEnums.getType(reference);
                     if (referenceClass != null) {
-                        flowModel = new FlowReferenceModel(referenceClass.getName(), referenceClass.getName(), referenceClass);
+                        flowModel = new FlowReferenceModel(referenceClass.getName(), referenceClass.getName(), referenceClass, modelFiledConfig);
                         model.addField(name, flowModel);
                     } else {
                         logger.info("FlowModel named " + reference + " not defined.");
@@ -112,25 +112,10 @@ public class ModelAssemblyPipeline extends BasePipeline {
                     //基础类型
                     FlowReferenceModel referenceModel = (FlowReferenceModel) flowModels.get(type);
                     if (referenceModel == null) {
-                        referenceModel = new FlowReferenceModel(clazz.getName(), clazz.getName(), clazz);
+                        referenceModel = new FlowReferenceModel(clazz.getName(), clazz.getName(), clazz, modelFiledConfig);
                     }
                     model.addField(name, referenceModel);
                 } else {
-//                //复杂类型
-//                if (flowModelConfigs.get(type) != null) {
-//                    FlowModel fieldModel = flowModels.get(type);
-//                    if (fieldModel != null) {
-//                        model.addField(name, fieldModel);
-//                    } else {
-//                        //还未加载则先加载对应类型，然后在加载该类型
-//                        // TODO：目前无法解决循环依赖的问题
-//                        return null;
-//                    }
-//                } else {
-//                    //报错类型未定义
-//                    logger.info("FlowModel named " + type + " not defined.");
-//                    throw new FlowModelNotDefinedException("FlowModel named " + type + " not defined.");
-//                }
                     //报错类型未定义
                     logger.info("FlowModel named " + type + " not defined.");
                     throw new FlowModelNotDefinedException("FlowModel named " + type + " not defined.");

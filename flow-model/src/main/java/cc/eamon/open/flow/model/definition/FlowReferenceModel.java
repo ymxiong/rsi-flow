@@ -1,6 +1,9 @@
 package cc.eamon.open.flow.model.definition;
 
+import cc.eamon.open.flow.config.model.ModelFiledConfig;
 import cc.eamon.open.flow.model.enums.FlowModelTypeEnums;
+import cc.eamon.open.flow.model.error.FlowModelCheckException;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +23,18 @@ public class FlowReferenceModel implements FlowModel {
 
     private String reference;
 
-    private Class<?> referenceClazz;
+    private Class referenceClazz;
 
     private FlowModel flowModelReference;
 
+    private ModelFiledConfig modelFiledConfig;
+
+    public FlowReferenceModel(String id, String reference, Class referenceClazz, ModelFiledConfig modelFiledConfig) {
+        this.id = id;
+        this.reference = reference;
+        this.referenceClazz = referenceClazz;
+        this.modelFiledConfig = modelFiledConfig;
+    }
 
     public FlowReferenceModel(String id, String reference, Class referenceClazz) {
         this.id = id;
@@ -47,8 +58,23 @@ public class FlowReferenceModel implements FlowModel {
     }
 
     @Override
-    public void check(Object variable) {
-        if (this.flowModelReference != null) flowModelReference.check(variable);
+    public Object check(Object variable) {
+        if (this.flowModelReference != null) return flowModelReference.check(variable);
+        if (variable == null) {
+            if (modelFiledConfig != null) {
+                if (modelFiledConfig.getNotnull() == null || modelFiledConfig.getNotnull())
+                    throw new FlowModelCheckException(id, modelFiledConfig.getName(), null);
+                else return modelFiledConfig.getDefaultValue();
+            } else return null;
+        } else if (JSONObject.class.isAssignableFrom(variable.getClass()) || !referenceClazz.isAssignableFrom(variable.getClass())) {
+            // JSON的属性和类field的属性能否对应 || 是否是满足fastJSON序列化与反序列化标准
+            try {
+                return JSON.parseObject(JSON.toJSONString(variable), referenceClazz);
+            } catch (Exception e) {
+                throw new FlowModelCheckException(id, modelFiledConfig.getName(), variable);
+            }
+        }
+        return variable;
     }
 
     @Override

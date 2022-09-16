@@ -33,7 +33,7 @@ public class ModelConfig implements CommonConfig, Serializable {
     private String reference;
 
     /**
-     * 模型目标引用
+     * 模型目标引用类型
      */
     private String targetReference;
 

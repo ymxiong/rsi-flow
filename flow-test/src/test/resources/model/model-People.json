@@ -1,6 +1,7 @@
 {
   "id": "People",
   "type": "model",
+  "targetReference": "cc.eamon.open.flow.model.People",
   "fields": [
     { "name": "id", "type": "String" },
     { "name": "age", "type": "Integer" },

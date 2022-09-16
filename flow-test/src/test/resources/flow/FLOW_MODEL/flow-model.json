@@ -19,8 +19,7 @@
       "params": [
         { "name": "id", "type": "String" },
         { "name": "age", "type": "Integer" },
-        { "name": "people", "type": "People" },
-        { "name": "student", "type": "Student" }
+        { "name": "people", "type": "People" }
       ],
       "results": [
         { "name": "student", "type": "Student" }

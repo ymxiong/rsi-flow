@@ -20,7 +20,7 @@ public class ModelEngine {
     public static Map<String, FlowModel> flowModels = new HashMap<>();
 
     /**
-     *
+     * 用于存储模型配置
      */
     public static Map<String, ModelConfig> flowModelConfigs = new HashMap<>();
 

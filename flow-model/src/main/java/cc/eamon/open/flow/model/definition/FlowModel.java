@@ -14,7 +14,7 @@ public interface FlowModel {
 
     String getType();
 
-    void check(Object object);
+    Object check(Object object);
 
     Object build(String name, String modelType, Map<String, Object> variables);
 
