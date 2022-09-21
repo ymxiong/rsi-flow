@@ -5,7 +5,8 @@
   "params": [
     { "name": "id", "type": "String" },
     { "name": "age", "type": "Integer" },
-    { "name": "people", "type": "People" }
+    { "name": "people", "type": "People" },
+    { "name": "testModelList", "type": "List(cc.eamon.open.flow.model.TestModel)" }
   ],
   "results": [
     { "name": "student", "type": "Student" }
@@ -19,7 +20,8 @@
       "params": [
         { "name": "id", "type": "String" },
         { "name": "age", "type": "Integer" },
-        { "name": "people", "type": "People" }
+        { "name": "people", "type": "People" },
+        { "name": "testModelList", "type": "List(cc.eamon.open.flow.model.TestModel)" }
       ],
       "results": [
         { "name": "student", "type": "Student" }

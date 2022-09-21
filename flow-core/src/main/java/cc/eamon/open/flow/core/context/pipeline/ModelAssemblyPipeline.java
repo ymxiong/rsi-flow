@@ -4,10 +4,15 @@ import cc.eamon.open.flow.config.model.ModelConfig;
 import cc.eamon.open.flow.config.model.ModelFiledConfig;
 import cc.eamon.open.flow.model.ModelEngine;
 import cc.eamon.open.flow.model.definition.FlowModel;
+import cc.eamon.open.flow.model.definition.FlowParameterizeModel;
 import cc.eamon.open.flow.model.definition.FlowReferenceModel;
 import cc.eamon.open.flow.model.definition.FlowUserDefineModel;
+import cc.eamon.open.flow.model.definition.parameterize.ModelType;
+import cc.eamon.open.flow.model.definition.parameterize.support.ParameterizeModelType;
+import cc.eamon.open.flow.model.definition.parameterize.util.ParameterizeModelUtils;
 import cc.eamon.open.flow.model.enums.BasicTypeEnums;
 import cc.eamon.open.flow.model.error.FlowModelNotDefinedException;
+import cc.eamon.open.flow.model.error.FlowModelParameterizeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +62,11 @@ public class ModelAssemblyPipeline extends BasePipeline {
     private FlowModel getModelFromConfig(ModelConfig config) {
         FlowModel model = null;
         if (config.getReference() != null) {
-            model = getReferenceModel(config);
+            if (config.getReference().contains("(") && config.getReference().contains(")") && ParameterizeModelUtils.isMatchParameterize(config.getReference())) {
+                model = getParameterizeModel(config.getReference(), null);
+            } else {
+                model = getReferenceModel(config);
+            }
         } else {
             model = getUserDefinedModel(config);
         }
@@ -106,6 +115,11 @@ public class ModelAssemblyPipeline extends BasePipeline {
                     }
                 }
             } else {
+                // 如果是复合参数类型
+                if (modelFiledConfig.getType().contains("(") && modelFiledConfig.getType().contains(")") && ParameterizeModelUtils.isMatchParameterize(modelFiledConfig.getType())) {
+                    model.addField(name, getParameterizeModel(modelFiledConfig.getType(), modelFiledConfig));
+                    continue;
+                }
                 // 基础类型
                 Class clazz = BasicTypeEnums.getType(type);
                 if (clazz != null) {
@@ -123,5 +137,19 @@ public class ModelAssemblyPipeline extends BasePipeline {
             }
         }
         return model;
+    }
+
+    private FlowModel getParameterizeModel(String type, ModelFiledConfig modelFiledConfig) {
+        FlowModel flowModel = flowModels.get(type);
+        if (flowModel != null) return flowModel;
+        String mainClassType = type.substring(0, type.indexOf("("));
+        Class mainClass = BasicTypeEnums.getType(mainClassType);
+        if (mainClass == null) throw new FlowModelParameterizeException("Class not found:" + mainClassType);
+        // 解析范型type
+        return new FlowParameterizeModel(type, mainClassType, mainClass, modelFiledConfig, handlerParameterizeType(type).handle());
+    }
+
+    private ModelType handlerParameterizeType(String parameterizeType) {
+        return new ParameterizeModelType(parameterizeType, parameterizeType.substring(0, parameterizeType.indexOf("(")));
     }
 }

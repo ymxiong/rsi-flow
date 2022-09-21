@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,14 +12,16 @@ import java.util.Map;
 public class People {
     private String id;
     private Integer age;
-    private Map<String, Object> sons;
+    private Map<Integer, String> sons;
+    private List<String> daughter;
     private Date birthday;
     private Date workday;
 
-    public People(String id, Integer age, Map<String, Object> sons, Date birthday, Date workday) {
+    public People(String id, Integer age, Map<Integer, String> sons, List<String> daughter, Date birthday, Date workday) {
         this.id = id;
         this.age = age;
         this.sons = sons;
+        this.daughter = daughter;
         this.birthday = birthday;
         this.workday = workday;
     }
@@ -39,12 +42,20 @@ public class People {
         this.age = age;
     }
 
-    public Map<String, Object> getSons() {
+    public Map<Integer, String> getSons() {
         return sons;
     }
 
-    public void setSons(Map<String, Object> sons) {
+    public void setSons(Map<Integer, String> sons) {
         this.sons = sons;
+    }
+
+    public List<String> getDaughter() {
+        return daughter;
+    }
+
+    public void setDaughter(List<String> daughter) {
+        this.daughter = daughter;
     }
 
     public Date getBirthday() {
@@ -69,6 +80,7 @@ public class People {
                 "id='" + id + '\'' +
                 ", age=" + age +
                 ", sons=" + sons +
+                ", daughter=" + daughter +
                 ", birthday=" + birthday +
                 ", workday=" + workday +
                 '}';

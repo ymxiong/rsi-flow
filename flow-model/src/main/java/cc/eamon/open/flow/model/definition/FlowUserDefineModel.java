@@ -81,14 +81,13 @@ public class FlowUserDefineModel implements FlowModel {
             fields.forEach((k, v) -> {
                 Map<String, Object> variableMap = (Map<String, Object>) variable;
                 Object value = (variableMap).get(k);
-                value = v.check(value);
-                variableMap.put(k, v.parse(value));
+                variableMap.put(k, v.check(v.parse(value)));
             });
             if (targetReference != null && targetReferenceClazz != null) {
                 return JSON.parseObject(JSON.toJSONString(variable), targetReferenceClazz);
             } else return variable;
         } else {
-            return check(variable);
+            return variable;
         }
     }
 
