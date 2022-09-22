@@ -8,7 +8,9 @@ package cc.eamon.open.flow.model.definition.parameterize.util;
 public class ParameterizeModelUtils {
 
     public static boolean isMatchParameterize(String type) {
-        if (type.matches("\\w+\\(.+[\\$.+]*\\)") || type.matches(".+[\\$.+]*")) return true;
+        // 任意类的匹配:[\\w+[\\.\\w+]*]
+        if (type.matches("\\w+\\([\\w+[\\.\\w+]*]+[\\$[\\w+[\\.\\w+]*]+]*\\)") || type.matches("[\\w+[\\.\\w+]*]+[\\$[\\w+[\\.\\w+]*]+]*"))
+            return true;
         if (type.contains("(") && type.contains(")"))
             return isMatchParameterize(type.substring(type.indexOf("(") + 1, type.lastIndexOf(")")));
         return false;

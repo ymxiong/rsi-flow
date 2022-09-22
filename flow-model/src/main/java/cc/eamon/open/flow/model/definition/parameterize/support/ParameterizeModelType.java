@@ -58,7 +58,9 @@ public class ParameterizeModelType implements ModelType {
         while (queue.peek() != null) {
             sb.append(queue.poll());
         }
-        subModelTypes.add(new CustomModelType(sb.toString()));
+        if (sb.length() > 0) {
+            subModelTypes.add(new CustomModelType(sb.toString()));
+        }
     }
 
     @Override
