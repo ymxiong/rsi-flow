@@ -11,6 +11,8 @@ import org.testng.Assert;
 
 import java.util.*;
 
+import static cc.eamon.open.flow.model.definition.parameterize.util.ParameterizeModelUtils.isMatchParameterize;
+
 /**
  * Author: eamon
  * Email: eamon@eamon.cc
@@ -49,11 +51,4 @@ public class FlowModelTest {
     public void testPattern() {
         Assert.assertTrue(isMatchParameterize("String(A(A$B(B$C$D)))"));
     }
-
-    private boolean isMatchParameterize(String type) {
-        if (type.matches("\\w+\\(\\w+[\\$\\w+]*\\)") || type.matches("\\w+[\\$\\w+]*")) return true;
-        if (type.contains("(") && type.contains(")")) return isMatchParameterize(type.substring(type.indexOf("(") + 1, type.lastIndexOf(")")));
-        return false;
-    }
-
 }
