@@ -79,6 +79,7 @@ public class FlowReferenceModel implements FlowModel {
 
     @Override
     public Object parse(Object variable) {
+        if (variable == null) return null;
         if (this.flowModelReference != null) return flowModelReference.parse(variable);
         if (referenceClazz != null && referenceClazz.isAssignableFrom(variable.getClass())) {
             return variable;
