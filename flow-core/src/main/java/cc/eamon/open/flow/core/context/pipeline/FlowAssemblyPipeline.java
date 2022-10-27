@@ -2,6 +2,7 @@ package cc.eamon.open.flow.core.context.pipeline;
 
 import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
+import cc.eamon.open.flow.core.error.FlowNodeRuntimeException;
 import cc.eamon.open.flow.core.error.FlowTypeNotSupportException;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import org.slf4j.Logger;
@@ -39,7 +40,7 @@ public class FlowAssemblyPipeline extends BasePipeline {
         for (FlowConfig flowConfig : flowConfigs.values()) {
             try {
                 flowHolders.put(flowConfig.getId(), new FlowHolder(flowConfig));
-            } catch (FlowCodeNotFoundException | FlowTypeNotSupportException e) {
+            } catch (FlowCodeNotFoundException | FlowTypeNotSupportException | FlowNodeRuntimeException e) {
                 logger.info(e.getMessage());
             }
         }

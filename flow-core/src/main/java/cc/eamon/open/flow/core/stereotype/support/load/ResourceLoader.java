@@ -3,6 +3,8 @@ package cc.eamon.open.flow.core.stereotype.support.load;
 import cc.eamon.easyfile.FileTools;
 import cc.eamon.open.flow.config.enums.ConfigEnums;
 import cc.eamon.open.flow.config.flow.FlowConfig;
+import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
+import cc.eamon.open.flow.core.error.FlowConfigLoadException;
 import cc.eamon.open.flow.core.stereotype.load.FlowLoader;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -35,13 +37,17 @@ public class ResourceLoader implements FlowLoader {
         for (String configFile : configFiles) {
             for (File file : FileTools.readFiles(path + configFile)) {
                 for (ConfigEnums value : ConfigEnums.values()) {
-                    if (file.getName().startsWith(value.getName())) {
-                        String flowConfigJson = FileTools.loadFile(file);
-                        FlowConfig flowConfig = JSONObject.parseObject(flowConfigJson, FlowConfig.class);
-                        if (flowConfig == null) continue;
-                        flowConfigs.add(flowConfig);
+                    try {
+                        if (file.getName().startsWith(value.getName())) {
+                            String flowConfigJson = FileTools.loadFile(file);
+                            FlowConfig flowConfig = JSONObject.parseObject(flowConfigJson, FlowConfig.class);
+                            if (flowConfig == null) continue;
+                            flowConfigs.add(flowConfig);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        throw new FlowConfigLoadException(file.getName(), e);
                     }
-
                 }
             }
         }

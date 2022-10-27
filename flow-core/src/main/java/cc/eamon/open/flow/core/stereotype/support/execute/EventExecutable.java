@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.support.execute;
 
+import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.core.FlowEngine;
@@ -60,21 +61,23 @@ public class EventExecutable implements Executable {
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
             FlowParamConfig param = flowNodeConfig.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(param.getScope(), param.getName());
-            if (null == variable) {
-                if (param.getNotnull()) {
+            Object convertedVariable = ModelEngine.build(param.getName(), param.getType(), variable, FlowContextHolder.get().retrieveVariables(param.getScope()));
+            if (null == convertedVariable) {
+                if (param.getNotnull() == null || param.getNotnull()) {
                     String errorInfo = "Error occurs when invoke " + flowNodeConfig.getId() + ".The nested problem is " + param.getName() + " does not exist in scope of " + param.getScope() + " in flowContext.";
                     logger.info(errorInfo);
                     throw new FlowNodeParamNotExistException(flowNodeConfig.getId(), param.getScope(), param.getName(), errorInfo);
                 } else {
-                    args[i] = variable;
-                    continue;
+                    Object defaultValue = getDefaultValue(param);
+                    if (defaultValue != null) {
+                        convertedVariable = defaultValue;
+                    } else {
+                        args[i] = null;
+                        continue;
+                    }
                 }
-
             }
-            // 进行类型校验
-            Object convertedVariable = ModelEngine.check(param.getType(), variable);
-            if (!variable.equals(convertedVariable))
-                FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
+            FlowContextHolder.get().registerVariable(param.getScope(), param.getName(), convertedVariable);
             args[i] = convertedVariable;
         }
         try {
@@ -83,6 +86,12 @@ public class EventExecutable implements Executable {
             logger.info("流程节点：" + flowNodeConfig.getId() + " 执行错误，错误信息为:" + e.getMessage());
             throw e;
         }
+    }
+
+    private Object getDefaultValue(FlowParamConfig flowParamConfig) {
+        if (flowParamConfig.getDefaultValue() == null)
+            return TypeEnums.getType(flowParamConfig.getType()).getDefaultValue();
+        return flowParamConfig.getDefaultValue();
     }
 }
 

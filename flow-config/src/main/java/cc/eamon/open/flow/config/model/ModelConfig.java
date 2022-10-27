@@ -32,6 +32,11 @@ public class ModelConfig implements CommonConfig, Serializable {
      */
     private String reference;
 
+    /**
+     * 模型目标引用类型
+     */
+    private String targetReference;
+
     private List<ModelFiledConfig> fields;
 
     public String getId() {
@@ -58,6 +63,13 @@ public class ModelConfig implements CommonConfig, Serializable {
         this.reference = reference;
     }
 
+    public String getTargetReference() {
+        return targetReference;
+    }
+
+    public void setTargetReference(String targetReference) {
+        this.targetReference = targetReference;
+    }
 
     public List<ModelFiledConfig> getFields() {
         return fields;

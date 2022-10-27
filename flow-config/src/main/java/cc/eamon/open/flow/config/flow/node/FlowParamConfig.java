@@ -46,6 +46,12 @@ public class FlowParamConfig implements Serializable {
     @JSONField(ordinal = 5)
     private Boolean notnull;
 
+    /**
+     * 为空时的默认值
+     */
+    @JSONField(ordinal = 6)
+    private Object defaultValue;
+
     public String getName() {
         return name;
     }
@@ -84,5 +90,13 @@ public class FlowParamConfig implements Serializable {
 
     public void setNotnull(Boolean notnull) {
         this.notnull = notnull;
+    }
+
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

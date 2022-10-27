@@ -24,6 +24,21 @@ public class ModelFiledConfig implements Serializable {
      */
     private String type;
 
+    /**
+     * 字段模型引用
+     */
+    private String reference;
+
+    /**
+     * 是否为空
+     */
+    private Boolean notnull;
+
+    /**
+     * 默认值
+     */
+    private Object defaultValue;
+
     public String getName() {
         return name;
     }
@@ -38,5 +53,29 @@ public class ModelFiledConfig implements Serializable {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public Boolean getNotnull() {
+        return notnull;
+    }
+
+    public void setNotnull(Boolean notnull) {
+        this.notnull = notnull;
+    }
+
+    public Object getDefaultValue() {
+        return defaultValue;
+    }
+
+    public void setDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

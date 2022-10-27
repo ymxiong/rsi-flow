@@ -46,8 +46,17 @@ public class FlowContext {
         scopeContextMap.put(targetScope, scopeContextMap.get(sourceScope));
     }
 
-    public Object retrieveVariable(String variableName) {
+    public Map<String, Object> retrieveVariables() {
+        return retrieveVariables(FlowConstants.SCOPE_DEFAULT);
+    }
 
+    public Map<String, Object> retrieveVariables(String scope) {
+        FlowScopeContext scopeContext = scopeContextMap.get(scope);
+        if (scopeContext == null) return new HashMap<>();
+        return scopeContext.getVariableMap();
+    }
+
+    public Object retrieveVariable(String variableName) {
         return retrieveVariable(FlowConstants.SCOPE_DEFAULT, variableName);
     }
 
@@ -83,9 +92,9 @@ public class FlowContext {
         scopeContext.releaseVariables(variableName);
     }
 
-    public Map<String,Object> getScopeParams(String scope) {
+    public Map<String, Object> getScopeParams(String scope) {
         FlowScopeContext scopeContext = scopeContextMap.get(scope);
-        if (scopeContext!=null) {
+        if (scopeContext != null) {
             return scopeContext.getVariableMap();
         }
         return null;

@@ -1,10 +1,12 @@
 {
   "id": "People",
   "type": "model",
+  "targetReference": "cc.eamon.open.flow.model.People",
   "fields": [
     { "name": "id", "type": "String" },
     { "name": "age", "type": "Integer" },
-    { "name": "sons", "type": "HashMap" },
+    { "name": "sons", "type": "HashMap(Integer$String)" },
+    { "name": "daughter", "type": "List(String)" },
     { "name": "birthday", "type": "Date" },
     { "name": "workday", "type": "java.sql.Date" }
   ]
