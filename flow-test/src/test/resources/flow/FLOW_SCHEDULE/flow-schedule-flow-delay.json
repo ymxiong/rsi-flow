@@ -1,0 +1,29 @@
+{
+  "id": "FLOW_SCHEDULE_FLOW_DELAY",
+  "type": "flow",
+  "name": "延时流程任务调度流程",
+  "params": [
+    { "name": "value", "type": "String" }
+  ],
+  "results": [
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_SINGLE_NODE",
+      "type": "flow",
+      "name": "延时流程任务调度简单流程",
+      "reference": "FLOW_SINGLE_NODE",
+      "params": [
+        { "name": "value", "type": "String" }
+      ],
+      "results": [
+        { "name": "addBlankValue", "type": "String" }
+      ],
+      "schedule": { "time": "10000" }
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_SINGLE_NODE" },
+    { "source":"FLOW_SINGLE_NODE", "target": "end" }
+  ]
+}
