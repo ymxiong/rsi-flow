@@ -7,7 +7,6 @@ import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.context.InitializerEnums;
 import cc.eamon.open.flow.core.error.FlowNestParamNotExistException;
-import cc.eamon.open.flow.core.error.FlowNodeRefMissingException;
 import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowParamHolder;
@@ -40,25 +39,18 @@ public class FlowExecutable implements Executable {
 
     @Override
     public List<TypeEnums> getParamsTypes() {
-        if (flowHolder == null)
-            this.flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(flowNodeConfig.getReference());
-        if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());
         return flowHolder.getParamsTypes();
     }
 
     public FlowExecutable(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
+        this.flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(flowNodeConfig.getReference());
+        if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());
     }
 
     @Override
     public void execute() throws Exception {
         String currentScope = flowNodeConfig.getReference();
-        if (flowHolder == null) {
-            if (flowNodeConfig == null) throw new FlowNodeRefMissingException(flowNodeConfig.getId());
-            this.flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(currentScope);
-        }
-        if (flowHolder == null) throw new FlowNotFoundException(currentScope);
-
         FlowEngine.instance().setFlowScope(currentScope);
 
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {

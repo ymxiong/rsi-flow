@@ -69,6 +69,12 @@ public class FlowConfig implements CommonConfig, Serializable {
     @JSONField(ordinal = 8)
     private List<FlowRouteStrategyConfig> strategies = new ArrayList<>();
 
+    /**
+     * 任务调度配置
+     */
+    @JSONField(ordinal = 9)
+    private FlowScheduleConfig schedule;
+
     public String getId() {
         return id;
     }
@@ -131,5 +137,13 @@ public class FlowConfig implements CommonConfig, Serializable {
 
     public void setStrategies(List<FlowRouteStrategyConfig> strategies) {
         this.strategies = strategies;
+    }
+
+    public FlowScheduleConfig getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(FlowScheduleConfig schedule) {
+        this.schedule = schedule;
     }
 }

@@ -65,6 +65,12 @@ public class FlowNodeConfig implements Serializable {
     @JSONField(ordinal = 8)
     private List<FlowResultConfig> results = new ArrayList<>();
 
+    /**
+     * 任务调度配置
+     */
+    @JSONField(ordinal = 9)
+    private FlowScheduleConfig schedule;
+
     public String getId() {
         return id;
     }
@@ -127,5 +133,13 @@ public class FlowNodeConfig implements Serializable {
 
     public void setAsync(Boolean async) {
         this.async = async;
+    }
+
+    public FlowScheduleConfig getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(FlowScheduleConfig schedule) {
+        this.schedule = schedule;
     }
 }

@@ -1,6 +1,5 @@
 package cc.eamon.open.flow.core.stereotype.support.execute;
 
-import cc.eamon.open.flow.config.flow.FlowConfig;
 import cc.eamon.open.flow.config.flow.FlowNodeConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.core.FlowEngine;
@@ -68,7 +67,7 @@ public class EventExecutable implements Executable {
                     logger.info(errorInfo);
                     throw new FlowNodeParamNotExistException(flowNodeConfig.getId(), param.getScope(), param.getName(), errorInfo);
                 } else {
-                    Object defaultValue = getDefaultValue(param);
+                    Object defaultValue = param.getDefaultValue();
                     if (defaultValue != null) {
                         convertedVariable = defaultValue;
                     } else {
@@ -88,11 +87,5 @@ public class EventExecutable implements Executable {
         }
     }
 
-    private Object getDefaultValue(FlowParamConfig flowParamConfig) {
-        if (flowParamConfig.getDefaultValue() == null)
-            return TypeEnums.getType(flowParamConfig.getType()).getDefaultValue();
-        return flowParamConfig.getDefaultValue();
-    }
 }
-
 

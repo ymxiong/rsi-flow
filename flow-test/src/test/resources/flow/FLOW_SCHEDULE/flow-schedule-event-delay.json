@@ -1,0 +1,29 @@
+{
+  "id": "FLOW_SCHEDULE_EVENT_DELAY",
+  "type": "flow",
+  "name": "延时事件任务调度流程",
+  "params": [
+    { "name": "id", "type": "String" }
+  ],
+  "results": [
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_NODE_SCHEDULE_EVENT_DELAY",
+      "type": "event",
+      "name": "延时事件任务调度",
+      "reference": "FLOW_CODE_SCHEDULE_EVENT_DELAY",
+      "params": [
+        { "name": "id", "type": "String" }
+      ],
+      "results": [
+        { "name": "name", "type": "String" }
+      ],
+      "schedule": { "time": "10000" }
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_NODE_SCHEDULE_EVENT_DELAY" },
+    { "source":"FLOW_NODE_SCHEDULE_EVENT_DELAY", "target": "end" }
+  ]
+}

@@ -94,7 +94,10 @@ public class FlowHolder implements Executable {
             for (FlowResultConfig result : node.getResults()) {
                 if (StringUtils.isEmpty(result.getScope())) result.setScope(defaultFlowScope);
             }
-            nodes.put(node.getId(), new FlowNodeHolder(node));
+            if (node.getSchedule() != null)
+                nodes.put(node.getId(), new FlowScheduleNodeHolder(node));
+            else
+                nodes.put(node.getId(), new FlowNodeHolder(node));
         }
 
 

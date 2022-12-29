@@ -1,0 +1,29 @@
+{
+  "id": "FLOW_SCHEDULE_EVENT_CRON",
+  "type": "flow",
+  "name": "定时事件任务调度流程",
+  "params": [
+    { "name": "id", "type": "String" }
+  ],
+  "results": [
+  ],
+  "nodes": [
+    {
+      "id": "FLOW_NODE_SCHEDULE_EVENT_CRON",
+      "type": "event",
+      "name": "定时事件任务调度",
+      "reference": "FLOW_CODE_SCHEDULE_EVENT_CRON",
+      "params": [
+        { "name": "id", "type": "String" }
+      ],
+      "results": [
+        { "name": "name", "type": "String" }
+      ],
+      "schedule": { "time": "* * * * * ?" }
+    }
+  ],
+  "routes": [
+    { "source":"start", "target": "FLOW_NODE_SCHEDULE_EVENT_CRON" },
+    { "source":"FLOW_NODE_SCHEDULE_EVENT_CRON", "target": "end" }
+  ]
+}

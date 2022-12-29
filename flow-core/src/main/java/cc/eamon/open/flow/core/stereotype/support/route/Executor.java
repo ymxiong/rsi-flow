@@ -83,6 +83,7 @@ public class Executor {
             // 获取路由后的结果
             if (!source.getId().equals(RouteEnums.START.getId())) {
                 FlowNodeHolder holder = (FlowNodeHolder) source;
+                // 执行
                 holder.execute();
                 for (FlowResultHolder result : holder.getResultHolders()) {
                     Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());

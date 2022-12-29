@@ -43,13 +43,13 @@ public class FlowNodeHolder implements Source, Target {
     private List<FlowResultHolder> resultHolders = new ArrayList<>();
 
     /**
-     * 流程代码`
+     * 流程代码
      */
     private Executable flowExecutable;
 
 
     /**
-     * 流程代码
+     * 节点是否异步
      */
     private boolean isAsync = false;
 
@@ -76,8 +76,6 @@ public class FlowNodeHolder implements Source, Target {
         } else {
             this.isAsync = flowNodeConfig.getAsync();
         }
-
-
     }
 
     public void execute() throws Exception {
@@ -97,7 +95,8 @@ public class FlowNodeHolder implements Source, Target {
         }
         for (int i = 0; i < paramHolders.size(); i++) {
             FlowParamHolder flowParamHolder = paramHolders.get(i);
-            flowParamHolder.verify(paramTypes.get(i));
+            if (!flowParamHolder.verify(paramTypes.get(i)))
+                throw new FlowNodeParamTypeException(flowNodeConfig.getId(), flowParamHolder.getScope(), flowParamHolder.getName());
             FlowParamConfig flowParamConfig = flowNodeConfig.getParams().get(i);
             Object variable = FlowContextHolder.get().retrieveVariable(flowParamConfig.getScope(), flowParamConfig.getName());
             Object convertedVariable = ModelEngine.build(flowParamConfig.getName(), flowParamConfig.getType(), variable, FlowContextHolder.get().retrieveVariables());
@@ -143,5 +142,9 @@ public class FlowNodeHolder implements Source, Target {
 
     public boolean isAsync() {
         return isAsync;
+    }
+
+    protected FlowNodeConfig getFlowNodeConfig() {
+        return flowNodeConfig;
     }
 }

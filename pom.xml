@@ -39,6 +39,7 @@
         <testng-version>6.14.3</testng-version>
         <logback-classic-version>1.2.3</logback-classic-version>
         <okhttp-version>3.7.0</okhttp-version>
+        <scheduler-version>0.1.1</scheduler-version>
     </properties>
 
     <distributionManagement>
@@ -180,6 +181,12 @@
                 <groupId>com.squareup.okhttp3</groupId>
                 <artifactId>okhttp</artifactId>
                 <version>${okhttp-version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.edu.whu.zhuyuhan</groupId>
+                <artifactId>scheduler-core</artifactId>
+                <version>${scheduler-version}</version>
             </dependency>
 
         </dependencies>

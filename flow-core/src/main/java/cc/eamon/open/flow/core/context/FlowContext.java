@@ -66,7 +66,7 @@ public class FlowContext {
         Object variable = scopeContext.retrieveVariable(variableName);
         if (variable == null) {
             FlowScopeContext defaultScopeContext = scopeContextMap.get(FlowConstants.SCOPE_DEFAULT);
-            variable = scopeContext.retrieveVariable(variableName);
+            variable = defaultScopeContext.retrieveVariable(variableName);
         }
         return variable;
     }
