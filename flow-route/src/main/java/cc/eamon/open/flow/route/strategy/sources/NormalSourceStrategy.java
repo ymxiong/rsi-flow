@@ -4,11 +4,10 @@ import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.result.NormalResult;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.Route;
-import cc.eamon.open.flow.route.stereotype.SourceRouteStrategy;
 import cc.eamon.open.flow.route.stereotype.Source;
+import cc.eamon.open.flow.route.stereotype.SourceRouteStrategy;
 import cc.eamon.open.flow.route.stereotype.Target;
 import cc.eamon.open.flow.route.util.ConditionHelper;
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -26,18 +25,9 @@ public class NormalSourceStrategy implements SourceRouteStrategy {
 
     private List<Route> routes;
 
-    // Initialize the engine.
-    private VelocityEngine engine;
-
-
     public NormalSourceStrategy(Source source) {
         this.source = source;
         routes = new ArrayList<>();
-    }
-
-
-    public void setEngine(VelocityEngine engine) {
-        this.engine = engine;
     }
 
     @Override

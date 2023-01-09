@@ -3,14 +3,13 @@ package cc.eamon.open.flow.route;
 import cc.eamon.open.flow.route.enums.ConditionEnums;
 import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.result.NormalResult;
-import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.result.RouteResult;
+import cc.eamon.open.flow.route.stereotype.*;
 import cc.eamon.open.flow.route.strategy.sources.SourceRouteStrategyEnums;
 import cc.eamon.open.flow.route.strategy.targets.TargetRouteStrategyEnums;
 import com.googlecode.aviator.AviatorEvaluator;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.resource.loader.StringResourceLoader;
 import org.apache.velocity.runtime.resource.util.StringResourceRepository;
 import org.springframework.util.Assert;
@@ -25,8 +24,12 @@ import java.util.*;
  */
 public class Routes {
 
-    // Initialize the engine.
-    private VelocityEngine engine;
+    static {
+        Velocity.setProperty("runtime.log.invalid.references", false);
+        Velocity.setProperty(Velocity.RESOURCE_LOADERS, "string");
+        Velocity.setProperty("resource.loader.string.class", StringResourceLoader.class.getName());
+        Velocity.init();
+    }
 
     /**
      * 流程来源路由容器
@@ -50,13 +53,7 @@ public class Routes {
      */
     private Map<String, TargetRouteStrategy> targetStrategyGroup = new HashMap<>();
 
-
     public Routes() {
-        engine = new VelocityEngine();
-        engine.setProperty("runtime.log.invalid.references", false);
-        engine.setProperty(Velocity.RESOURCE_LOADERS, "string");
-        engine.setProperty("resource.loader.string.class", StringResourceLoader.class.getName());
-        engine.init();
     }
 
     public void load(Route... routes) {
@@ -78,7 +75,6 @@ public class Routes {
 
             sourceStrategyGroup.putIfAbsent(route.getSource().getId(), SourceRouteStrategyEnums.routeStrategyInit(SourceRouteStrategyEnums.NORMALRESULTSTRATEGY.getType(), route.getSource()));
             sourceStrategyGroup.computeIfPresent(route.getSource().getId(), ((s, strategy) -> {
-                strategy.setEngine(engine);
                 strategy.addRoute(route);
                 return strategy;
             }));
@@ -144,7 +140,7 @@ public class Routes {
 
             // Process the template
             StringWriter writer = new StringWriter();
-            engine.getTemplate(route.getCondition().getId()).merge(context, writer);
+            Velocity.getTemplate(route.getCondition().getId()).merge(context, writer);
 
             Boolean success = (Boolean) AviatorEvaluator.execute(writer.toString());
             if (success) {

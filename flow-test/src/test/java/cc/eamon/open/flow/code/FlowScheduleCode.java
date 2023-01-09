@@ -16,7 +16,7 @@ public class FlowScheduleCode {
         FlowEngine.instance().register("name", "FLOW_SCHEDULE_EVENT_DELAY SUCCESS");
     }
 
-    @Flow(value = "FLOW_CODE_SCHEDULE_EVENT_DELAY")
+    @Flow(value = "FLOW_CODE_SCHEDULE_EVENT_CRON")
     public void scheduleEventCron(String id) {
         System.out.println("FLOW_CODE_SCHEDULE_EVENT_CRON SUCCESS");
         FlowEngine.instance().register("name", "FLOW_SCHEDULE_EVENT_CRON SUCCESS");

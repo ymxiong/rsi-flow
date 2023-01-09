@@ -3,9 +3,11 @@ package cc.eamon.open.flow.route.strategy.sources;
 import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.result.AsyncAllResult;
 import cc.eamon.open.flow.route.result.RouteResult;
-import cc.eamon.open.flow.route.stereotype.*;
+import cc.eamon.open.flow.route.stereotype.Route;
+import cc.eamon.open.flow.route.stereotype.Source;
+import cc.eamon.open.flow.route.stereotype.SourceRouteStrategy;
+import cc.eamon.open.flow.route.stereotype.Target;
 import cc.eamon.open.flow.route.util.ConditionHelper;
-import org.apache.velocity.app.VelocityEngine;
 import org.springframework.util.Assert;
 
 import java.util.ArrayList;
@@ -21,9 +23,6 @@ public class AsyncAllStrategy implements SourceRouteStrategy {
     private Source source;
 
     private List<Route> routes;
-
-    // Initialize the engine.
-    private VelocityEngine engine;
 
     public AsyncAllStrategy(Source source) {
         this.source = source;
@@ -62,8 +61,4 @@ public class AsyncAllStrategy implements SourceRouteStrategy {
         routes.add(route);
     }
 
-    @Override
-    public void setEngine(VelocityEngine engine) {
-        this.engine = engine;
-    }
 }

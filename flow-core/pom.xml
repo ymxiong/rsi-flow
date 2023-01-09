@@ -93,7 +93,6 @@
         <dependency>
             <groupId>cn.edu.whu.zhuyuhan</groupId>
             <artifactId>scheduler-core</artifactId>
-            <scope>provided</scope>
         </dependency>
 
     </dependencies>

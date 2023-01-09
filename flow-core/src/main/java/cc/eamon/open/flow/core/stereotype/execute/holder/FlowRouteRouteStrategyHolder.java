@@ -3,7 +3,6 @@ package cc.eamon.open.flow.core.stereotype.execute.holder;
 import cc.eamon.open.flow.config.flow.FlowRouteStrategyConfig;
 import cc.eamon.open.flow.route.result.RouteResult;
 import cc.eamon.open.flow.route.stereotype.*;
-import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -99,11 +98,6 @@ public class FlowRouteRouteStrategyHolder implements SourceRouteStrategy, Target
     @Override
     public void addRoute(Route route) {
         strategy.addRoute(route);
-    }
-
-    @Override
-    public void setEngine(VelocityEngine engine) {
-
     }
 
     public void setSource(Source source) {
