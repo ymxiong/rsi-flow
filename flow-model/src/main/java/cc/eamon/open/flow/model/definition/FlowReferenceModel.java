@@ -2,6 +2,7 @@ package cc.eamon.open.flow.model.definition;
 
 import cc.eamon.open.flow.config.model.ModelFiledConfig;
 import cc.eamon.open.flow.model.enums.FlowModelTypeEnums;
+import cc.eamon.open.flow.model.enums.ParseEnums;
 import cc.eamon.open.flow.model.error.FlowModelCheckException;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -81,12 +82,12 @@ public class FlowReferenceModel implements FlowModel {
     public Object parse(Object variable) {
         if (variable == null) return null;
         if (this.flowModelReference != null) return flowModelReference.parse(variable);
-        if (referenceClazz != null && referenceClazz.isAssignableFrom(variable.getClass())) {
-            return variable;
+        if (referenceClazz != null) {
+            if (referenceClazz.isAssignableFrom(variable.getClass())) return variable;
+            else return ParseEnums.parse(variable.getClass(), referenceClazz, variable);
         } else if (Map.class.isAssignableFrom(variable.getClass())) {
             return JSONObject.parseObject(JSONObject.toJSONString(variable), referenceClazz);
         }
-        // TODO: 2022/9/13 基础类型转换匹配
         return null;
     }
 
