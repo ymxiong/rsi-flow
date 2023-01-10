@@ -39,18 +39,24 @@ public class FlowExecutable implements Executable {
 
     @Override
     public List<TypeEnums> getParamsTypes() {
+        if (flowHolder == null)
+            this.flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(flowNodeConfig.getReference());
+        if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());
         return flowHolder.getParamsTypes();
     }
 
     public FlowExecutable(FlowNodeConfig flowNodeConfig) {
         this.flowNodeConfig = flowNodeConfig;
         this.flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(flowNodeConfig.getReference());
-        if (flowHolder == null) throw new FlowNotFoundException(flowNodeConfig.getReference());
     }
 
     @Override
     public void execute() throws Exception {
         String currentScope = flowNodeConfig.getReference();
+        if (flowHolder == null) {
+            this.flowHolder = InitializerEnums.DEFAULT.getInitializer().getFlowHolder(currentScope);
+            if (flowHolder == null) throw new FlowNotFoundException(currentScope);
+        }
         FlowEngine.instance().setFlowScope(currentScope);
 
         for (int i = 0; i < flowNodeConfig.getParams().size(); i++) {
