@@ -138,6 +138,12 @@ public class FlowHolder implements Executable {
             FlowRouteHolder holder = new FlowRouteHolder(route, sourceNode, targetNode, condition);
             routes.load(holder);
         }
+
+        // 初始化Schedule类型流程
+        if (this.flowConfig.getSchedule() != null) {
+            FlowScheduleHolder flowScheduleHolder = new FlowScheduleHolder(this);
+            flowScheduleHolder.execute();
+        }
     }
 
     @Override
@@ -192,6 +198,10 @@ public class FlowHolder implements Executable {
 
     public List<FlowResultHolder> getResults() {
         return results;
+    }
+
+    public FlowConfig getFlowConfig() {
+        return flowConfig;
     }
 }
 

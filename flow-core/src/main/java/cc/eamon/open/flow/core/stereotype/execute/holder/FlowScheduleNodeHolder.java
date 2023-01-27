@@ -35,7 +35,7 @@ public class FlowScheduleNodeHolder extends FlowNodeHolder {
         if (schedule == null || StringUtils.isEmpty(schedule.getTime()))
             throw new FlowScheduleConfigException(flowNodeConfig.getId());
         if (StringUtils.isEmpty(schedule.getTaskName())) {
-            schedule.setTaskName(flowNodeConfig.getReference());
+            schedule.setTaskName(flowNodeConfig.getId());
         }
         FlowThread thread = new FlowThread(this.flowNodeHolder, new FlowContextExtractor(), new HashMap<>(), ExecutorHolder.get().getRoutes());
         ScheduleRegisterTask flowCodeTask;

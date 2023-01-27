@@ -1,6 +1,7 @@
 package cc.eamon.open.flow.spring.config;
 
 import cc.eamon.open.flow.spring.ComponentScanner;
+import cc.eamon.open.flow.spring.FlowRunner;
 import cc.eamon.open.flow.spring.SpringUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,10 +20,14 @@ public class FlowAutoConfiguration {
         return new ComponentScanner();
     }
 
-
     @Bean
     public SpringUtils springUtil() {
         return new SpringUtils();
+    }
+
+    @Bean
+    public FlowRunner flowRunner() {
+        return new FlowRunner();
     }
 
 
