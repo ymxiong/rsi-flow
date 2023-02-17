@@ -3,7 +3,6 @@ package cc.eamon.open.flow.core.stereotype.support.load;
 import cc.eamon.easyfile.FileTools;
 import cc.eamon.open.flow.config.enums.ConfigEnums;
 import cc.eamon.open.flow.config.flow.FlowConfig;
-import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
 import cc.eamon.open.flow.core.error.FlowConfigLoadException;
 import cc.eamon.open.flow.core.stereotype.load.FlowLoader;
 import com.alibaba.fastjson.JSONObject;
@@ -11,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,8 +33,13 @@ public class ResourceLoader implements FlowLoader {
             logger.info("resource包中未找到名为flow的config包");
             return flowConfigs;
         }
-        String path = flow.getPath();
-        if (configFiles == null) return flowConfigs;
+        String path = null;
+        try {
+            path = URLDecoder.decode(flow.getPath(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        if (configFiles == null || path == null) return flowConfigs;
         for (String configFile : configFiles) {
             for (File file : FileTools.readFiles(path + configFile)) {
                 for (ConfigEnums value : ConfigEnums.values()) {
