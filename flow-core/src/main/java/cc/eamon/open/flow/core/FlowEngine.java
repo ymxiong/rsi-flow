@@ -33,7 +33,7 @@ public class FlowEngine {
     /**
      * 当前执行流程ID，用于注册参数到对应域
      */
-    private String flowScope;
+    private String flowScope = FlowConstants.SCOPE_DEFAULT;
 
     public static FlowEngine instance() {
         //  保障同一线程仅有单一执行的流程引擎
