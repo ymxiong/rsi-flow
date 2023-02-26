@@ -31,6 +31,11 @@ public class FlowParamConfigBuilder {
      */
     private Boolean notnull;
 
+    /**
+     * 为空时的默认值
+     */
+    private Object defaultValue;
+
     public FlowParamConfig build() {
         validate();
         FlowParamConfig flowParamConfig = new FlowParamConfig();
@@ -38,6 +43,7 @@ public class FlowParamConfigBuilder {
         flowParamConfig.setType(type);
         flowParamConfig.setScope(scope);
         flowParamConfig.setNotnull(notnull);
+        flowParamConfig.setDefaultValue(defaultValue);
         return flowParamConfig;
     }
 
@@ -84,4 +90,10 @@ public class FlowParamConfigBuilder {
         this.notnull = notnull;
         return this;
     }
+
+    public FlowParamConfigBuilder addDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
+        return this;
+    }
+
 }

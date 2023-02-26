@@ -36,6 +36,11 @@ public class FlowResultConfigBuilder {
      */
     private Boolean notnull;
 
+    /**
+     * 为空时的默认值
+     */
+    private Object defaultValue;
+
     public FlowResultConfig build() {
         validate();
         FlowResultConfig flowResultConfig = new FlowResultConfig();
@@ -44,6 +49,7 @@ public class FlowResultConfigBuilder {
         flowResultConfig.setScope(scope);
         flowResultConfig.setParse(parse);
         flowResultConfig.setNotnull(notnull);
+        flowResultConfig.setDefaultValue(defaultValue);
         return flowResultConfig;
     }
 
@@ -60,6 +66,8 @@ public class FlowResultConfigBuilder {
             builder.append("\"parse\":").append("\"").append(config.getParse()).append("\", ");
         if (!StringUtils.isEmpty(config.getNotnull()))
             builder.append("\"notnull\":").append(config.getNotnull()).append(", ");
+        if (!StringUtils.isEmpty(config.getDefaultValue()))
+            builder.append("\"defaultValue\":").append(config.getDefaultValue()).append(", ");
         builder.deleteCharAt(builder.length() - 2);
         builder.append("}");
         return builder.toString();
@@ -96,5 +104,9 @@ public class FlowResultConfigBuilder {
         return this;
     }
 
+    public FlowResultConfigBuilder addDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
+        return this;
+    }
 
 }
