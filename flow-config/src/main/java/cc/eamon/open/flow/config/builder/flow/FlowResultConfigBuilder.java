@@ -56,6 +56,8 @@ public class FlowResultConfigBuilder {
     public static String toJSONString(FlowResultConfig config) {
         StringBuilder builder = new StringBuilder();
         builder.append("{ ");
+        if (!StringUtils.isEmpty(config.getTitle()))
+            builder.append("\"title\":").append("\"").append(config.getTitle()).append("\", ");
         if (!StringUtils.isEmpty(config.getName()))
             builder.append("\"name\":").append("\"").append(config.getName()).append("\", ");
         if (!StringUtils.isEmpty(config.getType()))
