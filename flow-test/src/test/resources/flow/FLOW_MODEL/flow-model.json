@@ -1,7 +1,7 @@
 {
   "id": "FLOW_MODEL",
   "type": "flow",
-  "name": "流程模型",
+  "name": "流程模型测试的流程",
   "params": [
     { "name": "id", "type": "String" },
     { "name": "age", "type": "Integer" },
