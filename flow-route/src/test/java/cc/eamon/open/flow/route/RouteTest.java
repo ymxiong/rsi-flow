@@ -8,7 +8,9 @@ import cc.eamon.open.flow.route.enums.RouteEnums;
 import cc.eamon.open.flow.route.stereotype.Condition;
 import cc.eamon.open.flow.route.stereotype.Source;
 import cc.eamon.open.flow.route.stereotype.Target;
+import cc.eamon.open.flow.route.util.JexlUtils;
 import com.alibaba.fastjson.JSONObject;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.io.File;
@@ -87,6 +89,72 @@ public class RouteTest {
             // 1.4 逻辑执行，与代码执行解构
             execute(holder, paramMap);
         }
+    }
+
+    @Test
+    public void testCondition() {
+        Map<String, Object> variables = new HashMap<>();
+        variables.put("int", 1);
+        variables.put("string", "1");
+        variables.put("variable", new Variable());
+        MyRoute myRoute1 = new MyRoute(new Node("source"), new Node("target"), new Condition() {
+            @Override
+            public String getId() {
+                return "condition";
+            }
+
+            @Override
+            public String getExpression() {
+                return "int == 1";
+            }
+        });
+        MyRoute myRoute2 = new MyRoute(new Node("source"), new Node("target"), new Condition() {
+            @Override
+            public String getId() {
+                return "condition";
+            }
+
+            @Override
+            public String getExpression() {
+                return "string.equals(\"1\")";
+            }
+        });
+        MyRoute myRoute3 = new MyRoute(new Node("source"), new Node("target"), new Condition() {
+            @Override
+            public String getId() {
+                return "condition";
+            }
+
+            @Override
+            public String getExpression() {
+                return "variable.invoke()";
+            }
+        });
+        MyRoute myRoute4 = new MyRoute(new Node("source"), new Node("target"), new Condition() {
+            @Override
+            public String getId() {
+                return "condition";
+            }
+
+            @Override
+            public String getExpression() {
+                return "variable.invokeNested().equals(\"test\")";
+            }
+        });
+        Assert.assertTrue((Boolean) JexlUtils.invokeMethod(myRoute1.getCondition().getExpression(), variables));
+        Assert.assertTrue((Boolean) JexlUtils.invokeMethod(myRoute2.getCondition().getExpression(), variables));
+        Assert.assertTrue((Boolean) JexlUtils.invokeMethod(myRoute3.getCondition().getExpression(), variables));
+        Assert.assertTrue((Boolean) JexlUtils.invokeMethod(myRoute4.getCondition().getExpression(), variables));
+    }
+
+    public static class Variable {
+        public boolean invoke() {
+            return true;
+        }
+        public String invokeNested() {
+            return "test";
+        }
+
     }
 
 }
