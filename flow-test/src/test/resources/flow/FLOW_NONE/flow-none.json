@@ -1,0 +1,14 @@
+{
+  "id": "FLOW_NONE",
+  "type": "flow",
+  "name": "空流程标准",
+  "params": [
+  ],
+  "results": [
+  ],
+  "nodes": [
+  ],
+  "routes": [
+    { "source":"start", "target": "end" }
+  ]
+}
