@@ -24,8 +24,7 @@ public class FlowModelTest {
     public void modelTest() throws Exception {
         FlowEngine flowEngine = FlowEngine.instance();
         TestModel testModel = new TestModel("zz", 20, 1000.0);
-        Map<String, Object> map = testModel.buildMap();
-        List<Map<String, Object>> testModelList = Collections.singletonList(map);
+        List<TestModel> testModelList = Collections.singletonList(testModel);
         System.out.println(flowEngine.register(FlowConstants.SCOPE_DEFAULT, "people", new People("1", 18, new HashMap<>(), new ArrayList<>(),new Date(), new Date()))
                 .register(FlowConstants.SCOPE_DEFAULT, "id", "1")
                 .register(FlowConstants.SCOPE_DEFAULT, "age", 18)
