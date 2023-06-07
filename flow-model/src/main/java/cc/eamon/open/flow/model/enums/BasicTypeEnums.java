@@ -40,6 +40,7 @@ public enum BasicTypeEnums {
     BOXED_FLOAT("Float", "java.lang", Float.class),
     BOXED_DOUBLE("Double", "java.lang", Double.class),
     STRING("String", "java.lang", String.class),
+    OBJECT("Object", "", Object.class),
 
     /**
      * java.io常用类
