@@ -9,4 +9,8 @@ public class FlowModelCheckException extends RuntimeException {
     public FlowModelCheckException(String modelId, String fieldName, Object variable) {
         super("流程模型校验失败" + ", 模型ID：" + modelId + ", 模型参数名：" + fieldName + ", 参数：" + JSON.toJSONString(variable));
     }
+
+    public FlowModelCheckException(String modelId, Object variable) {
+        super("流程模型校验失败" + ", 模型ID：" + modelId + ", 参数：" + JSON.toJSONString(variable));
+    }
 }

@@ -40,7 +40,7 @@ public enum BasicTypeEnums {
     BOXED_FLOAT("Float", "java.lang", Float.class),
     BOXED_DOUBLE("Double", "java.lang", Double.class),
     STRING("String", "java.lang", String.class),
-    OBJECT("Object", "", Object.class),
+    OBJECT("Object", "java.lang", Object.class),
 
     /**
      * java.io常用类
@@ -161,10 +161,8 @@ public enum BasicTypeEnums {
     }
 
     private static Class getPreparedType(String keyword) {
-        for (BasicTypeEnums value : BasicTypeEnums.values()) {
-            if (value.getKeyword().equals(keyword)) return value.classType;
-        }
-        return null;
+        BasicTypeEnums preparedTypeEnum = getPreparedTypeEnum(keyword);
+        return preparedTypeEnum == null ? null : preparedTypeEnum.classType;
     }
 
     private static Class getAdditionalType(String reference) {
@@ -178,6 +176,13 @@ public enum BasicTypeEnums {
         return clazz;
     }
 
+    private static BasicTypeEnums getPreparedTypeEnum(String keyword) {
+        for (BasicTypeEnums value : BasicTypeEnums.values()) {
+            if (value.getKeyword().equals(keyword)) return value;
+        }
+        return null;
+    }
+
     public static BasicTypeEnums getTypeByClass(Class<?> classType) {
         for (BasicTypeEnums value : BasicTypeEnums.values()) {
             if (classType != null && classType == value.getClassType()) return value;
@@ -186,11 +191,10 @@ public enum BasicTypeEnums {
     }
 
     public static BasicType getTypeByReference(String reference) {
-        BasicTypeEnums enumType = getTypeByClass(getType(reference));
+        BasicTypeEnums enumType = getPreparedTypeEnum(reference);
         if (enumType != null) return new BasicType(enumType);
         BasicType type = new BasicType();
         if (!reference.contains(".")) return null;
-
         String[] values = reference.split("\\.");
         String keyword = values[values.length - 1];
         StringBuilder packageNameBuilder = new StringBuilder();
@@ -200,7 +204,6 @@ public enum BasicTypeEnums {
         packageNameBuilder.deleteCharAt(packageNameBuilder.length() - 1);
         type.setKeyword(keyword);
         type.setPackageName(packageNameBuilder.toString());
-
         return type;
     }
 

@@ -72,7 +72,9 @@ public class FlowReferenceModel implements FlowModel {
             try {
                 return JSON.parseObject(JSON.toJSONString(variable), referenceClazz);
             } catch (Exception e) {
-                throw new FlowModelCheckException(id, modelFiledConfig.getName(), variable);
+                if (modelFiledConfig.getName() != null) {
+                    throw new FlowModelCheckException(id, modelFiledConfig.getName(), variable);
+                } else throw new FlowModelCheckException(id, variable);
             }
         }
         return variable;
