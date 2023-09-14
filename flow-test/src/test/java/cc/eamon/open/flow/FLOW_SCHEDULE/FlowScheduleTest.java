@@ -16,10 +16,10 @@ public class FlowScheduleTest {
     public void caseScheduleTest() throws Exception {
         FlowEngine flowEngine = FlowEngine.instance()
                 .register(FlowConstants.SCOPE_DEFAULT, "id", "B207BE79230C4ABBBAE7BA4AAD8AD4F3")
-                .run("FLOW_SCHEDULE_EVENT");
+                .run("FLOW_SCHEDULE_EVENT_DELAY");
 
         String name = (String) flowEngine.retrieve(FlowConstants.SCOPE_DEFAULT, "name");
-        Assert.assertEquals(name, "FLOW_SCHEDULE_EVENT SUCCESS");
+        Assert.assertEquals(name, "FLOW_SCHEDULE_EVENT_DELAY SUCCESS");
         FlowEngine.instance().release();
     }
 

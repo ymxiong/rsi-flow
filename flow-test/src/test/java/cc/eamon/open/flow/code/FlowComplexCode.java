@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.code;
 
+import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.stereotype.Flow;
 
 /**
@@ -9,12 +10,9 @@ import cc.eamon.open.flow.core.stereotype.Flow;
  */
 public class FlowComplexCode {
 
-    private FlowSimpleCode flowSimpleCode = new FlowSimpleCode();
-
     @Flow(value = "FLOW_COMPLEX_REPLACE", retrieve = "trimValue")
-    public String process(String value) {
-        return flowSimpleCode.replaceAll(flowSimpleCode.trim(value));
+    public void process(String value) {
+        FlowEngine.instance().register("trimValue", value.trim());
     }
-
 
 }

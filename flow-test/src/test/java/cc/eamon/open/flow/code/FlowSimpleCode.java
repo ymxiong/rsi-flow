@@ -1,5 +1,6 @@
 package cc.eamon.open.flow.code;
 
+import cc.eamon.open.flow.core.FlowEngine;
 import cc.eamon.open.flow.core.stereotype.Flow;
 
 /**
@@ -9,24 +10,24 @@ import cc.eamon.open.flow.core.stereotype.Flow;
  */
 public class FlowSimpleCode {
 
-    @Flow(value = "FLOW_SIMPLE_TRIM", retrieve = "trimValue")
-    public String trim(String value) {
-        return value.trim();
+    @Flow(value = "FLOW_SIMPLE_TRIM")
+    public void trim(String value) {
+        FlowEngine.instance().register("trimValue", value.trim());
     }
 
-    @Flow(value = "FLOW_SIMPLE_REPLACE_BLANK", retrieve = "replaceBlankValue")
-    public String replaceBlank(String value) {
-        return value.replace(" ", "");
+    @Flow(value = "FLOW_SIMPLE_REPLACE_BLANK")
+    public void replaceBlank(String value) {
+        FlowEngine.instance().register("replaceBlankValue", value.replace(" ", ""));
     }
 
-    @Flow(value = "FLOW_SIMPLE_ADD_BLANK", retrieve = "addBlankValue")
-    public String addBlank(String value) {
-        return value + " ";
+    @Flow(value = "FLOW_SIMPLE_ADD_BLANK")
+    public void addBlank(String value) {
+        FlowEngine.instance().register("addBlankValue", value + " ");
     }
 
-    @Flow(value = "FLOW_SIMPLE_REPLACE_ALL_BLANK", retrieve = "replaceAllBlankValue")
-    public String replaceAll(String value) {
-        return value.replaceAll(" ", "");
+    @Flow(value = "FLOW_SIMPLE_REPLACE_ALL_BLANK")
+    public void replaceAll(String value) {
+        FlowEngine.instance().register("replaceAllBlankValue", value.replaceAll(" ", ""));
     }
 
 }
