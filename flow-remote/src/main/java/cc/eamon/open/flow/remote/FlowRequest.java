@@ -27,6 +27,15 @@ public class FlowRequest implements Serializable {
      */
     private Map<String, String> results = new HashMap<>();
 
+    public FlowRequest() {
+    }
+
+    public FlowRequest(String flowId, Map<String, Object> params, Map<String, String> results) {
+        this.flowId = flowId;
+        this.params = params;
+        this.results = results;
+    }
+
     public String getFlowId() {
         return flowId;
     }
