@@ -28,35 +28,40 @@ public class FlowResultConfig implements Serializable {
     @JSONField(ordinal = 2)
     private String title;
 
+    /**
+     * 该结果的描述
+     */
+    @JSONField(ordinal = 3)
+    private String description;
 
     /**
      * 该结果的类型
      */
-    @JSONField(ordinal = 3)
+    @JSONField(ordinal = 4)
     private String type;
 
     /**
      * 结果存放到的域
      */
-    @JSONField(ordinal = 4)
+    @JSONField(ordinal = 5)
     private String scope;
 
     /**
      * 解析目标
      */
-    @JSONField(ordinal = 5)
+    @JSONField(ordinal = 6)
     private String parse;
 
     /**
      * 是否可以为空
      */
-    @JSONField(ordinal = 6)
+    @JSONField(ordinal = 7)
     private Boolean notnull;
 
     /**
      * 为空时的默认值
      */
-    @JSONField(ordinal = 7)
+    @JSONField(ordinal = 8)
     private Object defaultValue;
 
 
@@ -74,6 +79,14 @@ public class FlowResultConfig implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getType() {

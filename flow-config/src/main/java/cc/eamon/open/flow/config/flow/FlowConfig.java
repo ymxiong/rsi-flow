@@ -28,51 +28,63 @@ public class FlowConfig implements CommonConfig, Serializable {
     private String id;
 
     /**
-     * 流程类型
+     * 流程名称
      */
     @JSONField(ordinal = 2)
+    private String name;
+
+    /**
+     * 流程类型
+     */
+    @JSONField(ordinal = 3)
     private String type;
 
     /**
      * 流程名
      */
-    @JSONField(ordinal = 3)
+    @JSONField(ordinal = 4)
     private String title;
+
+    /**
+     * 流程描述
+     */
+    @JSONField(ordinal = 5)
+    private String description;
 
     /**
      * 流程参数
      */
-    @JSONField(ordinal = 4)
+    @JSONField(ordinal = 6)
     private List<FlowParamConfig> params = new ArrayList<>();
 
     /**
      * 流程结果
      */
-    @JSONField(ordinal = 5)
+    @JSONField(ordinal = 7)
     private List<FlowResultConfig> results = new ArrayList<>();
 
     /**
      * 节点列表
      */
-    @JSONField(ordinal = 6)
+    @JSONField(ordinal = 8)
     private List<FlowNodeConfig> nodes = new ArrayList<>();
 
     /**
      * 流程路由
      */
-    @JSONField(ordinal = 7)
+    @JSONField(ordinal = 9)
     private List<FlowRouteConfig> routes = new ArrayList<>();
 
     /**
      * 流程路由
      */
-    @JSONField(ordinal = 8)
+    @JSONField(ordinal = 10)
     private List<FlowRouteStrategyConfig> strategies = new ArrayList<>();
 
     /**
      * 任务调度配置
      */
-    @JSONField(ordinal = 9)
+    @JSONField(ordinal = 11)
     private FlowScheduleConfig schedule;
 
     public String getId() {
@@ -81,6 +93,14 @@ public class FlowConfig implements CommonConfig, Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getType() {
@@ -97,6 +117,14 @@ public class FlowConfig implements CommonConfig, Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<FlowParamConfig> getParams() {
