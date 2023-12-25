@@ -79,6 +79,8 @@ public class FlowConfigBuilder {
         builder.append("{\n");
         if (!StringUtils.isEmpty(config.getId()))
             builder.append(TAB).append("\"id\":").append("\"").append(config.getId()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getId()))
+            builder.append(TAB).append("\"name\":").append("\"").append(config.getName()).append("\",\n");
         if (!StringUtils.isEmpty(config.getType()))
             builder.append(TAB).append("\"type\":").append("\"").append(config.getType()).append("\",\n");
         if (!StringUtils.isEmpty(config.getTitle()))
