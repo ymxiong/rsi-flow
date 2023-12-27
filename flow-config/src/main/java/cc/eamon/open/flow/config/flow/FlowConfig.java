@@ -3,6 +3,7 @@ package cc.eamon.open.flow.config.flow;
 import cc.eamon.open.flow.config.CommonConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
+import cc.eamon.open.flow.config.model.ModelConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
@@ -80,6 +81,12 @@ public class FlowConfig implements CommonConfig, Serializable {
      */
     @JSONField(ordinal = 10)
     private List<FlowRouteStrategyConfig> strategies = new ArrayList<>();
+
+    /**
+     * 流程模型
+     */
+    @JSONField(ordinal = 11)
+    private List<ModelConfig> models = new ArrayList<>();
 
     /**
      * 任务调度配置
@@ -173,5 +180,13 @@ public class FlowConfig implements CommonConfig, Serializable {
 
     public void setSchedule(FlowScheduleConfig schedule) {
         this.schedule = schedule;
+    }
+
+    public List<ModelConfig> getModels() {
+        return models;
+    }
+
+    public void setModels(List<ModelConfig> models) {
+        this.models = models;
     }
 }

@@ -28,6 +28,11 @@ public class FlowConfigBuilder {
     private String id;
 
     /**
+     * 流程名称
+     */
+    private String name;
+
+    /**
      * 流程类型
      */
     private String type;
@@ -64,6 +69,7 @@ public class FlowConfigBuilder {
         validate();
         FlowConfig flowConfig = new FlowConfig();
         flowConfig.setId(id);
+        flowConfig.setName(name);
         flowConfig.setType(type);
         flowConfig.setTitle(title);
         flowConfig.setParams(params);
@@ -79,7 +85,7 @@ public class FlowConfigBuilder {
         builder.append("{\n");
         if (!StringUtils.isEmpty(config.getId()))
             builder.append(TAB).append("\"id\":").append("\"").append(config.getId()).append("\",\n");
-        if (!StringUtils.isEmpty(config.getId()))
+        if (!StringUtils.isEmpty(config.getName()))
             builder.append(TAB).append("\"name\":").append("\"").append(config.getName()).append("\",\n");
         if (!StringUtils.isEmpty(config.getType()))
             builder.append(TAB).append("\"type\":").append("\"").append(config.getType()).append("\",\n");
@@ -138,6 +144,11 @@ public class FlowConfigBuilder {
 
     public FlowConfigBuilder addId(String id) {
         this.id = id;
+        return this;
+    }
+
+    public FlowConfigBuilder addName(String name) {
+        this.name = name;
         return this;
     }
 
