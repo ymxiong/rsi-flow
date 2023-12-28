@@ -1,9 +1,9 @@
 package cc.eamon.open.flow.config.flow;
 
+import cc.eamon.open.auto.config.code.detail.ModelConfig;
 import cc.eamon.open.flow.config.CommonConfig;
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
-import cc.eamon.open.flow.config.model.ModelConfig;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.io.Serializable;
@@ -91,7 +91,7 @@ public class FlowConfig implements CommonConfig, Serializable {
     /**
      * 任务调度配置
      */
-    @JSONField(ordinal = 11)
+    @JSONField(ordinal = 12)
     private FlowScheduleConfig schedule;
 
     public String getId() {

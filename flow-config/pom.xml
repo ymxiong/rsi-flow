@@ -16,6 +16,9 @@
 
         <!-- 基础组件 -->
         <fastjson-version>1.2.31</fastjson-version>
+
+        <!-- auto依赖 -->
+        <auto-config-version>1.0.6</auto-config-version>
     </properties>
 
     <distributionManagement>
@@ -52,6 +55,11 @@
             <version>${spring-version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>cc.eamon.open</groupId>
+            <artifactId>auto-config</artifactId>
+            <version>${auto-config-version}</version>
+        </dependency>
     </dependencies>
 
     <build>
