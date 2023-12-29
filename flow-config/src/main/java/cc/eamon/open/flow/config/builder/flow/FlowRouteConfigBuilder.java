@@ -61,6 +61,15 @@ public class FlowRouteConfigBuilder {
     }
 
 
+    public FlowRouteConfigBuilder addConfig(FlowRouteConfig config) {
+        return this
+                .addSource(config.getSource())
+                .addTarget(config.getTarget())
+                .addCondition(config.getCondition())
+                .addScope(config.getScope())
+                ;
+    }
+
     public FlowRouteConfigBuilder addSource(String source) {
         this.source = source;
         return this;

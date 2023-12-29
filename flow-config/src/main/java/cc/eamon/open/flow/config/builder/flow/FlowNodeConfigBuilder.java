@@ -113,6 +113,36 @@ public class FlowNodeConfigBuilder {
         Assert.notNull(type, "node type null");
     }
 
+
+    public FlowNodeConfigBuilder addConfig(FlowNodeConfig config) {
+        List<FlowParamConfig> params = new ArrayList<>();
+        List<FlowResultConfig> results = new ArrayList<>();
+
+        if (config.getParams() != null) {
+            for (FlowParamConfig param : config.getParams()) {
+                params.add(new FlowParamConfigBuilder().addConfig(param).build());
+            }
+        }
+
+        if (config.getResults() != null) {
+            for (FlowResultConfig result : config.getResults()) {
+                results.add(new FlowResultConfigBuilder().addConfig(result).build());
+            }
+        }
+
+        this.params = params;
+        this.results = results;
+
+        return this
+                .addId(config.getId())
+                .addType(config.getType())
+                .addTitle(config.getTitle())
+                .addAsync(config.getAsync())
+                .addMethod(config.getMethod())
+                .addReference(config.getReference())
+                ;
+    }
+
     public FlowNodeConfigBuilder addId(String id) {
         this.id = id;
         return this;

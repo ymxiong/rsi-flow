@@ -73,6 +73,15 @@ public class FlowParamConfigBuilder {
     }
 
 
+    public FlowParamConfigBuilder addConfig(FlowParamConfig config) {
+        return this
+                .addName(config.getName())
+                .addType(config.getType())
+                .addScope(config.getScope())
+                .addNotnull(config.getNotnull())
+                .addDefaultValue(config.getDefaultValue());
+    }
+
     public FlowParamConfigBuilder addName(String name) {
         this.name = name;
         return this;

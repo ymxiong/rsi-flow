@@ -81,6 +81,16 @@ public class FlowResultConfigBuilder {
     }
 
 
+    public FlowResultConfigBuilder addConfig(FlowResultConfig config) {
+        return this
+                .addName(config.getName())
+                .addType(config.getType())
+                .addScope(config.getScope())
+                .addParse(config.getParse())
+                .addNotnull(config.getNotnull())
+                .addDefaultValue(config.getDefaultValue());
+    }
+
     public FlowResultConfigBuilder addName(String name) {
         this.name = name;
         return this;
