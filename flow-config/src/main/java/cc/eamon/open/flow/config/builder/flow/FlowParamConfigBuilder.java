@@ -11,40 +11,11 @@ import org.springframework.util.StringUtils;
  */
 public class FlowParamConfigBuilder {
 
-    /**
-     * 该参数的名称
-     */
-    private String name;
-
-    /**
-     * 该参数的类型
-     */
-    private String type;
-
-    /**
-     * 该参数所在的域
-     */
-    private String scope;
-
-    /**
-     * 该参数是否可以为空
-     */
-    private Boolean notnull;
-
-    /**
-     * 为空时的默认值
-     */
-    private Object defaultValue;
+    private final FlowParamConfig config = new FlowParamConfig();
 
     public FlowParamConfig build() {
         validate();
-        FlowParamConfig flowParamConfig = new FlowParamConfig();
-        flowParamConfig.setName(name);
-        flowParamConfig.setType(type);
-        flowParamConfig.setScope(scope);
-        flowParamConfig.setNotnull(notnull);
-        flowParamConfig.setDefaultValue(defaultValue);
-        return flowParamConfig;
+        return config;
     }
 
     public static String toJSONString(FlowParamConfig config) {
@@ -68,13 +39,14 @@ public class FlowParamConfigBuilder {
     }
 
     private void validate() {
-        Assert.notNull(name, "param name null");
-        Assert.notNull(type, "param type null");
+        Assert.notNull(config.getName(), "param name null");
+        Assert.notNull(config.getType(), "param type null");
     }
 
 
     public FlowParamConfigBuilder addConfig(FlowParamConfig config) {
         return this
+                .addTitle(config.getTitle())
                 .addName(config.getName())
                 .addType(config.getType())
                 .addScope(config.getScope())
@@ -82,28 +54,34 @@ public class FlowParamConfigBuilder {
                 .addDefaultValue(config.getDefaultValue());
     }
 
+    public FlowParamConfigBuilder addTitle(String title) {
+        config.setTitle(title);
+        return this;
+    }
+
+
     public FlowParamConfigBuilder addName(String name) {
-        this.name = name;
+        config.setName(name);
         return this;
     }
 
     public FlowParamConfigBuilder addType(String type) {
-        this.type = type;
+        config.setType(type);
         return this;
     }
 
     public FlowParamConfigBuilder addScope(String scope) {
-        this.scope = scope;
+        config.setScope(scope);
         return this;
     }
 
     public FlowParamConfigBuilder addNotnull(Boolean notnull) {
-        this.notnull = notnull;
+        config.setNotnull(notnull);
         return this;
     }
 
     public FlowParamConfigBuilder addDefaultValue(Object defaultValue) {
-        this.defaultValue = defaultValue;
+        config.setDefaultValue(defaultValue);
         return this;
     }
 
