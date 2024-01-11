@@ -4,11 +4,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.net.*;
-import java.util.*;
-import java.util.concurrent.*;
-import java.math.*;
 import java.sql.*;
+import java.util.*;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.Semaphore;
 
 /**
  * Author: lucas(jvjv)
@@ -108,6 +111,7 @@ public enum BasicTypeEnums {
     HASHTABLE("Hashtable", "java.util", Hashtable.class),
     ARRAYS("Arrays", "java.util", Arrays.class),
     DATE("Date", "java.util", java.util.Date.class),
+    DATETIME("DateTime", "java.lang", java.lang.Long.class),
     CALENDAR("Calendar", "java.util", Calendar.class),
     UUID("UUID", "java.util", UUID.class),
     CONDITION("Condition", "java.util.concurrent.locks", java.util.concurrent.locks.Condition.class),
@@ -193,17 +197,20 @@ public enum BasicTypeEnums {
     public static BasicType getTypeByReference(String reference) {
         BasicTypeEnums enumType = getPreparedTypeEnum(reference);
         if (enumType != null) return new BasicType(enumType);
-        BasicType type = new BasicType();
+
         if (!reference.contains(".")) return null;
         String[] values = reference.split("\\.");
         String keyword = values[values.length - 1];
-        StringBuilder packageNameBuilder = new StringBuilder();
+
+        List<String> packages = new ArrayList<>();
         for (int i = 0; i < values.length - 1; i++) {
-            packageNameBuilder.append(values[i]).append(".");
+            packages.add(values[i]);
         }
-        packageNameBuilder.deleteCharAt(packageNameBuilder.length() - 1);
+        String packageName = String.join(".", packages);
+
+        BasicType type = new BasicType();
         type.setKeyword(keyword);
-        type.setPackageName(packageNameBuilder.toString());
+        type.setPackageName(packageName);
         return type;
     }
 
@@ -258,6 +265,12 @@ public enum BasicTypeEnums {
 
         public void setClassType(Class<?> classType) {
             this.classType = classType;
+        }
+
+
+        public String getSimpleTypeName() {
+            if (classType != null) return classType.getSimpleName();
+            return keyword;
         }
     }
 
