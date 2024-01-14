@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.model.definition.parameterize.support;
 
 import cc.eamon.open.flow.model.definition.parameterize.ModelType;
-import cc.eamon.open.flow.model.enums.BasicTypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import com.alibaba.fastjson.util.ParameterizedTypeImpl;
 
 import java.lang.reflect.Type;
@@ -69,6 +69,6 @@ public class ParameterizeModelType implements ModelType {
         for (int i = 0; i < subModelTypes.size(); ++i) {
             argTypes[i] = subModelTypes.get(i).handle();
         }
-        return new ParameterizedTypeImpl(argTypes, null, BasicTypeEnums.getType(mainTypeName));
+        return new ParameterizedTypeImpl(argTypes, null, TypeEnums.getType(mainTypeName));
     }
 }

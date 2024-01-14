@@ -7,7 +7,7 @@ import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
 import cc.eamon.open.flow.core.context.FlowContextHolder;
 import cc.eamon.open.flow.core.error.FlowRuntimeException;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;

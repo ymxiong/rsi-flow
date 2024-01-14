@@ -1,6 +1,6 @@
 package cc.eamon.open.flow.core.stereotype.definition;
 
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 
 import java.util.List;
 

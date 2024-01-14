@@ -2,7 +2,7 @@ package cc.eamon.open.flow.model.definition;
 
 import cc.eamon.open.flow.config.model.ModelConfig;
 import cc.eamon.open.flow.config.model.ModelFiledConfig;
-import cc.eamon.open.flow.model.enums.BasicTypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import cc.eamon.open.flow.model.enums.FlowModelTypeEnums;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -30,7 +30,7 @@ public class FlowUserDefineModel implements FlowModel {
         this.modelConfig = modelConfig;
         this.targetReference = targetReference;
         if (targetReference != null) {
-            this.targetReferenceClazz = BasicTypeEnums.getType(targetReference);
+            this.targetReferenceClazz = TypeEnums.getType(targetReference);
         }
     }
 

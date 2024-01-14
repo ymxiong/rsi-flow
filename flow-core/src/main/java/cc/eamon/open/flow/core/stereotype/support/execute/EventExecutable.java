@@ -9,8 +9,8 @@ import cc.eamon.open.flow.core.error.FlowCodeNotFoundException;
 import cc.eamon.open.flow.core.error.FlowNodeParamNotExistException;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
 import cc.eamon.open.flow.core.stereotype.execute.Executable;
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.model.ModelEngine;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

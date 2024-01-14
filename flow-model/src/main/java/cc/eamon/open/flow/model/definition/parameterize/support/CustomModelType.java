@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.model.definition.parameterize.support;
 
 import cc.eamon.open.flow.model.definition.parameterize.ModelType;
-import cc.eamon.open.flow.model.enums.BasicTypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 
 import java.lang.reflect.Type;
 
@@ -20,6 +20,6 @@ public class CustomModelType implements ModelType {
 
     @Override
     public Type handle() {
-        return BasicTypeEnums.getType(typeName);
+        return TypeEnums.getType(typeName);
     }
 }
