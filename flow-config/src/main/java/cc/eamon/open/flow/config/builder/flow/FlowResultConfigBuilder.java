@@ -11,46 +11,11 @@ import org.springframework.util.StringUtils;
  */
 public class FlowResultConfigBuilder {
 
-    /**
-     * 该结果的名称
-     */
-    private String name;
-
-    /**
-     * 该结果的类型
-     */
-    private String type;
-
-    /**
-     * 结果存放到的域
-     */
-    private String scope;
-
-    /**
-     * 解析目标
-     */
-    private String parse;
-
-    /**
-     * 该结果是否可以为空
-     */
-    private Boolean notnull;
-
-    /**
-     * 为空时的默认值
-     */
-    private Object defaultValue;
+    private final FlowResultConfig config = new FlowResultConfig();
 
     public FlowResultConfig build() {
         validate();
-        FlowResultConfig flowResultConfig = new FlowResultConfig();
-        flowResultConfig.setName(name);
-        flowResultConfig.setType(type);
-        flowResultConfig.setScope(scope);
-        flowResultConfig.setParse(parse);
-        flowResultConfig.setNotnull(notnull);
-        flowResultConfig.setDefaultValue(defaultValue);
-        return flowResultConfig;
+        return config;
     }
 
     public static String toJSONString(FlowResultConfig config) {
@@ -76,38 +41,54 @@ public class FlowResultConfigBuilder {
     }
 
     private void validate() {
-        Assert.notNull(name, "result name null");
-        Assert.notNull(type, "result type null");
+        Assert.notNull(config.getName(), "param name null");
+        Assert.notNull(config.getType(), "param type null");
     }
 
 
+    public FlowResultConfigBuilder addConfig(FlowResultConfig config) {
+        return this
+                .addTitle(config.getTitle())
+                .addName(config.getName())
+                .addType(config.getType())
+                .addScope(config.getScope())
+                .addParse(config.getParse())
+                .addNotnull(config.getNotnull())
+                .addDefaultValue(config.getDefaultValue());
+    }
+
+    public FlowResultConfigBuilder addTitle(String title) {
+        config.setTitle(title);
+        return this;
+    }
+
     public FlowResultConfigBuilder addName(String name) {
-        this.name = name;
+        config.setName(name);
         return this;
     }
 
     public FlowResultConfigBuilder addType(String type) {
-        this.type = type;
+        config.setType(type);
         return this;
     }
 
     public FlowResultConfigBuilder addScope(String scope) {
-        this.scope = scope;
+        config.setScope(scope);
         return this;
     }
 
     public FlowResultConfigBuilder addParse(String parse) {
-        this.parse = parse;
+        config.setParse(parse);
         return this;
     }
 
     public FlowResultConfigBuilder addNotnull(Boolean notnull) {
-        this.notnull = notnull;
+        config.setNotnull(notnull);
         return this;
     }
 
     public FlowResultConfigBuilder addDefaultValue(Object defaultValue) {
-        this.defaultValue = defaultValue;
+        config.setDefaultValue(defaultValue);
         return this;
     }
 

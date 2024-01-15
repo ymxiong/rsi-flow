@@ -1,6 +1,6 @@
 package cc.eamon.open.flow;
 
-import cc.eamon.open.flow.model.enums.BasicTypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import org.junit.Test;
 
 /**
@@ -12,6 +12,6 @@ public class BasicTypeTest {
 
     @Test
     public void test() {
-        System.out.println(BasicTypeEnums.getTypeByReference("Object"));
+        System.out.println(TypeEnums.getTypeByReference("Object"));
     }
 }

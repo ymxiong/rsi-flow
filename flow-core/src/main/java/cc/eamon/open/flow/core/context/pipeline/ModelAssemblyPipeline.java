@@ -10,7 +10,7 @@ import cc.eamon.open.flow.model.definition.FlowUserDefineModel;
 import cc.eamon.open.flow.model.definition.parameterize.ModelType;
 import cc.eamon.open.flow.model.definition.parameterize.support.ParameterizeModelType;
 import cc.eamon.open.flow.model.definition.parameterize.util.ParameterizeModelUtils;
-import cc.eamon.open.flow.model.enums.BasicTypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import cc.eamon.open.flow.model.error.FlowModelNotDefinedException;
 import cc.eamon.open.flow.model.error.FlowModelParameterizeException;
 import org.slf4j.Logger;
@@ -80,7 +80,7 @@ public class ModelAssemblyPipeline extends BasePipeline {
         if (flowModel != null) return new FlowReferenceModel(config.getId(), flowModel);
         else if (flowModelConfigs.get(reference) != null) return null;
         else {
-            Class clazz = BasicTypeEnums.getType(reference);
+            Class clazz = TypeEnums.getType(reference);
             if (clazz != null) return new FlowReferenceModel(config.getId(), reference, clazz);
             else {
                 logger.info("FlowModel named " + reference + " not defined.");
@@ -105,7 +105,7 @@ public class ModelAssemblyPipeline extends BasePipeline {
                 if (flowModel != null) model.addField(name, flowModel);
                 else if (flowModelConfigs.get(reference) != null) return null;
                 else {
-                    Class referenceClass = BasicTypeEnums.getType(reference);
+                    Class referenceClass = TypeEnums.getType(reference);
                     if (referenceClass != null) {
                         flowModel = new FlowReferenceModel(referenceClass.getName(), referenceClass.getName(), referenceClass, modelFiledConfig);
                         model.addField(name, flowModel);
@@ -121,7 +121,7 @@ public class ModelAssemblyPipeline extends BasePipeline {
                     continue;
                 }
                 // 基础类型
-                Class clazz = BasicTypeEnums.getType(type);
+                Class clazz = TypeEnums.getType(type);
                 if (clazz != null) {
                     //基础类型
                     FlowReferenceModel referenceModel = (FlowReferenceModel) flowModels.get(type);
@@ -143,7 +143,7 @@ public class ModelAssemblyPipeline extends BasePipeline {
         FlowModel flowModel = flowModels.get(type);
         if (flowModel != null) return flowModel;
         String mainClassType = type.substring(0, type.indexOf("("));
-        Class mainClass = BasicTypeEnums.getType(mainClassType);
+        Class mainClass = TypeEnums.getType(mainClassType);
         if (mainClass == null) throw new FlowModelParameterizeException("Class not found:" + mainClassType);
         // 解析范型type
         return new FlowParameterizeModel(type, mainClassType, mainClass, modelFiledConfig, handlerParameterizeType(type).handle());

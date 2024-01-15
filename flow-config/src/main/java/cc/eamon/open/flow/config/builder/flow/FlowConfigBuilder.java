@@ -22,54 +22,13 @@ import java.util.List;
  */
 public class FlowConfigBuilder {
 
-    /**
-     * 流程id
-     */
-    private String id;
-
-    /**
-     * 流程类型
-     */
-    private String type;
-
-    /**
-     * 流程名
-     */
-    private String title;
-
-    /**
-     * 流程参数
-     */
-    private List<FlowParamConfig> params = new ArrayList<>();
-
-    /**
-     * 流程结果
-     */
-    private List<FlowResultConfig> results = new ArrayList<>();
-
-    /**
-     * 节点列表
-     */
-    private List<FlowNodeConfig> nodes = new ArrayList<>();
-
-    /**
-     * 流程路由
-     */
-    private List<FlowRouteConfig> routes = new ArrayList<>();
+    private final FlowConfig flowConfig = new FlowConfig();
 
     public FlowConfigBuilder() {
     }
 
     public FlowConfig build() {
         validate();
-        FlowConfig flowConfig = new FlowConfig();
-        flowConfig.setId(id);
-        flowConfig.setType(type);
-        flowConfig.setTitle(title);
-        flowConfig.setParams(params);
-        flowConfig.setResults(results);
-        flowConfig.setNodes(nodes);
-        flowConfig.setRoutes(routes);
         return flowConfig;
     }
 
@@ -79,6 +38,8 @@ public class FlowConfigBuilder {
         builder.append("{\n");
         if (!StringUtils.isEmpty(config.getId()))
             builder.append(TAB).append("\"id\":").append("\"").append(config.getId()).append("\",\n");
+        if (!StringUtils.isEmpty(config.getName()))
+            builder.append(TAB).append("\"name\":").append("\"").append(config.getName()).append("\",\n");
         if (!StringUtils.isEmpty(config.getType()))
             builder.append(TAB).append("\"type\":").append("\"").append(config.getType()).append("\",\n");
         if (!StringUtils.isEmpty(config.getTitle()))
@@ -130,42 +91,94 @@ public class FlowConfigBuilder {
     }
 
     private void validate() {
-        Assert.notNull(id, "flow config id null");
-        Assert.notNull(type, "flow config type null");
+        Assert.notNull(flowConfig.getId(), "flow config id null");
+        Assert.notNull(flowConfig.getType(), "flow config type null");
+    }
+
+    public FlowConfigBuilder addConfig(FlowConfig config) {
+        List<FlowParamConfig> params = new ArrayList<>();
+        List<FlowResultConfig> results = new ArrayList<>();
+        List<FlowNodeConfig> nodes = new ArrayList<>();
+        List<FlowRouteConfig> routes = new ArrayList<>();
+
+        if (config.getParams() != null) {
+            for (FlowParamConfig param : config.getParams()) {
+                params.add(new FlowParamConfigBuilder().addConfig(param).build());
+            }
+        }
+
+        if (config.getResults() != null) {
+            for (FlowResultConfig result : config.getResults()) {
+                results.add(new FlowResultConfigBuilder().addConfig(result).build());
+            }
+        }
+
+        if (config.getNodes() != null) {
+            for (FlowNodeConfig node : config.getNodes()) {
+                nodes.add(new FlowNodeConfigBuilder().addConfig(node).build());
+            }
+        }
+
+        if (config.getRoutes() != null) {
+            for (FlowRouteConfig route : config.getRoutes()) {
+                routes.add(new FlowRouteConfigBuilder().addConfig(route).build());
+            }
+        }
+
+
+        flowConfig.setId(config.getId());
+        flowConfig.setName(config.getName());
+        flowConfig.setType(config.getType());
+        flowConfig.setTitle(config.getTitle());
+        flowConfig.setDescription(config.getDescription());
+        flowConfig.setParams(params);
+        flowConfig.setResults(results);
+        flowConfig.setNodes(nodes);
+        flowConfig.setRoutes(routes);
+        flowConfig.setStrategies(config.getStrategies());
+        flowConfig.setSchedule(config.getSchedule());
+        flowConfig.setModels(config.getModels());
+        
+        return this;
     }
 
     public FlowConfigBuilder addId(String id) {
-        this.id = id;
+        flowConfig.setId(id);
+        return this;
+    }
+
+    public FlowConfigBuilder addName(String name) {
+        flowConfig.setName(name);
         return this;
     }
 
     public FlowConfigBuilder addType(String type) {
-        this.type = type;
+        flowConfig.setType(type);
         return this;
     }
 
     public FlowConfigBuilder addTitle(String title) {
-        this.title = title;
+        flowConfig.setTitle(title);
         return this;
     }
 
     public FlowConfigBuilder addParams(FlowParamConfig... params) {
-        this.params.addAll(Arrays.asList(params));
+        flowConfig.getParams().addAll(Arrays.asList(params));
         return this;
     }
 
     public FlowConfigBuilder addResults(FlowResultConfig... results) {
-        this.results.addAll(Arrays.asList(results));
+        flowConfig.getResults().addAll(Arrays.asList(results));
         return this;
     }
 
     public FlowConfigBuilder addNodes(FlowNodeConfig... nodes) {
-        this.nodes.addAll(Arrays.asList(nodes));
+        flowConfig.getNodes().addAll(Arrays.asList(nodes));
         return this;
     }
 
     public FlowConfigBuilder addRoutes(FlowRouteConfig... routes) {
-        this.routes.addAll(Arrays.asList(routes));
+        flowConfig.getRoutes().addAll(Arrays.asList(routes));
         return this;
     }
 }

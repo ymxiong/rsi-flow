@@ -2,7 +2,7 @@ package cc.eamon.open.flow.core.stereotype.support.defination;
 
 import cc.eamon.open.flow.core.stereotype.Flow;
 import cc.eamon.open.flow.core.stereotype.definition.FlowCode;
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -73,7 +73,7 @@ public class LocalJavaCode implements FlowCode {
     public List<TypeEnums> getParamTypes() {
         List<TypeEnums> types = new ArrayList<>();
         for (Class<?> parameterType : method.getParameterTypes()) {
-            types.add(TypeEnums.getTypeByClass(parameterType));
+            types.add(TypeEnums.getTypeByClassDefaultObject(parameterType));
         }
         return types;
     }

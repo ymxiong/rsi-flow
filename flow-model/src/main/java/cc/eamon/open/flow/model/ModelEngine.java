@@ -6,7 +6,7 @@ import cc.eamon.open.flow.model.definition.FlowParameterizeModel;
 import cc.eamon.open.flow.model.definition.FlowReferenceModel;
 import cc.eamon.open.flow.model.definition.parameterize.support.ParameterizeModelType;
 import cc.eamon.open.flow.model.definition.parameterize.util.ParameterizeModelUtils;
-import cc.eamon.open.flow.model.enums.BasicTypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import cc.eamon.open.flow.model.error.FlowModelNotDefinedException;
 import cc.eamon.open.flow.model.error.FlowModelParameterizeException;
 import org.slf4j.Logger;
@@ -38,12 +38,12 @@ public class ModelEngine {
         if (flowModel == null) {
             if (modelType.contains("(") && modelType.contains(")") && ParameterizeModelUtils.isMatchParameterize(modelType)) {
                 String mainClassType = modelType.substring(0, modelType.indexOf("("));
-                Class mainClass = BasicTypeEnums.getType(mainClassType);
+                Class mainClass = TypeEnums.getType(mainClassType);
                 if (mainClass == null) throw new FlowModelParameterizeException("Class not found:" + mainClassType);
                 // 解析范型type
                 flowModel = new FlowParameterizeModel(modelType, mainClassType, mainClass, null, new ParameterizeModelType(modelType, modelType.substring(0, modelType.indexOf("("))).handle());
             } else {
-                Class clazz = BasicTypeEnums.getType(modelType);
+                Class clazz = TypeEnums.getType(modelType);
                 if (clazz != null) {
                     // 可能是reference类型,但是没有写JSON未加载,在此处加载
                     flowModel = new FlowReferenceModel(clazz.getName(), clazz.getName(), clazz);

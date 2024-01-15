@@ -8,27 +8,27 @@ public enum ParseEnums {
     /**
      * 基础数据类型自动转换
      */
-    LONG_DATE(BasicTypeEnums.LONG, BasicTypeEnums.DATE, new LongDateParser()),
+    LONG_DATE(TypeEnums.LONG, TypeEnums.DATE, new LongDateParser()),
 
     ;
 
-    private final BasicTypeEnums from;
+    private final TypeEnums from;
 
-    private final BasicTypeEnums to;
+    private final TypeEnums to;
 
     private final Parser parser;
 
-    ParseEnums(BasicTypeEnums from, BasicTypeEnums to, Parser parser) {
+    ParseEnums(TypeEnums from, TypeEnums to, Parser parser) {
         this.from = from;
         this.to = to;
         this.parser = parser;
     }
 
-    public BasicTypeEnums getFrom() {
+    public TypeEnums getFrom() {
         return from;
     }
 
-    public BasicTypeEnums getTo() {
+    public TypeEnums getTo() {
         return to;
     }
 
@@ -36,7 +36,7 @@ public enum ParseEnums {
         return parser;
     }
 
-    public static Object parse(BasicTypeEnums from, BasicTypeEnums to, Object param) {
+    public static Object parse(TypeEnums from, TypeEnums to, Object param) {
         for (ParseEnums value : values()) {
             if (value.from == from && value.to == to) {
                 return value.getParser().parse(param);
@@ -46,7 +46,7 @@ public enum ParseEnums {
     }
 
     public static Object parse(Class<?> from, Class<?> to, Object param) {
-        return parse(BasicTypeEnums.getTypeByClass(from), BasicTypeEnums.getTypeByClass(to), param);
+        return parse(TypeEnums.getTypeByClass(from), TypeEnums.getTypeByClass(to), param);
     }
 }
 

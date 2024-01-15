@@ -11,8 +11,8 @@ import cc.eamon.open.flow.core.error.FlowNotFoundException;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowHolder;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowParamHolder;
 import cc.eamon.open.flow.core.stereotype.execute.holder.FlowResultHolder;
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
 import cc.eamon.open.flow.model.ModelEngine;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

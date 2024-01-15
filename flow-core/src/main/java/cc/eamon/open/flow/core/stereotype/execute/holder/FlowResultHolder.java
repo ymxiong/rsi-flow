@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.execute.holder;
 
 import cc.eamon.open.flow.config.flow.node.FlowResultConfig;
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +26,7 @@ public class FlowResultHolder {
 
     public FlowResultHolder(FlowResultConfig flowResultConfig) {
         this.flowResultConfig = flowResultConfig;
-        type = TypeEnums.getType(flowResultConfig.getType());
+        type = TypeEnums.getTypeByKeyword(flowResultConfig.getType());
     }
 
     public boolean verify(TypeEnums type) {
@@ -41,7 +41,7 @@ public class FlowResultHolder {
         return flowResultConfig.getType();
     }
     public TypeEnums getTypeEnums() {
-        return TypeEnums.getType(getType());
+        return TypeEnums.getTypeByKeyword(getType());
     }
 
     public String getScope() {

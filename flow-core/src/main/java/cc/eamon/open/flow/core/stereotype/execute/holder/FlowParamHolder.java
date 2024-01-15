@@ -1,7 +1,7 @@
 package cc.eamon.open.flow.core.stereotype.execute.holder;
 
 import cc.eamon.open.flow.config.flow.node.FlowParamConfig;
-import cc.eamon.open.flow.core.stereotype.support.enums.TypeEnums;
+import cc.eamon.open.flow.model.enums.TypeEnums;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class FlowParamHolder {
 
     public FlowParamHolder(FlowParamConfig flowParamConfig) {
         this.flowParamConfig = flowParamConfig;
-        type = TypeEnums.getType(flowParamConfig.getType());
+        type = TypeEnums.getTypeByKeyword(flowParamConfig.getType());
     }
 
     public boolean verify(TypeEnums type) {
