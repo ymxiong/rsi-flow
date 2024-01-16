@@ -147,6 +147,7 @@ public enum TypeEnums {
     }
 
     public static TypeEnums getTypeByKeyword(String keyword) {
+        keyword = keyword.split("\\(")[0];
         for (TypeEnums value : TypeEnums.values()) {
             if (value.getKeyword().equals(keyword)) return value;
         }
