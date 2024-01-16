@@ -6,7 +6,7 @@
 
     <artifactId>flow-config</artifactId>
     <groupId>cc.eamon.open</groupId>
-    <version>0.4.11</version>
+    <version>0.4.12</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
