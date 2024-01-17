@@ -24,4 +24,9 @@ public class BasicTypeTest {
         Assert.assertSame(TypeEnums.getTypeByKeyword("List(String)"), TypeEnums.getTypeByClassDefaultObject(List.class));
         Assert.assertNotSame(TypeEnums.getTypeByKeyword("List(String)"), TypeEnums.getTypeByClassDefaultObject(ArrayList.class));
     }
+
+    @Test
+    public void testAssignableFrom() {
+        Assert.assertTrue(List.class.isAssignableFrom(ArrayList.class));
+    }
 }

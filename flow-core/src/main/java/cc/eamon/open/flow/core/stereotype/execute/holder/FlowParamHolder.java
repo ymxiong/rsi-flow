@@ -27,7 +27,7 @@ public class FlowParamHolder {
     }
 
     public boolean verify(TypeEnums type) {
-        return this.type == type || this.type.getClassType().isAssignableFrom(type.getClassType());
+        return this.type == type || type.getClassType().isAssignableFrom(this.type.getClassType());
     }
 
     public String getName() {
