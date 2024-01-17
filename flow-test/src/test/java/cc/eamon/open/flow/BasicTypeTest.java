@@ -2,6 +2,10 @@ package cc.eamon.open.flow;
 
 import cc.eamon.open.flow.model.enums.TypeEnums;
 import org.junit.Test;
+import org.testng.Assert;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Author: Zhu yuhan
@@ -11,7 +15,13 @@ import org.junit.Test;
 public class BasicTypeTest {
 
     @Test
-    public void test() {
-        System.out.println(TypeEnums.getTypeByReference("Object"));
+    public void testStandard() {
+        Assert.assertSame(TypeEnums.STRING, TypeEnums.getTypeByKeyword("java.lang.String"));
+    }
+
+    @Test
+    public void testAssemblyAndExecution() {
+        Assert.assertSame(TypeEnums.getTypeByKeyword("List(String)"), TypeEnums.getTypeByClassDefaultObject(List.class));
+        Assert.assertNotSame(TypeEnums.getTypeByKeyword("List(String)"), TypeEnums.getTypeByClassDefaultObject(ArrayList.class));
     }
 }

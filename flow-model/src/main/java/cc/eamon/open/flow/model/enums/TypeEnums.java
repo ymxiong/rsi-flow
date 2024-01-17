@@ -148,11 +148,8 @@ public enum TypeEnums {
 
     public static TypeEnums getTypeByKeyword(String keyword) {
         keyword = keyword.split("\\(")[0];
-        for (TypeEnums value : TypeEnums.values()) {
-            if (value.getKeyword().equals(keyword)) return value;
-        }
-        return TypeEnums.OBJECT;
-//        throw new FlowException("不支持的数据类型");
+        TypeEnums preparedTypeEnum = getPreparedTypeEnum(keyword);
+        return preparedTypeEnum == null ? TypeEnums.OBJECT : preparedTypeEnum;
     }
 
     public static TypeEnums getTypeByClassDefaultObject(Class<?> classType) {
@@ -160,7 +157,6 @@ public enum TypeEnums {
             if (classType != null && classType == value.getClassType()) return value;
         }
         return TypeEnums.OBJECT;
-//        throw new FlowException("不支持的数据类型");
     }
 
     public static Class<?> getType(String reference) {
@@ -191,7 +187,7 @@ public enum TypeEnums {
 
     private static TypeEnums getPreparedTypeEnum(String keyword) {
         for (TypeEnums value : TypeEnums.values()) {
-            if (value.getKeyword().equals(keyword)) return value;
+            if (value.getKeyword().equals(keyword) || value.getKeywordByClassType().equals(keyword)) return value;
         }
         return null;
     }
@@ -230,6 +226,10 @@ public enum TypeEnums {
     public String getPackageName() {
         Package p = getClassType().getPackage();
         return p == null ? "" : p.getName();
+    }
+
+    public String getKeywordByClassType() {
+        return getClassType().getName();
     }
 
     public Class<?> getClassType() {
