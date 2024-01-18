@@ -117,8 +117,15 @@ public class FlowNodeHolder implements Source, Target {
         for (FlowResultHolder resultHolder : resultHolders) {
             Object variable = FlowContextHolder.get().retrieveVariable(resultHolder.getScope(), resultHolder.getName());
             Object convertedVariable = ModelEngine.build(resultHolder.getName(), resultHolder.getType(), variable, FlowContextHolder.get().retrieveVariables());
-            if (convertedVariable == null && resultHolder.getNotNull())
-                throw new FlowNodeResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
+            if (convertedVariable == null) {
+                if (resultHolder.getNotNull()) {
+                    throw new FlowNodeResultNotExistException(flowNodeConfig.getId(), resultHolder.getScope(), resultHolder.getName());
+                } else {
+                    if (resultHolder.getDefaultValue() != null) {
+                        convertedVariable = resultHolder.getDefaultValue();
+                    } else continue;
+                }
+            }
             FlowContextHolder.get().registerVariable(resultHolder.getScope(), resultHolder.getName(), convertedVariable);
         }
     }

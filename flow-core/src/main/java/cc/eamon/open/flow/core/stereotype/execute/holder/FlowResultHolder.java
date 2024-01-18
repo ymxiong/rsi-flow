@@ -53,5 +53,8 @@ public class FlowResultHolder {
         return flowResultConfig.getNotnull();
     }
 
-
+    public Object getDefaultValue() {
+        if (flowResultConfig.getDefaultValue() == null) return type.getDefaultValue();
+        return flowResultConfig.getDefaultValue();
+    }
 }

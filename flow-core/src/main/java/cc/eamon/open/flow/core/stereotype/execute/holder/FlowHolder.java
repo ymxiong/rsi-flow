@@ -179,10 +179,19 @@ public class FlowHolder implements Executable {
         execute(RouteEnums.START::getId, paramMap);
 
         // 检查执行结果是否给出
-        for (FlowResultHolder result : results) {
-            Object variable = FlowContextHolder.get().retrieveVariable(result.getScope(), result.getName());
-            if (variable == null && result.getNotNull())
-                throw new FlowResultNotExistException(flowConfig.getId(), result.getScope(), result.getName());
+        for (FlowResultHolder resultHolder : results) {
+            Object variable = FlowContextHolder.get().retrieveVariable(resultHolder.getScope(), resultHolder.getName());
+            Object convertedVariable = ModelEngine.build(resultHolder.getName(), resultHolder.getType(), variable, FlowContextHolder.get().retrieveVariables());
+            if (convertedVariable == null) {
+                if (resultHolder.getNotNull()) {
+                    throw new FlowResultNotExistException(flowConfig.getId(), resultHolder.getScope(), resultHolder.getName());
+                } else {
+                    if (resultHolder.getDefaultValue() != null) {
+                        convertedVariable = resultHolder.getDefaultValue();
+                    } else continue;
+                }
+            }
+            FlowContextHolder.get().registerVariable(resultHolder.getScope(), resultHolder.getName(), convertedVariable);
         }
     }
 
