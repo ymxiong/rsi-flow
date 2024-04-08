@@ -71,6 +71,19 @@ public class FlowNodeConfig implements Serializable {
     @JSONField(ordinal = 9)
     private FlowScheduleConfig schedule;
 
+    /**
+     * 流程代码
+     */
+    @JSONField(ordinal = 10)
+    private String content;
+
+    /**
+     * 流程代码引用
+     */
+    @JSONField(ordinal = 11)
+    private List<ImportConfig> contentImports;
+
+
     public String getId() {
         return id;
     }
@@ -141,5 +154,21 @@ public class FlowNodeConfig implements Serializable {
 
     public void setSchedule(FlowScheduleConfig schedule) {
         this.schedule = schedule;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public List<ImportConfig> getContentImports() {
+        return contentImports;
+    }
+
+    public void setContentImports(List<ImportConfig> contentImports) {
+        this.contentImports = contentImports;
     }
 }
